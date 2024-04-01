@@ -1,0 +1,18 @@
+server:
+  port: 8081
+  servlet:
+    encoding:
+      force: true
+      enabled: true
+      charset: utf-8
+    context-path: /
+spring:
+    datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/myboard?serverTimezone=Asia/Seoul
+      username: root
+      password: 1234
+    mvc:
+      view:
+        prefix: templates/
+        suffix: .html
