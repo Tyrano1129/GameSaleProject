@@ -46,6 +46,13 @@ dependencies {
 
     // gcp
     implementation 'org.springframework.cloud:spring-cloud-gcp-starter-storage:1.2.5.RELEASE'
+
+    //jackson 라이브러리
+    implementation "com.fasterxml.jackson.core:jackson-core:2.16.1"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:2.16.1"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.16.1"
+    //webclient 라이브러리
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
 }
 
 tasks.named('test') {
