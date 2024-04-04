@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<main th:fragment="paymain" class="maindbody">
+    <div class="container">
+        <div class="row">
+            <div class="system-message-container"></div>
+            <div id="cart-view" class="cart-view">
+                <div class="vm-cart-header-container">
+                    <p>주문하기</p>
+                    <p>주문하기</p>
+                </div>
+                <div class="docs-section">
+                    <p class="text_msg">
+                        <strong
+                        >※ 주문 금액 3,000원 이상, 보유한 포인트가 1,000원 이상 시
+                            100원 단위로 사용이 가능합니다.
+                        </strong>
+                    </p>
+                    <p class="text_msg">
+                        <strong
+                        >※ 더좋은 게임즈에서는 활성화(수신)되지 않은 제품 코드(키)에
+                            한하여 구입 후 7일 이내에 주문 취소가 가능합니다.</strong
+                        >
+                    </p>
+                </div>
+                <form id="orderFrm" name="orderFrm" action="" method="post">
+                    <div class="vm-fieldset-pricelist">
+                        <table class="cart-summary">
+                            <tbody>
+                            <tr>
+                                <th
+                                        class="vm-cart-item-image text-center"
+                                        style="width: 150px"
+                                >
+                                    이미지
+                                </th>
+                                <th class="vm-cart-item-name text-center">플랫폼</th>
+                                <th class="vm-cart-item-name text-center">상품명</th>
+                                <th class="vm-cart-item-quantity">수량</th>
+                                <th class="vm-cart-item-basicprice">가격</th>
+                                <th
+                                        class="vm-cart-item-coupon"
+                                        style="width: 100px; text-align: center"
+                                >
+                                    할인
+                                </th>
+                                <th class="vm-cart-item-total">합계</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img
+                                            src="https://storage.googleapis.com/beach-test-image/7db4d238-0aee-427a-b5b0-b968ca641724"
+                                            width="144"
+                                            height="81"
+                                            style="width: 144px"
+                                    />
+                                </td>
+                                <td class="text-center">작성1</td>
+                                <td class="vm-cart-item-name">작성1</td>
+                                <td class="vm-cart-item-quantity">작성1</td>
+                                <td class="vm-cart-item-basicprice">작성1</td>
+                                <td class="vm-cart-item-discount">작성1</td>
+                                <td class="vm-cart-item-total">작성1</td>
+                            </tr>
+                            <tr class="sectiontableentry1">
+                                <td colspan="4" align="left">합계</td>
+                                <td align="right">10000</td>
+                                <td align="right">0</td>
+                                <td align="right">10000</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="paymentcontainer">
+                        <div class="paymethod">
+                            <span class="cart-customer-note"> 결제수단 </span>
+                            <div class="list-group">
+                                <li class="list-group-item">
+                                    <div class="radio">
+                                        <label>
+                                            <input
+                                                    type="radio"
+                                                    name="settlekind"
+                                                    id="settlekind2"
+                                                    value=""
+                                            />
+                                            신용/체크카드 결제
+                                        </label>
+                                    </div>
+                                </li>
+                            </div>
+                        </div>
+                        <div class="payment">
+                            <div class="paymentfinal">
+                                <span>최종결제 정보</span>
+                                <div class="finalsprice">
+                                    <p>상품금액</p>
+                                    <p>1000원</p>
+                                </div>
+                                <div class="finalsprice">
+                                    <p>할은금액</p>
+                                    <p>1000원</p>
+                                </div>
+                                <div class="finalsprice">
+                                    <p>결제예정액</p>
+                                    <p>1000원</p>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-payment" id="btn-payment" onclick="requestPay()">
+                                결제하기
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
