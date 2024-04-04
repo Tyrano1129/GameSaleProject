@@ -29,3 +29,8 @@ spring:
       view:
         prefix: templates/
         suffix: .html
+imp:
+  code: imp15605565
+  api:
+    key: 5432765074133245
+    secretkey: gqcBfcBCn2aJRMm1Udc9t3Rl2xGJLW2MsjgDysh2NjVRHqX1FeTKEKD9W1U5xJrBBdpe49iiLQweIokv

@@ -14,6 +14,11 @@ public class UserController {
 
     @GetMapping
     public String userForm(){
-        return "user/userForm";
+        return "users/userForm";
+    }
+
+    @GetMapping("/payment")
+    public String paymentForm(){
+        return "users/payment";
     }
 }
