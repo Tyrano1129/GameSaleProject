@@ -16,7 +16,7 @@ spring:
       database-platform: org.hibernate.dialect.MySQL8Dialect
       database: mysql
       hibernate:
-        ddl-auto: create
+        ddl-auto: update
         # JDBC TimeZone Setting
       properties:
         hibernate:
@@ -29,12 +29,23 @@ spring:
       view:
         prefix: templates/
         suffix: .html
+    mail:
+      host: smtp.gmail.com
+      port: 587
+      username: wonwooseo23
+      password: lzmf zwoe ibda lwdy
+      properties:
+        mail:
+          smtp:
+            auth: true
+            timeout: 5000
+            starttls:
+              enable: true
 imp:
   code: imp15605565
   api:
     key: 5432765074133245
     secretkey: gqcBfcBCn2aJRMm1Udc9t3Rl2xGJLW2MsjgDysh2NjVRHqX1FeTKEKD9W1U5xJrBBdpe49iiLQweIokv
-
 steamspyAPI:
   baseUrl: https://steamspy.com/api.php
 
