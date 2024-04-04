@@ -39,4 +39,9 @@ public class UserController {
         String code = userService.verifyWithEmail(email);
         return code;
     }
+
+    @GetMapping("/payment")
+    public String paymentForm(){
+        return "users/payment";
+    }
 }

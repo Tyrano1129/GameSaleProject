@@ -19,6 +19,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -50,6 +51,13 @@ dependencies {
 
     // 메일서버와 연결해서 메일을 발송하는데 필요한 라이브러리
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    //iamport
+    implementation 'com.github.iamport:iamport-rest-client-java:0.1.6'
+    implementation 'commons-io:commons-io:2.6'
+
+    // gcp
+    implementation 'org.springframework.cloud:spring-cloud-gcp-starter-storage:1.2.5.RELEASE'
 }
 
 tasks.named('test') {
