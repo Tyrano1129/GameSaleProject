@@ -1,6 +1,6 @@
 package kr.game.sale.config.auth;
 
-import kr.game.sale.entity.user.User;
+import kr.game.sale.entity.user.Users;
 import kr.game.sale.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,9 +16,9 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User userEntity = userRepository.findByUsername(username);
-        if (userEntity != null)
-            System.out.println(" 유저 디테일 객체 생성 !!! " + userEntity);
-        return new PrincipalDetails(userEntity);
+        Users usersEntity = userRepository.findByUsername(username);
+        if (usersEntity != null)
+            System.out.println(" 유저 디테일 객체 생성 !!! " + usersEntity);
+        return new PrincipalDetails(usersEntity);
     }
 }

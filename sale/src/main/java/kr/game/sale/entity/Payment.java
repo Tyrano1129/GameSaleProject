@@ -2,6 +2,7 @@ package kr.game.sale.entity;
 
 import jakarta.persistence.*;
 import kr.game.sale.entity.game.Game;
+import kr.game.sale.entity.user.Users;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ public class Payment {
     private Long paymentId;
     @ManyToOne
     @JoinColumn(name="user_id")
-    private User User;
+    private Users User;
     @ManyToOne
     @JoinColumn(name="game_id")
     private Game gmae;

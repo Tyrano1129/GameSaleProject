@@ -1,6 +1,6 @@
 package kr.game.sale.controller;
 
-import kr.game.sale.entity.user.User;
+import kr.game.sale.entity.user.Users;
 import kr.game.sale.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +20,8 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public String userJoin(User user) {
-        userService.addUser(user);
+    public String userJoin(Users users) {
+        userService.addUser(users);
         return "redirect:/users/joinForm";
     }
 
