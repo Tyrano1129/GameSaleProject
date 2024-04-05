@@ -32,9 +32,9 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(
                 auth -> auth
                         .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
-                        .requestMatchers("/user/**").authenticated() // 로그인 상태에서만 접근 가능
-                        .requestMatchers("/manager/**").hasAnyRole("MANAGER", "ADMIN") // 매니저 이상만 접근가능
-                        .requestMatchers("/admin/**").hasAnyRole("ADMIN") // 관리자만 접근가능
+//                        .requestMatchers("/user/**").authenticated() // 로그인 상태에서만 접근 가능
+//                        .requestMatchers("/manager/**").hasAnyRole("MANAGER", "ADMIN") // 매니저 이상만 접근가능
+//                        .requestMatchers("/admin/**").hasAnyRole("ADMIN") // 관리자만 접근가능
                         .anyRequest().permitAll()
         ).formLogin(
                 form ->

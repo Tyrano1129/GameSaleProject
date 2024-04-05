@@ -1,6 +1,6 @@
 package kr.game.sale.controller;
 
-import kr.game.sale.entity.User;
+import kr.game.sale.entity.user.User;
 import kr.game.sale.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

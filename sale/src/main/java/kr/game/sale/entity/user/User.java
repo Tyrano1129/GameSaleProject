@@ -1,4 +1,4 @@
-package kr.game.sale.entity;
+package kr.game.sale.entity.user;
 
 import jakarta.persistence.*;
 import lombok.Data;

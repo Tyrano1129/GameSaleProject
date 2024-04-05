@@ -1,6 +1,6 @@
 package kr.game.sale.config.auth;
 
-import kr.game.sale.entity.User;
+import kr.game.sale.entity.user.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

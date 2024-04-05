@@ -1,4 +1,4 @@
-package kr.game.sale.entity;
+package kr.game.sale.entity.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

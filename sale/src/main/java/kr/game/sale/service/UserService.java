@@ -1,8 +1,8 @@
 package kr.game.sale.service;
 
-import kr.game.sale.entity.User;
-import kr.game.sale.entity.UserRole;
-import kr.game.sale.repository.UserRepository;
+import kr.game.sale.entity.user.User;
+import kr.game.sale.entity.user.UserRole;
+import kr.game.sale.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
