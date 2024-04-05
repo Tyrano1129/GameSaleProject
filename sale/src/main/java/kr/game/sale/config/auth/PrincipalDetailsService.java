@@ -1,7 +1,7 @@
 package kr.game.sale.config.auth;
 
-import kr.game.sale.entity.User;
-import kr.game.sale.repository.UserRepository;
+import kr.game.sale.entity.user.User;
+import kr.game.sale.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
