@@ -6,8 +6,14 @@
     <title>더좋은 게임</title>
     <!-- header css-->
     <link rel="stylesheet" href="/css/header.css">
+    <!-- iamport-->
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <!-- jquery   -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- font-awesome   -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- 추가 -->
+
     <th:block th:replace="${links}"/>
 </head>
 <style th:fragment="bodyinit">
@@ -16,12 +22,13 @@
         left: 0;
         margin: 0;
         z-index: 99;
-        overflow: visible;
         height: 100vh;
+        display: flex;
+        justify-content: center;
     }
 </style>
 <body>
-<header  th:fragment="header" id="header" class="header">
+<header th:fragment="header" id="header" class="header">
     <div class="container">
         <div class="row">
             <div class="logo">

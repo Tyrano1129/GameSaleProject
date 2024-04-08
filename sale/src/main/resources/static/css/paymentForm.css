@@ -103,7 +103,7 @@
     line-height: 40px;
     font-weight: bold;
     margin: 10px 0 0 0;
-    /* color: #ffffff; */
+    color: #ffffff;
 }
 .paymethod .list-group{
     margin-bottom: 20px;
@@ -129,6 +129,7 @@
     line-height: 45px;
     font-weight: bold;
     margin: 10px 0 0 0;
+    color: #ffffff;
 }
 .paymentfinal .finalsprice{
     border: 1px solid #ddd;
@@ -163,4 +164,20 @@
 }
 .payment .btn-payment:hover{
     background-color: #4fb7f3;
+}
+.overlay{
+    /* 모달창에 집중하기 위해서 나머지 부분은 검은색으로 배경지정 */
+    background-color: #0000003f;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left:0;
+    visibility: hidden;
+    transition: 0.5s;
+    opacity: 0;
+}
+.overlay.active{
+    opacity: 1;
+    visibility: visible;
 }
