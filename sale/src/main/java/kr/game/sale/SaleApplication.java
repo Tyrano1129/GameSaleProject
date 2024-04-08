@@ -20,11 +20,13 @@ public class SaleApplication {
         SpringApplication.run(SaleApplication.class, args);
     }
 
+    // 회원가입시 비밀번호 암호화 하는 빈
     @Bean
     public BCryptPasswordEncoder encodePwd() {
         return new BCryptPasswordEncoder();
     }
 
+    // 애플리케이션이 실행될 때 3개의 테스트계정이 DB에 생성됩니다.
     @Bean
     public ApplicationRunner initData() {
         return new ApplicationRunner() {
@@ -43,8 +45,8 @@ public class SaleApplication {
                 user.setPassword(new BCryptPasswordEncoder().encode("1"));
 
                 admin.setUserNickname("관리자");
-                admin.setUserNickname("매니저");
-                admin.setUserNickname("일반유저");
+                manager.setUserNickname("매니저");
+                user.setUserNickname("일반유저");
 
                 admin.setUserRole(UserRole.ROLE_ADMIN);
                 manager.setUserRole(UserRole.ROLE_MANAGER);
