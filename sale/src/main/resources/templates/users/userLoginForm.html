@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인하기</title>
+</head>
+<body>
+<h1>로그인 페이지</h1>
+
+<p>사용자 이름: <span th:if="${session.users != null}" th:text="${session.users.username}"></span></p>
+
+<hr>
+<form action="/userLogin" method="post">
+    <label>
+        <input name="username" type="text"/>
+    </label>
+    <label>
+        <input name="password" type="password"/>
+    </label>
+    <button>로그인</button>
+</form>
+<br>
+<button onclick='location.href="/oauth2/authorization/google"'> 구글 로그인 하기</button>
+<button onclick='location.href="/oauth2/authorization/naver"'> 네이버 로그인 하기</button>
+<hr>
+<a href="/users/joinForm"> 회원가입 하러가기 </a>
+</body>
+</html>
