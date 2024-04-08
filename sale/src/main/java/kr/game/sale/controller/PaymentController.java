@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @Slf4j
-@RequestMapping("/user")
+@RequestMapping("/payment")
 @Controller
 @RequiredArgsConstructor
 public class PaymentController {
@@ -33,9 +33,8 @@ public class PaymentController {
     @Value("${imp.api.secretkey}")
     private String secretKey;
 
-
     // 결제 요청
-    @PostMapping("/payment")
+    @PostMapping("/processing")
     public @ResponseBody IamportResponse<Payment> validateIamport(@ModelAttribute PaymentDataForm paymentData){
         String impUid = paymentData.getImpUid();
         //결제된 정보 요청
@@ -44,7 +43,7 @@ public class PaymentController {
         return payment;
     }
     // 결제 마무리
-    @PostMapping("/paymenttest")
+    @PostMapping("/paymentcheck")
     public ResponseEntity<String> paymentComplete(@ModelAttribute PaymentDataForm paymentData, @ModelAttribute PaymentForm payment) throws IOException {
         String orderNumber = paymentData.getMerchantUid();
         try{

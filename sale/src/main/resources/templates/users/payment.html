@@ -7,10 +7,13 @@
 </head>
 <style th:replace="~{fragment/header :: bodyinit}"></style>
 <body>
-<header th:replace="~{fragment/header :: header}"></header>
-<nav th:replace="~{fragment/header :: nav}"></nav>
-<main th:replace="~{fragment/paymentForm :: paymain}">
-</main>
+<div>
+    <header th:replace="~{fragment/header :: header}"></header>
+    <nav th:replace="~{fragment/header :: nav}"></nav>
+    <main th:replace="~{fragment/paymentForm :: paymain}">
+    </main>
+</div>
+<div class="overlay"></div>
 </body>
 </html>
-<script type="text/javascript" defer src="/static/js/payment.js"></script>
+<script type="text/javascript" defer src="/js/payment.js"></script>
