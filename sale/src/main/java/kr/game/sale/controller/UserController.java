@@ -22,7 +22,7 @@ public class UserController {
     @PostMapping("/join")
     public String userJoin(Users users) {
         userService.addUser(users);
-        return "redirect:/users/joinForm";
+        return "redirect:/";
     }
 
     @PostMapping("/emailDuplicated")
@@ -36,12 +36,16 @@ public class UserController {
     @PostMapping("/sendCodeToEmail")
     @ResponseBody
     public String emailTest(@RequestParam("email") String email) {
-        String code = userService.verifyWithEmail(email);
-        return code;
+        return userService.verifyWithEmail(email);
     }
 
     @GetMapping("/payment")
-    public String paymentForm(){
+    public String paymentForm() {
         return "users/payment";
+    }
+
+    @GetMapping("/loginForm")
+    public String loginForm() {
+        return "users/userLoginForm";
     }
 }

@@ -1,7 +1,7 @@
 package kr.game.sale.service;
 
-import kr.game.sale.entity.user.Users;
 import kr.game.sale.entity.user.UserRole;
+import kr.game.sale.entity.user.Users;
 import kr.game.sale.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -25,8 +25,6 @@ public class UserService {
         String enPassword = bCryptPasswordEncoder.encode(initPassword);
         users.setPassword(enPassword);
         users.setUserRole(UserRole.ROLE_USER);
-        if (users.getUserNickname().equals("admin"))
-            users.setUserRole(UserRole.ROLE_ADMIN);
         userRepository.save(users);
     }
 
