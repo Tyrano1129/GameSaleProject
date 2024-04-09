@@ -1,6 +1,6 @@
 package kr.game.sale.config.auth;
 
-import kr.game.sale.entity.User;
+import kr.game.sale.entity.user.Users;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,27 +10,27 @@ import java.util.Collection;
 
 @Data
 public class PrincipalDetails implements UserDetails {
-    private User user;
+    private Users users;
 
-    PrincipalDetails(User user) { // 일반 로그인 객체
-        this.user = user;
+    PrincipalDetails(Users users) { // 일반 로그인 객체
+        this.users = users;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collection = new ArrayList<>();
-        collection.add((GrantedAuthority) () -> user.getUserRole().toString());
+        collection.add((GrantedAuthority) () -> users.getUserRole().toString());
         return collection;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return users.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return users.getUsername();
     }
 
     @Override

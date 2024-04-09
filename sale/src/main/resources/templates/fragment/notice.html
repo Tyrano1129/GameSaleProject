@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<main th:fragment="noticeList" >
+<div class="kbody">
+    <table class="kblocktable" border="1">
+        <tbody>
+        <tr style="height: 40px; line-height: 40px">
+            <th>번호</th>
+            <th>구분</th>
+            <th>제목</th>
+            <th>작성일</th>
+            <th>조회</th>
+        </tr>
+        <tr th:each="list : ${noticeList}">
+            <td style="text-align: center; width: 60px" th:text="${list.id}">1</td>
+            <td style="text-align: center; width: 60px">공지</td>
+            <td style="width: 480px" th:text="${list.title}">제목</td>
+            <td style="text-align: center; width: 120px" th:text="${list.date}">작성일</td>
+            <td style="text-align: center; width: 60px" th:text="${list.count}">조회</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="ksearchcontainer">
+    <div class="search">
+        <form action="/notice/seach" method="get" id="jumpto" name="jumpto">
+            <div class="fileldset">
+                <input
+                        type="text"
+                        id="searchValue"
+                        class="ks input"
+                        name="searchvalue"
+                        size="30"
+                />
+                <select name="seachType" id="searchType">
+                    <option value="title">제목</option>
+                </select>
+                <input type="submit" class="kbutton ks" value="검색" />
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pageing">
+    <nav class="navs">
+        <ul class="pagination">
+            <th:block th:if="${start} >= 10">
+                <li><a th:href="@{/notice/customer(page=${start - 1},size=15)}"><</a></li>
+            </th:block>
+            <th:block th:if="${start} < 10">
+                <li><a href="javascript:return false"><</a></li>
+            </th:block>
+            <th:block th:each="num,numStat :${#numbers.sequence(start,end)}">
+                <li th:if="${!numStat.last}"><a th:href="@{/notice/customer(page=${num},size=15)}" th:text="${num+1}"></a></li>
+            </th:block>
+            <th:block th:if="${end} < ${total}">
+                <li><a th:href="@{/notice/customer(page=${end},size=15)}">></a></li>
+            </th:block>
+            <th:block th:if="${end} >= ${total}">
+                <li><a href="javascript:return false">></a></li>
+            </th:block>
+        </ul>
+    </nav>
+</div>
+</main>
+</body>
+</html>

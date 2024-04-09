@@ -1,9 +1,9 @@
-package kr.game.sale.service;
+package kr.game.sale.service.admin;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import kr.game.sale.entity.Payment;
+import kr.game.sale.entity.admin.Payment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,11 +13,10 @@ import java.io.*;
 import java.net.URL;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AdminService {
+public class PaymentService {
     //토큰 요청 후 환불요청
     public void refundRequest(String access_token,String merchant_uid,String reason) throws IOException {
         URL url = new URL("https://api.iamport.kr/payments/cancel");

@@ -1,6 +1,8 @@
-package kr.game.sale.entity;
+package kr.game.sale.entity.admin;
 
 import jakarta.persistence.*;
+import kr.game.sale.entity.game.Game;
+import kr.game.sale.entity.user.Users;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,10 +18,15 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentId;
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private Users User;
+    @ManyToOne
+    @JoinColumn(name="game_id")
+    private Game gmae;
     private LocalDateTime paymenDate;
     private String gameName;
     private int gamePrice;
     private int paymentPrice;
-    private double paymentDiscount;
     private String paymentOrdernum;
 }

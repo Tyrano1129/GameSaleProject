@@ -1,6 +1,7 @@
 var IMP = window.IMP;
 // 현재 시간 넣기
 function createnumber(){
+    $('.overlay').addClass('active');
     const today = new Date();
     const hours = today.getHours();
     const minutes = today.getMinutes();
@@ -12,7 +13,22 @@ function createnumber(){
     }
     return parseInt(makeMerchanUid);
 }
+
+let checkd = true;
+function ordervalue(){
+    let order = {};
+    order.gameName = $('.gamename').val();
+    order.gamePrice = $('.gameprice').val();
+    order.paymentPrice = $('.paymentprice').val();
+    order.paymentOrderNum ="IMP" + createnumber();
+    return order;
+}
 function requestPay() {
+    if(!checkd){
+        return;
+    }
+    checkd = false;
+
     IMP.init("imp15605565");
     // 객체 초기화
     // buyer_tel
@@ -47,19 +63,27 @@ function requestPay() {
                                 },
                                 success : function (data){
                                     console.log(data);
+                                    checkd = true;
+                                    $('.overlay').removeClass('active');
                                 },
                                 error :  function(request, status, error) {
                                     alert("주문정보 저장을 실패");
+                                    checkd = true;
+                                    $('.overlay').removeClass('active');
                                 }
                             });
                         }
                     },
                     error :  function(request, status, error) {
                         console.log(error);
+                        checkd = true;
+                        $('.overlay').removeClass('active');
                     }
                 })
             } else {
+                checkd = true;
                 alert("결제에 실패하였습니다. 에러 내용:" + rsp.error_msg);
+                $('.overlay').removeClass('active');
             }
         });
 }

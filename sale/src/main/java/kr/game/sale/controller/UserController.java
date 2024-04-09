@@ -1,6 +1,6 @@
 package kr.game.sale.controller;
 
-import kr.game.sale.entity.User;
+import kr.game.sale.entity.user.Users;
 import kr.game.sale.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +20,9 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public String userJoin(User user) {
-        userService.addUser(user);
-        return "redirect:/users/joinForm";
+    public String userJoin(Users users) {
+        userService.addUser(users);
+        return "redirect:/";
     }
 
     @PostMapping("/emailDuplicated")
@@ -36,12 +36,16 @@ public class UserController {
     @PostMapping("/sendCodeToEmail")
     @ResponseBody
     public String emailTest(@RequestParam("email") String email) {
-        String code = userService.verifyWithEmail(email);
-        return code;
+        return userService.verifyWithEmail(email);
     }
 
     @GetMapping("/payment")
-    public String paymentForm(){
+    public String paymentForm() {
         return "users/payment";
+    }
+
+    @GetMapping("/loginForm")
+    public String loginForm() {
+        return "users/userLoginForm";
     }
 }

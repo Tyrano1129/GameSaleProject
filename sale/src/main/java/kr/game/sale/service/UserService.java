@@ -1,8 +1,8 @@
 package kr.game.sale.service;
 
-import kr.game.sale.entity.User;
-import kr.game.sale.entity.UserRole;
-import kr.game.sale.repository.UserRepository;
+import kr.game.sale.entity.user.UserRole;
+import kr.game.sale.entity.user.Users;
+import kr.game.sale.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.Random;
 
 @Service
@@ -20,19 +21,17 @@ public class UserService {
     private final JavaMailSender sender;
 
     @Transactional
-    public void addUser(User user) {
-        String initPassword = user.getPassword();
+    public void addUser(Users users) {
+        String initPassword = users.getPassword();
         String enPassword = bCryptPasswordEncoder.encode(initPassword);
-        user.setPassword(enPassword);
-        user.setUserRole(UserRole.ROLE_USER);
-        if (user.getUserNickname().equals("admin"))
-            user.setUserRole(UserRole.ROLE_ADMIN);
-        userRepository.save(user);
+        users.setPassword(enPassword);
+        users.setUserRole(UserRole.ROLE_USER);
+        userRepository.save(users);
     }
 
     public boolean isEmailExist(String username) {
-        User user = userRepository.findByUsername(username);
-        return user != null;
+        Users users = userRepository.findByUsername(username);
+        return users != null;
     }
 
     public String verifyWithEmail(String email) {

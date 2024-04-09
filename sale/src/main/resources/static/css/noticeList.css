@@ -1,0 +1,118 @@
+
+.kbody{
+    border: 0;
+    width: 1200px;
+    margin-top: 30px ;
+}
+.kbody .kblocktable{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border-collapse: collapse;
+    border-color: #bfc3c6;
+}
+.kblocktable tbody{
+    box-sizing: border-box;
+}
+.kblocktable tbody tr th{
+    background-color: #273343;
+    text-align: center;
+    color: #ffffff;
+    font-size: 14px;
+}
+.kblocktable tbody tr td{
+    background-color: #1b2838;
+    color: #ffffff;
+    padding: 10px 20px 10px 20px;
+    font-size: 12px;
+}
+
+.ksearchcontainer{
+    margin: 32px 0 32px 0;
+    border: 0;
+    width: 1200px;
+}
+.ksearchcontainer .search{
+    text-align: right;
+}
+.search #jumpto{
+    width: auto;
+    height: auto;
+    margin: 0;
+}
+#jumpto .fileldset{
+    border: 1px solid #bfc3c6;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #273343;
+}
+.fileldset input[type="text"]{
+    border: 0;
+    margin: 0;
+    border: 1px solid #bfc3c6;
+    background-color: #2f435c;
+    padding: 5px;
+    color: #ffffff;
+    box-shadow: none;
+    transition: all 300ms;
+    font-size: .917em;
+}
+.fileldset select{
+    border: 1px solid #bfc3c6;
+    margin: 0;
+    font-size: .917em;
+    background-color: #2f435c;
+    color: #ffffff;
+    padding: 5px;
+}
+.fileldset select option{
+
+}
+.fileldset .kbutton{
+    font-weight: 600;
+    border: 1px solid #4fb7f3;
+    color: #ffffff;
+    cursor: pointer;
+    background: linear-gradient(#67c1f5, #4fb7f3);
+    padding: 4px 12px;
+    font-size: 12px;
+    line-height: 20px;
+    border-radius: 3px;
+}
+
+.pageing{
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+}
+.pageing .navs{
+    width: 100%;
+    margin: 0 auto;
+}
+.navs .pagination{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination li{
+    width: 40px;
+}
+.pagination li a{
+    color: #ffffff;
+    background-color: #2f435c;
+    cursor: pointer;
+    margin-left: 10px;
+    border: 0;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 2px;
+    text-decoration-line: none;
+    padding: 6px 12px;
+}
+.pagination li a.active{
+    background-color: #4fb7f3;
+}
+.pagination li:last-child a{
+    margin-left: 20px;
+}
