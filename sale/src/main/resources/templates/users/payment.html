@@ -12,6 +12,11 @@
     <nav th:replace="~{fragment/header :: nav}"></nav>
     <main th:replace="~{fragment/paymentForm :: paymain}">
     </main>
+
+    <input type="hidden" class="gamename" name="gamename" th:value="${gamename}">
+    <input type="hidden" class="gameprice" name="gameprice" th:value="${gameprice}">
+    <input type="hidden" class="paymentPrice" name="paymentPrice" th:value="${paymentPrice}">
+
 </div>
 <div class="overlay"></div>
 </body>

@@ -16,23 +16,19 @@ function createnumber(){
 
 let checkd = true;
 function ordervalue(){
-
-
     let order = {};
-    // 유저는 세션으로 가지고옴
-    // 게임은 이름같은걸로 가지고옴
-    // 게임 코드는 랜덤으로 만들예정
-    order.gameName = $('gamename').val();
-    order.gamePrice = $('gameprice').val();
-    order.paymentPirce = $('payment').val();
+    order.gameName = $('.gamename').val();
+    order.gamePrice = $('.gameprice').val();
+    order.paymentPrice = $('.paymentprice').val();
     order.paymentOrderNum ="IMP" + createnumber();
-
+    return order;
 }
 function requestPay() {
     if(!checkd){
         return;
     }
     checkd = false;
+
     IMP.init("imp15605565");
     // 객체 초기화
     // buyer_tel

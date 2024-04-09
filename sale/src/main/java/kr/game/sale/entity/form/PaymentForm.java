@@ -11,5 +11,7 @@ public class PaymentForm {
     private int gamePrice;
     private int paymentPirce;
     private String ordernum;
+    private String impUid;
+    private String merchantUid;
 }
 

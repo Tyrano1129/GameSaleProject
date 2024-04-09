@@ -1,5 +1,8 @@
 
 /* header */
+a{
+    text-decoration-line: none;
+}
 header{
     padding-top: 20px;
     padding-bottom: 32px;

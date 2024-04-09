@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="common_header">
+    <!-- 공통 -->
+    <meta charset="UTF-8">
+    <title>더조은 게임즈</title>
+    <link rel="stylesheet" href="/css/admin.css" />
+    <link rel="stylesheet" href="/css/modal.css">
+    <script defer src="/js/admin.js"></script>
+</head>
+<body>
+<div th:fragment="admin" class="admincontainer">
+    <nav class="adminnav">
+        <header>
+            <h3><a href="/admin">더조은 게임즈</a></h3>
+        </header>
+        <div class="adminmenu">
+            <button id="user">유저관리</button>
+            <button id="game">게임관리</button>
+            <button id="qna">문의관리</button>
+            <button id="refund">환불관리</button>
+            <button id="review">리뷰관리</button>
+            <a href="/">홈으로</a>
+        </div>
+    </nav>
+    <main class="adminmain">
+        <div class="refundcontainer">
+            <h1>환불 관리 리스트</h1>
+            <div class="refundtable">
+                <table class="refundlist">
+                    <tr>
+                        <th>번호</th>
+                        <th>결제명</th>
+                        <th>환불사유</th>
+                        <th>환불신청날짜</th>
+                        <th>환불여부</th>
+                        <th>환불버튼</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>123</p>
+                        </td>
+                        <td>
+                            <p>132</p>
+                        </td>
+                        <td>
+                            <p>122</p>
+                        </td>
+                        <td>
+                            <p>123</p>
+                        </td>
+                        <td>
+                            <p>123</p>
+                        </td>
+                        <td>
+                            <button onclick="refundCheck()">환불</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="usercontainer">
+            <h1>유저 관리 리스트</h1>
+            <form action="/admin" method="post" >
+                <div class="userButton">
+                    <input type="button" onclick="listcheck(form)" value="수정하기" />
+                </div>
+                <table class="userList">
+                    <tr>
+                        <th>이름</th>
+                        <th>이메일</th>
+                        <th>닉네임</th>
+                        <th>직책</th>
+                        <th>전화번호</th>
+                    </tr>
+                    <tr>
+                        <td id="name">
+                            <p>123</p>
+                        </td>
+                        <td id="email">
+                            <p>123</p>
+                        </td>
+                        <td id="nicName">
+                            <p>123</p>
+                        </td>
+                        <td id="role">
+                            <select name="roleselect" id="roleselect" data-id="넘버넣을거임" >
+                                <option value="MANAGE">매니저</option>
+                                <option value="USER" selected>유저</option>
+                            </select>
+                        </td>
+                        <td id="tel">
+                            <p>123</p>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="qnacontainer">
+            <h1>문의 관리 리스트</h1>
+            <div class="qnatable">
+                <table class="qnalist">
+                    <tr>
+                        <th>번호</th>
+                        <th>닉네임</th>
+                        <th>문의제목</th>
+                        <th>답변여부</th>
+                        <th>답변자</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>123</p>
+                        </td>
+                        <td>
+                            <p>132</p>
+                        </td>
+                        <td>
+                            <a href="/admin/qnaForm?qnaId=">122</a>
+                        </td>
+                        <td>
+                            <p>123</p>
+                        </td>
+                        <td>
+                            <p>123</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>
