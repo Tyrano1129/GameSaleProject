@@ -19,4 +19,10 @@ public class GameService {
         gameRepository.saveAll(list);
     }
 
+    public List<Game> getList(){
+       return gameRepository.findAll();
+    }
+
+
+
 }
