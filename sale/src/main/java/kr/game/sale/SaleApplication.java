@@ -20,7 +20,7 @@ public class SaleApplication {
         SpringApplication.run(SaleApplication.class, args);
     }
 
-    // 회원가입시 비밀번호 암호화 하는 빈
+    // 회원가입시 비밀번호 암호화 하는 빈입니다.
     @Bean
     public BCryptPasswordEncoder encodePwd() {
         return new BCryptPasswordEncoder();
@@ -32,6 +32,10 @@ public class SaleApplication {
         return new ApplicationRunner() {
             @Override
             public void run(ApplicationArguments args) throws Exception {
+
+                if (userRepository.findByUsername("admin") != null)
+                    return;
+
                 Users admin = new Users();
                 Users manager = new Users();
                 Users user = new Users();

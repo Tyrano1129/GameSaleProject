@@ -13,10 +13,10 @@ public class Users {
     private String username;
     private String password;
     private String userNickname;
-    private String userGoogle;
-    private String userNaver;
-    private String userKakao;
     private String userPhone;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
+    // OAuth 를 위해 추가하는 필드
+    private String provider;
+    private String providerId;
 }

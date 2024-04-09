@@ -1,0 +1,49 @@
+#userJoinForm {
+    width: 1200px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#userJoinForm #joinBtn, #cancelBtn {
+    font-size: 15px;
+    font-weight: bold;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 100%;
+    margin-top: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#userJoinForm #joinBtn {
+    background-color: #67c1f5;
+    color: white;
+}
+
+#userJoinForm button:hover {
+    background-color: #4fb7f3;
+}
+
+#userJoinForm #joinBtn:hover {
+    background-color: navy;
+}
+
+#userJoinForm input {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: white;
+}
+
+#userJoinForm th {
+    width: 100px;
+    text-align: left;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#userJoinForm th, td {
+    height: 50px;
+}

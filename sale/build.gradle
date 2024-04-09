@@ -48,6 +48,7 @@ dependencies {
 
     // 스프링 시큐리티
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
     // 메일서버와 연결해서 메일을 발송하는데 필요한 라이브러리
     implementation 'org.springframework.boot:spring-boot-starter-mail'
@@ -66,6 +67,12 @@ dependencies {
 
     // webclient 라이브러리
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    // css, js, html, java 파일이 수정되면 서버 자동으로 재시작 ( 인텔리제이 설정도 바꿔야함 )
+    implementation  'org.springframework.boot:spring-boot-devtools'
+
+    // OAuth 2.0
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('test') {
