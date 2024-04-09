@@ -23,13 +23,11 @@ public class QUsers extends EntityPathBase<Users> {
 
     public final StringPath password = createString("password");
 
-    public final StringPath userGoogle = createString("userGoogle");
+    public final StringPath provider = createString("provider");
 
-    public final StringPath userKakao = createString("userKakao");
+    public final StringPath providerId = createString("providerId");
 
     public final StringPath username = createString("username");
-
-    public final StringPath userNaver = createString("userNaver");
 
     public final StringPath userNickname = createString("userNickname");
 

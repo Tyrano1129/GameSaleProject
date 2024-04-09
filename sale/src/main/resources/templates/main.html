@@ -3,24 +3,14 @@
 <head th:replace="~{fragment/header :: common_header(~{::link})}">
     <meta charset="UTF-8">
     <title>더좋은 게임</title>
-    <link>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <style th:replace="~{fragment/header :: bodyinit}"></style>
 <body>
 <div>
 <header th:replace="~{fragment/header :: header}"></header>
 <nav th:replace="~{fragment/header :: nav}"></nav>
-
-
-<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
-
-
-<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-
-<link rel="stylesheet" href="/css/main.css">
 <div class="main-background">
     <div class="pro-Container-back">
         <div class="promotion container">
@@ -63,7 +53,7 @@
             </div>
         </div>
     </div>
-
+</div>
 </div>
 </body>
 </html>
