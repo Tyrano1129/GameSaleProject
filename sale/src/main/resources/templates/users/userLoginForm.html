@@ -1,28 +1,43 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="~{fragment/header :: common_header(~{::link})}">
     <meta charset="UTF-8">
-    <title>로그인하기</title>
+    <title>Title</title>
+    <link href="/css/userLoginForm.css" rel="stylesheet"/>
 </head>
+<style th:replace="~{fragment/header :: bodyinit}"></style>
 <body>
-<h1>로그인 페이지</h1>
+<div align="center">
+    <header th:replace="~{fragment/header :: header}"></header>
+    <nav th:replace="~{fragment/header :: nav}"></nav>
+    <div class="loginFormContainer">
 
-<p>사용자 이름: <span th:if="${session.users != null}" th:text="${session.users.username}"></span></p>
+        <p th:text="${#authentication.name}"></p>
 
-<hr>
-<form action="/userLogin" method="post">
-    <label>
-        <input name="username" type="text"/>
-    </label>
-    <label>
-        <input name="password" type="password"/>
-    </label>
-    <button>로그인</button>
-</form>
-<br>
-<button onclick='location.href="/oauth2/authorization/google"'> 구글 로그인 하기</button>
-<button onclick='location.href="/oauth2/authorization/naver"'> 네이버 로그인 하기</button>
-<hr>
-<a href="/users/joinForm"> 회원가입 하러가기 </a>
+        <div id="normalLoginDiv">
+            <form action="/userLogin" id="userLoginForm" method="post">
+                <strong>기존 회원 로그인</strong>
+                <br>
+                <div>이메일</div>
+                <label for="username"></label><input id="username" name="username" required type="text"/>
+                <br>
+                <div>비밀번호</div>
+                <label for="password"></label><input id="password" name="password" required="required" type="password"/>
+                <br>
+                <button id="loginBtn" onclick="doLogin(form)" type="button">로그인</button>
+                <button id="toJoinBtn" onclick="location.href='/users/joinForm'" type="button">회원가입
+                </button>
+            </form>
+        </div>
+
+        <div id="snsLoginDiv">
+            <button onclick='location.href="/oauth2/authorization/google"'>구글 로그인</button>
+            <button onclick='location.href="/oauth2/authorization/naver"'>네이버 로그인</button>
+            <button onclick='location.href="/oauth2/authorization/kakao"'>카카오 로그인</button>
+        </div>
+
+    </div>
+</div>
 </body>
 </html>
+<script defer src="/js/userLogin.js" type="text/javascript"></script>

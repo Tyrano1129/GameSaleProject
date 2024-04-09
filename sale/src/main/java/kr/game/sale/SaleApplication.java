@@ -20,6 +20,7 @@ public class SaleApplication {
     public static void main(String[] args) {
         SpringApplication.run(SaleApplication.class, args);
     }
+
     // 스프링 빈 컨테이너에 우리가 직접 등록
     @Bean
     public JPAQueryFactory jpaQueryFactory(EntityManager em){
@@ -37,6 +38,10 @@ public class SaleApplication {
         return new ApplicationRunner() {
             @Override
             public void run(ApplicationArguments args) throws Exception {
+
+                if (userRepository.findByUsername("admin") != null)
+                    return;
+
                 Users admin = new Users();
                 Users manager = new Users();
                 Users user = new Users();

@@ -6,6 +6,7 @@ const pwConfirmInput = document.getElementById("pwConfirm");
 const emailDuplicatedBtn = document.getElementById("emailDuplicatedBtn");
 const emailSendingBtn = document.getElementById("emailSendingBtn");
 const codeInput = document.getElementById("codeInput");
+const joinBtn = document.getElementById("joinBtn");
 
 // 입력값들의 유효성 체크
 function validCheck(form) {
@@ -60,6 +61,7 @@ function validCheck(form) {
     }
 
     // ***********
+    joinBtn.style.visibility = "hidden";
     form.submit();
     // ***********
 }
@@ -127,7 +129,8 @@ pwConfirmInput.addEventListener("keyup", () => {
 // 이메일 인풋을 수정했을 때 중복체크를 초기화하는 함수
 emailInput.addEventListener("keyup", () => {
     check = -1;
-    document.getElementById("username").style.border = "3px red solid";
+    emailInput.style.border = "3px red solid";
+    emailDuplicatedBtn.style.visibility="visible";
 });
 
 // 이메일로 인증코드를 발송하는 함수
