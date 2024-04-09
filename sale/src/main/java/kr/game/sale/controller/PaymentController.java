@@ -6,7 +6,7 @@ import com.siot.IamportRestClient.response.Payment;
 import jakarta.annotation.PostConstruct;
 import kr.game.sale.entity.form.PaymentDataForm;
 import kr.game.sale.entity.form.PaymentForm;
-import kr.game.sale.service.PaymentService;
+import kr.game.sale.service.admin.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,8 +44,12 @@ public class PaymentController {
     }
     // 결제 마무리
     @PostMapping("/paymentcheck")
-    public ResponseEntity<String> paymentComplete(@ModelAttribute PaymentDataForm paymentData, @ModelAttribute PaymentForm payment) throws IOException {
-        String orderNumber = paymentData.getMerchantUid();
+    public ResponseEntity<String> paymentComplete(@ModelAttribute PaymentForm payment) throws IOException {
+        String orderNumber = payment.getMerchantUid();
+
+        // 유저는 세션으로 가지고옴
+        // 게임은 이름같은걸로 가지고옴
+        // 게임 코드는 랜덤으로 만들예정
         try{
             log.info("결제 성공 : 주문번호 {}",orderNumber);
             return ResponseEntity.ok().build();

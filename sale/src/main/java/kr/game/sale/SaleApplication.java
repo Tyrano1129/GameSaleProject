@@ -1,5 +1,7 @@
 package kr.game.sale;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
 import kr.game.sale.entity.user.UserRole;
 import kr.game.sale.entity.user.Users;
 import kr.game.sale.repository.user.UserRepository;
@@ -15,12 +17,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @RequiredArgsConstructor
 public class SaleApplication {
     private final UserRepository userRepository;
-
     public static void main(String[] args) {
         SpringApplication.run(SaleApplication.class, args);
     }
 
-    // 회원가입시 비밀번호 암호화 하는 빈입니다.
+    // 스프링 빈 컨테이너에 우리가 직접 등록
+    @Bean
+    public JPAQueryFactory jpaQueryFactory(EntityManager em){
+        return new JPAQueryFactory(em);
+    }
+    // 회원가입시 비밀번호 암호화 하는 빈
     @Bean
     public BCryptPasswordEncoder encodePwd() {
         return new BCryptPasswordEncoder();

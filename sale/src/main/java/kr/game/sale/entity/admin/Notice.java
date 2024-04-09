@@ -1,9 +1,11 @@
-package kr.game.sale.entity;
+package kr.game.sale.entity.admin;
 
+import com.querydsl.core.annotations.QueryProjection;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Entity
@@ -29,6 +31,21 @@ public class Notice {
         this.noticeDate = LocalDateTime.now();
     }
 
+
+    @QueryProjection
+    public Notice(Long noticeId, String noticeTitle, String noticeContent, int noticeCount, String noticeWriter, LocalDateTime noticeDate) {
+        this.noticeId = noticeId;
+        this.noticeTitle = noticeTitle;
+        this.noticeContent = noticeContent;
+        this.noticeCount = noticeCount;
+        this.noticeWriter = noticeWriter;
+        this.noticeDate = noticeDate;
+    }
+    public String localDateFormater(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        String formated = this.noticeDate.format(formatter);
+        return formated;
+    }
     // 카운트 업
     public void countUp() {
         this.noticeCount +=1;

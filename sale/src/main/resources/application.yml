@@ -62,3 +62,7 @@ steamspyAPI:
 
 steamAPI:
   baseUrl: https://store.steampowered.com
+
+logging:
+  level:
+    org.hibernate.SQL: debug

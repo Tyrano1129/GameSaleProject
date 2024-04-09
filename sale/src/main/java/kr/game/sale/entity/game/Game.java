@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,6 +63,11 @@ public class Game {
 
     private String genres; //JSON 형태 저장
 
+    public String getFormattedPrice(){
+        int bNum = price/100;
+        DecimalFormat format = new DecimalFormat("#,###");
+        return format.format(bNum);
+    }
 
     public Game convertRawData(SteamGameDTO rawData){
         Game game = new Game();
@@ -77,7 +83,7 @@ public class Game {
             game.rcmRequirements= rawData.getPcRequirements().getRecommended();
             int rawPrice = rawData.getPriceOverview().getInitial();
             if(rawData.getPriceOverview().getCurrency().equals("USD")){
-                rawPrice*=10;
+                rawPrice*=1000;
             }
             game.price = rawPrice; //달러/ 원화 바꿔서 처리
             game.developers = rawData.getDevelopers().get(0);
