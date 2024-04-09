@@ -1,0 +1,208 @@
+/* Fontawesome 4.7 */
+@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:300,400,500,700,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500&display=swap');
+
+/* reset CSS */
+a {
+    text-decoration: none;
+    color: #222;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    font-weight: normal;
+}
+
+button {
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+input,
+textarea,
+select {
+    outline: none;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Noto Sans KR', sans-serif;
+    /* font-family: 'Montserrat', sans-serif; */
+    line-height: 1.5em;
+}
+
+button,
+input,
+textarea,
+select {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.admincontainer{
+    width: 1200px;
+    display: flex;
+    height: 100%;
+}
+.admincontainer .adminnav{
+    flex:1;
+    background-color: #91aeb6;
+}
+.adminnav header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px solid #839da5;
+    height: 100px;
+}
+.adminnav header h3 a{
+    color: #ffffff;
+    font-weight: 600;
+}
+.adminmenu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.adminmenu button,.adminmenu a{
+    text-align: center;
+    margin-top: 10px;
+    color: #ffffff;
+    width: 100%;
+    padding: 10px 0px;
+    background-color: #91aeb6;
+}
+.adminmenu button.active{
+    background-color: #839da5;
+}
+.adminmain{
+    flex: 5;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+/* user */
+.usercontainer{
+    display: none;
+    width: 100%;
+}
+.usercontainer h1{
+    text-align: center;
+    color: rgb(198, 138, 61);
+}
+.userList {
+    border-collapse: collapse;
+    width: 100%;
+    border-bottom: 1px solid #839da5;
+}
+.userList tr th {
+    background-color: antiquewhite;
+}
+.userList tr td {
+    border-top: 1px solid #839da5 ;
+    color: darkgreen;
+    text-align: center;
+}
+.userButton {
+    width: 100%;
+    text-align: right;
+    margin: 10px;
+}
+.userButton input {
+    border: 0;
+    background-color: black;
+    padding: 5px;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 10px;
+    cursor: pointer;
+}
+/* qna */
+.qnacontainer {
+    display: none;
+    width: 100%;
+}
+.qnacontainer h1 {
+    color: #2d3436;
+    text-align: center;
+    margin: 15px;
+}
+.qnacontainer .qnatable {
+}
+.qnalist {
+    border-collapse: collapse;
+    width: 100%;
+    border-bottom: 1px solid #839da5;
+}
+.qnalist tr th {
+    background-color: #3498db;
+    color: #ffffff;
+    text-align: center;
+}
+.qnalist tr td {
+    background-color: #ecf0f1;
+    color: #636e72;
+    text-align: center;
+}
+/* refund */
+.refundcontainer {
+    display: none;
+    width: 100%;
+}
+.refundcontainer h1 {
+    color: #fbc531;
+    text-align: center;
+    margin: 15px;
+}
+.refundcontainer .refundtable {
+}
+.refundlist {
+    border-collapse: collapse;
+    width: 100%;
+    border-bottom: 1px solid #839da5;
+}
+.refundlist tr th {
+    background-color: #fea47f;
+    color: #ffffff;
+    text-align: center;
+}
+.refundlist tr td {
+    background-color: #cad3c8;
+    color: #1b9cfc;
+    text-align: center;
+}
+.refundlist tr td button {
+    background-color: #1b9cfc;
+    border: 0;
+    border-radius: 5px;
+    padding: 10px 20px 10px 20px;
+    color: #ffffff;
+    cursor: pointer;
+}
+.refundlist tr td button:hover {
+    background-color: #3b3b98;
+}
+
+/* game */
+
+/* review */
+

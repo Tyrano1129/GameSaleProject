@@ -1,4 +1,4 @@
-package kr.game.sale.entity;
+package kr.game.sale.entity.admin;
 
 import jakarta.persistence.*;
 import kr.game.sale.entity.game.Game;
@@ -28,6 +28,5 @@ public class Payment {
     private String gameName;
     private int gamePrice;
     private int paymentPrice;
-    private double paymentDiscount;
     private String paymentOrdernum;
 }

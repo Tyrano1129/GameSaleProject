@@ -1,9 +1,9 @@
-package kr.game.sale.service;
+package kr.game.sale.service.admin;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import kr.game.sale.entity.Payment;
+import kr.game.sale.entity.admin.Payment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
