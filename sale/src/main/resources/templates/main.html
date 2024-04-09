@@ -9,5 +9,83 @@
 <body>
 <header th:replace="~{fragment/header :: header}"></header>
 <nav th:replace="~{fragment/header :: nav}"></nav>
+
+
+
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<link rel="stylesheet" href="/css/main.css">
+<div class="main-background">
+    <div class="pro-Container-back">
+        <div class="promotion container">
+            <div></div>
+            <i class="fa-solid fa-chevron-right"></i>
+            <div class="main-promotions">
+                <a class="prev-left">
+                    <i class="fa-sharp fa-solid fa-chevron-left"></i>
+                </a>
+                <div class="header-images">
+                    <div th:each="game : ${list}">
+                        <img th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getHeaderImage()}}" th:alt="${game.getName()}">
+                        <div class="item-content">
+                            <div class="article-header clearfix">
+                                <h2 class="article-title" itemprop="headline">
+                                    <a href="#" >
+                                        <div class="banner_label">
+                                            <span>절찬판매중</span>
+                                        </div>
+                                        <div class="banner_title">
+                                            <span th:text="${game.getName()}"></span>
+                                        </div>
+
+                                       <!-- <div class="banner_sale_percent">
+                                            <span>37% </span>
+                                        </div>-->
+                                        <div style="min-width:90px;display:inline-block"></div>
+                                        <div class="banner_sale_price">
+                                            <span th:text="${game.getFormattedPrice()+ '원'}"> </span>
+                                        </div>
+                                    </a>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="prev-right">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
 </body>
 </html>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $('.header-images').slick({
+            prevArrow: $('.prev-right'),
+            nextArrow: $('.prev-left'),
+            dots:true,                  //아래 도트 표시
+            slidesToShow: 1,            //한번에 보여줄 슬라이드 아이템 개수
+            slidesToScroll: 1,          //한번에 넘길 슬라이드 아이템 개수
+            slidesPerRow: 1,            //보여질 행의 수 (한 줄, 두 줄 ... )
+            autoplay: true,             //슬라이드 자동 시작(true or false) ▶기본값 false
+            autoplaySpeed: 2500,
+            pauseOnHover: true,
+        });
+    });
+
+</script>
