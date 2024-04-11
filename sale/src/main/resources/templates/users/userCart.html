@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragment/header :: common_header(~{::link})}">
+    <meta charset="UTF-8">
+    <title>더조은게임즈-장바구니</title>
+    <link href="/css/userLoginForm.css" rel="stylesheet"/>
+</head>
+<style th:replace="~{fragment/header :: bodyinit}"></style>
+<body>
+<div align="center">
+    <header th:replace="~{fragment/header :: header}"></header>
+    <nav th:replace="~{fragment/header :: nav}"></nav>
+    <div id="user_cart_division">
+        <div class="t3-content col-xs-12" id="t3-content">
+            <div id="system-message-container"></div>
+
+            <div class="cart-view" id="cart-view" style="padding-top:20px">
+                <div class="vm-cart-header-container">
+                    <div class="width50 floatleft vm-cart-header">
+                        <h1 style="font-size:18px;font-weight:bold">장바구니</h1>
+                        <div class="payments-signin-button"></div>
+                    </div>
+                    <div class="width50 floatleft right vm-continue-shopping">
+                        <a class="continue_link" href="https://directg.net/">계속 쇼핑하기</a></div>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="docs-section"
+                     style="margin-top:16px;margin-bottom:16px;padding-bottom:6px;padding-top:16px">
+                    <p class="text_msg"><strong>※ 주문 금액 3,000원 이상, 보유한 포인트가 1,000원 이상 시 100원 단위로 사용이 가능합니다. </strong>
+                    </p>
+                    <p class="text_msg"><strong>※ 다이렉트 게임즈에서는 활성화(수신)되지 않은 제품 코드(키)에 한하여 구입 후 7일 이내에 주문 취소가
+                        가능합니다.</strong></p>
+                </div>
+
+                <form action="cart_proc.php" id="cartFrm" method="post" name="cartFrm">
+                    <fieldset class="vm-fieldset-pricelist">
+                        <table border="0" cellpadding="0" cellspacing="0" class="cart-summary" width="100%">
+                            <tbody>
+                            <tr>
+                                <th class="text-center" style="width:50px"><input id="chk_all" name="chk_all"
+                                                                                  type="checkbox" value="Y"></th>
+                                <th class="vm-cart-item-image" style="width:150px">이미지</th>
+                                <th class="vm-cart-item-name text-center">플랫폼</th>
+                                <th class="vm-cart-item-name">상품명</th>
+                                <th class="vm-cart-item-quantity">수량</th>
+                                <th class="vm-cart-item-basicprice">가격</th>
+                                <th class="vm-cart-item-discount"><span class="priceColor2">할인</span></th>
+                                <th class="vm-cart-item-total">합계</th>
+                            </tr>
+                            <tr>
+                                <td colspan="8" style="text-align:center;height:100px">
+                                    장바구니가 비었습니다.
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+
+                    <div class="checkout-button-top">
+                        <button class="btn btn-default btn-lg vm-button-correct" id="btn_order" name="checkout"
+                                style="font-size:16px" type="button" value="1">주문하기
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <!-- //MAIN CONTENT -->
+        </div>
+    </div>
+</div>
+</body>
+</html>
