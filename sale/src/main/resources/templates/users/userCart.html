@@ -3,7 +3,7 @@
 <head th:replace="~{fragment/header :: common_header(~{::link})}">
     <meta charset="UTF-8">
     <title>더조은게임즈-장바구니</title>
-    <link href="/css/userLoginForm.css" rel="stylesheet"/>
+    <link href="/css/userCart.css" rel="stylesheet"/>
 </head>
 <style th:replace="~{fragment/header :: bodyinit}"></style>
 <body>
@@ -36,23 +36,32 @@
 
                 <form action="cart_proc.php" id="cartFrm" method="post" name="cartFrm">
                     <fieldset class="vm-fieldset-pricelist">
-                        <table border="0" cellpadding="0" cellspacing="0" class="cart-summary" width="100%">
+                        <table border="1" cellpadding="0" cellspacing="0" class="cart-summary" width="100%">
                             <tbody>
                             <tr>
                                 <th class="text-center" style="width:50px"><input id="chk_all" name="chk_all"
                                                                                   type="checkbox" value="Y"></th>
                                 <th class="vm-cart-item-image" style="width:150px">이미지</th>
-                                <th class="vm-cart-item-name text-center">플랫폼</th>
                                 <th class="vm-cart-item-name">상품명</th>
-                                <th class="vm-cart-item-quantity">수량</th>
                                 <th class="vm-cart-item-basicprice">가격</th>
                                 <th class="vm-cart-item-discount"><span class="priceColor2">할인</span></th>
                                 <th class="vm-cart-item-total">합계</th>
                             </tr>
                             <tr>
-                                <td colspan="8" style="text-align:center;height:100px">
+                                <td colspan="6" style="text-align:center;height:100px"
+                                    th:if="${cartViewList == null or cartViewList.size() == 0}">
                                     장바구니가 비었습니다.
                                 </td>
+                            </tr>
+                            <tr th:each="list : ${cartViewList}">
+                                <td type="checkbox"></td>
+                                <td><img th:alt="${list.name}"
+                                         th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${list.getImg()}}">
+                                </td>
+                                <td th:text="${list.name}">상품명</td>
+                                <td th:text="${list.price}">가격</td>
+                                <td th:text="${list.discount}">할인</td>
+                                <td th:text="${list.getTotal()}">합계</td>
                             </tr>
                             </tbody>
                         </table>
