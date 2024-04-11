@@ -16,8 +16,4 @@ public class gameTest {
     }
 
 
-    @Test
-    void contextLoads() throws JsonProcessingException {
-        gameService.initData();
-    }
 }

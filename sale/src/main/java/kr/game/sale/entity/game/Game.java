@@ -68,9 +68,9 @@ public class Game {
 
     private String genres; //JSON 형태 저장
 
-    @Column(columnDefinition="serial")
+    @Column(name = "steam_rank", columnDefinition="serial")
     @Generated(GenerationTime.INSERT)
-    private Long rank;
+    private Long steamRank;
 
     @Transient
     private List<String> genreList;
