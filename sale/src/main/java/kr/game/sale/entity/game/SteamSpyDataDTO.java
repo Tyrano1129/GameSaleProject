@@ -15,4 +15,5 @@ public class SteamSpyDataDTO {
     private String name;
     private int price;
     private String genre;
+    private String publisher;
 }

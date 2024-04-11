@@ -72,7 +72,8 @@
                              style="min-height: 350px;padding-bottom:10px;padding-left:15px;padding-right:15px;">
                             <div class="vm-product-media-container" style="margin:0;padding:0;">
                                 <a th:title="${game.getName()}"
-                                   href="#" class="vmproduct-img"
+                                   th:href="@{/game/detail/{steamAppid}(steamAppid=${game.getSteamAppid()})}"
+                                   class="vmproduct-img"
                                    itemprop="url"><img
                                         th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getHeaderImage()}}"
                                         th:alt="${game.getName()}"

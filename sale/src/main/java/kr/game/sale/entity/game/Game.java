@@ -30,9 +30,12 @@ public class Game {
 
     @Id
     @Column(name ="steam_appid")
-    private int steamAppid;
+    private Long steamAppid;
 
     private String name;
+
+    @Column(name ="en_name")
+    private String enName;
 
     @Column(name ="detailed_description", columnDefinition="TEXT")
     private String detailedDescription;
@@ -55,6 +58,8 @@ public class Game {
 
     private String developers;
 
+    private String publisher;
+
     @Column(columnDefinition="TEXT")
     private String screenshots;
 
@@ -74,11 +79,39 @@ public class Game {
 
     @Transient
     private List<String> genreList;
+    @Transient
+    private List<String> movieList;
+    @Transient
+    private List<String> screenshootsList;
 
     public String getFormattedPrice(){
        // int bNum = price/100;
         DecimalFormat format = new DecimalFormat("#,###");
         return format.format(price);
+    }
+    public List<String> getScreenshootsList(){
+        if(this.screenshootsList == null && this.screenshots != null){
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                this.screenshootsList = mapper.readValue(this.screenshots, new TypeReference<List<String>>() {
+                });
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return this.screenshootsList;
+    }
+    public List<String> getMovieList(){
+        if(this.movieList == null && this.movies != null){
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                this.movieList = mapper.readValue(this.movies, new TypeReference<List<String>>() {
+                });
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return this.movieList;
     }
 
     public List<String> getGenreList(){
@@ -99,7 +132,7 @@ public class Game {
     public Game convertRawData(SteamGameDTO rawData){
         Game game = new Game();
         try{
-            game.steamAppid = rawData.getSteamAppid();
+            game.steamAppid = (long) rawData.getSteamAppid();
             game.name = rawData.getName();
             game.supportedLanguages = rawData.getSupportedLanguages();
             game.detailedDescription = rawData.getDetailedDescription();
@@ -175,7 +208,10 @@ public class Game {
 
         return mapper.writeValueAsString(mList);
     }
-
+    public String convertDateToString() throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return formatter.format(this.releaseDate);
+    }
     public Date convertStringToDate(String rawDate) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 MM월 dd일");
         return formatter.parse(rawDate);
