@@ -114,7 +114,7 @@ public class GameRepositoryCustomImpl  implements GameRepositoryCustom{
     private OrderSpecifier createOrderSpecifier(SortType sortType) {
         return switch (sortType) {
             case DISCOUNT -> new OrderSpecifier<>(Order.DESC, game.discount);
-            case POPULARITY -> new OrderSpecifier<>(Order.ASC, game.rank);
+            case POPULARITY -> new OrderSpecifier<>(Order.ASC, game.steamRank);
             default ->   new OrderSpecifier<>(Order.DESC, game.releaseDate);
         };
     }
