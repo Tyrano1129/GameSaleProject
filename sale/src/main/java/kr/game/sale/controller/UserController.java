@@ -4,7 +4,10 @@ import kr.game.sale.entity.user.Users;
 import kr.game.sale.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -49,8 +52,18 @@ public class UserController {
         return "users/userLoginForm";
     }
 
-    @GetMapping("/cart")
-    public String cart() {
-        return "users/userCart";
+
+    @PostMapping("/checkLog")
+    @ResponseBody
+    public String checkLogin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        log.info("현재 로그인 중인 유저 : {}", authentication.getName());
+        if (!authentication.getName().equals("anonymousUser")) {
+            // 사용자가 인증되어 있는 경우
+            return "valid";
+        } else {
+            // 사용자가 인증되어 있지 않은 경우
+            return "invalid";
+        }
     }
 }

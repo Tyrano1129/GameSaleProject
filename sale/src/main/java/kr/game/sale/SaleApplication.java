@@ -2,11 +2,13 @@ package kr.game.sale;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import kr.game.sale.entity.game.Game;
+import kr.game.sale.entity.user.Cart;
 import kr.game.sale.entity.user.UserRole;
 import kr.game.sale.entity.user.Users;
+import kr.game.sale.repository.user.CartRepository;
 import kr.game.sale.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @RequiredArgsConstructor
 public class SaleApplication {
     private final UserRepository userRepository;
+    private final CartRepository cartRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(SaleApplication.class, args);
@@ -36,41 +39,60 @@ public class SaleApplication {
 
     // 애플리케이션이 실행될 때 테스트 계정들이 DB에 생성됩니다.
     @Bean
-    public ApplicationRunner initData() {
-        return new ApplicationRunner() {
-            @Override
-            public void run(ApplicationArguments args) throws Exception {
+    public ApplicationRunner initData(CartRepository cartRepository) {
+        return args -> {
 
-                if (userRepository.findByUsername("admin") != null)
-                    return;
+            if (userRepository.findByUsername("admin") != null)
+                return;
 
-                Users admin = new Users(); // 관리자
-                Users manager = new Users(); // 매니저
+            Users admin = new Users(); // 관리자
+            Users manager = new Users(); // 매니저
 
-                admin.setUsername("admin");
-                manager.setUsername("manager");
+            admin.setUsername("admin");
+            manager.setUsername("manager");
 
-                admin.setPassword(new BCryptPasswordEncoder().encode("1"));
-                manager.setPassword(new BCryptPasswordEncoder().encode("1"));
+            admin.setPassword(new BCryptPasswordEncoder().encode("1"));
+            manager.setPassword(new BCryptPasswordEncoder().encode("1"));
 
-                admin.setUserNickname("관리자");
-                manager.setUserNickname("매니저");
+            admin.setUserNickname("관리자");
+            manager.setUserNickname("매니저");
 
-                admin.setUserRole(UserRole.ROLE_ADMIN);
-                manager.setUserRole(UserRole.ROLE_MANAGER);
+            admin.setUserPhone("010-1234-1234");
+            manager.setUserPhone("010-1234-1234");
 
-                userRepository.save(admin);
-                userRepository.save(manager);
+            admin.setUserRole(UserRole.ROLE_ADMIN);
+            manager.setUserRole(UserRole.ROLE_MANAGER);
 
-                // 일반 유저 10명
-                for (int i = 1; i <= 10; i += 1) {
-                    Users user = new Users();
-                    user.setUsername("test" + i);
-                    user.setPassword(new BCryptPasswordEncoder().encode("1"));
-                    user.setUserNickname("테스트" + i);
-                    user.setUserRole(UserRole.ROLE_USER);
-                    userRepository.save(user);
-                }
+            userRepository.save(admin);
+            userRepository.save(manager);
+
+            // 일반 유저 10명
+            for (int i = 1; i <= 10; i += 1) {
+                Users user = new Users();
+                user.setUsername("test" + i);
+                user.setPassword(new BCryptPasswordEncoder().encode("1"));
+                user.setUserNickname("테스트" + i);
+                user.setUserPhone("010-1234-1234");
+                user.setUserRole(UserRole.ROLE_USER);
+                userRepository.save(user);
+
+                // 테스트 장바구니
+                Cart cart1 = new Cart();
+                Cart cart2 = new Cart();
+                cart1.setUsers(user);
+                cart2.setUsers(user);
+
+//                Game game1 = new Game();
+//                game1.setHeaderImage("/1938090/header.jpg?t=1712591572");
+//                game1.setName("콜 오브 듀티®");
+//                game1.setPrice(69990);
+//                game1.setDiscount(15);
+//
+//                cart1.setGame(game1);
+//                cart2.setGame(game1);
+
+                cartRepository.save(cart1);
+                cartRepository.save(cart2);
             }
         };
     }
