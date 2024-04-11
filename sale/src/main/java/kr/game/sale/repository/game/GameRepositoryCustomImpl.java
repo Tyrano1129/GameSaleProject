@@ -4,12 +4,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kr.game.sale.entity.game.Game;
-import kr.game.sale.entity.game.SteamGameDTO;
-import kr.game.sale.entity.game.SteamSpyDataDTO;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.netty.util.internal.StringUtil;
+import kr.game.sale.entity.game.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
+import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.nio.charset.StandardCharsets;
@@ -18,15 +22,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static kr.game.sale.entity.game.QGame.game;
 public class GameRepositoryCustomImpl  implements GameRepositoryCustom{
 
     private final WebClient steamspyAPIWebclient;
     private final WebClient steamAPIWebclient;
+    private final JPAQueryFactory queryFactory;
 
     @Autowired
-    public GameRepositoryCustomImpl(@Qualifier("steamspyAPI") WebClient steamspyAPIWebclient, @Qualifier("steamAPI") WebClient steamAPIWebclient){
+    public GameRepositoryCustomImpl(@Qualifier("steamspyAPI") WebClient steamspyAPIWebclient, @Qualifier("steamAPI") WebClient steamAPIWebclient, JPAQueryFactory queryFactory){
         this.steamspyAPIWebclient = steamspyAPIWebclient;
         this.steamAPIWebclient = steamAPIWebclient;
+        this.queryFactory = queryFactory;
     }
 
     public List<Game> saveGameData() throws JsonProcessingException {
@@ -85,76 +92,31 @@ public class GameRepositoryCustomImpl  implements GameRepositoryCustom{
         return Games;
     }
 
+    @Override
+    public List<Game> findMainList(SortType type, GameSearchCondition condition) {
+        OrderSpecifier orderSpecifier = createOrderSpecifier(type);
+        return queryFactory
+                .selectFrom(game)
+                .where(
+                        koreanSupported(condition.getLanguage())
 
-/*
-    public static void main(String[] args) throws JsonProcessingException {
-        String url = "https://steamspy.com/api.php?request=top100in2weeks";
-        System.out.println(url);
-       // WebClient client = WebClient.builder().baseUrl("https://steamspy.com/api.php").
-       //         defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
+                )
+                .orderBy(orderSpecifier)
+                .limit(12)
+                .fetch();
+    }
 
-      *//*WebClient client2 = WebClient.create("https://steamspy.com/api.php");
-        Mono<List<SteamSpyData>> result = client2.get()
-               // .uri("/request/{request}","top100in2weeks")
-                .uri("https://steamspy.com/api.php?request=top100in2weeks")
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .bodyToFlux(SteamSpyData.class)
-               .collectList();
-                 for(SteamSpyData data  : result) {
-                     System.out.println(data.toString());
-                 }*//*
-
-//https://store.steampowered.com/api/appdetails?appids=730&l=korean
-        ObjectMapper mapper = new ObjectMapper();
-        WebClient client2 = WebClient.create("https://steamspy.com/api.php");
-        String result = client2.get()
-                .uri("https://steamspy.com/api.php?request=top100in2weeks")
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
-
-        System.out.println("===============");
-        System.out.println(result);
-        Map<String, SteamSpyData> gameMap = mapper.readValue(result, new TypeReference<Map<String, SteamSpyData>>() {});
-        List<SteamSpyData> list = List.copyOf(gameMap.values());
-
-        List<SteamSpyData> topTenList = list.subList(0,9);
-        for(SteamSpyData ket : topTenList){
-            System.out.println(ket);
-        }
-        System.out.println("===============  steamAPI  ===============");
-        WebClient steamAPI = WebClient.builder()
-                .baseUrl("https://store.steampowered.com")
-                .build();
-
-        String steamRs = steamAPI.get()
-                .uri(uriBuilder -> uriBuilder
-                                .path("/api/appdetails")
-                                .queryParam("appids", topTenList.get(0).getAppid())
-                                .queryParam("l","korean")
-                                .build())
-                .acceptCharset(StandardCharsets.UTF_8)
-                .retrieve()
-                .bodyToMono(String.class).log()
-                .block();
-        System.out.println("데이터"+steamRs);
-
-//https://store.steampowered.com/api/appdetails?appids=730&l=korean
+    private BooleanExpression koreanSupported(String lang){
+        return StringUtils.hasText(lang) ? game.supportedLanguages.contains(lang) : null;
+    }
 
 
+    private OrderSpecifier createOrderSpecifier(SortType sortType) {
+        return switch (sortType) {
+            case DISCOUNT -> new OrderSpecifier<>(Order.DESC, game.discount);
+            case POPULARITY -> new OrderSpecifier<>(Order.ASC, game.rank);
+            default ->   new OrderSpecifier<>(Order.DESC, game.releaseDate);
+        };
+    }
 
-       *//* ObjectMapper mapper = new ObjectMapper();
-        JSONPObject json = new JSONPObject("JSON.parse", result);
-        String jsonStr = mapper.writeValueAsString(json);
-        System.out.println(jsonStr);
-        Map<Integer, Object> m = mapper.readValue(jsonStr, Map.class);
-        for(int ket : m.keySet()){
-            System.out.println(ket);
-        }*//*
-
-
-
-    }*/
 }
