@@ -6,7 +6,7 @@ import com.siot.IamportRestClient.response.Payment;
 import jakarta.annotation.PostConstruct;
 import kr.game.sale.entity.form.PaymentDataForm;
 import kr.game.sale.entity.form.PaymentForm;
-import kr.game.sale.service.admin.PaymentService;
+import kr.game.sale.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +22,7 @@ import java.io.IOException;
 @Controller
 @RequiredArgsConstructor
 public class PaymentController {
-    private final PaymentService paymentService;
+    private final AdminService adminService;
     private IamportClient iamportClient;
     @PostConstruct
     public void init(){
@@ -55,8 +55,8 @@ public class PaymentController {
             return ResponseEntity.ok().build();
         } catch(RuntimeException e){
             log.info("주문 상품 환불 진행 : 주문 번호 {}",orderNumber);
-            String token = paymentService.getToken(apiKey,secretKey);
-            paymentService.refundRequest(token,orderNumber,e.getMessage());
+            String token = adminService.getToken(apiKey,secretKey);
+            adminService.refundRequest(token,orderNumber,e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }

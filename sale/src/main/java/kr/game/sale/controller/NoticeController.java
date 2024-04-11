@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import kr.game.sale.entity.admin.Notice;
 import kr.game.sale.entity.form.NoticeForm;
 import kr.game.sale.entity.form.NoticePageing;
-import kr.game.sale.service.admin.NoticeService;
+import kr.game.sale.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,10 +23,11 @@ import java.util.List;
 @RequestMapping("/notice")
 @Controller
 public class NoticeController {
-    private final NoticeService noticeService;
+    private final AdminService adminService;
     // 초기값
     @GetMapping
     public String notice(Model model, HttpSession session){
+        adminService.noticeInsert();
         Pageable pageable = PageRequest.of(0,15);
         if(session.getAttribute("noticePage") != null){
             session.removeAttribute("noticePage");
@@ -36,7 +37,7 @@ public class NoticeController {
         return "notice/noticeList";
     }
 
-    // 페이징
+    // 선택된 페이징
     @GetMapping("/customer")
     public String noticecustomer(Pageable pageable, Model model,HttpSession session){
         NoticePageing noticePageing = (NoticePageing) session.getAttribute("noticePage");
@@ -49,7 +50,7 @@ public class NoticeController {
                                 Model model,
                                 NoticePageing noticePageing,
                                 HttpSession session){
-        Page<Notice> noticelist = noticeService.getNoticeList(pageable,noticePageing.getTitle());
+        Page<Notice> noticelist = adminService.getNoticeList(pageable,noticePageing.getTitle());
         List<NoticeForm> list = new ArrayList<>();
         // view 에 담을 noticeForm
         for(Notice l : noticelist.getContent()){
