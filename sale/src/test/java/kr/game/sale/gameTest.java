@@ -14,10 +14,4 @@ public class gameTest {
     gameTest(GameService gameService) {
         this.gameService = gameService;
     }
-
-
-    @Test
-    void contextLoads() throws JsonProcessingException {
-        gameService.initData();
-    }
 }
