@@ -17,22 +17,24 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @RequiredArgsConstructor
 public class SaleApplication {
     private final UserRepository userRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(SaleApplication.class, args);
     }
 
     // 스프링 빈 컨테이너에 우리가 직접 등록
     @Bean
-    public JPAQueryFactory jpaQueryFactory(EntityManager em){
+    public JPAQueryFactory jpaQueryFactory(EntityManager em) {
         return new JPAQueryFactory(em);
     }
+
     // 회원가입시 비밀번호 암호화 하는 빈
     @Bean
     public BCryptPasswordEncoder encodePwd() {
         return new BCryptPasswordEncoder();
     }
 
-    // 애플리케이션이 실행될 때 3개의 테스트계정이 DB에 생성됩니다.
+    // 애플리케이션이 실행될 때 테스트 계정들이 DB에 생성됩니다.
     @Bean
     public ApplicationRunner initData() {
         return new ApplicationRunner() {
@@ -42,29 +44,33 @@ public class SaleApplication {
                 if (userRepository.findByUsername("admin") != null)
                     return;
 
-                Users admin = new Users();
-                Users manager = new Users();
-                Users user = new Users();
+                Users admin = new Users(); // 관리자
+                Users manager = new Users(); // 매니저
 
                 admin.setUsername("admin");
                 manager.setUsername("manager");
-                user.setUsername("user");
 
                 admin.setPassword(new BCryptPasswordEncoder().encode("1"));
                 manager.setPassword(new BCryptPasswordEncoder().encode("1"));
-                user.setPassword(new BCryptPasswordEncoder().encode("1"));
 
                 admin.setUserNickname("관리자");
                 manager.setUserNickname("매니저");
-                user.setUserNickname("일반유저");
 
                 admin.setUserRole(UserRole.ROLE_ADMIN);
                 manager.setUserRole(UserRole.ROLE_MANAGER);
-                user.setUserRole(UserRole.ROLE_USER);
 
                 userRepository.save(admin);
                 userRepository.save(manager);
-                userRepository.save(user);
+
+                // 일반 유저 10명
+                for (int i = 1; i <= 10; i += 1) {
+                    Users user = new Users();
+                    user.setUsername("test" + i);
+                    user.setPassword(new BCryptPasswordEncoder().encode("1"));
+                    user.setUserNickname("테스트" + i);
+                    user.setUserRole(UserRole.ROLE_USER);
+                    userRepository.save(user);
+                }
             }
         };
     }
