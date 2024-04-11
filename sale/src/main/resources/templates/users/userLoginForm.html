@@ -11,9 +11,6 @@
     <header th:replace="~{fragment/header :: header}"></header>
     <nav th:replace="~{fragment/header :: nav}"></nav>
     <div class="loginFormContainer">
-
-        <p th:text="${#authentication.name}"></p>
-
         <div id="normalLoginDiv">
             <div id="normalLoginTitleDiv"><strong>기존 회원 로그인</strong></div>
             <form action="/userLogin" id="userLoginForm" method="post">

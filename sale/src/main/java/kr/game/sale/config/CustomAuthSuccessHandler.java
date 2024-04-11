@@ -19,16 +19,16 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 
-        // authentication 에서 유저 객체 추출하기
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        Users users = principalDetails.getUsers();
-
-        // HttpSession 유저 객체 저장하기
-        HttpSession session = request.getSession();
-        session.setAttribute("users", users);
-
-        // Log
-        log.info("User : {}", users);
+//        // authentication 에서 유저 객체 추출하기
+//        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+//        Users users = principalDetails.getUsers();
+//
+//        // HttpSession 유저 객체 저장하기
+//        HttpSession session = request.getSession();
+//        session.setAttribute("users", users);
+//
+//        // Log
+//        log.info("User : {}", users);
 
         response.sendRedirect("/");
     }
