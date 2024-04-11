@@ -1,22 +1,33 @@
-package kr.game.sale.service.admin;
+package kr.game.sale.service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import kr.game.sale.entity.admin.Notice;
 import kr.game.sale.entity.admin.Payment;
+import kr.game.sale.repository.admin.NoticeRepository;
+import kr.game.sale.repository.admin.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.URL;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class PaymentService {
+public class AdminService {
+    // Notice
+    private final NoticeRepository noticeRepository;
+    // Payment
+    private final PaymentRepository paymentRepository;
     //토큰 요청 후 환불요청
     public void refundRequest(String access_token,String merchant_uid,String reason) throws IOException {
         URL url = new URL("https://api.iamport.kr/payments/cancel");
@@ -105,5 +116,18 @@ public class PaymentService {
     //결제 데이터 저장
     public void paymentInsert(Payment payment){
 
+    }
+
+    /* 공지사항 */
+    public Page<Notice> getNoticeList(Pageable pageable, String title){
+        return noticeRepository.searchPageSimple(pageable,title);
+    }
+
+    public void noticeInsert(){
+        if(noticeRepository.countAllBy() < 1){
+            for(int i = 0; i < 100; i+=1){
+                noticeRepository.save(new Notice("noticeTitle"+i,"가나다라마바사아자차카타파하" + i,"test"+i));
+            }
+        }
     }
 }
