@@ -48,4 +48,9 @@ public class UserController {
     public String loginForm() {
         return "users/userLoginForm";
     }
+
+    @GetMapping("/cart")
+    public String cart() {
+        return "users/userCart";
+    }
 }

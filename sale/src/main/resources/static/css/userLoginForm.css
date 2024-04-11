@@ -6,7 +6,6 @@
     display: flex;
     flex-direction: column;
     text-align: left;
-    border: 1px solid red;
 }
 
 .loginFormContainer #normalLoginDiv {
@@ -15,7 +14,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid gray;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 14px;
 }
 
 .loginFormContainer #userLoginForm * {
@@ -50,21 +50,70 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    border: blue solid 2px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.loginFormContainer button {
-    color: black;
+.loginFormContainer #normalLoginDiv button {
     padding: 10px;
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
     border-radius: 5px;
-    border: 1px solid navy;
     margin: 5px;
+    width: 418px;
+    border: none;
+}
+
+.loginFormContainer #userLoginForm {
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 20px;
 }
 
 .loginFormContainer #loginBtn {
     background-color: #4fb7f3;
     color: white;
+}
+
+.loginFormContainer #snsLoginDiv {
+    align-items: center;
+}
+
+.loginFormContainer #snsLoginDiv img {
+    width: 418px;
+    height: 95px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.loginFormContainer #docs_section {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    color: #b94a48;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.loginFormContainer #normalLoginTitleDiv {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    height: 64px;
+    display: flex;
+    align-items: center;
+}
+
+.loginFormContainer strong {
+    font-size: 16px;
+    margin-left: 35px;
+}
+
+.loginFormContainer #snsLoginTitleDiv {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    height: 64px;
+    display: flex;
+    align-items: center;
+}
+
+.loginFormContainer .star {
+    color: #ffcc00;
 }

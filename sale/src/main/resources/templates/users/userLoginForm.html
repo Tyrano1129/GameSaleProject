@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragment/header :: common_header(~{::link})}">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>더조은게임즈-로그인</title>
     <link href="/css/userLoginForm.css" rel="stylesheet"/>
 </head>
 <style th:replace="~{fragment/header :: bodyinit}"></style>
@@ -15,13 +15,13 @@
         <p th:text="${#authentication.name}"></p>
 
         <div id="normalLoginDiv">
+            <div id="normalLoginTitleDiv"><strong>기존 회원 로그인</strong></div>
             <form action="/userLogin" id="userLoginForm" method="post">
-                <strong>기존 회원 로그인</strong>
                 <br>
-                <div>이메일</div>
+                <div>아이디 ( 이메일 )<span class="star">&nbsp;*</span></div>
                 <label for="username"></label><input id="username" name="username" required type="text"/>
                 <br>
-                <div>비밀번호</div>
+                <div>비밀번호<span class="star">&nbsp;*</span></div>
                 <label for="password"></label><input id="password" name="password" required="required" type="password"/>
                 <br>
                 <button id="loginBtn" onclick="doLogin(form)" type="button">로그인</button>
@@ -31,9 +31,15 @@
         </div>
 
         <div id="snsLoginDiv">
-            <button onclick='location.href="/oauth2/authorization/google"'>구글 로그인</button>
-            <button onclick='location.href="/oauth2/authorization/naver"'>네이버 로그인</button>
-            <button onclick='location.href="/oauth2/authorization/kakao"'>카카오 로그인</button>
+            <div id="snsLoginTitleDiv"><strong>간편 로그인</strong></div>
+            <img alt="구글 로그인" onclick='location.href="/oauth2/authorization/google"'
+                 src="/img/google_login.png"/>
+            <img alt="네이버 로그인" onclick='location.href="/oauth2/authorization/naver"' src="/img/naver_login.png"/>
+            <img alt="카카오 로그인" onclick="location.href='/oauth2/authorization/kakao'" src="/img/kakao_login.png"/>
+        </div>
+
+        <div id="docs_section">
+            <p class="text-danger">개인정보 보호를 위해 공용 PC에서 사용 후 연결된 간편로그인 계정의 로그아웃 상태를 반드시 확인해주세요.</p>
         </div>
 
     </div>
