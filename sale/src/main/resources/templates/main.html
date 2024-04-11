@@ -5,6 +5,7 @@
     <title>더좋은 게임</title>
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/main_body.css">
 </head>
 <style th:replace="~{fragment/header :: bodyinit}"></style>
 <body>
@@ -14,14 +15,12 @@
 <div class="main-background">
     <div class="pro-Container-back">
         <div class="promotion container">
-            <div></div>
-            <i class="fa-solid fa-chevron-right"></i>
             <div class="main-promotions">
                 <a class="prev-left">
                     <i class="fa-sharp fa-solid fa-chevron-left"></i>
                 </a>
                 <div class="header-images">
-                    <div th:each="game : ${list}">
+                    <div th:each="game : ${listMap['popularity']}">
                         <img th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getHeaderImage()}}" th:alt="${game.getName()}">
                         <div class="item-content">
                             <div class="article-header clearfix">
@@ -50,9 +49,115 @@
                 <a class="prev-right">
                     <i class="fa-solid fa-chevron-right"></i>
                 </a>
-            </div>
-        </div>
-    </div>
+            </div><!-- 리스트 col-->
+        </div> <!--상단 컨테이너-->
+    </div><!--산단 back-->
+
+    <div id="t3-mainbody" class="wrap t3-mainbody" style="margin-top:20px;">
+        <div class="main_container">
+            <ul class="nav nav-tabs">
+                <li class="active" data-toggle="releaseDate"><a  href="#module-97" aria-expanded="true" title="최신게임">최신
+                    게임</a></li>
+                <li class="" data-toggle="korean"><a href="#module-100" aria-expanded="false">한글화 게임</a></li>
+                <li class="" data-toggle="popularity"><a  href="#module-98" aria-expanded="false">인기 게임</a></li>
+                <li class="" data-toggle="discount"><a  href="#module-96" aria-expanded="false">할인 게임</a></li>
+                <li class=""><a data-toggle="tab" href="#module-101" aria-expanded="false">판매 예정</a></li>
+            </ul><!--nav 컨테이너-->
+
+            <div class="tab-content">
+                <th:block th:each="entry : ${listMap}" >
+                <div class="tab-pane" th:classappend="${entry.key}">
+                    <div class="col"  child-height="348" th:each="game : ${entry.value}">
+                        <div class="spacer"
+                             style="min-height: 350px;padding-bottom:10px;padding-left:15px;padding-right:15px;">
+                            <div class="vm-product-media-container" style="margin:0;padding:0;">
+                                <a th:title="${game.getName()}"
+                                   href="#" class="vmproduct-img"
+                                   itemprop="url"><img
+                                        th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getHeaderImage()}}"
+                                        th:alt="${game.getName()}"
+                                        class="featuredProductImage" width="255"
+                                        itemprop="image" onerror="this.src='/images/404.jpg'">
+                                </a>
+                            </div>
+
+                            <div class="vm-product-descr-container-1" style="min-height:80px">
+                                <h2 style="text-align:left;" >
+                                    <a href="#" class="vmproduct-title" th:text="${game.getName()}"></a>
+                                </h2>
+                                <div class="vm3pr-customfields-product" itemprop="productID" content="50004330">
+                                    <div style="float:left;">
+
+                                            <span class="label label-light"
+                                                  style="background: rgba(255,255,255,0.1);font-size: 11px;font-weight: bold; padding: 5px;color: #ffffff;"
+                                                  itemprop="category"
+                                                  th:text="${game.getGenreList().get(0)}"></span>
+                                            <span class="label label-light"
+                                                  style="background: rgba(255,255,255,0.1);font-size: 11px;font-weight: bold; padding: 5px;color: #ffffff;"
+                                                  itemprop="category"
+                                                  th:if="${game.getGenreList().size() > 1}"
+                                                  th:text="${game.getGenreList().get(1)}"></span>
+                                        <span class="label label-default"
+                                              style="background: rgba(255,255,255,0.1);font-size: 11px;font-weight: bold;padding: 5px;color: #ffffff;">Steam</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="vm3pr-2">
+                                <div class="product-price salesprice" id="productPrice3">
+                                    <div class="pull-right">
+                                        <div style="margin-top:10px;width:50px;height:30px;">
+                                                <span class="label label-danger"
+                                                      style="font-size:14px;font-family:tahoma;vertical-align: bottom;color:#ffffff;padding-top:8px;padding-bottom:8px;width:50px;">
+                                                    5%
+                                                </span>
+                                        </div>
+                                    </div>
+                                    <div class="PricebasePrice vm-display vm-price-value">
+                                        <span class="vm-price-desc">정상가: </span>
+                                        <span class="PricebasePrice"
+                                              style="text-decoration: line-through;opacity:0.5;">
+                                            <span style="font-family:dotum" itemprop="priceCurrency" content="KRW">\</span>
+                                            <span itemprop="baseprice" th:text="${game.getFormattedPrice()}"></span>
+                                        </span>
+                                    </div>
+                                    <span class="price-crossed"></span>
+                                    <div class="PricesalesPrice vm-display vm-price-value"
+                                         style="padding:0;padding-top:4px">
+                                        <span class="vm-price-desc">판매가: </span>
+                                        <span class="PricesalesPrice" style="background:none;margin:0;padding:0">
+                                                <span style="font-family:dotum" itemprop="priceCurrency" content="KRW">\</span>
+                                                <span itemprop="price" th:text="${game.getFormattedPrice()}"></span>
+                                         </span>
+                                    </div>
+                                </div>
+
+                                <div class="clear"></div>
+                            </div>
+                            <div class="vm3pr-0">
+                                <div class="addtocart-area">
+                                    <div class="addtocart-bar" style="margin-top:0;padding-top:16px;    float: left;
+                                        width: 100%;">
+                                        <div class="pull-left">
+                                            <div style="display:block;"><img src="/images/steam.svg" width="60" alt="Steam">
+                                            </div>
+                                        </div>
+                                        <div class="pull-right">
+                                            <button type="button"
+                                                    class="btn btn-default btn-lg btn-warning btn_cart" data="50004330"
+                                                    data-assetid="0" data-prodtp="9"><i class="fa fa-shopping-cart"></i>
+                                                장바구니</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--리스트 col-->
+                </div><!--리스트 parent-->
+                </th:block>
+            </div><!--리스트 컨테이너-->
+        </div><!--하단 컨테이너 -->
+    </div><!--하단 back-->
 </div>
 </div>
 </body>
@@ -71,6 +176,19 @@
             autoplaySpeed: 2500,
             pauseOnHover: true,
         });
+        initSortBtn();
+
+    });
+    function initSortBtn(){
+        $('.tab-pane').removeClass('active');
+        $(".tab-pane.releaseDate").addClass('active');
+    }
+    $('.nav li').on('click', function () {
+        $('.nav li').removeClass('active');
+        $(this).addClass('active');
+        let name = $(this).attr('data-toggle');
+        $('.tab-pane').removeClass('active');
+        $('.tab-pane.'+name).addClass('active');
     });
 
 </script>

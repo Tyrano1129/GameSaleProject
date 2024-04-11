@@ -1,22 +1,25 @@
 package kr.game.sale.entity.game;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Data
 @Entity
@@ -61,12 +64,36 @@ public class Game {
     @Column(name ="release_date")
     private Date releaseDate;
 
+    private int discount;
+
     private String genres; //JSON 형태 저장
 
+    @Column(columnDefinition="serial")
+    @Generated(GenerationTime.INSERT)
+    private Long rank;
+
+    @Transient
+    private List<String> genreList;
+
     public String getFormattedPrice(){
-        int bNum = price/100;
+       // int bNum = price/100;
         DecimalFormat format = new DecimalFormat("#,###");
-        return format.format(bNum);
+        return format.format(price);
+    }
+
+    public List<String> getGenreList(){
+
+        if(this.genreList == null){
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                this.genreList = mapper.readValue(this.genres, new TypeReference<List<String>>() {
+                });
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return this.genreList;
     }
 
     public Game convertRawData(SteamGameDTO rawData){
@@ -83,7 +110,9 @@ public class Game {
             game.rcmRequirements= rawData.getPcRequirements().getRecommended();
             int rawPrice = rawData.getPriceOverview().getInitial();
             if(rawData.getPriceOverview().getCurrency().equals("USD")){
-                rawPrice*=1000;
+                rawPrice*=10;
+            }else{
+                rawPrice/=100;
             }
             game.price = rawPrice; //달러/ 원화 바꿔서 처리
             game.developers = rawData.getDevelopers().get(0);
@@ -107,6 +136,8 @@ public class Game {
             } catch (JsonProcessingException e) {
                 log.error("JsonProcessingException => {}", e.getMessage());
             }
+            Random rd = new Random();
+            game.discount = rd.nextInt(11)+5;
         }catch (Exception e){
             log.error("Exception => {}", e.getMessage());
         }

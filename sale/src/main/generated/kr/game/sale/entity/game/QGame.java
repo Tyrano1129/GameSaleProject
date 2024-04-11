@@ -23,6 +23,8 @@ public class QGame extends EntityPathBase<Game> {
 
     public final StringPath developers = createString("developers");
 
+    public final NumberPath<Integer> discount = createNumber("discount", Integer.class);
+
     public final StringPath genres = createString("genres");
 
     public final StringPath headerImage = createString("headerImage");
@@ -34,6 +36,8 @@ public class QGame extends EntityPathBase<Game> {
     public final StringPath name = createString("name");
 
     public final NumberPath<Integer> price = createNumber("price", Integer.class);
+
+    public final NumberPath<Long> rank = createNumber("rank", Long.class);
 
     public final StringPath rcmRequirements = createString("rcmRequirements");
 
