@@ -14,6 +14,4 @@ public class gameTest {
     gameTest(GameService gameService) {
         this.gameService = gameService;
     }
-
-
 }
