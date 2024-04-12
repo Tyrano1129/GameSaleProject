@@ -7,6 +7,7 @@ import kr.game.sale.entity.game.SortType;
 import kr.game.sale.repository.game.GameRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -46,6 +47,12 @@ public class GameService {
         return result;
     }
 
+    // admin 라인
+    public Game getOneGames(Long id){
+        return gameRepository.findById(id).isEmpty()? null : gameRepository.findById(id).get();
+    }
 
-
+    public void gameOneDelete(Long id){
+        gameRepository.deleteById(id);
+    }
 }

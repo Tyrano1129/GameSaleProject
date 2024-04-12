@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
@@ -18,12 +19,12 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentId;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
     private Users User;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="game_id")
-    private Game gmae;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="gaem_id")
+    private Game game;
     private LocalDateTime paymenDate;
     private String gameName;
     private int gamePrice;

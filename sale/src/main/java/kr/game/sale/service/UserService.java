@@ -1,20 +1,23 @@
 package kr.game.sale.service;
 
+import kr.game.sale.entity.form.RoleListForm;
 import kr.game.sale.entity.user.UserRole;
 import kr.game.sale.entity.user.Users;
 import kr.game.sale.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Slf4j
 public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -50,4 +53,31 @@ public class UserService {
         int num = random.nextInt(999999); // 0부터 999999까지의 난수 생성
         return String.format("%06d", num); // 6자리 숫자로 포맷
     }
+
+    //admin 라인
+    // user 리스트 가지고오기
+    public List<Users> getUserList(){
+        return userRepository.findAllByUsernameNot("admin");
+    }
+
+    public Users getOneUsers(Long id){
+        return userRepository.findById(id).isEmpty()? null : userRepository.findById(id).get();
+    }
+    // 권한 변경
+    public void userRoleUpdate(RoleListForm role){
+        Users u = getOneUsers(role.getId());
+        if(role.getRole().equals("MANAGER")){
+            u.setUserRole(UserRole.ROLE_MANAGER);
+        }else if(role.getRole().equals("USER")){
+            u.setUserRole(UserRole.ROLE_USER);
+        }
+        log.info("user = {}",u);
+        userRepository.save(u);
+    }
+
+    public void adminUsersOneDelete(Long id){
+        log.info("user = {}",id);
+        userRepository.deleteById(id);
+    }
+
 }

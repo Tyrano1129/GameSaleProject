@@ -30,7 +30,7 @@ public class Game {
 
     @Id
     @Column(name ="steam_appid")
-    private int steamAppid;
+    private Long steamAppid;
 
     private String name;
 

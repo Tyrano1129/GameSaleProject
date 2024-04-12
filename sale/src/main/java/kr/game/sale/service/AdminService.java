@@ -5,17 +5,24 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import kr.game.sale.entity.admin.Notice;
 import kr.game.sale.entity.admin.Payment;
+import kr.game.sale.entity.admin.QnA;
+import kr.game.sale.entity.admin.Refund;
 import kr.game.sale.repository.admin.NoticeRepository;
 import kr.game.sale.repository.admin.PaymentRepository;
+import kr.game.sale.repository.admin.QnARepository;
+import kr.game.sale.repository.admin.RefundRepository;
+import kr.game.sale.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,6 +35,12 @@ public class AdminService {
     private final NoticeRepository noticeRepository;
     // Payment
     private final PaymentRepository paymentRepository;
+    // user
+    private final UserRepository userRepository;
+    // QnA
+    private final QnARepository qnARepository;
+    // Refund
+    private final RefundRepository refundRepository;
     //토큰 요청 후 환불요청
     public void refundRequest(String access_token,String merchant_uid,String reason) throws IOException {
         URL url = new URL("https://api.iamport.kr/payments/cancel");
@@ -114,9 +127,20 @@ public class AdminService {
     }
 
     //결제 데이터 저장
+    @Transactional
     public void paymentInsert(Payment payment){
 
     }
+    /* qna */
+
+    public List<QnA> getQnAList(){
+        return qnARepository.findAll();
+    }
+    /* refund */
+    public List<Refund> getRefundList(){
+        return refundRepository.findAll();
+    }
+
 
     /* 공지사항 */
     public Page<Notice> getNoticeList(Pageable pageable, String title){
