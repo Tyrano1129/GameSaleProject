@@ -8,15 +8,7 @@
 <div th:replace="~{fragment/admin :: admin}">
 
 </div>
-<div class="modal">
-    <div class="main">
-        <p class="subject">환불을 하겠습니까?</p>
-        <div class="btn-list">
-            <button onclick="refundAccept()">확인</button>
-            <button onclick="refundCancel()">취소</button>
-        </div>
-    </div>
-</div>
+<div th:replace="~{fragment/admin :: modal}"></div>
 <div class="overlay"></div>
 </body>
 </html>

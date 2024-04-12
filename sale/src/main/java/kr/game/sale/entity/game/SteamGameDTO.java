@@ -14,7 +14,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SteamGameDTO {
     @JsonProperty("steam_appid")
-    private int steamAppid;
+    private Long steamAppid;
 
     private String name;
 

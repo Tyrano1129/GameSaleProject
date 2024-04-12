@@ -22,11 +22,11 @@ public class QPayment extends EntityPathBase<Payment> {
 
     public static final QPayment payment = new QPayment("payment");
 
+    public final kr.game.sale.entity.game.QGame game;
+
     public final StringPath gameName = createString("gameName");
 
     public final NumberPath<Integer> gamePrice = createNumber("gamePrice", Integer.class);
-
-    public final kr.game.sale.entity.game.QGame gmae;
 
     public final DateTimePath<java.time.LocalDateTime> paymenDate = createDateTime("paymenDate", java.time.LocalDateTime.class);
 
@@ -56,7 +56,7 @@ public class QPayment extends EntityPathBase<Payment> {
 
     public QPayment(Class<? extends Payment> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.gmae = inits.isInitialized("gmae") ? new kr.game.sale.entity.game.QGame(forProperty("gmae")) : null;
+        this.game = inits.isInitialized("game") ? new kr.game.sale.entity.game.QGame(forProperty("game")) : null;
         this.User = inits.isInitialized("User") ? new kr.game.sale.entity.user.QUsers(forProperty("User")) : null;
     }
 
