@@ -34,18 +34,19 @@
                         가능합니다.</strong></p>
                 </div>
 
-                <form action="cart_proc.php" id="cartFrm" method="post" name="cartFrm">
+                <form action="/cart/order" id="cartFrm" method="post" name="cartFrm">
                     <fieldset class="vm-fieldset-pricelist">
                         <table border="1" cellpadding="0" cellspacing="0" class="cart-summary" width="100%">
                             <tbody>
                             <tr>
                                 <th class="text-center" style="width:50px"><input id="chk_all" name="chk_all"
                                                                                   type="checkbox" value="Y"></th>
-                                <th class="vm-cart-item-image" style="width:150px">이미지</th>
+                                <th>주문번호</th>
+                                <th class="vm-cart-item-image">이미지</th>
                                 <th class="vm-cart-item-name">상품명</th>
-                                <th class="vm-cart-item-basicprice">가격</th>
-                                <th class="vm-cart-item-discount"><span class="priceColor2">할인</span></th>
-                                <th class="vm-cart-item-total">합계</th>
+                                <th class="vm-cart-item-basicprice">가격(원)</th>
+                                <th class="vm-cart-item-discount"><span class="priceColor2">할인(%)</span></th>
+                                <th class="vm-cart-item-total">합계(원)</th>
                             </tr>
                             <tr>
                                 <td colspan="6" style="text-align:center;height:100px"
@@ -54,7 +55,8 @@
                                 </td>
                             </tr>
                             <tr th:each="list : ${cartViewList}">
-                                <td type="checkbox"></td>
+                                <td class="text-center"><input name="goods_code[]" type="checkbox"></td>
+                                <td name="goods_code[]" th:text="${list.getCartId()}"></td>
                                 <td><img th:alt="${list.name}"
                                          th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${list.getImg()}}">
                                 </td>
@@ -62,14 +64,25 @@
                                 <td th:text="${list.price}">가격</td>
                                 <td th:text="${list.discount}">할인</td>
                                 <td th:text="${list.getTotal()}">합계</td>
+
+                                <input id="cartId" name="cartId" th:value="${list.getCartId()}" type="hidden"/>
+                                <input name="img" th:value="${list.getImg()}" type="hidden"/>
+                                <input name="name" th:value="${list.getName()}" type="hidden"/>
+                                <input name="price" th:value="${list.getPrice()}" type="hidden"/>
+                                <input name="discount" th:value="${list.getDiscount()}" type="hidden"/>
+                                <input name="total" th:value="${list.getTotal()}" type="hidden"/>
+                                <input name="checked" type="hidden" value="false"/>
                             </tr>
                             </tbody>
                         </table>
+                        <div id="del_btn_div">
+                            <button class="btn btn-default btn-sm" id="btn_select_delete" type="button">선택삭제</button>
+                        </div>
                     </fieldset>
 
                     <div class="checkout-button-top">
                         <button class="btn btn-default btn-lg vm-button-correct" id="btn_order" name="checkout"
-                                style="font-size:16px" type="button" value="1">주문하기
+                                onclick="order(form)" style="font-size:16px" type="button" value="1">주문하기
                         </button>
                     </div>
                 </form>
@@ -80,3 +93,4 @@
 </div>
 </body>
 </html>
+<script defer src="/js/userCart.js" type="text/javascript"></script>
