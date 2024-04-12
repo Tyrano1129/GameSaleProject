@@ -87,6 +87,10 @@ public class GameRepositoryCustomImpl  implements GameRepositoryCustom{
             Game gameObj = new Game();
             gameObj = gameObj.convertRawData(gameMap2);
             System.out.println(gameObj);
+            if(!gameObj.getName().trim().equals(game.getName().trim())){
+                gameObj.setEnName(game.getName());
+            }
+            gameObj.setPublisher(game.getPublisher());
             Games.add(gameObj);
         }
         return Games;

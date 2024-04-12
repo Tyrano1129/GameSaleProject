@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragment/header :: common_header(~{::link})}">
+    <meta charset="UTF-8">
+    <title>더좋은 게임</title>
+    <link rel="stylesheet" href="/css/gameDetail.css">
+</head>
+<style th:replace="~{fragment/header :: bodyinit}"></style>
+<body>
+<div>
+    <header th:replace="~{fragment/header :: header}"></header>
+    <nav th:replace="~{fragment/header :: nav}"></nav>
+    <div class="detail-container">
+        <div class="row equal-height">
+            <!-- MAIN CONTENT -->
+            <div id="t3-content" class="t3-content col-md-12">
+                <div id="system-message-container"></div>
+                <div class="productdetails-view productdetails">
+                    <div class="page-header">
+                        <div style="clear:both;position:absolute;margin-top:12px;z-index:10;text-align:center;">
+                            <div
+                                    style="display:block;border: 1px solid rgba(255,255,255,0.1);padding-left:10px;padding-right:10px;">
+                                <img src="/images/steam.svg" width="80"></div>
+                        </div>
+                        <h1 th:if="${game.getEnName() != null}"
+                            style="font-size:20px;padding-left:110px;display:inline-block;text-transform:initial">
+                            <span th:text="${game.getName()}"></span><br>
+                            <span style="text-transform:none" th:text="${game.getEnName()}"></span>
+                        </h1>
+                        <h1 th:unless="${game.getEnName() != null}"
+                            style="padding: 15px; font-size:20px;padding-left:110px;display:inline-block;text-transform:initial">
+                            <span th:text="${game.getName()}"></span>
+                        </h1>
+                    </div>
+
+                    <div class="vm-product-container">
+                        <div class="left">
+                            <div class="vm-product-media-container" itemprop="video" itemscope=""
+                                 itemtype="https://schema.org/VideoObject">
+                                <div class="main-image">
+                                    <div id="screenshot_image">
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            <iframe
+                                                    th:if="${game.getMovies() != null}"
+                                                class="embed-responsive-item"
+                                                allow='autoplay'
+                                                th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getMovieList().get(1)} +'?autoplay=1&mute=1'}"></iframe>
+
+                                            <img th:unless="${game.getMovies() != null}" th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getScreenshootsList().get(1)}}">
+                                        </div>
+
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="gallery-wrapper">
+                                    <div class="gallery youmayknow-gallery">
+                                        <th:block th:if="${game.movies != null}">
+                                            <th:block th:each="movie, movieStat : ${game.getMovieList()}" >
+                                                <div  th:if="${movieStat.odd == true}"
+                                                      class="item screenshot_thumbnail" style="cursor:pointer">
+                                                    <div class="media_player_marker"><span>▶</span></div>
+                                                    <img th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getMovieList().get(movieStat.index)}}"
+                                                        data-type="media"
+                                                         th:attr="data-url=${'<div class=''embed-responsive embed-responsive-16by9''><iframe allow=''autoplay'' class=''embed-responsive-item'' src=''https://cdn.akamai.steamstatic.com/steam/apps' + game.getMovieList().get(movieStat.index+1)+'?autoplay=1&mute=1''>></iframe></div>'}"
+                                                     >
+                                                </div>
+                                            </th:block>
+                                        </th:block>
+                                        <th:block th:if="${game.screenshots != null}">
+                                            <th:block th:each="shots, shotsStat : ${game.getScreenshootsList()}" >
+                                                <div  th:if="${shotsStat.odd == true}"
+                                                      class="item screenshot_thumbnail" style="cursor:pointer">
+                                                <img  th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getScreenshootsList().get(shotsStat.index)}}"
+                                                     data-type="image/jpeg"
+                                                      th:attr="data-url=${'<img src=''https://cdn.akamai.steamstatic.com/steam/apps' + game.getScreenshootsList().get(shotsStat.index+1)+'''>'}">
+
+                                                </div>
+                                            </th:block>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="vm-productdetail-tabs-container">
+                                <ul class="nav nav-tabs" style="margin-bottom:8px">
+                                    <li class="active" data-toggle="detailedDescription"><a href="#goods_info3" data-toggle="tab">게임정보</a></li>
+                                    <li data-toggle="requirements"><a href="#goods_info5" data-toggle="tab">시스템 요구사항</a></li>
+                                </ul>
+                                <div id="myTabContent" class="tab-content">
+                                    <div id="detailedDescription" class="tab-pane fade active in">
+                                        <div class="product-description">
+                                        </div>
+                                        <div class="product-description" th:utext="${game.getDetailedDescription()}"></div>
+                                    </div>
+                                    <div id="requirements" class="tab-pane fade">
+                                        <div class="product-description" >
+                                            <div th:utext="${game.getMinRequirements()}"></div>
+                                            <div th:utext="${game.getRcmRequirements()}"></div>
+                                            <p>※ 시스템 요구 사항은 출시 버전을 기준으로 하며, 컨텐츠 추가와 업데이트로 인한 변경 사항이 있을 수 있습니다.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+
+
+                        <div class="right">
+                            <div class="vm-product-details-container">
+                                <div class="t3-module module normal-module">
+                                    <div id="goods_img"><img
+                                            th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getHeaderImage()}}"
+                                            th:alt="${game.getName()}"
+                                            width="320" height="150"
+                                            onerror="this.src='/images/404.jpg'"></div>
+                                    <div class="module-inner">
+                                        <div class="module-ct">
+                                            <div class="vmgroup single-product  normal-module">
+                                                <div class="vmproduct normal-module">
+                                                    <div class="spacer">
+                                                        <div id="goods_info1"
+                                                             style="color:#d43f3a;line-height:140%;font-weight:bold;">
+                                                                <span
+                                                                        style="clear:both;font-weight:bolder;font-size:14px">■
+                                                                    대한민국, 일본, 싱가폴, 홍콩 외 국가에서는 제품 코드(키) 등록이 불가합니다. 플랫폼의
+                                                                    국가 설정을 확인해 주시기 바랍니다.</span>
+                                                        </div>
+
+                                                        <div class="product-short-description">
+
+                                                        </div>
+
+                                                        <div class="product-price salesprice" id="productPrice8"
+                                                             style="padding-top:10px">
+                                                            <div class="PricebasePrice vm-display vm-price-value">
+                                                                <span class="vm-price-desc">정상가 </span>
+                                                                <span class="PricebasePrice"
+                                                                      th:text="${game.getFormattedPrice()+'원'}"
+                                                                      style="font-weight:normal;font-size:13px"
+                                                                ></span>
+                                                            </div>
+                                                            <span class="price-crossed"></span>
+                                                            <div class="PricesalesPrice vm-display vm-price-value">
+                                                                <span class="vm-price-desc">판매가 </span>
+
+                                                                <span class="PricesalesPrice"
+                                                                      th:text="${game.getFormattedSalesPrice()}"
+                                                                      style="color:#f0ad4e"></span>
+                                                                <span>원</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="product-info">
+                                                            <!--<div class="vm-display">
+                                                                <span class="vm-desc">지원모드 </span>
+                                                                <span class="vm-value">싱글 플레이</span>
+                                                            </div>-->
+                                                            <div class="vm-display release_date">
+                                                                <span class="vm-desc">출시일 </span>
+                                                                <span class="vm-value"
+                                                                      th:text="${game.convertDateToString()}"></span>
+                                                            </div>
+                                                            <div class="vm-display">
+                                                                <span class="vm-desc">장르 </span>
+                                                                <span class="vm-value"
+                                                                      th:text="${game.getGenreList().get(0)}"></span>
+                                                            </div>
+                                                            <div class="vm-display">
+                                                                <span class="vm-desc">퍼블리셔 </span>
+                                                                <span class="vm-value">
+                                                                      <a href="#" th:text="${game.getPublisher()}"></a>
+                                                                </span>
+                                                            </div>
+                                                            <div class="vm-display">
+                                                                <span class="vm-desc">개발사 </span>
+                                                                <span class="vm-value" th:text="${game.getDevelopers()}"></span>
+                                                            </div>
+                                                            <div class="vm-display">
+                                                                <span class="vm-desc">플랫폼 </span>
+                                                                <span class="vm-value">Steam</span>
+                                                            </div>
+                                                            <div class="vm-display">
+                                                                <span class="vm-desc">언어 </span>
+                                                                <span class="vm-value" th:utext="${game.getSupportedLanguages()}" ></span>
+                                                            </div>
+                                                            <!--<div class="vm-display">
+                                                                <span class="vm-desc">게임패드 </span>
+                                                                <span class="vm-value">지원함</span>
+                                                            </div>-->
+                                                            <div id="etc" style="width:100%;max-width:300px;">
+                                                                <th:block th:switch="${game.getRating()}">
+                                                                    <img th:case="0" src="/images/age_0.gif">
+                                                                    <img th:case="12" src="/images/age_12.gif">
+                                                                    <img th:case="15" src="/images/age_15.gif">
+                                                                    <img th:case="19" src="/images/age_19.gif">
+
+                                                                </th:block>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="vmproduct-link" style="text-align:center">
+                                                            <button type="button" class="btn btn-warning btn-lg"
+                                                                    id="btn_cart" data="50004664" data-assetid="0"
+                                                                    data-prodtp="4">장바구니</button>
+                                                            <button type="button" class="btn btn-default btn-lg"
+                                                                    id="btn_wishlist" data="50004664">위시리스트</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="clear"></div>
+
+                            <div class="product-share-container">
+                                <div class="docs-section">
+                                    <div class="page-header">
+                                        <h2 style="font-size:16px;text-indent:20px">공유하기</h2>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="input-inline">
+                                                <!--<button type="button" class="btn" id="btn_facebook" style="background:#4e69a2;color:#ffffff;font-size:13px"><i class="fa fa-facebook" style="background:#4e69a2;color:#ffffff"></i> 페이스북</button>-->
+                                                <button type="button" class="btn btn_facebook" id="btn_facebook"><i
+                                                        class="fa fa-facebook"
+                                                        style="background:#4e69a2;color:#ffffff;font-size:32px;"></i></button>
+                                                <button type="button" class="btn btn_x" id="btn_twitter"><img
+                                                        src="/images/sns/logo-x.svg"
+                                                        style="width:32px;height:32px;"></button>
+                                                <!--<button type="button" class="btn" id="btn_twitter" style="background:#319de1;color:#ffffff;font-size:13px"><i class="fa fa-twitter" style="background:#319de1;color:#ffffff"></i> 트위터</button>-->
+                                                <!--<button type="button" class="btn" id="btn_google" style="background:#df513f;color:#ffffff;font-size:13px"><i class="fa fa-google-plus" style="background:#df513f;color:#ffffff"></i> 구글+</button>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- right -->
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+    });
+
+    $('.screenshot_thumbnail').on('click', function () {
+        $('#screenshot_image').html($(this).find('img').attr('data-url'));
+    });
+
+    $('.nav li').on('click', function () {
+        $('.nav li').removeClass('active');
+        $(this).addClass('active');
+
+        let name = $(this).attr('data-toggle');
+        $('.tab-pane').removeClass('in');
+        setTimeout(function (){
+            $('.tab-pane').removeClass('active');
+
+            $('#'+name).addClass('active');
+            $('#'+name).addClass('in');
+        },250);
+
+    });
+</script>

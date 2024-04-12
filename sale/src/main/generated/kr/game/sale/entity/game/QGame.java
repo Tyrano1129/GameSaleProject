@@ -25,6 +25,8 @@ public class QGame extends EntityPathBase<Game> {
 
     public final NumberPath<Integer> discount = createNumber("discount", Integer.class);
 
+    public final StringPath enName = createString("enName");
+
     public final StringPath genres = createString("genres");
 
     public final StringPath headerImage = createString("headerImage");
@@ -37,13 +39,17 @@ public class QGame extends EntityPathBase<Game> {
 
     public final NumberPath<Integer> price = createNumber("price", Integer.class);
 
+    public final StringPath publisher = createString("publisher");
+
+    public final NumberPath<Integer> rating = createNumber("rating", Integer.class);
+
     public final StringPath rcmRequirements = createString("rcmRequirements");
 
     public final DateTimePath<java.util.Date> releaseDate = createDateTime("releaseDate", java.util.Date.class);
 
     public final StringPath screenshots = createString("screenshots");
 
-    public final NumberPath<Integer> steamAppid = createNumber("steamAppid", Integer.class);
+    public final NumberPath<Long> steamAppid = createNumber("steamAppid", Long.class);
 
     public final NumberPath<Long> steamRank = createNumber("steamRank", Long.class);
 

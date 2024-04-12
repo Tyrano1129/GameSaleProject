@@ -30,9 +30,12 @@ public class Game {
 
     @Id
     @Column(name ="steam_appid")
-    private int steamAppid;
+    private Long steamAppid;
 
     private String name;
+
+    @Column(name ="en_name")
+    private String enName;
 
     @Column(name ="detailed_description", columnDefinition="TEXT")
     private String detailedDescription;
@@ -55,6 +58,8 @@ public class Game {
 
     private String developers;
 
+    private String publisher;
+
     @Column(columnDefinition="TEXT")
     private String screenshots;
 
@@ -72,13 +77,72 @@ public class Game {
     @Generated(GenerationTime.INSERT)
     private Long steamRank;
 
+    private int rating;
+
+
     @Transient
     private List<String> genreList;
+    @Transient
+    private List<String> movieList;
+    @Transient
+    private List<String> screenshootsList;
+    @Transient
+    private int salesPrice;
 
     public String getFormattedPrice(){
        // int bNum = price/100;
         DecimalFormat format = new DecimalFormat("#,###");
         return format.format(price);
+    }
+
+    public int getSalesPrice() {
+        if(this.salesPrice == 0){
+            if(discount == 0){
+                return price;
+            }
+            double discountedPrice = this.price * (1.0 - discount / 100.0);
+            int total = (int) discountedPrice;
+            this.salesPrice = total - (total % 10);
+        }
+        return salesPrice;
+    }
+
+    public String getFormattedSalesPrice(){
+        if(this.salesPrice == 0){
+            if(discount == 0){
+                return getFormattedPrice();
+            }
+            double discountedPrice = this.price * (1.0 - discount / 100.0);
+            int total = (int) discountedPrice;
+            this.salesPrice = total - (total % 10);
+        }
+        DecimalFormat format = new DecimalFormat("#,###");
+        return format.format(this.salesPrice);
+    }
+
+    public List<String> getScreenshootsList(){
+        if(this.screenshootsList == null && this.screenshots != null){
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                this.screenshootsList = mapper.readValue(this.screenshots, new TypeReference<List<String>>() {
+                });
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return this.screenshootsList;
+    }
+    public List<String> getMovieList(){
+        if(this.movieList == null && this.movies != null){
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                this.movieList = mapper.readValue(this.movies, new TypeReference<List<String>>() {
+                });
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return this.movieList;
     }
 
     public List<String> getGenreList(){
@@ -99,7 +163,7 @@ public class Game {
     public Game convertRawData(SteamGameDTO rawData){
         Game game = new Game();
         try{
-            game.steamAppid = rawData.getSteamAppid();
+            game.steamAppid = (long) rawData.getSteamAppid();
             game.name = rawData.getName();
             game.supportedLanguages = rawData.getSupportedLanguages();
             game.detailedDescription = rawData.getDetailedDescription();
@@ -138,10 +202,26 @@ public class Game {
             }
             Random rd = new Random();
             game.discount = rd.nextInt(11)+5;
+            game.rating = convertRating(rawData.getRating());
+
         }catch (Exception e){
             log.error("Exception => {}", e.getMessage());
         }
         return game;
+    }
+
+    public int convertRating(int rawRate){
+        int rate = 19;
+        if (rawRate < 17 ){
+            rate = 15;
+        }
+        if(rawRate < 13){
+            rate = 12;
+        }
+        if(rawRate < 10){
+            rate = 0;
+        }
+        return rate;
     }
 
     public String convertScreenshots(SteamGameDTO rawData) throws JsonProcessingException {
@@ -175,7 +255,10 @@ public class Game {
 
         return mapper.writeValueAsString(mList);
     }
-
+    public String convertDateToString() throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return formatter.format(this.releaseDate);
+    }
     public Date convertStringToDate(String rawDate) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 MM월 dd일");
         return formatter.parse(rawDate);
@@ -197,6 +280,7 @@ public class Game {
         return "Game{" +
                 "steamAppid=" + steamAppid +
                 "name=" + name + '\n' +
+                "enName=" + enName + '\n' +
                 "detailedDescription=" + detailedDescription + '\n' +
                 "supportedLanguages=" + supportedLanguages + '\n' +
                 "headerImage=" + headerImage + '\n' +
@@ -208,6 +292,7 @@ public class Game {
                 "movies=" + movies + '\n' +
                 "releaseDate=" + releaseDate + '\n' +
                 "genres=" + genres + '\'' +
+                "rating=" + rating + '\'' +
                 '}';
     }
 

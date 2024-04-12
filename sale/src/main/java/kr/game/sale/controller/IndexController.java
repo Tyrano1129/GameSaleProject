@@ -31,7 +31,7 @@ public class IndexController {
         List<Game> list3 = null;
         List<Game> list4 = null;
         try {
-            log.debug("gameService getList is null =>{}",gameService.getList().size());
+            log.info("gameService getList is null =>{}",gameService.getList().size());
             if (gameService.getList().isEmpty()) { // reg date로 확인하는 로직 추가 예정
                 gameService.initData();
             }

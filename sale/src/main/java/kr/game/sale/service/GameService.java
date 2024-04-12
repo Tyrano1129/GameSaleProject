@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +20,15 @@ public class GameService {
     public void initData() throws JsonProcessingException {
         List<Game> list = gameRepository.saveGameData();
         gameRepository.saveAll(list);
+    }
+
+    public Game findOneById(String id){
+        Optional<Game> game =gameRepository.findById(Long.valueOf(id));
+        if(game.isPresent()){
+            return game.get();
+        }else{
+            return null;
+        }
     }
 
     public List<Game> getList(){
