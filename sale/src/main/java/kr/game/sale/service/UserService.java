@@ -18,6 +18,7 @@ import java.util.Random;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
 public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -64,6 +65,7 @@ public class UserService {
         return userRepository.findById(id).isEmpty()? null : userRepository.findById(id).get();
     }
     // 권한 변경
+    @Transactional
     public void userRoleUpdate(RoleListForm role){
         Users u = getOneUsers(role.getId());
         if(role.getRole().equals("MANAGER")){
@@ -75,6 +77,7 @@ public class UserService {
         userRepository.save(u);
     }
 
+    @Transactional
     public void adminUsersOneDelete(Long id){
         log.info("user = {}",id);
         userRepository.deleteById(id);

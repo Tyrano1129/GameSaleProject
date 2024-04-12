@@ -57,7 +57,7 @@ public class AdminController {
     @GetMapping("/gameUpdateForm")
     public String getUpdateForm(@RequestParam(name="id")Long id, Model model){
         Game game = gameService.getOneGames(id);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         GameForm games = GameForm.builder()
                 .id(game.getSteamAppid())
@@ -96,5 +96,9 @@ public class AdminController {
     public @ResponseBody String userOneDate(Long id){
        userService.adminUsersOneDelete(id);
         return "ok";
+    }
+    @PostMapping("/gmaeInsert")
+    public String gmaeInsert(){
+        return "admin/adminForm";
     }
 }

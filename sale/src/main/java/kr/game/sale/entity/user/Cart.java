@@ -3,9 +3,14 @@ package kr.game.sale.entity.user;
 import jakarta.persistence.*;
 import kr.game.sale.entity.game.Game;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class Cart {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)

@@ -65,24 +65,24 @@
         </div>
         <div class="specificationscontainer">
             <div class="specifications">
-                <label>최소사양</label>
-                <textarea
-                        name="minRequirements"
-                        id="minRequirements"
-                        cols="30"
-                        rows="10"
-                        placeholder="내용을 입력해 주세요."
-                        th:text="${game.minRequirements} != null? ${game.minRequirements} : null"
+                <label th:if="${game.minRequirements} == null">최소사양</label>
+                <textarea th:if="${game.minRequirements} == null"
+                            name="minRequirements"
+                            id="minRequirements"
+                            cols="50"
+                            rows="10"
+                            placeholder="내용을 입력해 주세요."
                 ></textarea>
-                <label>권장사양</label>
-                <textarea
+                <div th:if="${game.minRequirements} != null" th:utext="${game.minRequirements}"></div>
+                <label th:if="${game.rcmRequirements} == null">권장사양</label>
+                <textarea th:if="${game.rcmRequirements} == null"
                         name="rcmRequirements"
                         id="rcmRequirements"
-                        cols="30"
+                        cols="50"
                         rows="10"
                         placeholder="내용을 입력해 주세요."
-                        th:text="${game.rcmRequirements} != null? ${game.rcmRequirements} : null"
                 ></textarea>
+                <div th:if="${game.rcmRequirements} != null" th:utext="${game.rcmRequirements}"></div>
             </div>
         </div>
         <div class="imagecontainer">

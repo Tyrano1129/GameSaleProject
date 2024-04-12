@@ -1,5 +1,6 @@
 package kr.game.sale.controller;
 
+import kr.game.sale.entity.user.CartTest;
 import kr.game.sale.entity.user.CartView;
 import kr.game.sale.service.CartService;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,7 @@ public class CartController {
     }
 
     @PostMapping("/order")
-    public String order(@ModelAttribute List<CartView> list) {
+    public String order(@ModelAttribute("cart") List<CartTest> list) {
         log.info("list : {}", list);
 //        List<CartView> newList = form.get
 //        for (CartView l : list) {

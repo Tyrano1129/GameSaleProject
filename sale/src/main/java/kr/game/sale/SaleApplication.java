@@ -2,6 +2,7 @@ package kr.game.sale;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import kr.game.sale.entity.game.Game;
 import kr.game.sale.entity.user.Cart;
 import kr.game.sale.entity.user.UserRole;
@@ -14,6 +15,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootApplication
 @RequiredArgsConstructor
