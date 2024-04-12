@@ -25,6 +25,21 @@ public class CartService {
     public final CartRepository cartRepository;
     public final UserRepository userRepository;
 
+    private static @NotNull CartView getCartView(Cart cart) {
+        CartView view = new CartView();
+        view.setCartId(cart.getId());
+        view.setImg(cart.getGame().getHeaderImage());
+        view.setName(cart.getGame().getName());
+        view.setPrice(cart.getGame().getPrice());
+        view.setDiscount(cart.getGame().getDiscount());
+        int discount = cart.getGame().getDiscount();
+        double discountedPrice = cart.getGame().getPrice() * (1.0 - discount / 100.0);
+        int total = (int) discountedPrice;
+        total = total - (total % 10); // 1의 자리를 버림
+        view.setTotal(total);
+        return view;
+    }
+
     public List<CartView> getMyCart() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName(); // 로그인 중인 유저
@@ -51,17 +66,12 @@ public class CartService {
         return result;
     }
 
-    private static @NotNull CartView getCartView(Cart cart) {
-        CartView view = new CartView();
-        view.setImg(cart.getGame().getHeaderImage());
-        view.setName(cart.getGame().getName());
-        view.setPrice(cart.getGame().getPrice());
-        view.setDiscount(cart.getGame().getDiscount());
-        int discount = cart.getGame().getDiscount();
-        double discountedPrice = cart.getGame().getPrice() * (1.0 - discount / 100.0);
-        int total = (int) discountedPrice;
-        total = total - (total % 10); // 1의 자리를 버림
-        view.setTotal(total);
-        return view;
+    @Transactional
+    public void deleteCartByIdList(List<String> stringList) {
+        List<Long> longList = new ArrayList<>();
+        for (String string : stringList) {
+            longList.add(Long.parseLong(string));
+        }
+        cartRepository.deleteAllByIdInBatch(longList);
     }
 }

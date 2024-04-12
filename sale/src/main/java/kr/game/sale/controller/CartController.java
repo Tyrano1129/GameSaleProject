@@ -19,8 +19,7 @@ public class CartController {
 
     @PostMapping("/addToCart")
     @ResponseBody
-    public String addToCart(@RequestParam("user_id") String userId,
-                            @RequestParam("steam_appid") String steamAppId) {
+    public String addToCart(@RequestParam("user_id") String userId, @RequestParam("steam_appid") String steamAppId) {
         // 받은 요청을 처리하여 장바구니에 상품을 추가하는 로직을 여기에 구현합니다.
 
         // 장바구니에 상품을 추가한 결과를 클라이언트에 응답합니다.
@@ -32,5 +31,25 @@ public class CartController {
         List<CartView> cartViewList = cartService.getMyCart();
         model.addAttribute("cartViewList", cartViewList);
         return "users/userCart";
+    }
+
+    @PostMapping("/delete")
+    @ResponseBody
+    public String delete(@RequestBody List<String> orderNumbers) {
+        cartService.deleteCartByIdList(orderNumbers);
+        return "success";
+    }
+
+    @PostMapping("/order")
+    public String order(@ModelAttribute List<CartView> list) {
+        log.info("list : {}", list);
+//        List<CartView> newList = form.get
+//        for (CartView l : list) {
+//            if (l.getChecked().equals("true")) {
+//                newList.add(l);
+//            }
+//        }
+//        log.info("newList: {}", newList);
+        return "redirect:/cart/myCart";
     }
 }
