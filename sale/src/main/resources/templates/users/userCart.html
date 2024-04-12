@@ -64,7 +64,7 @@
                                 <td th:text="${list.price}">가격</td>
                                 <td th:text="${list.discount}">할인</td>
                                 <td th:text="${list.getTotal()}">합계</td>
-
+                                <td>
                                 <input id="cartId" name="cartId" th:value="${list.getCartId()}" type="hidden"/>
                                 <input name="img" th:value="${list.getImg()}" type="hidden"/>
                                 <input name="name" th:value="${list.getName()}" type="hidden"/>
@@ -72,6 +72,7 @@
                                 <input name="discount" th:value="${list.getDiscount()}" type="hidden"/>
                                 <input name="total" th:value="${list.getTotal()}" type="hidden"/>
                                 <input name="checked" type="hidden" value="false"/>
+                                </td>
                             </tr>
                             </tbody>
                         </table>

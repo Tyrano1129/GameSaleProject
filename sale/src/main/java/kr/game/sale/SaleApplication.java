@@ -2,6 +2,7 @@ package kr.game.sale;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import kr.game.sale.entity.game.Game;
 import kr.game.sale.entity.user.Cart;
 import kr.game.sale.entity.user.UserRole;
@@ -14,6 +15,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootApplication
 @RequiredArgsConstructor
@@ -39,7 +41,7 @@ public class SaleApplication {
 
     // 애플리케이션이 실행될 때 테스트 계정들이 DB에 생성됩니다.
     @Bean
-    public ApplicationRunner initData(CartRepository cartRepository) {
+    public ApplicationRunner initData() {
         return args -> {
 
             if (userRepository.findByUsername("admin") != null)
@@ -77,22 +79,22 @@ public class SaleApplication {
                 userRepository.save(user);
 
                 // 테스트 장바구니
-                Cart cart1 = new Cart();
-                Cart cart2 = new Cart();
-                cart1.setUsers(user);
-                cart2.setUsers(user);
-
-//                Game game1 = new Game();
-//                game1.setHeaderImage("/1938090/header.jpg?t=1712591572");
-//                game1.setName("콜 오브 듀티®");
-//                game1.setPrice(69990);
-//                game1.setDiscount(15);
+//                Cart cart1 = new Cart();
+//                Cart cart2 = new Cart();
+//                cart1.setUsers(user);
+//                cart2.setUsers(user);
 //
-//                cart1.setGame(game1);
-//                cart2.setGame(game1);
-
-                cartRepository.save(cart1);
-                cartRepository.save(cart2);
+////                Game game1 = new Game();
+////                game1.setHeaderImage("/1938090/header.jpg?t=1712591572");
+////                game1.setName("콜 오브 듀티®");
+////                game1.setPrice(69990);
+////                game1.setDiscount(15);
+////
+////                cart1.setGame(game1);
+////                cart2.setGame(game1);
+//
+//                cartRepository.save(cart1);
+//                cartRepository.save(cart2);
             }
         };
     }

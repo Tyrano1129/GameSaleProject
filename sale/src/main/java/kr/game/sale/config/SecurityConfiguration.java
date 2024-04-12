@@ -35,8 +35,7 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers("/user/**").authenticated()
-                                .requestMatchers("/manager/**").hasAnyRole("MANAGER", "ADMIN") // 매니저 이상만 접근가능
-                                .requestMatchers("/admin/**").hasAnyRole("ADMIN") // 관리자만 접근가능
+                                .requestMatchers("/admin/**").hasAnyRole("MANAGER","ADMIN") // 관리자만 접근가능
                                 .anyRequest().permitAll()
                 ).formLogin(
                         form ->
