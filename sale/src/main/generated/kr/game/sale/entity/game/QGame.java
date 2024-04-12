@@ -41,6 +41,8 @@ public class QGame extends EntityPathBase<Game> {
 
     public final StringPath publisher = createString("publisher");
 
+    public final NumberPath<Integer> rating = createNumber("rating", Integer.class);
+
     public final StringPath rcmRequirements = createString("rcmRequirements");
 
     public final DateTimePath<java.util.Date> releaseDate = createDateTime("releaseDate", java.util.Date.class);

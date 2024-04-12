@@ -77,18 +77,49 @@ public class Game {
     @Generated(GenerationTime.INSERT)
     private Long steamRank;
 
+    private int rating;
+
+
     @Transient
     private List<String> genreList;
     @Transient
     private List<String> movieList;
     @Transient
     private List<String> screenshootsList;
+    @Transient
+    private int salesPrice;
 
     public String getFormattedPrice(){
        // int bNum = price/100;
         DecimalFormat format = new DecimalFormat("#,###");
         return format.format(price);
     }
+
+    public int getSalesPrice() {
+        if(this.salesPrice == 0){
+            if(discount == 0){
+                return price;
+            }
+            double discountedPrice = this.price * (1.0 - discount / 100.0);
+            int total = (int) discountedPrice;
+            this.salesPrice = total - (total % 10);
+        }
+        return salesPrice;
+    }
+
+    public String getFormattedSalesPrice(){
+        if(this.salesPrice == 0){
+            if(discount == 0){
+                return getFormattedPrice();
+            }
+            double discountedPrice = this.price * (1.0 - discount / 100.0);
+            int total = (int) discountedPrice;
+            this.salesPrice = total - (total % 10);
+        }
+        DecimalFormat format = new DecimalFormat("#,###");
+        return format.format(this.salesPrice);
+    }
+
     public List<String> getScreenshootsList(){
         if(this.screenshootsList == null && this.screenshots != null){
             ObjectMapper mapper = new ObjectMapper();
@@ -171,10 +202,26 @@ public class Game {
             }
             Random rd = new Random();
             game.discount = rd.nextInt(11)+5;
+            game.rating = convertRating(rawData.getRating());
+
         }catch (Exception e){
             log.error("Exception => {}", e.getMessage());
         }
         return game;
+    }
+
+    public int convertRating(int rawRate){
+        int rate = 19;
+        if (rawRate < 17 ){
+            rate = 15;
+        }
+        if(rawRate < 13){
+            rate = 12;
+        }
+        if(rawRate < 10){
+            rate = 0;
+        }
+        return rate;
     }
 
     public String convertScreenshots(SteamGameDTO rawData) throws JsonProcessingException {
@@ -233,6 +280,7 @@ public class Game {
         return "Game{" +
                 "steamAppid=" + steamAppid +
                 "name=" + name + '\n' +
+                "enName=" + enName + '\n' +
                 "detailedDescription=" + detailedDescription + '\n' +
                 "supportedLanguages=" + supportedLanguages + '\n' +
                 "headerImage=" + headerImage + '\n' +
@@ -244,6 +292,7 @@ public class Game {
                 "movies=" + movies + '\n' +
                 "releaseDate=" + releaseDate + '\n' +
                 "genres=" + genres + '\'' +
+                "rating=" + rating + '\'' +
                 '}';
     }
 

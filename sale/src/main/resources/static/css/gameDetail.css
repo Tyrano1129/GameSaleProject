@@ -30,6 +30,7 @@ body{
 
 /*상단 헤더*/
 .page-header {
+    min-height: 83px;
     border-bottom: 0;
     padding: 0;
     margin: -58.57142858px 0 0;
@@ -288,12 +289,14 @@ div[class*="-view"] .row {
 }
 .productdetails-view .vm-product-media-container .main-image {
     width: 768px;
-    min-height: 414px;
+    min-height: 432px;
     padding: 16px;
     margin: 0;
     background-color: rgba(0, 0, 0, 0.2);
 }
 .gallery-wrapper {
+    width: 100%;
+    padding: 0 0 0 10px;
     overflow: hidden;
 }
 .embed-responsive.embed-responsive-16by9 {
@@ -325,13 +328,22 @@ div[class*="-view"] .row {
     padding: 0;
     border: none;
 }
+
+.main-image img {
+    width: 736px;
+    max-width: 100%;
+    max-height: 432px;
+    margin: 0;
+    padding: 0;
+    border : 0;
+}
+
 .gallery {
     width: 784px;
     height: 107px;
     -webkit-scroll-behavior: smooth;
     scroll-behavior: smooth;
-    -webkit-scroll-snap-type: mandatory;
-    scroll-snap-type: mandatory;
+
     background: none;
 }
 
@@ -362,6 +374,12 @@ div[class*="-view"] .row {
 }
 .media_player_marker {
     position: absolute;
+    top: 26px;
+    left: 60px;
+    width: 32px;
+    height: 32px;
+    background-image: url('https://store.akamai.steamstatic.com/public/images/v5/ico_game_highlight_video.png');
+    /*position: absolute;
     margin-left: 60px;
     margin-top: 32px;
     background: red;
@@ -370,7 +388,7 @@ div[class*="-view"] .row {
     border-radius: 5px;
     text-align: center;
     padding-left: 8px;
-    padding-right: 6px;
+    padding-right: 6px;*/
 }
 .youmayknow-gallery .item img {
     width: 144px;
@@ -500,6 +518,7 @@ a {
 }
 
 .product-description {
+    line-height: 1.5em;
     padding: 10px;
 }
 .product-description p {
@@ -510,7 +529,25 @@ a {
 .product-description img {
     width: 100%;
 }
+.product-description strong{
 
+}
+.product-description li strong {
+    color: #53b7ff;
+    font-size: 16px;
+    margin-right: 4px;
+    font-weight: normal;
+    margin-bottom: 2px;
+    text-transform: none;
+}
+.product-description li {
+    margin: 10px 0px;
+}
+.product-description ul {
+    list-style-type: none;
+    margin-left: 0px;
+    line-height: 18px;
+}
 
 /*버튼 기본설정*/
 .btn {

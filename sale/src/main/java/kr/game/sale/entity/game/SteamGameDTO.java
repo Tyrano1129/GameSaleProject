@@ -27,6 +27,9 @@ public class SteamGameDTO {
     @JsonProperty("header_image")
     private String headerImage;
 
+    @JsonProperty("required_age")
+    private int rating;
+
     @JsonProperty("pc_requirements")
     private Requirements pcRequirements;
 

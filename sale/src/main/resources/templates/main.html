@@ -33,12 +33,13 @@
                                             <span th:text="${game.getName()}"></span>
                                         </div>
 
-                                       <!-- <div class="banner_sale_percent">
-                                            <span>37% </span>
-                                        </div>-->
-                                        <div style="min-width:90px;display:inline-block"></div>
+
+                                        <div th:if="${game.getDiscount() > 0}" class="banner_sale_percent">
+                                            <span th:text="${game.getDiscount()+'%'}"></span>
+                                        </div>
+                                        <div th:unless="${game.getDiscount() > 0}" style="min-width:90px;display:inline-block"></div>
                                         <div class="banner_sale_price">
-                                            <span th:text="${game.getFormattedPrice()+ '원'}"> </span>
+                                            <span th:text="${game.getFormattedSalesPrice()+ '원'}"> </span>
                                         </div>
                                     </a>
                                 </h2>
@@ -109,8 +110,8 @@
                                     <div class="pull-right">
                                         <div style="margin-top:10px;width:50px;height:30px;">
                                                 <span class="label label-danger"
-                                                      style="font-size:14px;font-family:tahoma;vertical-align: bottom;color:#ffffff;padding-top:8px;padding-bottom:8px;width:50px;">
-                                                    5%
+                                                      style="font-size:14px;font-family:tahoma;vertical-align: bottom;color:#ffffff;padding-top:8px;padding-bottom:8px;width:50px;"
+                                                      th:text="${game.getDiscount()+'%'}">
                                                 </span>
                                         </div>
                                     </div>
@@ -126,9 +127,9 @@
                                     <div class="PricesalesPrice vm-display vm-price-value"
                                          style="padding:0;padding-top:4px">
                                         <span class="vm-price-desc">판매가: </span>
-                                        <span class="PricesalesPrice" style="background:none;margin:0;padding:0">
+                                        <span class="PricesalesPrice" style="font-weight: bold; background:none;margin:0;padding:0">
                                                 <span style="font-family:dotum" itemprop="priceCurrency" content="KRW">\</span>
-                                                <span itemprop="price" th:text="${game.getFormattedPrice()}"></span>
+                                                <span itemprop="price" th:text="${game.getFormattedSalesPrice()}"></span>
                                          </span>
                                     </div>
                                 </div>
@@ -167,8 +168,8 @@
 
     $(document).ready(function(){
         $('.header-images').slick({
-            prevArrow: $('.prev-right'),
-            nextArrow: $('.prev-left'),
+            prevArrow: $('.prev-left'),
+            nextArrow: $('.prev-right'),
             dots:true,                  //아래 도트 표시
             slidesToShow: 1,            //한번에 보여줄 슬라이드 아이템 개수
             slidesToScroll: 1,          //한번에 넘길 슬라이드 아이템 개수
