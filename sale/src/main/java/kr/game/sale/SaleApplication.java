@@ -19,7 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @RequiredArgsConstructor
 public class SaleApplication {
     private final UserRepository userRepository;
-    private final CartRepository cartRepository;
+//    private final CartRepository cartRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(SaleApplication.class, args);
@@ -39,7 +39,7 @@ public class SaleApplication {
 
     // 애플리케이션이 실행될 때 테스트 계정들이 DB에 생성됩니다.
     @Bean
-    public ApplicationRunner initData(CartRepository cartRepository) {
+    public ApplicationRunner initData() {
         return args -> {
 
             if (userRepository.findByUsername("admin") != null)
@@ -75,24 +75,6 @@ public class SaleApplication {
                 user.setUserPhone("010-1234-1234");
                 user.setUserRole(UserRole.ROLE_USER);
                 userRepository.save(user);
-
-                // 테스트 장바구니
-               /* Cart cart1 = new Cart();
-                Cart cart2 = new Cart();
-                cart1.setUsers(user);
-                cart2.setUsers(user);
-*/
-//                Game game1 = new Game();
-//                game1.setHeaderImage("/1938090/header.jpg?t=1712591572");
-//                game1.setName("콜 오브 듀티®");
-//                game1.setPrice(69990);
-//                game1.setDiscount(15);
-//
-//                cart1.setGame(game1);
-//                cart2.setGame(game1);
-
-                /*cartRepository.save(cart1);
-                cartRepository.save(cart2);*/
             }
         };
     }
