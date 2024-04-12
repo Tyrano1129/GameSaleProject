@@ -77,11 +77,11 @@ public class SaleApplication {
                 userRepository.save(user);
 
                 // 테스트 장바구니
-                Cart cart1 = new Cart();
+               /* Cart cart1 = new Cart();
                 Cart cart2 = new Cart();
                 cart1.setUsers(user);
                 cart2.setUsers(user);
-
+*/
 //                Game game1 = new Game();
 //                game1.setHeaderImage("/1938090/header.jpg?t=1712591572");
 //                game1.setName("콜 오브 듀티®");
@@ -91,8 +91,8 @@ public class SaleApplication {
 //                cart1.setGame(game1);
 //                cart2.setGame(game1);
 
-                cartRepository.save(cart1);
-                cartRepository.save(cart2);
+                /*cartRepository.save(cart1);
+                cartRepository.save(cart2);*/
             }
         };
     }
