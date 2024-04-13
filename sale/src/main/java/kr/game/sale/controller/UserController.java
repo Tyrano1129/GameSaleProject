@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -69,5 +70,34 @@ public class UserController {
     @GetMapping("/myPage")
     public String myPage() {
         return "users/myPage";
+    }
+
+    @GetMapping("/userQuestion")
+    public String userQuestion() {
+        return "users/userQuestion";
+    }
+
+    @GetMapping("/userWishlist")
+    public String userWishlist() {
+        return "users/userWishlist";
+    }
+
+    @GetMapping("/userUpdate")
+    public String userUpdate(Model model) {
+        userService.getLoggedInUser();
+        model.addAttribute("users", userService.getLoggedInUser());
+        log.info("user : {}", userService.getLoggedInUser());
+        return "users/userUpdate";
+    }
+
+    @PostMapping("/doUpdate")
+    public String doUpdate(Users usersForm) {
+    userService.updateUser(usersForm);
+        return "redirect:/users/userUpdate";
+    }
+
+    @GetMapping("/userResign")
+    public String userResign() {
+        return "users/userResign";
     }
 }

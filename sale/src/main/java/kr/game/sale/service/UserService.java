@@ -1,5 +1,6 @@
 package kr.game.sale.service;
 
+import jakarta.persistence.EntityManager;
 import kr.game.sale.entity.form.RoleListForm;
 import kr.game.sale.entity.user.UserRole;
 import kr.game.sale.entity.user.Users;
@@ -8,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +26,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JavaMailSender sender;
+    private final EntityManager em;
 
     @Transactional
     public void addUser(Users users) {
@@ -57,30 +61,48 @@ public class UserService {
 
     //admin 라인
     // user 리스트 가지고오기
-    public List<Users> getUserList(){
+    public List<Users> getUserList() {
         return userRepository.findAllByUsernameNot("admin");
     }
 
-    public Users getOneUsers(Long id){
-        return userRepository.findById(id).isEmpty()? null : userRepository.findById(id).get();
+    public Users getOneUsers(Long id) {
+        return userRepository.findById(id).isEmpty() ? null : userRepository.findById(id).get();
     }
+
     // 권한 변경
     @Transactional
-    public void userRoleUpdate(RoleListForm role){
+    public void userRoleUpdate(RoleListForm role) {
         Users u = getOneUsers(role.getId());
-        if(role.getRole().equals("MANAGER")){
+        if (role.getRole().equals("MANAGER")) {
             u.setUserRole(UserRole.ROLE_MANAGER);
-        }else if(role.getRole().equals("USER")){
+        } else if (role.getRole().equals("USER")) {
             u.setUserRole(UserRole.ROLE_USER);
         }
-        log.info("user = {}",u);
+        log.info("user = {}", u);
         userRepository.save(u);
     }
 
     @Transactional
-    public void adminUsersOneDelete(Long id){
-        log.info("user = {}",id);
+    public void adminUsersOneDelete(Long id) {
+        log.info("user = {}", id);
         userRepository.deleteById(id);
     }
 
+    public Users getLoggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); // 로그인 중인 유저
+        return userRepository.findByUsername(username);
+    }
+
+    @Transactional
+    public Users updateUser(Users userForm) {
+        String initPassword = userForm.getPassword();
+        String enPassword = bCryptPasswordEncoder.encode(initPassword);
+
+        Users users = em.find(Users.class, getLoggedInUser().getId());
+        users.setPassword(enPassword);
+        users.setUserNickname(userForm.getUserNickname());
+        users.setUserPhone(userForm.getUserPhone());
+        return users;
+    }
 }

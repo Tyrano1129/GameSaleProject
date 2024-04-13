@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragment/header :: common_header(~{::link})}">
+    <meta charset="UTF-8">
+    <title>더조은게임즈-마이페이지</title>
+    <link href="/css/myPage.css" rel="stylesheet"/>
+</head>
+<style th:replace="~{fragment/header :: bodyinit}"></style>
+<body>
+<div align="center">
+    <header th:replace="~{fragment/header :: header}"></header>
+    <nav th:replace="~{fragment/header :: nav}"></nav>
+
+    <div id="myPage">
+        <h1 style="font-size:30px">마이페이지</h1>
+        <ul class="menu">
+            <li onclick="location.href='/users/myPage'"><a><span>주문내역</span></a></li>
+            <li onclick="location.href='/users/userQuestion'"><a><span>문의내역</span></a></li>
+            <li onclick="location.href='/users/userWishlist'"><a><span>위시리스트</span></a></li>
+            <li class="activated" onclick="location.href='/users/userUpdate'"><a><span>정보수정</span></a></li>
+            <li onclick="location.href='/users/userResign'"><a><span>회원탈퇴</span></a></li>
+        </ul>
+        <div class="docs-section" style="margin-top:16px;margin-bottom:16px;padding-bottom:6px;padding-top:16px">
+            <p class="text-warning" style="color:#FF9900;"><strong> ※ 청소년이용불가 상품의 정보 조회 및 구매 시에는 휴대폰을 통한 본인(성인) 인증이
+                필요합니다.</strong></p>
+            <p style="color:#FF9900;"><strong>※ 본인(성인) 인증에 문제 발생 시, '고객지원 - 문의하기'를 통해 문제 상황을 기재해주시기 바랍니다. </strong></p>
+            <p style="color:#FF9900;"><strong>※ 아이디로 사용하는 이메일 주소는 변경이 불가하며, 수신 전용 이메일 주소만 변경이 가능합니다.</strong></p>
+            <p style="color:#FF9900;"><strong>※ 닉네임은 변경이 불가합니다.</strong></p>
+        </div>
+
+        <form id="user_update_form" method="post" action="/users/doUpdate">
+            <table>
+                <tr>
+                    <th>아이디</th>
+                    <td class="input_section" th:text="${users.username}"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>비밀번호</th>
+                    <td class="input_section"><label>
+                        <input maxlength="16" minlength="4" name="password" required="required"
+                               type="password"/>
+                    </label></td>
+                    <td><span>영문소문자, 숫자, 특수문자를 포함하여 4자이상 16이하로 사용이 가능합니다.</span></td>
+                </tr>
+                <tr>
+                    <th>비밀번호확인</th>
+                    <td class="input_section"><label>
+                        <input maxlength="16" minlength="4" name="pwConfirm" required
+                               type="password"/>
+                    </label>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>닉네임</th>
+                    <td class="input_section"><label>
+                        <input maxlength="16" minlength="4" name="userNickname" required
+                               type="text" th:value="${users.userNickname}"/>
+                    </label>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>전화번호</th>
+                    <td class="input_section"><label>
+                        <input maxlength="13" minlength="4" name="userPhone" required
+                               type="text" th:value="${users.userPhone}"/>
+                    </label>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>이메일 수신</th>
+                    <td class="input_section"><label>
+                        <input type="checkbox" value="Y">
+                    </label> 정보/이벤트 메일 수신에 동의합니다
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+            <button onclick="doUpdate(form)" type="button">정보 수정</button>
+        </form>
+
+    </div>
+
+</div>
+</body>
+</html>
+<script defer src="/js/myPage.js" type="text/javascript"></script>
