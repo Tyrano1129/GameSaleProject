@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head th:replace="~{fragment/header :: common_header(~{::link})}">
+    <meta charset="UTF-8">
+    <title>더조은게임즈-마이페이지</title>
+    <link href="/css/myPage.css" rel="stylesheet"/>
+</head>
+<style th:replace="~{fragment/header :: bodyinit}"></style>
+<body>
+<div>
+    <header th:replace="~{fragment/header :: header}"></header>
+    <nav th:replace="~{fragment/header :: nav}"></nav>
+
+    <div align="center" id="myPage">
+        <h1 style="font-size:30px">마이페이지</h1>
+        <ul class="menu">
+            <li class="item142 " onclick=""><a><span>주문내역</span></a></li>
+            <li class="item143 " onclick=""><a><span>문의내역</span></a></li>
+            <li class="item147 " onclick=""><a><span>위시리스트</span></a></li>
+            <li class="item141 " onclick=""><a><span>정보수정</span></a></li>
+            <li class="item146 " onclick=""><a><span>회원탈퇴</span></a></li>
+        </ul>
+    </div>
+
+</div>
+</body>
+</html>

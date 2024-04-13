@@ -1,0 +1,31 @@
+#myPage {
+    color: #FFFFFF;
+}
+
+#myPage .menu {
+    display: flex;
+}
+
+#myPage .menu li {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    height: 52px;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#myPage .menu li:hover {
+    border-top: 2px solid;
+}
+
+#myPage .menu .item142 {
+    border-top: 1px solid #67c1f5;
+    border-bottom: 0px;
+}
+
+#myPage .menu li a {
+    color: #fff !important;
+}

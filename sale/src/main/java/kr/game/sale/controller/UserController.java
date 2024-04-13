@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -65,5 +64,10 @@ public class UserController {
             // 사용자가 인증되어 있지 않은 경우
             return "invalid";
         }
+    }
+
+    @GetMapping("/myPage")
+    public String myPage() {
+        return "users/myPage";
     }
 }
