@@ -3,9 +3,12 @@ package kr.game.sale.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import kr.game.sale.entity.game.Game;
 import kr.game.sale.entity.game.GameSearchCondition;
+import kr.game.sale.entity.game.GameSearchDTO;
 import kr.game.sale.entity.game.SortType;
 import kr.game.sale.repository.game.GameRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,9 +35,11 @@ public class GameService {
         }
     }
 
+    public List<String> findAllPublishers() {return gameRepository.findAllPublishers(); }
     public List<Game> getList(){
        return gameRepository.findAll();
     }
+    public Page<Game> searchGamesByKeyword(GameSearchDTO gameSearchDTO, Pageable pageable){return gameRepository.searchGamesByKeyword(gameSearchDTO, pageable);}
 
     public List<Game> findMainList(String sortType){
         List<Game> result = null;
