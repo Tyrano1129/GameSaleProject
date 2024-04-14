@@ -40,3 +40,28 @@ function doUpdate(form) {
     form.submit();
     alert(`회원 정보를 수정했습니다.`);
 }
+
+// 탈퇴하기
+function doResign(form) {
+    if (form.reason.value === "") {
+        form.reason.focus();
+        alert(`탈퇴 사유를 선택해주세요.`);
+        return false;
+    }
+    showModal();
+}
+
+function showModal() {
+    document.getElementById(`resignOverlay`).style.display = 'block';
+    document.getElementById(`resignModal`).style.display = 'block';
+}
+
+function hideModal() {
+    document.getElementById(`resignOverlay`).style.display = 'none';
+    document.getElementById(`resignModal`).style.display = 'none';
+}
+
+function doResignReal(form) {
+    form.submit();
+    alert(`회원탈퇴에 성공했습니다.`);
+}

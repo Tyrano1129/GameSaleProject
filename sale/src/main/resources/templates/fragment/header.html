@@ -57,8 +57,8 @@
             </div>
             <div class="head-users">
                 <div class="head-joinlogin">
-                    <a href="/users/logout" th:if="${#authorization.expression('isAuthenticated()')}">로그아웃</a>
-                    <a href="/users/myPage" th:if="${#authorization.expression('isAuthenticated()')}">마이페이지</a>
+                    <a href="/users/logout" th:if="${#authorization.expression('isAuthenticated()')}"><i class="fa fa-unlock"></i> 로그아웃</a>
+                    <a href="/users/myPage" th:if="${#authorization.expression('isAuthenticated()')}"><i class="fa fa-user"></i> 마이페이지</a>
                     <a class="head-login" href="/users/loginForm"
                        th:unless="${#authorization.expression('isAuthenticated()')}">로그인</a>
                     <a class="head-join" href="/users/joinForm"

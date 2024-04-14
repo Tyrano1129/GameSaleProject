@@ -105,4 +105,10 @@ public class UserService {
         users.setUserPhone(userForm.getUserPhone());
         return users;
     }
+
+    @Transactional
+    public void userResign() {
+        Users users = getLoggedInUser();
+        userRepository.deleteById(users.getId());
+    }
 }

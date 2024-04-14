@@ -92,12 +92,19 @@ public class UserController {
 
     @PostMapping("/doUpdate")
     public String doUpdate(Users usersForm) {
-    userService.updateUser(usersForm);
+        userService.updateUser(usersForm);
         return "redirect:/users/userUpdate";
     }
 
     @GetMapping("/userResign")
-    public String userResign() {
+    public String userResign(Model model) {
+        model.addAttribute("users", userService.getLoggedInUser());
         return "users/userResign";
+    }
+
+    @PostMapping("/doResign")
+    public String doResign() {
+        userService.userResign();
+        return "redirect:/users/logout";
     }
 }
