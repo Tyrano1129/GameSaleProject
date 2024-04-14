@@ -1,8 +1,17 @@
-// 폼에서 엔터, 스페이스 작동하지 않게하기
 const myPage = document.getElementById("myPage");
+const questionForm = document.getElementById("questionForm");
+
+// 폼에서 엔터키, 스페이스바 작동하지 않게하기, 특정 폼에서만 동작하게하기
 myPage.addEventListener("keypress", (event) => {
     if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
+    }
+});
+
+// 원하는 폼에서는 스페이스바 작동하게하기
+questionForm.addEventListener("keypress", (event) => {
+    if (event.key === " ") {
+        event.stopPropagation(); // 해당 이벤트의 전파를 중지합니다.
     }
 });
 

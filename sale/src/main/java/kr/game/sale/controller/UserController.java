@@ -1,6 +1,7 @@
 package kr.game.sale.controller;
 
 import kr.game.sale.entity.user.Users;
+import kr.game.sale.service.QnAService;
 import kr.game.sale.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+    private final QnAService qnaService;
 
     @GetMapping("/joinForm")
     public String userJoinForm() {
@@ -73,7 +75,8 @@ public class UserController {
     }
 
     @GetMapping("/userQuestion")
-    public String userQuestion() {
+    public String userQuestion(Model model) {
+        model.addAttribute("qnaList", qnaService.findAllByUsers());
         return "users/userQuestion";
     }
 
@@ -105,6 +108,6 @@ public class UserController {
     @PostMapping("/doResign")
     public String doResign() {
         userService.userResign();
-        return "redirect:/users/logout";
+        return "redirect:/";
     }
 }

@@ -30,6 +30,8 @@ public class QUsers extends EntityPathBase<Users> {
 
     public final StringPath providerId = createString("providerId");
 
+    public final ListPath<kr.game.sale.entity.admin.QnA, kr.game.sale.entity.admin.QQnA> qnas = this.<kr.game.sale.entity.admin.QnA, kr.game.sale.entity.admin.QQnA>createList("qnas", kr.game.sale.entity.admin.QnA.class, kr.game.sale.entity.admin.QQnA.class, PathInits.DIRECT2);
+
     public final StringPath username = createString("username");
 
     public final StringPath userNickname = createString("userNickname");

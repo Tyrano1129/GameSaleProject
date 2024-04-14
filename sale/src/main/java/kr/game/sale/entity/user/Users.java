@@ -1,6 +1,7 @@
 package kr.game.sale.entity.user;
 
 import jakarta.persistence.*;
+import kr.game.sale.entity.admin.QnA;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +27,10 @@ public class Users {
     private String providerId;
 
     // Cart 와의 일대다 관계 설정
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Cart> carts;
+
+    // QnA 와의 일대다 관계 설정
+    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<QnA> qnas;
 }
