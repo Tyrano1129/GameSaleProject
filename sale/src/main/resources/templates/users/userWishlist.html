@@ -30,21 +30,21 @@
                 <tr>
                     <th style="width: 25px;"><label for="chk_all"></label><input id="chk_all" name="chk_all"
                                                                                  type="checkbox" value="Y"></th>
-                    <th style="display: none;">위시리스트 아이디</th>
+                    <th >위시리스트 아이디</th>
                     <th>상품명</th>
                     <th>정상가(원)</th>
                     <th>판매가(원)</th>
                     <th style="width: 25px;">할인률(%)</th>
                 </tr>
-                <tr>
+                <tr th:each="list : ${wishlistViewList}">
                     <td><label>
                         <input name="sno[]" type="checkbox" value="">
                     </label></td>
-                    <td style="display: none;"></td>
-                    <td><a href="#"><span class="goods_nm">스텔라리스 : 기계 시대</span></a></td>
-                    <td>28,000원</td>
-                    <td>25,300원</td>
-                    <td>0%</td>
+                    <td th:text="${list.wishlistId}"></td>
+                    <td><a th:href="@{'/games/' + ${list.name}}"><span th:text="${list.name}"></span></a></td>
+                    <td th:text="${list.price}"></td>
+                    <td th:text="${list.total}"></td>
+                    <td th:text="${list.discount}"></td>
                 </tr>
             </table>
             <div id="btn_division">
