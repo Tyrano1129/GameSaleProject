@@ -517,6 +517,21 @@ div.product {
 .vm-pagination ul li {
     display: inline;
 }
+
+.reviewSort{
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    display: inline;
+    padding: .2em .6em .3em;
+    font-weight: bold;
+    line-height: 1;
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
 .pagination li.hide{
     display: none;
 }

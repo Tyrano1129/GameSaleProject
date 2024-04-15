@@ -15,8 +15,15 @@ public class ReviewPageDTO {
     private int totalPage;
     private int startPage;
     private String appId;
+    private String sort;
+    private ReviewSortType sortType;
 
-    public void setPageCxt(int currPage,int total) {
+    public void setSort(String sort) {
+        this.sort = sort;
+        this.sortType = ReviewSortType.valueOf(sort);
+    }
+
+    public void setPageCxt(int currPage, int total) {
         this.totalPage = total;
         this.currPage = currPage;
         this.endPage = (int)(Math.ceil(this.currPage/10.0)*10);

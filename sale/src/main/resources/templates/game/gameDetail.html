@@ -113,15 +113,15 @@
                                                             <span>게임검색</span></h1>
 
                                                         <input id="currPage" type="number" name="currPage" value=1 hidden="hidden">
-                                                        <input type="hidden" name="sort" value="">
+                                                        <input id="sort" type="text" name="sort" value="REG_DATE" hidden="hidden">
                                                         <input id="appId" type="hidden" name="appId" th:value="${game.getSteamAppid()}">
 
                                                         <div class="row" id="searchBox">
                                                             <div class="container">
                                                                 <form class="form-horizontal" id="reviewFrm"
                                                                       name="searchFrm2" >
-                                                                    <input type="hidden" name="isPositive"
-                                                                           value="">
+                                                                    <input type="text" name="isPositive"
+                                                                           value="" hidden="hidden">
 
                                                                     <div class="well text-center" id="search_box"
                                                                          style="position: relative;">
@@ -167,7 +167,7 @@
                                                                     </div>
                                                                 </form>
                                                                 <div class="well well-sm" id="search_keyword">
-                                                                    <div>정렬 옵션 : <span>최신순</span> <span>긍정 리뷰</span><span>부정 리뷰</span> <span>도움이 된 리뷰</span>
+                                                                    <div>정렬 옵션 : <span class="reviewSort" data-sort="REG_DATE">최신순</span> <span class="reviewSort" data-sort="POSITIVE">긍정 리뷰</span><span class="reviewSort" data-sort="NEGATIVE">부정 리뷰</span> <span class="reviewSort" data-sort="HLEPFUL">도움이 된 리뷰</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -324,10 +324,6 @@
                                                         </div>
 
                                                         <div class="product-info">
-                                                            <!--<div class="vm-display">
-                                                                <span class="vm-desc">지원모드 </span>
-                                                                <span class="vm-value">싱글 플레이</span>
-                                                            </div>-->
                                                             <div class="vm-display release_date">
                                                                 <span class="vm-desc">출시일 </span>
                                                                 <span class="vm-value"
@@ -356,10 +352,6 @@
                                                                 <span class="vm-desc">언어 </span>
                                                                 <span class="vm-value" th:utext="${game.getSupportedLanguages()}" ></span>
                                                             </div>
-                                                            <!--<div class="vm-display">
-                                                                <span class="vm-desc">게임패드 </span>
-                                                                <span class="vm-value">지원함</span>
-                                                            </div>-->
                                                             <div id="etc" style="width:100%;max-width:300px;">
                                                                 <th:block th:switch="${game.getRating()}">
                                                                     <img th:case="0" src="/images/age_0.gif">
@@ -441,10 +433,15 @@
         getReviewList();
     });
 
+    $('.reviewSort').on('click', function () {
+        $('#sort').val($(this).attr('data-sort'));
+        getReviewList();
+    });
     function getReviewList(){
         var formData = {
             currPage: $('#currPage').val(),
-            appId: $('#appId').val()
+            appId: $('#appId').val(),
+            sort: $('#sort').val()
         };
         var jsonData = JSON.stringify(formData);
         console.log(JSON.parse(jsonData));
@@ -527,6 +524,8 @@
         var formElement = $(this).closest("form");
         formElement.find('input[name="isPositive"]').val(isPositive);
 
+        console.log(formElement.find('input[name="isPositive"]').val());
+
         $('.insert_thumbs').removeClass('selected');
         $(this).addClass('selected');
     });
@@ -535,12 +534,12 @@
         console.log('#insertReviewBtn.on.click');
         var formElement = $(this).closest("form");
         var formData = {
-            isPositive: formElement.find('input[name="isPositive"]').val() === "up",
+            isPositive: formElement.find('input[name="isPositive"]').val() == "up",
             content: formElement.find('textarea[name="content"]').val(),
             appId: $('#appId').val()
         };
-
-        if(formData.isPositive == null || formData.isPositive ==''){
+        console.log(formData.isPositive);
+        if(formData.isPositive !=true && formData.isPositive != false){
             alert("평가를 선택해주세요.");
             return;
         }
@@ -582,11 +581,11 @@
         html += '    <div class="spacer" style="min-height:83px;">';
 
 // 두 번째 div 요소 (프로필 이미지와 사용자 이름)
-        html += '        <div class="vm-product-media-container-review" style="height: 100%; position: relative;">';
+        html += '        <div class="vm-product-media-container-review" style="display: flex; flex-direction: column; align-items: center; HEIGHT: 100%; position: relative;">';
         html += '            <a title="profile-img" href="#">';
         html += '                <img src="/images/bg-photo.png" alt="profile-img" class="browseProductImage" style="margin-right: 15px; margin-left: 15px; margin-top: 15px; width: 70px;">';
         html += '            </a>';
-        html += '            <span style="">' + review.users + '</span>';
+        html += '            <span style="">' + review.userNickName + '</span>';
         html += '        </div>';
 
 // 세 번째 div 요소 (리뷰 내용과 등록일)

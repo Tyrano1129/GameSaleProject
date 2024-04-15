@@ -3,17 +3,40 @@ package kr.game.sale;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class gameTest {
-//    private final GameService gameService;
-//    private final UserService userService;
-//    private final GameReviewService gameReviewService;
-//
-//    @Autowired
-//    gameTest(GameService gameService, GameReviewService gameReviewService, UserService userService) {
-//        this.gameReviewService = gameReviewService;
-//        this.gameService = gameService;
-//        this.userService = userService;
-//    }
+public class GameTest {
+    /*
+    private UserService userService;
+    private GameService gameService;
+    private GameReviewService gameReviewService;
+    @Autowired
+    GameTest(GameService gameservice, GameReviewService gamereviewservice, UserService userservice) {
+        this.userService = userservice;
+        this.gameService = gameservice;
+        this.gameReviewService = gamereviewservice;
+    }
+
+    @Test
+    public void removeTest(){
+        try {
+            gameService.initData();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        Game game =  gameService.findOneById("1086940");
+
+        Users user = userService.getOneUsers(1L);
+        gameReviewService.saveReview(Review.builder()
+                .isPositive(true)
+                .content("리뷰테스트")
+                .localDateTime(LocalDateTime.now())
+               .user(user)
+                .game(game)
+                .build());
+
+
+        userService.adminUsersOneDelete(1l);
+    }
+*/
 
 //    @Test
 //    public void initData(){
