@@ -38,8 +38,7 @@ public class UserService {
     }
 
     public boolean isEmailExist(String username) {
-        Users users = userRepository.findByUsername(username);
-        return users != null;
+        return userRepository.findByUsername(username).isEmpty();
     }
 
     public String verifyWithEmail(String email) {
@@ -68,7 +67,9 @@ public class UserService {
     public Users getOneUsers(Long id) {
         return userRepository.findById(id).isEmpty() ? null : userRepository.findById(id).get();
     }
-
+    public Users getOneUernameUser(String username){
+        return userRepository.findByUsername(username).isEmpty()? null : userRepository.findByUsername(username).get();
+    }
     // 권한 변경
     @Transactional
     public void userRoleUpdate(RoleListForm role) {

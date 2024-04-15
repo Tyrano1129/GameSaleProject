@@ -1,9 +1,14 @@
 package kr.game.sale.entity.user;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
-public class CartView {
+import java.io.Serializable;
+import java.util.List;
+
+@Getter
+@Setter
+@ToString
+public class CartView implements Serializable {
     private Long cartId;
     private String img;
     private String name;
@@ -11,4 +16,5 @@ public class CartView {
     private int discount;
     private int total;
     private String checked;
+ 
 }

@@ -53,7 +53,7 @@
                                     장바구니가 비었습니다.
                                 </td>
                             </tr>
-                            <tr th:each="list : ${cartViewList}">
+                            <tr th:each="list ,listStat : ${cartViewList}">
                                 <td class="text-center"><input name="goods_code[]" type="checkbox"></td>
                                 <td name="goods_code[]" th:text="${list.getCartId()}"></td>
                                 <td><img th:alt="${list.name}"

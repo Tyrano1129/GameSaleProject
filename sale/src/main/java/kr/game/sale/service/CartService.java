@@ -45,7 +45,7 @@ public class CartService {
     public List<CartView> getMyCart() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName(); // 로그인 중인 유저
-        Users users = userRepository.findByUsername(username);
+        Users users = getOneUser(username);
         List<Cart> myCartList = cartRepository.findAllByUsers(users);
         log.info("myCartList : {}", myCartList.toString());
         List<CartView> result = new ArrayList<>();
@@ -66,12 +66,14 @@ public class CartService {
         }
         cartRepository.deleteAllByIdInBatch(longList);
     }
-
+    private Users getOneUser(String username){
+        return userRepository.findByUsername(username).isEmpty()? null : userRepository.findByUsername(username).get();
+    }
     @Transactional
     public void addCart(String steamAppid) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName(); // 로그인 중인 유저
-        Users users = userRepository.findByUsername(username);
+        Users users = getOneUser(username);
 
         Cart cart = new Cart();
         cart.setUsers(users);

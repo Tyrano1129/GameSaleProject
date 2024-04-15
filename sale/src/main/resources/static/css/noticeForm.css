@@ -1,0 +1,65 @@
+.noticeFormcontainer{
+    display: flex;
+    justify-content: center;
+}
+.noticeForm h1{
+    margin: 5px;
+    text-align: center;
+    color: #ffffff;
+}
+.noticeForm{
+    width: 80%;
+}
+.noticeForm .noticeheader{
+    margin-bottom: 10px;
+}
+.noticeheader {
+    width: 100%;
+}
+.noticeheader label{
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+}
+.noticeheader #title{
+    border: 1px solid #ccced1;
+    border-radius: 5px;
+    width: 300px;
+    padding: 5px;
+}
+.ck-editor__editable {
+    height: 400px;
+}
+.ck-content {
+    font-size: 12px;
+}
+.noticefooter {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.noticefooter label{
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+}
+.noticefooter #writer{
+    border: 1px solid #ccced1;
+    border-radius: 5px;
+    width: 300px;
+    padding: 5px;
+}
+.noticeForm .btn{
+    text-align: right;
+}
+.noticeForm .btn #noticebutton{
+    border: 0;
+    font-size: 14px;
+    padding: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #ccced1;
+}
+.noticeForm .btn #noticebutton:hover{
+    background-color: #222;
+    color: #ffffffff;
+}
