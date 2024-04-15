@@ -39,9 +39,7 @@
                                 >
                                     이미지
                                 </th>
-                                <th class="vm-cart-item-name text-center">플랫폼</th>
                                 <th class="vm-cart-item-name text-center">상품명</th>
-                                <th class="vm-cart-item-quantity">수량</th>
                                 <th class="vm-cart-item-basicprice">가격</th>
                                 <th
                                         class="vm-cart-item-coupon"
@@ -51,24 +49,23 @@
                                 </th>
                                 <th class="vm-cart-item-total">합계</th>
                             </tr>
-                            <tr>
+                            <tr th:each="list : ${cartList}">
                                 <td>
                                     <img
-                                            src="https://storage.googleapis.com/beach-test-image/7db4d238-0aee-427a-b5b0-b968ca641724"
+                                            th:alt="${list.name}"
+                                            th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${list.getImg()}"
                                             width="144"
                                             height="81"
                                             style="width: 144px"
                                     />
                                 </td>
-                                <td class="text-center">작성1</td>
-                                <td class="vm-cart-item-name">작성1</td>
-                                <td class="vm-cart-item-quantity">작성1</td>
-                                <td class="vm-cart-item-basicprice">작성1</td>
-                                <td class="vm-cart-item-discount">작성1</td>
-                                <td class="vm-cart-item-total">작성1</td>
+                                <td class="text-center" th:text="${list.name}">작성1</td>
+                                <td class="vm-cart-item-quantity" th:text="${list.price}">작성1</td>
+                                <td class="vm-cart-item-discount" th:text="${list.discount}">작성1</td>
+                                <td class="vm-cart-item-total" th:text="${list.total}">작성1</td>
                             </tr>
                             <tr class="sectiontableentry1">
-                                <td colspan="4" align="left">합계</td>
+                                <td colspan="2" align="left">합계</td>
                                 <td align="right">10000</td>
                                 <td align="right">0</td>
                                 <td align="right">10000</td>
@@ -79,7 +76,7 @@
                     <div class="paymentcontainer">
                         <div class="paymethod">
                             <span class="cart-customer-note"> 결제수단 </span>
-                            <div class="list-group">
+                            <ul class="list-group">
                                 <li class="list-group-item">
                                     <div class="radio">
                                         <label>
@@ -93,7 +90,7 @@
                                         </label>
                                     </div>
                                 </li>
-                            </div>
+                            </ul>
                         </div>
                         <div class="payment">
                             <div class="paymentfinal">

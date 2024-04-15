@@ -78,6 +78,5 @@ function order(form) {
         alert("선택된 주문이 없습니다.");
         return;
     }
-
-    form.submit();
+   form.submit();
 }

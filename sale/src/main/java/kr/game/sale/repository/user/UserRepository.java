@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<Users, Long> {
-    Users findByUsername(String username);
+    Optional<Users> findByUsername(String username);
 
     // 외부 유저 검색
     Optional<Users> findByProviderAndProviderId(String provider, String providerId);

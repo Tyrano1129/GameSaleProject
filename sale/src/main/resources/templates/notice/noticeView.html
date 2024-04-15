@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragment/header :: common_header(~{link})}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link>
+</head>
+<style th:replace="~{fragment/header :: bodyinit}">
+</style>
+<body>
+<div>
+    <header th:replace="~{fragment/header :: header}"></header>
+    <nav th:replace="~{fragment/header :: nav}"></nav>
+</div>
+</body>
+</html>

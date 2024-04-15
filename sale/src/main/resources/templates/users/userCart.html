@@ -54,7 +54,7 @@
                                     장바구니가 비었습니다.
                                 </td>
                             </tr>
-                            <tr th:each="list : ${cartViewList}">
+                            <tr th:each="list ,listStat : ${cartViewList}">
                                 <td class="text-center"><input name="goods_code[]" type="checkbox"></td>
                                 <td name="goods_code[]" th:text="${list.getCartId()}"></td>
                                 <td><img th:alt="${list.name}"
@@ -64,15 +64,6 @@
                                 <td th:text="${list.price}">가격</td>
                                 <td th:text="${list.discount}">할인</td>
                                 <td th:text="${list.getTotal()}">합계</td>
-                                <td>
-                                <input id="cartId" name="cartId" th:value="${list.getCartId()}" type="hidden"/>
-                                <input name="img" th:value="${list.getImg()}" type="hidden"/>
-                                <input name="name" th:value="${list.getName()}" type="hidden"/>
-                                <input name="price" th:value="${list.getPrice()}" type="hidden"/>
-                                <input name="discount" th:value="${list.getDiscount()}" type="hidden"/>
-                                <input name="total" th:value="${list.getTotal()}" type="hidden"/>
-                                <input name="checked" type="hidden" value="false"/>
-                                </td>
                             </tr>
                             </tbody>
                         </table>

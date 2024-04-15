@@ -43,8 +43,8 @@ public class SaleApplication {
     @Bean
     public ApplicationRunner initData() {
         return args -> {
-
-            if (userRepository.findByUsername("admin") != null)
+            Users users = userRepository.findByUsername("admin").isEmpty()? null : userRepository.findByUsername("admin").get();
+            if (users != null)
                 return;
 
             Users admin = new Users(); // 관리자

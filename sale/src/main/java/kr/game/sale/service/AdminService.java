@@ -1,5 +1,8 @@
 package kr.game.sale.service;
 
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Storage;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -14,10 +17,13 @@ import kr.game.sale.repository.admin.RefundRepository;
 import kr.game.sale.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
@@ -25,6 +31,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,6 +48,10 @@ public class AdminService {
     private final QnARepository qnARepository;
     // Refund
     private final RefundRepository refundRepository;
+    // stroge
+    private final Storage storage;
+
+
     //토큰 요청 후 환불요청
     public void refundRequest(String access_token,String merchant_uid,String reason) throws IOException {
         URL url = new URL("https://api.iamport.kr/payments/cancel");
@@ -150,8 +161,14 @@ public class AdminService {
     public void noticeInsert(){
         if(noticeRepository.countAllBy() < 1){
             for(int i = 0; i < 100; i+=1){
-                noticeRepository.save(new Notice("noticeTitle"+i,"가나다라마바사아자차카타파하" + i,"test"+i));
+                noticeRepository.save(new Notice("noticeTitle"+i,"<p>가나다라마바사아자차카타파하<p>" + i,"test"+i));
             }
         }
     }
+
+    public Notice getOneNotice(Long id){
+        return noticeRepository.findById(id).isEmpty()? null : noticeRepository.findById(id).get();
+    }
+
+
 }
