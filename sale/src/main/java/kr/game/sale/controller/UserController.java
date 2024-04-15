@@ -113,4 +113,11 @@ public class UserController {
         userService.userResign();
         return "redirect:/";
     }
+
+    @PostMapping("/addToWishlist")
+    @ResponseBody
+    public String addToWishlist(@RequestParam String appId) {
+        wishlistService.addToWishlist(appId);
+        return "success";
+    }
 }

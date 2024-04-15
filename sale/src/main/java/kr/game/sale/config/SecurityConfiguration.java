@@ -47,7 +47,11 @@ public class SecurityConfiguration {
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/users/logout"))
                         .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true));
+                        .invalidateHttpSession(true)).exceptionHandling(
+                        exceptions -> exceptions
+                                .accessDeniedHandler((request, response, accessDeniedException) ->
+                                        response.sendRedirect("/")) // Redirect unauthorized requests
+                );
         return http.build();
     }
 }
