@@ -78,12 +78,20 @@
     align-items: center;
 }
 
-.loginFormContainer #snsLoginDiv img {
+.loginFormContainer #snsLoginDiv .image-container {
     width: 418px;
-    height: 95px;
-    cursor: pointer;
+    height: 55px; /* 이미지의 높이로 설정 */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: 10px;
-    border-radius: 15px;
+    border-radius: 10px;
+}
+
+.loginFormContainer #snsLoginDiv img {
+    width: 100%;
+    cursor: pointer;
 }
 
 .loginFormContainer #docs_section {

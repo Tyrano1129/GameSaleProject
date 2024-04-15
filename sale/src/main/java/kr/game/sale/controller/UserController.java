@@ -81,7 +81,7 @@ public class UserController {
     }
 
     @GetMapping("/userWishlist")
-    public String userWishlist() {
+    public String userWishlist(Model model) {
         return "users/userWishlist";
     }
 

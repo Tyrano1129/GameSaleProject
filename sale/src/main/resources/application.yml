@@ -20,8 +20,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     database: mysql
     hibernate:
-      ddl-auto: update
-      # JDBC TimeZone Setting
+      ddl-auto: update # JDBC TimeZone Setting
     properties:
       hibernate:
         show_sql: true
