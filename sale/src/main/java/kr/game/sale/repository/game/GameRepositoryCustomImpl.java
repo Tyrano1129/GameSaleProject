@@ -62,7 +62,7 @@ public class GameRepositoryCustomImpl  implements GameRepositoryCustom{
         List<SteamSpyDataDTO> list = List.copyOf(gameMap.values());
         list = list.stream().filter(g -> g.getPrice() > 0).collect(Collectors.toList());
 
-        List<SteamSpyDataDTO> topTenList = list.subList(0, 29);
+        List<SteamSpyDataDTO> topTenList = list.subList(0, 5);
 
 
         List<Game> Games = new ArrayList<>();

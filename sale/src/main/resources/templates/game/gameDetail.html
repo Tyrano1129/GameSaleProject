@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>더좋은 게임</title>
     <link rel="stylesheet" href="/css/gameDetail.css">
+    <link rel="stylesheet" href="/css/gameDetail_review.css">
 </head>
 <style th:replace="~{fragment/header :: bodyinit}"></style>
 <body>
@@ -82,11 +83,15 @@
                             </div>
                             <div class="clear"></div>
                             <div class="vm-productdetail-tabs-container">
+
                                 <ul class="nav nav-tabs" style="margin-bottom:8px">
                                     <li class="active" data-toggle="detailedDescription"><a href="#goods_info3" data-toggle="tab">게임정보</a></li>
                                     <li data-toggle="requirements"><a href="#goods_info5" data-toggle="tab">시스템 요구사항</a></li>
+                                    <li data-toggle="review"><a href="#goods_info5" data-toggle="tab">리뷰</a></li>
                                 </ul>
+
                                 <div id="myTabContent" class="tab-content">
+
                                     <div id="detailedDescription" class="tab-pane fade active in">
                                         <div class="product-description">
                                         </div>
@@ -99,9 +104,178 @@
                                             <p>※ 시스템 요구 사항은 출시 버전을 기준으로 하며, 컨텐츠 추가와 업데이트로 인한 변경 사항이 있을 수 있습니다.</p>
                                         </div>
                                     </div>
+                                    <div id="review" class="tab-pane fade">
+                                        <div class="product-description">
+                                            <div id="t3-content-review" class="t3-content-review">
+                                                <div class="category-view">
+                                                    <div class="browse-view">
+                                                        <h1 style="border-top:1px solid rgba(255,255,255,0.1);">
+                                                            <span>게임검색</span></h1>
+
+                                                        <input id="currPage" type="number" name="currPage" value=1 hidden="hidden">
+                                                        <input type="hidden" name="sort" value="">
+                                                        <input id="appId" type="hidden" name="appId" th:value="${game.getSteamAppid()}">
+
+                                                        <div class="row" id="searchBox">
+                                                            <div class="container">
+                                                                <form class="form-horizontal" id="reviewFrm"
+                                                                      name="searchFrm2" >
+                                                                    <input type="hidden" name="isPositive"
+                                                                           value="">
+
+                                                                    <div class="well text-center" id="search_box"
+                                                                         style="position: relative;">
+                                                                        <label class="col-sm-3 control-label-most"
+                                                                               for="search_keyword"
+                                                                               style="position: absolute; top: 0; left: 15px; font-weight: bold;">
+                                                                            리뷰 입력
+                                                                        </label>
+                                                                        <div class="form-group"
+                                                                             style="    margin-top: 15px;">
+                                                                            <div class="">
+                                                                                <label>평가 선택</label>
+                                                                                <div class="insert_thumbs" data-thumbs="up">
+                                                                                    <img id="votingImage1"
+                                                                                         src="/images/thumbsUp.png"
+                                                                                         style="width: 50px;">
+                                                                                </div>
+                                                                                <div class="insert_thumbs"  data-thumbs="down">
+                                                                                    <img id="votingImage2"
+                                                                                         src="/images/thumbsDown.png"
+                                                                                         style="width: 50px;">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-99"
+                                                                                 style="    margin-top: 10px;    width: 70%;">
+                                                                                <div class="input-group"
+                                                                                     style="    height: 80px;">
+                                                                                        <textarea id="reviewContent"
+                                                                                                  cols="15" rows="15"
+                                                                                                  name="content"
+                                                                                                  class="form-control">
+                                                                                        </textarea>
+                                                                                    <span class="input-group-btn">
+                                                                                            <input id="insertReviewBtn"
+                                                                                                    class="btn btn-default"
+                                                                                                    type="button"
+                                                                                                    style="    height: 90px;"
+                                                                                                   value="입력">
+                                                                                        </span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                                <div class="well well-sm" id="search_keyword">
+                                                                    <div>정렬 옵션 : <span>최신순</span> <span>긍정 리뷰</span><span>부정 리뷰</span> <span>도움이 된 리뷰</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="browse-view-inner list-group-item">
+
+                                                            <div class="row equal-height equal-height-child">
+                                                                <div class="product vm-col vm-col-3 vertical-separator col"
+                                                                     child-height="83">
+                                                                    <div class="spacer" style="min-height:83px; ">
+                                                                        <div class="vm-product-media-container-review"
+                                                                             style="    height: 100%; position: relative;">
+                                                                            <a title="profile-img"
+                                                                               href="./game_page.html?product_code=50004529"><img
+                                                                                    src="/images/bg-photo.png"
+                                                                                    alt="profile-img"
+                                                                                    class="browseProductImage"
+                                                                                    style="    margin-right: 15px;
+                                                                                        margin-left: 15px;
+                                                                                        margin-top: 15px;
+                                                                                        height: 55%;">
+                                                                            </a>
+                                                                            <span style="    left: 18%;
+                                                                                bottom: 0;
+                                                                                position: absolute;">유저 이름</span>
+                                                                        </div>
+
+                                                                        <div class="vm-product-descr-container-1"
+                                                                             style="width:570px;padding:0; height: 100%;">
+                                                                            <div class="vm3pr-customfields-product"
+                                                                                 style="height: 100%;">
+                                                                                <a href="#"
+                                                                                   class="vote_header tooltip"
+                                                                                   data-tooltip-text="평가 전체 보기">
+                                                                                    <div class="thumb">
+                                                                                        <img id="votingImage"
+                                                                                             src="/images/thumbsUp.png"
+                                                                                             width="50%">
+                                                                                    </div>
+                                                                                    <span class="label label-light"
+                                                                                          style="width: 100%;
+                                                                                        background: rgba(255, 255, 255, 0.1);
+
+                                                                                        font-size: 13px;  background: rgba(255,255,255,0.1);color: #ffffff;">추천</span>
+                                                                                </a>
+                                                                                <h2
+                                                                                        style="height: 80%;
+                                                                                        font-size: 14px;     margin-left: 10px;">
+                                                                                    <div class="review-content"
+                                                                                         style="word-break: break-all;
+                                                                                            overflow: auto;
+                                                                                            height: 70%;">
+                                                                                        내용내용내용내용내용내용내용내용내용
+                                                                                        내용내용내용내용내용내용내용내용내용
+                                                                                        내용내용내용내용내용내용내용내용내용
+                                                                                    </div>
+                                                                                    <div class="PricebasePrice vm-display vm-price-value"
+                                                                                         style="font-size: 12px;
+                                                                                            text-transform: uppercase;
+                                                                                            font-style: normal;
+                                                                                            display: inline-block;
+                                                                                            ">
+                                                                                            <span class="PricebasePrice"
+                                                                                                  style="color: #ffffff; opacity: 0.4;">
+                                                                                                날짜</span>
+                                                                                    </div>
+                                                                                </h2>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="vm-product-descr-container-1"
+                                                                             style="margin-left: 10px;margin-right: 10px; width:66px;padding:0;overflow:hidden; color: #8091a2;;">
+                                                                                <span class="label "
+                                                                                      style="background-color: #4e69a2; padding: .2em .6em .3em;font-size:13px;font-family:tahoma;color:#e7e7e7;;padding-top:8px;padding-bottom:8px;display:block;">유용해요
+                                                                                </span>
+                                                                            <span class="label "
+                                                                                  style="padding: .2em .6em .3em;font-size:13px;font-family:tahoma;color:#8091a2;padding-top:8px;padding-bottom:8px;display:block; ">신고
+                                                                                </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="clear"></div>
+                                                    </div>
+
+                                                    <div class="vm-pagination" style="clear:both;">
+                                                        <div style="width:700px;height:38px;margin:0 auto">
+                                                            <ul class="pagination">
+                                                                <li class="pageBtn"  id="firstBtn"><a href="#" th:text="${'« First'}"></a></li>
+                                                                <li class="pageBtn" id="prevBtn"><a href="#"  th:text="${'« Prev'}"></a></li>
+                                                                <!--<th:block th:each="n : ${#numbers.sequence(gameSearchDTO.getStartPage(),gameSearchDTO.getEndPage())}">
+                                                                    <li class="live-link" th:classappend="${n == gameSearchDTO.getCurrPage() ? 'active': '' }" >
+                                                                        <a href="#" th:attr="data-page=${n}" th:text="${n}"></a>
+                                                                    </li>
+                                                                </th:block>-->
+                                                                <li class="pageBtn" id="nextBtn"><a href="#"  th:text="${'Next »'}"></a></li>
+                                                                <li class="pageBtn" id="lastBtn" ><a href="#"  th:text="${'Last »'}"></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            </div>
+                        </div>
 
 
                         <div class="right">
@@ -253,11 +427,208 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
+        getReviewList();
+
     });
 
     $('.screenshot_thumbnail').on('click', function () {
         $('#screenshot_image').html($(this).find('img').attr('data-url'));
     });
+
+    $(document).on("click", '.live-link , .pageBtn', function(event) {
+        event.preventDefault();
+        $('#currPage').val($(this).find('a').attr('data-page'));
+        getReviewList();
+    });
+
+    function getReviewList(){
+        var formData = {
+            currPage: $('#currPage').val(),
+            appId: $('#appId').val()
+        };
+        var jsonData = JSON.stringify(formData);
+        console.log(JSON.parse(jsonData));
+        // Ajax 요청
+        $.ajax({
+            type: 'POST',
+            url: '/gameReview/list',
+            contentType: 'application/json',
+            data: jsonData,
+            dataType: "json",
+            success: function(response) {
+                console.log(response.list);
+                console.log(response.reviewPageDTO);
+                 // 성공적으로 요청이 완료되면 이 부분을 실행
+
+                // setValue(response.gameSearchDTO);
+
+                 var col = "";
+                 $('.list-group-item').html('');
+                 for(let i = 0; i < response.list.length; i++){
+                     var review =  response.list[i];
+                     cal = "";
+                     cal = createProductHTML(review);
+                     $('.list-group-item').append(cal);
+                 }
+                setValue(response.reviewPageDTO);
+                // 받은 응답에 대한 추가적인 처리를 수행할 수 있습니다.
+            },
+            error: function(xhr, status, error) {
+                // 요청이 실패하면 이 부분을 실행
+                console.error(xhr.responseText);
+            }
+        });
+    }
+    function setValue(reviewPageDTO){
+
+        $('#currPage').val(reviewPageDTO.currPage);
+
+        if(reviewPageDTO.currPage > reviewPageDTO.pagesize){
+            $('#firstBtn').removeClass('disabled').removeClass('hide');
+            $('#firstBtn').find('a').attr('data-page', reviewPageDTO.currPage-1);
+            $('#prevBtn').removeClass('disabled').removeClass('hide');
+            $('#prevBtn').find('a').attr('data-page', reviewPageDTO.currPage-1);
+        }else{
+            $('#firstBtn').addClass('disabled').addClass('hide');
+            $('#prevBtn').addClass('disabled').addClass('hide');
+        }
+        if(reviewPageDTO.totalPage > reviewPageDTO.pagesize && reviewPageDTO.endPage < reviewPageDTO.totalPage ){
+            $('#nextBtn').removeClass('disabled').removeClass('hide');
+            $('#nextBtn').find('a').attr('data-page', reviewPageDTO.endPage+1);
+        }else{
+            $('#nextBtn').addClass('disabled').addClass('hide');
+        }
+        $('#lastBtn').find('a').attr('data-page', reviewPageDTO.totalPage);
+
+        $('.live-link').remove();
+
+        var html = '';
+        for(let i = reviewPageDTO.startPage; i <= reviewPageDTO.endPage; i++){
+            var newClass= '';
+            if(i == reviewPageDTO.currPage){
+                newClass = 'active';
+            }
+            html += '<li class="live-link ' + newClass + '">' +
+                '<a href="#" data-page="' + i + '">' + i + '</a>' +
+                '</li>';
+        }
+        $(html).insertAfter('#prevBtn');
+    }
+
+
+    $('.insert_thumbs').on('click', function () {
+        let isPositive = $(this).attr('data-thumbs');
+        var formElement = $(this).closest("form");
+        formElement.find('input[name="isPositive"]').val(isPositive);
+
+        $('.insert_thumbs').removeClass('selected');
+        $(this).addClass('selected');
+    });
+
+    $('#insertReviewBtn').on('click', function () {
+        console.log('#insertReviewBtn.on.click');
+        var formElement = $(this).closest("form");
+        var formData = {
+            isPositive: formElement.find('input[name="isPositive"]').val() === "up",
+            content: formElement.find('textarea[name="content"]').val(),
+            appId: $('#appId').val()
+        };
+
+        if(formData.isPositive === null || formData.isPositive ===''){
+            alert("평가를 선택해주세요.");
+            return;
+        }
+        if(formData.content === null || $.trim(formData.content) ===''){
+            alert("내용을 입력해 주세요.");
+            return;
+        }
+
+        var jsonData = JSON.stringify(formData);
+        console.log(JSON.parse(jsonData));
+        // Ajax 요청
+        $.ajax({
+            type: 'POST',
+            url: '/gameReview/insert',
+            contentType: 'application/json',
+            data: jsonData,
+            success: function(response) {
+                console.log('success');
+                // 성공적으로 요청이 완료되면 이 부분을 실행
+                getReviewList();
+
+                // 받은 응답에 대한 추가적인 처리를 수행할 수 있습니다.
+            },
+            error: function(xhr, status, error) {
+                // 요청이 실패하면 이 부분을 실행
+                console.error(xhr.responseText);
+            }
+        });
+
+
+    });
+
+
+    function createProductHTML(review) {
+        var html = ''; // 먼저 빈 문자열로 초기화합니다.
+
+// 첫 번째 div 요소
+        html += '<div class="product vm-col vm-col-3 vertical-separator col" child-height="83">';
+        html += '    <div class="spacer" style="min-height:83px;">';
+
+// 두 번째 div 요소 (프로필 이미지와 사용자 이름)
+        html += '        <div class="vm-product-media-container-review" style="height: 100%; position: relative;">';
+        html += '            <a title="profile-img" href="#">';
+        html += '                <img src="/images/bg-photo.png" alt="profile-img" class="browseProductImage" style="margin-right: 15px; margin-left: 15px; margin-top: 15px; width: 70px;">';
+        html += '            </a>';
+        html += '            <span style="">' + review.users + '</span>';
+        html += '        </div>';
+
+// 세 번째 div 요소 (리뷰 내용과 등록일)
+        html += '        <div class="vm-product-descr-container-1" style="width:570px;padding:0;height: 100%;">';
+        // div 요소 시작
+        html += '<div class="vm3pr-customfields-product" style="height: 100%; display: flex;">';
+
+// 평가 링크
+        html += '<a href="#" class="vote_header tooltip" data-tooltip-text="평가 전체 보기">';
+        html += '    <div class="thumb">';
+        if(review.positive == true){
+            html += '        <img id="votingImage" src="/images/thumbsUp.png" width="50%">';
+        }else{
+            html += '        <img id="votingImage" src="/images/thumbsDown.png" width="50%">';
+        }
+        html += '    </div>';
+        html += '    <span class="label label-light" style="width: 100%; background: rgba(255, 255, 255, 0.1); font-size: 13px; background: rgba(255,255,255,0.1);color: #ffffff;">';
+        html += (review.positive == true ? '긍정' : '부정');
+        html+= '</span>';
+        html += '</a>';
+
+// 내용과 날짜
+        html += '<h2 style="height: 80%; font-size: 14px; margin-left: 10px;">';
+        html += '    <div class="review-content" style="word-break: break-all; overflow: auto; height: 70%;">';
+        html +=  review.content;
+        html += '    </div>';
+        html += '    <div class="PricebasePrice vm-display vm-price-value" style="font-size: 12px; text-transform: uppercase; font-style: normal; display: inline-block;">';
+        html += '        <span class="PricebasePrice" style="color: #ffffff; opacity: 0.4;">' + review.regDate + '</span>';
+        html += '    </div>';
+        html += '</h2>';
+
+// div 요소 종료
+        html += '</div>';
+        html += '        </div>';
+
+// 네 번째 div 요소 (유용해요와 신고 버튼)
+        html += '        <div class="vm-product-descr-container-1" style="margin-left: 10px; margin-right: 10px; width:66px;padding:0;overflow:hidden; color: #8091a2;">';
+        html += '            <span class="label" data-reviewId="' + review.reviewId + '"  style="background-color: #4e69a2; padding: .2em .6em .3em; font-size:13px; font-family:tahoma; color:#e7e7e7; padding-top:8px; padding-bottom:8px;display:block;">유용해요</span>';
+        html += '            <span class="label" data-reviewId="' + review.reviewId + '" style="padding: .2em .6em .3em; font-size:13px; font-family:tahoma; color:#8091a2;padding-top:8px; padding-bottom:8px;display:block;">신고</span>';
+        html += '        </div>';
+
+        html += '    </div>';
+        html += '</div>';
+        return html;
+    }
+
+
+
 
     $('.nav li').on('click', function () {
         $('.nav li').removeClass('active');

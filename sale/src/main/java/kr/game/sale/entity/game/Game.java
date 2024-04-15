@@ -1,17 +1,21 @@
 package kr.game.sale.entity.game;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
+import kr.game.sale.entity.game.review.Review;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,7 +30,7 @@ import java.util.Random;
 @AllArgsConstructor
 @NoArgsConstructor
 @Slf4j
-public class Game {
+public class Game implements Serializable {
 
     @Id
     @Column(name ="steam_appid")
@@ -79,6 +83,10 @@ public class Game {
 
     private int rating;
 
+    @OneToMany(mappedBy = "game", fetch = FetchType.LAZY)
+    @Transient
+    @JsonIgnore
+    private List<Review> reviews = new ArrayList<>();
 
     @Transient
     private List<String> genreList;

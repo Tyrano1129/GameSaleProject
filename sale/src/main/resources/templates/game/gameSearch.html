@@ -385,7 +385,7 @@
                 searchPublisher: formElement.find('input[name="searchPublisher"]').val(),
                 searchInterfaceKorean: formElement.find('input[name="searchInterfaceKorean"]').val(),
                 searchKeyword: formElement.find('input[name="searchKeyword"]').val(),
-                currPage: $('#currPage').val()
+                currPage: 1
             };
         }else{
             formData = {
@@ -395,7 +395,7 @@
                 searchPublisher: formElement.find('select[name="searchPublisher"]').val(),
                 searchInterfaceKorean: $('#search_interface_korean').is(':checked'),
                 searchKeyword: formElement.find('input[name="searchKeyword"]').val(),
-                currPage: $('#currPage').val()
+                currPage: 1
             };
         }
         search(formData);
@@ -440,6 +440,7 @@
             $('#nextBtn').removeClass('disabled').removeClass('hide');
             $('#nextBtn').find('a').attr('data-page', gameSearchDTO.endPage+1);
         }
+        $('#lastBtn').find('a').attr('data-page', gameSearchDTO.totalPage);
         $('.live-link').remove();
 
         var html = '';
