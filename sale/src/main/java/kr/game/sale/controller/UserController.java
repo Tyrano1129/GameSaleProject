@@ -3,6 +3,7 @@ package kr.game.sale.controller;
 import kr.game.sale.entity.user.Users;
 import kr.game.sale.service.QnAService;
 import kr.game.sale.service.UserService;
+import kr.game.sale.service.WishlistService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
     private final QnAService qnaService;
+    private final WishlistService wishlistService;
 
     @GetMapping("/joinForm")
     public String userJoinForm() {
@@ -82,6 +84,7 @@ public class UserController {
 
     @GetMapping("/userWishlist")
     public String userWishlist(Model model) {
+        model.addAttribute("wishlistViewList", wishlistService.getAllWishlistView());
         return "users/userWishlist";
     }
 
