@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragment/header :: common_header(~{::link})}">
+    <meta charset="UTF-8">
+    <title>더조은게임즈-마이페이지</title>
+    <link href="/css/myPage.css" rel="stylesheet"/>
+</head>
+<style th:replace="~{fragment/header :: bodyinit}"></style>
+<body>
+<div align="center">
+    <header th:replace="~{fragment/header :: header}"></header>
+    <nav th:replace="~{fragment/header :: nav}"></nav>
+
+    <div id="myPage">
+        <h1>마이페이지</h1>
+        <ul class="menu">
+            <li onclick="location.href='/users/myPage'"><a><span>주문내역</span></a></li>
+            <li onclick="location.href='/users/userQuestion'"><a><span>문의내역</span></a></li>
+            <li class="activated" onclick="location.href='/users/userWishlist'"><a><span>위시리스트</span></a></li>
+            <li onclick="location.href='/users/userUpdate'"><a><span>정보수정</span></a></li>
+            <li onclick="location.href='/users/userResign'"><a><span>회원탈퇴</span></a></li>
+        </ul>
+        <div class="docs-section" style="margin-top:16px;margin-bottom:16px;padding-bottom:6px;padding-top:16px">
+            <p class="text-warning" style="color:#FF9900;"><strong>※ 청소년이용불가 상품의 정보 조회 및 구매 시에는 정보수정 탭에서 휴대폰을 통한 본인(성인)
+                인증이
+                필요합니다.</strong></p>
+        </div>
+        <form action="#" id="wishlistForm" method="post" name="wishlistForm">
+            <table>
+                <tr>
+                    <th style="width: 25px;"><label for="chk_all"></label><input id="chk_all" name="chk_all"
+                                                                                 type="checkbox" value="Y"></th>
+                    <th style="display: none;">위시리스트 아이디</th>
+                    <th>상품명</th>
+                    <th>정상가(원)</th>
+                    <th>판매가(원)</th>
+                    <th style="width: 25px;">할인률(%)</th>
+                </tr>
+                <tr>
+                    <td><label>
+                        <input name="sno[]" type="checkbox" value="">
+                    </label></td>
+                    <td style="display: none;"></td>
+                    <td><a href="#"><span class="goods_nm">스텔라리스 : 기계 시대</span></a></td>
+                    <td>28,000원</td>
+                    <td>25,300원</td>
+                    <td>0%</td>
+                </tr>
+            </table>
+            <div id="btn_division">
+                <button id="all_delete_btn" type="button"><i class="fa fa-close"></i> 선택상품 삭제</button>
+                <button id="move_to_cart_btn" type="button"><i class="fa fa-shopping-cart"></i> 장바구니 이동</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

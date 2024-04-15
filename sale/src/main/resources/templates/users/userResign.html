@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragment/header :: common_header(~{::link})}">
+    <meta charset="UTF-8">
+    <title>더조은게임즈-마이페이지</title>
+    <link href="/css/myPage.css" rel="stylesheet"/>
+</head>
+<style th:replace="~{fragment/header :: bodyinit}"></style>
+<body>
+<div align="center">
+    <header th:replace="~{fragment/header :: header}"></header>
+    <nav th:replace="~{fragment/header :: nav}"></nav>
+
+    <div id="myPage">
+        <h1>마이페이지</h1>
+        <ul class="menu">
+            <li onclick="location.href='/users/myPage'"><a><span>주문내역</span></a></li>
+            <li onclick="location.href='/users/userQuestion'"><a><span>문의내역</span></a></li>
+            <li onclick="location.href='/users/userWishlist'"><a><span>위시리스트</span></a></li>
+            <li onclick="location.href='/users/userUpdate'"><a><span>정보수정</span></a></li>
+            <li class="activated" onclick="location.href='/users/userResign'"><a><span>회원탈퇴</span></a></li>
+        </ul>
+
+        <div class="docs-section" style="margin-top:16px;margin-bottom:16px;padding-bottom:6px;padding-top:16px">
+            <p class="text-warning" style="color:#FF9900;"><strong>※ 회원탈퇴 전, 아래의 내용을 다시 한 번 확인 후 신중하게 진행해주시기
+                바랍니다.</strong>
+            </p>
+            <p style="color:#FF9900;text-indent:20px;"><strong>- 회원탈퇴 즉시 소유한 모든 포인트는 삭제 처리되며, 복구가 불가합니다. </strong></p>
+            <p style="color:#FF9900;text-indent:20px;"><strong>- 회원탈퇴 즉시 회원정보가 삭제되며, 주문 내역과 제공 콘텐츠 정보 제공이
+                불가합니다.</strong>
+            </p>
+        </div>
+
+        <form action="/users/doResign" id="resign_form" method="post">
+            <table>
+                <tr>
+                    <th>아이디</th>
+                    <td th:text="${users.username}"></td>
+                </tr>
+                <tr>
+                    <th>탈퇴사유</th>
+                    <td><select class="form-control" name="reason" required="">
+                        <option value="">:::탈퇴사유를 선택해 주세요:::</option>
+                        <option value="1">고객서비스 불만</option>
+                        <option value="2">교환/환불 불만</option>
+                        <option value="3">방문 빈도가 낮음</option>
+                        <option value="4">상품가격 불만</option>
+                        <option value="5">개인 정보유출 우려</option>
+                        <option value="6">쇼핑몰의 신뢰도 불만</option>
+                        <option value="7">쇼핑 기능 불만</option>
+                    </select></td>
+                </tr>
+            </table>
+            <div id="resign_btn_division">
+                <button id="resign_btn" onclick="doResign(form)" type="button">회원탈퇴</button>
+                <button onclick="location.href='/'" type="button">취소하기</button>
+            </div>
+            <div id="resignOverlay"></div>
+            <div id="resignModal">
+                <h3>정말 탈퇴하시겠습니까?</h3>
+                <button id="realResignBtn" onclick="doResignReal(form)" type="button">탈퇴하기</button>
+                <button onclick="hideModal()" type="button">취소하기</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+</body>
+
+</html>
+<script defer src="/js/myPage.js" type="text/javascript"></script>

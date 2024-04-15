@@ -16,7 +16,6 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" type="text/css"/>
     <!-- 로그인 중 -->
     <script src="/js/header.js"></script>
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
     <!--  ckeditor  -->
     <script src="https://cdn.ckeditor.com/ckeditor5/41.3.0/classic/ckeditor.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
@@ -59,7 +58,8 @@
             </div>
             <div class="head-users">
                 <div class="head-joinlogin">
-                    <a href="/users/logout" th:if="${#authorization.expression('isAuthenticated()')}">로그아웃</a>
+                    <a href="/users/logout" th:if="${#authorization.expression('isAuthenticated()')}"><i class="fa fa-unlock"></i> 로그아웃</a>
+                    <a href="/users/myPage" th:if="${#authorization.expression('isAuthenticated()')}"><i class="fa fa-user"></i> 마이페이지</a>
                     <a class="head-login" href="/users/loginForm"
                        th:unless="${#authorization.expression('isAuthenticated()')}">로그인</a>
                     <a class="head-join" href="/users/joinForm"

@@ -6,8 +6,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.Cascade;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -19,9 +17,9 @@ public class QnA {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long qnaId;
-    @ManyToOne(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id")
-    private Users user;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private Users users;
     private String qnaTitle;
     @Lob
     private String qnaContent;
@@ -34,13 +32,14 @@ public class QnA {
     private String fileName;
 
     // 문의자
-    public QnA(Users user, String qnaTitle, String qnaContent) {
-        this.user = user;
+    public QnA(Users users, String qnaTitle, String qnaContent) {
+        this.users = users;
         this.qnaTitle = qnaTitle;
         this.qnaContent = qnaContent;
         this.localDateTime = LocalDateTime.now();
         this.qnaIsAnswered = false;
     }
+
     // 답변자
     public QnA(String qnaRespondent, String qnaAnwerContent) {
         this.qnaIsAnswered = true;
