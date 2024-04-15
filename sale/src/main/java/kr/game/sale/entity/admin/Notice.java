@@ -17,6 +17,7 @@ public class Notice {
     private Long noticeId;
     private String noticeTitle;
     @Lob
+    @Column(length = 3000)
     private String noticeContent;
     private int noticeCount;
     private String noticeWriter;

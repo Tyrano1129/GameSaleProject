@@ -30,10 +30,12 @@ public class Users {
     private String providerId;
 
     // Cart 와의 일대다 관계 설정
-    @OneToMany(mappedBy = "users",fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Transient
     private List<Cart> carts;
 
     // QnA 와의 일대다 관계 설정
-    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE, orphanRemoval = true,fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Transient
     private List<QnA> qnas;
 }

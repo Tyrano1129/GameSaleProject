@@ -182,7 +182,6 @@ public class AdminService {
                 .noticeContent(form.getContent())
                 .noticeWriter(form.getWriter())
                 .build();
-
         noticeRepository.save(notice);
     }
     public void noticeUpdate(NoticeForm form){
