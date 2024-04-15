@@ -7,6 +7,16 @@
 <body>
 <main th:fragment="noticeList" >
 <div class="kbody">
+    <th:block th:if="${user} != null">
+    <div th:if="${user.userRole.toString() eq 'ROLE_MANAGER' or user.userRole.toString() eq 'ROLE_ADMIN'}" class="admin-button">
+        <input
+                onclick="location.href='/notice/noticeForm'"
+                type="button"
+                class="noticeFormbtn"
+                value="추가"
+        />
+    </div>
+    </th:block>
     <table class="kblocktable" border="1">
         <tbody>
         <tr style="height: 40px; line-height: 40px">
@@ -17,11 +27,21 @@
             <th>조회</th>
         </tr>
         <tr th:each="list : ${noticeList}">
-            <td style="text-align: center; width: 60px" th:text="${list.id}">1</td>
+            <td style="text-align: center; width: 60px"><p th:text="${list.id}"></p></td>
             <td style="text-align: center; width: 60px">공지</td>
-            <td style="width: 480px" th:text="${list.title}">제목</td>
-            <td style="text-align: center; width: 120px" th:text="${list.date}">작성일</td>
-            <td style="text-align: center; width: 60px" th:text="${list.count}">조회</td>
+            <td style="width: 480px">
+                <th:block th:if="${user} != null">
+                    <a th:if="${user.userRole.toString() eq 'ROLE_MANAGER' or user.userRole.toString() eq 'ROLE_ADMIN'}"
+                    th:href="@{/notice/noticeForm(id=${list.id})}" th:text="${list.title}">제목</a>
+                    <a th:if="${user.userRole.toString() eq 'ROLE_USER'}"
+                       th:href="@{/notice/noticeView(id=${list.id})}" th:text="${list.title}">제목</a>
+                </th:block>
+                <th:block th:if="${user} == null">
+                    <a th:href="@{/notice/noticeView(id=${list.id})}" th:text="${list.title}">제목</a>
+                </th:block>
+            </td>
+            <td style="text-align: center; width: 120px"><p th:text="${list.date}"></p></td>
+            <td style="text-align: center; width: 60px"><p th:text="${list.count}"></p></td>
         </tr>
         </tbody>
     </table>
@@ -66,6 +86,35 @@
         </ul>
     </nav>
 </div>
+</main>
+<main th:fragment="noticeForm">
+    <div class="noticeFormcontainer">
+        <form class="noticeForm" action="/notice/insert" method="POST">
+            <h1>공지사항</h1>
+            <header class="noticeheader">
+                <hr />
+                <label>제목 : </label>
+                <input type="text" name="title" id="title" th:value="${notice} != null? ${notice.title} : null" />
+            </header>
+            <textarea name="text" id="editor" th:text="${notice} != null?  ${notice.content} : null"></textarea>
+            <footer class="noticefooter">
+                <label>작성자 : </label>
+                <input type="text" name="writer" id="writer" th:value="${notice} != null? ${notice.writer} : null"/>
+                <hr />
+            </footer>
+            <input name="content" id="content"  type="hidden" th:value="${notice} != null? ${notice.content} : null"/>
+            <input name="id" id="id"  type="hidden" th:value="${notice} != null? ${notice.id} : null"/>
+            <input name="count" id="count"  type="hidden" th:value="${notice} != null? ${notice.count} : null"/>
+            <p class="btn">
+                <input
+                        id="noticebutton"
+                        type="button"
+                        th:value="${notice} == null? '추가' : '수정'"
+                        onclick="testText(form)"
+                />
+            </p>
+        </form>
+    </div>
 </main>
 </body>
 </html>

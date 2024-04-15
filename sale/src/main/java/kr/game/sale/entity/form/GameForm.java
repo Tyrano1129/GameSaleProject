@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -21,6 +24,8 @@ public class GameForm {
     private String rcmRequirements;
     private String headerImage;
     private String screenshots;
+    private MultipartFile multipartFile;
+    private List<MultipartFile> multiFile;
 
     @Builder
     public GameForm(Long id, String name, String supportedLanguages, int price, String viewprice, String developers, String releaseDate, String genres, String minRequirements, String rcmRequirements, String headerImage, String screenshots) {
