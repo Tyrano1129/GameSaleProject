@@ -12,7 +12,7 @@ $("#chk_all").bind("click", function () {
 // 각 체크박스를 클릭할 때마다 상태를 변경하는 함수
 $('input[name="goods_code[]"]').on("click", function () {
     // 현재 체크박스의 checked 상태를 가져옴
-    var isChecked = $(this).prop("checked");
+    let isChecked = $(this).prop("checked");
     // 현재 체크박스의 상태를 반전하여 checked input의 값을 설정
     $(this).closest('tr').find('input[name="checked"]').val(isChecked ? "true" : "false");
 });
@@ -62,22 +62,34 @@ $(document).ready(function () {
 });
 
 // 주문하기 버튼 클릭 이벤트 핸들러
-function order(form) {
-    // 선택된 주문번호 배열 초기화
-    let orderNumbers = [];
+document.getElementById("btn_order").addEventListener("click", () => {
+    // 체크된 상품의 주문번호를 담을 배열
+    let selectedItems = [];
 
     // 각 행에서 선택된 주문번호 추출
     $("input[name='goods_code[]']:checked").each(function () {
         // 현재 행에서 주문번호 추출하여 배열에 추가
         let orderNumber = $(this).closest('tr').find('td[name="goods_code[]"]').text();
-        orderNumbers.push(orderNumber);
+        selectedItems.push(orderNumber);
+        console.log(orderNumber);
     });
 
-    // 만약 선택된 주문번호가 없다면 경고 메시지 출력 후 함수 종료
-    if (orderNumbers.length === 0) {
-        alert("선택된 주문이 없습니다.");
-        return;
+    // 선택된 상품이 있는지 확인
+    if (selectedItems.length > 0) {
+        // 폼 요소 가져오기
+        let form = document.getElementById("cartFrm");
+        // 선택된 상품의 주문번호를 숨겨진 필드로 폼에 추가
+        selectedItems.forEach(function (item) {
+            let input = document.createElement("input");
+            input.setAttribute("type", "hidden");
+            input.setAttribute("name", "selectedItems");
+            input.setAttribute("value", item);
+            form.appendChild(input);
+        });
+        // 폼 전송
+        form.submit();
+    } else {
+        // 선택된 상품이 없는 경우 사용자에게 알림 메시지 표시
+        alert("주문할 상품을 선택해주세요.");
     }
-
-    form.submit();
-}
+});

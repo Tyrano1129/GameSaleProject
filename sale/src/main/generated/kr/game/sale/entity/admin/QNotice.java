@@ -26,6 +26,8 @@ public class QNotice extends EntityPathBase<Notice> {
 
     public static final QNotice notice = new QNotice("notice");
 
+    public final StringPath gcpImageLink = createString("gcpImageLink");
+
     public final StringPath noticeContent = createString("noticeContent");
 
     public final NumberPath<Integer> noticeCount = createNumber("noticeCount", Integer.class);
@@ -37,6 +39,8 @@ public class QNotice extends EntityPathBase<Notice> {
     public final StringPath noticeTitle = createString("noticeTitle");
 
     public final StringPath noticeWriter = createString("noticeWriter");
+
+    public final StringPath orgImageName = createString("orgImageName");
 
     public QNotice(String variable) {
         super(Notice.class, forVariable(variable));

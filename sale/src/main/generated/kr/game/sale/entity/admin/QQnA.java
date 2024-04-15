@@ -38,7 +38,7 @@ public class QQnA extends EntityPathBase<QnA> {
 
     public final StringPath qnaTitle = createString("qnaTitle");
 
-    public final kr.game.sale.entity.user.QUsers user;
+    public final kr.game.sale.entity.user.QUsers users;
 
     public QQnA(String variable) {
         this(QnA.class, forVariable(variable), INITS);
@@ -58,7 +58,7 @@ public class QQnA extends EntityPathBase<QnA> {
 
     public QQnA(Class<? extends QnA> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.user = inits.isInitialized("user") ? new kr.game.sale.entity.user.QUsers(forProperty("user")) : null;
+        this.users = inits.isInitialized("users") ? new kr.game.sale.entity.user.QUsers(forProperty("users")) : null;
     }
 
 }

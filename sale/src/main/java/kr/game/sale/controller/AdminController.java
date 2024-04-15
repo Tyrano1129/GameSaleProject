@@ -17,10 +17,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartRequest;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.SimpleFormatter;
 
 @Slf4j
@@ -57,7 +61,7 @@ public class AdminController {
     @GetMapping("/gameUpdateForm")
     public String getUpdateForm(@RequestParam(name="id")Long id, Model model){
         Game game = gameService.getOneGames(id);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         GameForm games = GameForm.builder()
                 .id(game.getSteamAppid())
@@ -74,8 +78,16 @@ public class AdminController {
                 .screenshots(game.getScreenshots())
                 .build();
 
+        String update = "/admin/gameUpdate";
         model.addAttribute("game",games);
+        model.addAttribute("update",update);
+
         return "admin/gameForm";
+    }
+    @PostMapping("/gameUpdate")
+    public String getUpdate(){
+
+        return "admin/adminForm";
     }
     @DeleteMapping("/gameOneDelete")
     public @ResponseBody String gameOneDelete(Long id){
@@ -96,5 +108,17 @@ public class AdminController {
     public @ResponseBody String userOneDate(Long id){
        userService.adminUsersOneDelete(id);
         return "ok";
+    }
+    @PostMapping("/image")
+    public @ResponseBody Map<String,Object> updateMemberInfo(MultipartRequest request) throws IOException {
+        Map<String,Object> responseData = new HashMap<>();
+//        String gcpUrl = .updateMemberInfo(request);
+//        responseData.put("uploaded",true);
+//        responseData.put("url",gcpUrl);
+        return responseData;
+    }
+    @PostMapping("/gameInsert")
+    public String gmaeInsert(){
+        return "admin/adminForm";
     }
 }

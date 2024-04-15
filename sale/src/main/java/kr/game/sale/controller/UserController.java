@@ -1,7 +1,9 @@
 package kr.game.sale.controller;
 
 import kr.game.sale.entity.user.Users;
+import kr.game.sale.service.QnAService;
 import kr.game.sale.service.UserService;
+import kr.game.sale.service.WishlistService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+    private final QnAService qnaService;
+    private final WishlistService wishlistService;
 
     @GetMapping("/joinForm")
     public String userJoinForm() {
@@ -65,5 +69,48 @@ public class UserController {
             // 사용자가 인증되어 있지 않은 경우
             return "invalid";
         }
+    }
+
+    @GetMapping("/myPage")
+    public String myPage() {
+        return "users/myPage";
+    }
+
+    @GetMapping("/userQuestion")
+    public String userQuestion(Model model) {
+        model.addAttribute("qnaList", qnaService.findAllByUsers());
+        return "users/userQuestion";
+    }
+
+    @GetMapping("/userWishlist")
+    public String userWishlist(Model model) {
+        model.addAttribute("wishlistViewList", wishlistService.getAllWishlistView());
+        return "users/userWishlist";
+    }
+
+    @GetMapping("/userUpdate")
+    public String userUpdate(Model model) {
+        userService.getLoggedInUser();
+        model.addAttribute("users", userService.getLoggedInUser());
+        log.info("user : {}", userService.getLoggedInUser());
+        return "users/userUpdate";
+    }
+
+    @PostMapping("/doUpdate")
+    public String doUpdate(Users usersForm) {
+        userService.updateUser(usersForm);
+        return "redirect:/users/userUpdate";
+    }
+
+    @GetMapping("/userResign")
+    public String userResign(Model model) {
+        model.addAttribute("users", userService.getLoggedInUser());
+        return "users/userResign";
+    }
+
+    @PostMapping("/doResign")
+    public String doResign() {
+        userService.userResign();
+        return "redirect:/";
     }
 }

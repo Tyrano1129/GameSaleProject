@@ -21,6 +21,8 @@ public class Notice {
     private int noticeCount;
     private String noticeWriter;
     private LocalDateTime noticeDate;
+    private String gcpImageLink;
+    private String orgImageName;
 
     // 값넣는 생성자
     @Builder
@@ -41,11 +43,17 @@ public class Notice {
         this.noticeWriter = noticeWriter;
         this.noticeDate = noticeDate;
     }
+    public Notice(String gcpImageLink, String orgImageName) {
+        this.gcpImageLink = gcpImageLink;
+        this.orgImageName = orgImageName;
+    }
+
     public String localDateFormater(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         String formated = this.noticeDate.format(formatter);
         return formated;
     }
+
     // 카운트 업
     public void countUp() {
         this.noticeCount +=1;

@@ -9,9 +9,10 @@ import net.minidev.json.annotate.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.game.sale.entity.admin.QnA;
+
 @Entity
 @Data
-
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +24,7 @@ public class Users {
     private String userPhone;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
+
     // OAuth 를 위해 추가하는 필드
     private String provider;
     private String providerId;
@@ -31,4 +33,10 @@ public class Users {
     @Transient
     @JsonIgnore
     private List<Review> reviews = new ArrayList<>();
+    // Cart 와의 일대다 관계 설정
+    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Cart> carts;
+    // QnA 와의 일대다 관계 설정
+    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<QnA> qnas;
 }

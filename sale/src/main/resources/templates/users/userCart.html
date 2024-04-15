@@ -37,7 +37,6 @@
                 <form action="/cart/order" id="cartFrm" method="post" name="cartFrm">
                     <fieldset class="vm-fieldset-pricelist">
                         <table border="1" cellpadding="0" cellspacing="0" class="cart-summary" width="100%">
-                            <tbody>
                             <tr>
                                 <th class="text-center" style="width:50px"><input id="chk_all" name="chk_all"
                                                                                   type="checkbox" value="Y"></th>
@@ -54,7 +53,7 @@
                                     장바구니가 비었습니다.
                                 </td>
                             </tr>
-                            <tr th:each="list : ${cartViewList}">
+                            <tr th:each="list ,listStat : ${cartViewList}">
                                 <td class="text-center"><input name="goods_code[]" type="checkbox"></td>
                                 <td name="goods_code[]" th:text="${list.getCartId()}"></td>
                                 <td><img th:alt="${list.name}"
@@ -64,16 +63,7 @@
                                 <td th:text="${list.price}">가격</td>
                                 <td th:text="${list.discount}">할인</td>
                                 <td th:text="${list.getTotal()}">합계</td>
-
-                                <input id="cartId" name="cartId" th:value="${list.getCartId()}" type="hidden"/>
-                                <input name="img" th:value="${list.getImg()}" type="hidden"/>
-                                <input name="name" th:value="${list.getName()}" type="hidden"/>
-                                <input name="price" th:value="${list.getPrice()}" type="hidden"/>
-                                <input name="discount" th:value="${list.getDiscount()}" type="hidden"/>
-                                <input name="total" th:value="${list.getTotal()}" type="hidden"/>
-                                <input name="checked" type="hidden" value="false"/>
                             </tr>
-                            </tbody>
                         </table>
                         <div id="del_btn_div">
                             <button class="btn btn-default btn-sm" id="btn_select_delete" type="button">선택삭제</button>
@@ -82,7 +72,7 @@
 
                     <div class="checkout-button-top">
                         <button class="btn btn-default btn-lg vm-button-correct" id="btn_order" name="checkout"
-                                onclick="order(form)" style="font-size:16px" type="button" value="1">주문하기
+                                style="font-size:16px" type="button" value="1">주문하기
                         </button>
                     </div>
                 </form>

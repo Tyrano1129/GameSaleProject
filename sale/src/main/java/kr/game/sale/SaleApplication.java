@@ -2,6 +2,7 @@ package kr.game.sale;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import kr.game.sale.entity.game.Game;
 import kr.game.sale.entity.user.Cart;
 import kr.game.sale.entity.user.UserRole;
@@ -14,6 +15,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootApplication
 @RequiredArgsConstructor
@@ -41,8 +43,8 @@ public class SaleApplication {
     @Bean
     public ApplicationRunner initData() {
         return args -> {
-
-            if (userRepository.findByUsername("admin") != null)
+            Users users = userRepository.findByUsername("admin").isEmpty()? null : userRepository.findByUsername("admin").get();
+            if (users != null)
                 return;
 
             Users admin = new Users(); // 관리자

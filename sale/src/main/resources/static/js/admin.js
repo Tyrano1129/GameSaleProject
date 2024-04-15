@@ -7,43 +7,45 @@ bList.forEach((b) => {
         listOn(b);
     });
 });
+
 function activereset() {
     bList.forEach((b) => {
         b.classList = "";
     });
 }
 
-function listOn(b){
-    if(!document.querySelector(".usercontainer")){
+function listOn(b) {
+    if (!document.querySelector(".usercontainer")) {
         location.href = "/admin";
     }
-    document.querySelector(".usercontainer").style.display="none";
-    document.querySelector(".qnacontainer").style.display="none";
-    document.querySelector(".refundcontainer").style.display="none";
-    document.querySelector(".gamecontainer").style.display="none";
+    document.querySelector(".usercontainer").style.display = "none";
+    document.querySelector(".qnacontainer").style.display = "none";
+    document.querySelector(".refundcontainer").style.display = "none";
+    document.querySelector(".gamecontainer").style.display = "none";
     // document.querySelector(".reviewcontainer").style.display="none";
-    if(b.id === "user"){
-        document.querySelector(".usercontainer").style.display="block";
-    }else if(b.id === "game"){
-        document.querySelector(".gamecontainer").style.display="block";
-    }else if(b.id === "qna") {
+    if (b.id === "user") {
+        document.querySelector(".usercontainer").style.display = "block";
+    } else if (b.id === "game") {
+        document.querySelector(".gamecontainer").style.display = "block";
+    } else if (b.id === "qna") {
         document.querySelector(".qnacontainer").style.display = "block";
-    }else if(b.id === "refund"){
-        document.querySelector(".refundcontainer").style.display="block";
-    }else if(b.id === "review"){
+    } else if (b.id === "refund") {
+        document.querySelector(".refundcontainer").style.display = "block";
+    } else if (b.id === "review") {
         // document.querySelector(".reviewcontainer").style.display="block";
     }
 }
 
 // user
 const roleList = [...document.querySelectorAll("#roleselect")];
-roleList.forEach((role)=> {
+roleList.forEach((role) => {
     role.addEventListener("change", () => {
         role.setAttribute("data-setting", "on");
     });
 })
+
 function userListRoleUpdate() {
-    if(!roleList){
+    if (!roleList) {
         return;
     }
     let dataList = [];
@@ -57,37 +59,38 @@ function userListRoleUpdate() {
         }
     });
 
-    fetch("/admin/userListRoleUpdate",{
+    fetch("/admin/userListRoleUpdate", {
         method: "post",
-        headers:{
+        headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(dataList),
     })
-    .then(response => response.text())
-    .then(data => {
-         if(data ==='ok'){
-             location.href="/admin";
-         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+        .then(response => response.text())
+        .then(data => {
+            if (data === 'ok') {
+                location.href = "/admin";
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
-function userDelete(value,url){
+
+function userDelete(value, url) {
     let id = parseInt(value);
     console.log(id);
-    fetch("/admin/"+url,{
+    fetch("/admin/" + url, {
         method: "delete",
-        headers:{
+        headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
-        body: "id="+id,
+        body: "id=" + id,
     })
         .then(response => response.text())
         .then(data => {
-            if(data ==='ok'){
-                location.href="/admin";
+            if (data === 'ok') {
+                location.href = "/admin";
             }
         })
         .catch(error => {
@@ -98,27 +101,29 @@ function userDelete(value,url){
 
 // modal
 let sub = document.querySelector(".subject");
-function refundCheck(subject,result,data) {
+
+function refundCheck(subject, result, data) {
     let id = "";
-    if(data){
+    if (data) {
         id = data.getAttribute("data-delete");
     }
     document.querySelector(".modal").classList.add("active");
     document.querySelector(".overlay").classList.add("active");
     sub.innerHTML = subject;
-    sub.setAttribute("data-id",result);
-    sub.setAttribute("data-delete",id);
+    sub.setAttribute("data-id", result);
+    sub.setAttribute("data-delete", id);
 }
+
 function refundAccept() {
     let id = sub.getAttribute("data-id");
-    if(id === "userupdate"){
+    if (id === "userupdate") {
         console.log(id);
         userListRoleUpdate()
-    }else if(id === "userdelete"){
-        userDelete(sub.getAttribute("data-delete"),"userOneDelete");
-    }else if(id === "gamedelete"){
-        userDelete(sub.getAttribute("data-delete"),"gameOneDelete");
-    }else if(id === "paymentDelete"){
+    } else if (id === "userdelete") {
+        userDelete(sub.getAttribute("data-delete"), "userOneDelete");
+    } else if (id === "gamedelete") {
+        userDelete(sub.getAttribute("data-delete"), "gameOneDelete");
+    } else if (id === "paymentDelete") {
         console.log(sub.getAttribute("data-delete"));
         // userDelete(sub.getAttribute("data-delete"));
     }
@@ -126,6 +131,7 @@ function refundAccept() {
     document.querySelector(".overlay").classList.remove("active");
     location.href = "#";
 }
+
 function refundCancel() {
     document.querySelector(".modal").classList.remove("active");
     document.querySelector(".overlay").classList.remove("active");
@@ -133,8 +139,22 @@ function refundCancel() {
 }
 
 // gameForm
+
+
 var filesArr = [];
 var fileNo = 0;
+
+let files = document.querySelector("#files");
+files.addEventListener("change", (e) => {
+    let fReader = new FileReader();
+    fReader.readAsDataURL(files.files[0]);
+    fReader.onloadend = function (event) {
+        document.querySelector(".upload-name").value = e.target.value;
+        let img = document.createElement("img");
+        img.src = event.target.result;
+        document.querySelector(".hederiamge").append(img);
+    };
+});
 function addFile(obj) {
     for (const file of obj.files) {
         // 첨부파일 검증
@@ -160,6 +180,7 @@ function addFile(obj) {
         }
     }
 }
+
 function validation(obj) {
     const fileType = [
         "application/pdf",
@@ -181,8 +202,35 @@ function validation(obj) {
         return true;
     }
 }
+
 /* 첨부파일 삭제 */
 function deleteFile(num) {
     document.querySelector("#file" + num).remove();
     filesArr[num].is_delete = true;
+}
+function result(form){
+    // const input = document.querySelector("#resultbtn");
+    for(let i = 0; i < form.screenshots.files.length; i+=1){
+        const file = form.screenshots.files[i];
+        console.log('Selected file:', file.name);
+    }
+    // if(input.value ==="추가"){
+    //     fetch('/admin/gameInsert',{
+    //         headers:{
+    //             "Content-Type" : "application/json"
+    //         },
+    //         body: JSON.stringify(form),
+    //     })
+    //         .then(response => response.text())
+    //         .then(data => {
+    //             if(data === "ok"){
+    //                 alert("추가완료되었습니다.");
+    //                 location.href="/admin";
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.error("error:",error);
+    //         });
+    // }
+    // else if(input.value ==="수정"){}
 }
