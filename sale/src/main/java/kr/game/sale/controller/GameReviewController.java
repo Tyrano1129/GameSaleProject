@@ -5,6 +5,7 @@ import kr.game.sale.entity.game.review.Review;
 import kr.game.sale.entity.game.review.ReviewDTO;
 import kr.game.sale.entity.game.review.ReviewPageDTO;
 import kr.game.sale.entity.game.review.ReviewResponse;
+import kr.game.sale.entity.game.review.vote.ReviewVoteDTO;
 import kr.game.sale.entity.user.Users;
 import kr.game.sale.service.GameReviewService;
 import kr.game.sale.service.GameService;
@@ -48,8 +49,6 @@ public class GameReviewController {
                 .game(game)
                 .build()
         );
-
-
         return "success";
     }
 
@@ -71,6 +70,18 @@ public class GameReviewController {
         dataMap.put("list",list.getContent());
 
         return dataMap;
+    }
+
+    @PostMapping("/vote")
+    @ResponseBody
+    public String insertGameReview(@RequestBody ReviewVoteDTO reviewVoteDTO) {
+        // gameSearchDTO를 사용하여 검색 로직을 수행하고 결과를 생성합니다.
+        // 이 예시에서는 받은 DTO 객체를 문자열로 반환합니다.
+        log.info(" ReviewVoteDTO =>{}"+ reviewVoteDTO);
+        reviewVoteDTO.setUserId("1");
+        gameReviewService.saveReviewVote(reviewVoteDTO);
+
+        return "success";
     }
 
 

@@ -34,6 +34,8 @@ public class QReview extends EntityPathBase<Review> {
 
     public final kr.game.sale.entity.user.QUsers users;
 
+    public final NumberPath<Integer> voteCnt = createNumber("voteCnt", Integer.class);
+
     public QReview(String variable) {
         this(Review.class, forVariable(variable), INITS);
     }

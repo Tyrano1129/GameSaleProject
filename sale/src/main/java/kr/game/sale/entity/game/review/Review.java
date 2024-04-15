@@ -8,6 +8,7 @@ import kr.game.sale.entity.game.Game;
 import kr.game.sale.entity.user.Users;
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -33,6 +34,9 @@ public class Review {
     @Column(name = "reg_date")
     private LocalDateTime regDate;
 
+    @Column(name ="vote_cnt")
+    @ColumnDefault("0")
+    private int voteCnt;
 
     @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name="steam_appid" , referencedColumnName = "steam_appid", nullable = false)

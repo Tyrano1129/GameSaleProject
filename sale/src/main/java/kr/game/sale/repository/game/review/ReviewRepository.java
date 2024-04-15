@@ -14,7 +14,7 @@ import java.util.List;
 
 import static kr.game.sale.entity.game.QGame.game;
 
-public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewRepositoryCustom{
+public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewRepositoryCustom {
 
 
 

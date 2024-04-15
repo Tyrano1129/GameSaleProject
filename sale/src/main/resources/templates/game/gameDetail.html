@@ -427,6 +427,32 @@
         $('#screenshot_image').html($(this).find('img').attr('data-url'));
     });
 
+    $(document).on("click", '.voteBtn', function(event) {
+        event.preventDefault();
+
+        var formData = {
+            reviewId: $(this).attr('data-reviewId')
+        };
+        var jsonData = JSON.stringify(formData);
+        console.log(JSON.parse(jsonData));
+        // Ajax 요청
+        $.ajax({
+            type: 'POST',
+            url: '/gameReview/vote',
+            contentType: 'application/json',
+            data: jsonData,
+            dataType: "json",
+            success: function(response) {
+                console.log(response);
+                getReviewList();
+            },
+            error: function(xhr, status, error) {
+                // 요청이 실패하면 이 부분을 실행
+                console.error(xhr.responseText);
+            }
+        });
+    });
+
     $(document).on("click", '.live-link , .pageBtn', function(event) {
         event.preventDefault();
         $('#currPage').val($(this).find('a').attr('data-page'));
@@ -613,7 +639,12 @@
         html +=  review.content;
         html += '    </div>';
         html += '    <div class="PricebasePrice vm-display vm-price-value" style="font-size: 12px; text-transform: uppercase; font-style: normal; display: inline-block;">';
-        html += '        <span class="PricebasePrice" style="color: #ffffff; opacity: 0.4;">' + review.regDate + '</span>';
+        html += '        <span class="PricebasePrice" style="color: #ffffff; opacity: 0.4;">' + review.regDate;
+        if(review.voteCnt == 0){
+            html +=  '   0명의 회원이 이 리뷰가 유용하다고 합니다.</span>';
+        }else{
+            html +=  '   '+review.voteCnt +'명의 회원이 이 리뷰가 유용하다고 합니다.</span>';
+        }
         html += '    </div>';
         html += '</h2>';
 
@@ -623,8 +654,8 @@
 
 // 네 번째 div 요소 (유용해요와 신고 버튼)
         html += '        <div class="vm-product-descr-container-1" style="margin-left: 10px; margin-right: 10px; width:66px;padding:0;overflow:hidden; color: #8091a2;">';
-        html += '            <span class="label" data-reviewId="' + review.reviewId + '"  style="background-color: #4e69a2; padding: .2em .6em .3em; font-size:13px; font-family:tahoma; color:#e7e7e7; padding-top:8px; padding-bottom:8px;display:block;">유용해요</span>';
-        html += '            <span class="label" data-reviewId="' + review.reviewId + '" style="padding: .2em .6em .3em; font-size:13px; font-family:tahoma; color:#8091a2;padding-top:8px; padding-bottom:8px;display:block;">신고</span>';
+        html += '            <span class="label voteBtn" data-reviewId="' + review.reviewId + '"  style="background-color: #4e69a2; padding: .2em .6em .3em; font-size:13px;cursor: pointer; font-family:tahoma; color:#e7e7e7; padding-top:8px; padding-bottom:8px;display:block;">유용해요</span>';
+        html += '            <span class="label reportBtn" data-reviewId="' + review.reviewId + '" style="padding: .2em .6em .3em; font-size:13px; font-family:tahoma; color:#8091a2;padding-top:8px; padding-bottom:8px;display:block;">신고</span>';
         html += '        </div>';
 
         html += '    </div>';

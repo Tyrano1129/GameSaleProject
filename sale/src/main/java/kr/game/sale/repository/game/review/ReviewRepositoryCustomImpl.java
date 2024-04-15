@@ -4,32 +4,33 @@ import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import kr.game.sale.entity.game.Game;
-import kr.game.sale.entity.game.GameSearchDTO;
-import kr.game.sale.entity.game.SortType;
 import kr.game.sale.entity.game.review.Review;
 import kr.game.sale.entity.game.review.ReviewPageDTO;
-import kr.game.sale.entity.game.review.ReviewResponse;
 import kr.game.sale.entity.game.review.ReviewSortType;
+import kr.game.sale.entity.game.review.vote.ReviewVoteDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.util.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
 
 import static kr.game.sale.entity.game.review.QReview.review;
+import static kr.game.sale.entity.game.review.vote.QReviewVote.reviewVote;
 import static kr.game.sale.entity.game.QGame.game;
 @RequiredArgsConstructor
 @Slf4j
 public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
+
+
+
+
 
     @Override
     public Page<Review> searchReview(ReviewPageDTO reviewPageDTO, Pageable pageable) {
@@ -56,6 +57,15 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom{
 
         return new PageImpl<>(reviews,pageable,totalCount);
     }
+
+    @Transactional
+    @Override
+    public void addVote(ReviewVoteDTO reviewVoteDTO) {
+        queryFactory.update(review)
+                .set(review.voteCnt, review.voteCnt.add(1))
+                .where(review.reviewId.eq(Long.valueOf(reviewVoteDTO.getReviewId()))).execute();
+    }
+
     private BooleanExpression isPositive(ReviewSortType sortType) {
         System.out.println(sortType.toString());
         if(Objects.isNull(sortType)) return null;

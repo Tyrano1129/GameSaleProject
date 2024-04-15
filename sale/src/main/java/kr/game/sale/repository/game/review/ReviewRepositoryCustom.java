@@ -8,6 +8,8 @@ import kr.game.sale.entity.game.SortType;
 import kr.game.sale.entity.game.review.Review;
 import kr.game.sale.entity.game.review.ReviewPageDTO;
 import kr.game.sale.entity.game.review.ReviewResponse;
+import kr.game.sale.entity.game.review.vote.ReviewVote;
+import kr.game.sale.entity.game.review.vote.ReviewVoteDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -15,4 +17,6 @@ import java.util.List;
 
 public interface ReviewRepositoryCustom {
     public Page<Review> searchReview(ReviewPageDTO gameSearchDTO, Pageable pageable);
+
+    public void addVote(ReviewVoteDTO reviewVoteDTO);
 }
