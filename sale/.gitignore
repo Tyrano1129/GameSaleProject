@@ -25,6 +25,7 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+tidal-pathway-419203-b177acd7ad62.json
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
