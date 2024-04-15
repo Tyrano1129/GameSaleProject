@@ -93,7 +93,7 @@ public class UserService {
     public Users getLoggedInUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName(); // 로그인 중인 유저
-        Optional<Users> users =userRepository.findByUsername(username);
+        Optional<Users> users = userRepository.findByUsername(username);
         return users.isEmpty()? null : users.get();
     }
 
