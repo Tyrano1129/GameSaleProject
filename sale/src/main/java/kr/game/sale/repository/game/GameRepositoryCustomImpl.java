@@ -4,14 +4,21 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.netty.util.internal.StringUtil;
 import kr.game.sale.entity.game.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -55,7 +62,7 @@ public class GameRepositoryCustomImpl  implements GameRepositoryCustom{
         List<SteamSpyDataDTO> list = List.copyOf(gameMap.values());
         list = list.stream().filter(g -> g.getPrice() > 0).collect(Collectors.toList());
 
-        List<SteamSpyDataDTO> topTenList = list.subList(0, 9);
+        List<SteamSpyDataDTO> topTenList = list.subList(0, 5);
 
 
         List<Game> Games = new ArrayList<>();
@@ -96,6 +103,38 @@ public class GameRepositoryCustomImpl  implements GameRepositoryCustom{
         return Games;
     }
 
+    /*헤더 search bar 검색*/
+    @Override
+    public Page<Game> searchGamesByKeyword(GameSearchDTO gameSearchDTO, Pageable pageable) {
+        OrderSpecifier orderSpecifier = createOrderSpecifier(gameSearchDTO.getSortType());
+
+        QueryResults<Game> queryResults = queryFactory
+                .selectFrom(game)
+                .where(
+                        containsKeyword(game.name, gameSearchDTO.getSearchKeyword()),
+                        containsKeyword(game.name, gameSearchDTO.getInnerSearchKeyword()),
+                        containsCategory(game.genres, gameSearchDTO.getSearchCategory()),
+                        containsPublisher(game.publisher, gameSearchDTO.getSearchPublisher()),
+                        koreanSupported(gameSearchDTO.getSearchInterfaceKorean())
+                )
+                .orderBy(orderSpecifier)
+                .offset(pageable.getOffset()) // 페이징 시작 위치 설정
+                .limit(pageable.getPageSize()) // 한 페이지에 보여줄 아이템 수 설정
+                .fetchResults();
+
+        long totalCount = queryResults.getTotal();
+        List<Game> games = queryResults.getResults();
+
+        return new PageImpl<>(games,pageable,totalCount);
+    }
+
+    /*모든 publisher 리스트 반환 함수*/
+    @Override
+    public List<String> findAllPublishers() {
+        return queryFactory.selectDistinct(game.publisher).from(game).fetch();
+    }
+
+    /*Main 화면 게임 리스트 반환 함수*/
     @Override
     public List<Game> findMainList(SortType type, GameSearchCondition condition) {
         OrderSpecifier orderSpecifier = createOrderSpecifier(type);
@@ -109,7 +148,15 @@ public class GameRepositoryCustomImpl  implements GameRepositoryCustom{
                 .limit(12)
                 .fetch();
     }
-
+    private BooleanExpression containsPublisher(StringExpression expression, String publisher) {
+        return StringUtils.hasText(publisher) ?  expression.contains(publisher) : null;
+    }
+    private BooleanExpression containsCategory(StringExpression expression, String category) {
+        return StringUtils.hasText(category) ?  expression.contains(category) : null;
+    }
+    private BooleanExpression containsKeyword(StringExpression expression, String keyword) {
+        return StringUtils.hasText(keyword) ?  expression.contains(keyword) : null;
+    }
     private BooleanExpression koreanSupported(String lang){
         return StringUtils.hasText(lang) ? game.supportedLanguages.contains(lang) : null;
     }
@@ -119,6 +166,8 @@ public class GameRepositoryCustomImpl  implements GameRepositoryCustom{
         return switch (sortType) {
             case DISCOUNT -> new OrderSpecifier<>(Order.DESC, game.discount);
             case POPULARITY -> new OrderSpecifier<>(Order.ASC, game.steamRank);
+            case HIGH_PRICE -> new OrderSpecifier<>(Order.DESC, game.price);
+            case LOW_PRICE -> new OrderSpecifier<>(Order.ASC, game.price);
             default ->   new OrderSpecifier<>(Order.DESC, game.releaseDate);
         };
     }

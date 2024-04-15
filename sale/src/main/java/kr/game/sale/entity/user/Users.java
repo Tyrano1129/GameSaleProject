@@ -1,15 +1,18 @@
 package kr.game.sale.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import kr.game.sale.entity.admin.QnA;
-import lombok.Getter;
-import lombok.Setter;
+import kr.game.sale.entity.game.review.Review;
+import lombok.Data;
+import net.minidev.json.annotate.JsonIgnore;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import kr.game.sale.entity.admin.QnA;
+
 @Entity
-@Getter
-@Setter
+@Data
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +29,13 @@ public class Users {
     private String provider;
     private String providerId;
 
+    @OneToMany(mappedBy = "users" ,fetch = FetchType.LAZY)
+    @Transient
+    @JsonIgnore
+    private List<Review> reviews = new ArrayList<>();
     // Cart 와의 일대다 관계 설정
     @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Cart> carts;
-
     // QnA 와의 일대다 관계 설정
     @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<QnA> qnas;
