@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -20,8 +19,6 @@ public class QUsers extends EntityPathBase<Users> {
 
     public static final QUsers users = new QUsers("users");
 
-    public final ListPath<Cart, QCart> carts = this.<Cart, QCart>createList("carts", Cart.class, QCart.class, PathInits.DIRECT2);
-
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath password = createString("password");
@@ -29,8 +26,6 @@ public class QUsers extends EntityPathBase<Users> {
     public final StringPath provider = createString("provider");
 
     public final StringPath providerId = createString("providerId");
-
-    public final ListPath<kr.game.sale.entity.admin.QnA, kr.game.sale.entity.admin.QQnA> qnas = this.<kr.game.sale.entity.admin.QnA, kr.game.sale.entity.admin.QQnA>createList("qnas", kr.game.sale.entity.admin.QnA.class, kr.game.sale.entity.admin.QQnA.class, PathInits.DIRECT2);
 
     public final StringPath username = createString("username");
 

@@ -146,14 +146,7 @@ var fileNo = 0;
 
 let files = document.querySelector("#files");
 files.addEventListener("change", (e) => {
-    let fReader = new FileReader();
-    fReader.readAsDataURL(files.files[0]);
-    fReader.onloadend = function (event) {
-        document.querySelector(".upload-name").value = e.target.value;
-        let img = document.createElement("img");
-        img.src = event.target.result;
-        document.querySelector(".hederiamge").append(img);
-    };
+    document.querySelector(".upload-name").value = e.target.value;
 });
 function addFile(obj) {
     for (const file of obj.files) {

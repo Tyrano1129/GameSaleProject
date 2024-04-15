@@ -174,8 +174,15 @@ public class NoticeController {
 
     @PostMapping("/insert")
     public String noticeInsert(NoticeForm form){
-
-        return "notice/noticeList";
+        log.info("form={}",form);
+        adminService.noticeInsert(form);
+        return "redirect:/notice";
     }
 
+    @PostMapping("/update")
+    public String noticeUpdate(NoticeForm form){
+        log.info("form={}",form);
+        adminService.noticeUpdate(form);
+        return "redirect:/notice";
+    }
 }
