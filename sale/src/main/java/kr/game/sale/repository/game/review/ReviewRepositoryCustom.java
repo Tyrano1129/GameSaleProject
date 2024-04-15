@@ -7,6 +7,7 @@ import kr.game.sale.entity.game.GameSearchDTO;
 import kr.game.sale.entity.game.SortType;
 import kr.game.sale.entity.game.review.Review;
 import kr.game.sale.entity.game.review.ReviewPageDTO;
+import kr.game.sale.entity.game.review.ReviewResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -7,6 +7,7 @@ import kr.game.sale.entity.game.GameSearchDTO;
 import kr.game.sale.entity.game.SortType;
 import kr.game.sale.entity.game.review.Review;
 import kr.game.sale.entity.game.review.ReviewPageDTO;
+import kr.game.sale.entity.game.review.ReviewResponse;
 import kr.game.sale.repository.game.GameRepository;
 import kr.game.sale.repository.game.review.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +28,10 @@ public class GameReviewService {
         repository.save(review);
     }
 
-    public Page<Review> getList(ReviewPageDTO reviewPageDTO, Pageable pageable){return repository.searchReview(reviewPageDTO, pageable);}
+    public Page<ReviewResponse> getList(ReviewPageDTO reviewPageDTO, Pageable pageable){
+
+        Page<Review> reviews = repository.searchReview(reviewPageDTO, pageable);
+        Page<ReviewResponse>  reviewResponses = reviews.map(r -> new ReviewResponse(r));
+        return reviewResponses;
+    }
 }

@@ -29,11 +29,6 @@ public class Users {
     private String provider;
     private String providerId;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @Transient
-    @JsonIgnore
-    private List<Review> reviews = new ArrayList<>();
-
     // Cart 와의 일대다 관계 설정
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @Transient

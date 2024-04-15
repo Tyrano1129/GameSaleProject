@@ -8,6 +8,8 @@ import kr.game.sale.entity.game.Game;
 import kr.game.sale.entity.user.Users;
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -31,22 +33,15 @@ public class Review {
     @Column(name = "reg_date")
     private LocalDateTime regDate;
 
-    @JsonIdentityInfo(
-            generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "steamAppid")
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne(fetch = FetchType.LAZY ,optional = false,cascade = CascadeType.REMOVE)
+
+    @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name="steam_appid" , referencedColumnName = "steam_appid", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Game game;
 
-    @JsonIdentityInfo(
-            generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id",
-            scope = Users.class
-            )
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne(fetch = FetchType.LAZY ,optional = false,cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name="user_id" , referencedColumnName ="user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Users users;
 
 
