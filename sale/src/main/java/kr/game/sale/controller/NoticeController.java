@@ -174,6 +174,7 @@ public class NoticeController {
 
     @PostMapping("/insert")
     public String noticeInsert(NoticeForm form){
+
         return "notice/noticeList";
     }
 

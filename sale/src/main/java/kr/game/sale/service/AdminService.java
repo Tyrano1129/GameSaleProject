@@ -10,6 +10,7 @@ import kr.game.sale.entity.admin.Notice;
 import kr.game.sale.entity.admin.Payment;
 import kr.game.sale.entity.admin.QnA;
 import kr.game.sale.entity.admin.Refund;
+import kr.game.sale.entity.form.NoticeForm;
 import kr.game.sale.repository.admin.NoticeRepository;
 import kr.game.sale.repository.admin.PaymentRepository;
 import kr.game.sale.repository.admin.QnARepository;
@@ -167,8 +168,31 @@ public class AdminService {
     }
 
     public Notice getOneNotice(Long id){
-        return noticeRepository.findById(id).isEmpty()? null : noticeRepository.findById(id).get();
+        Notice notice = noticeRepository.findById(id).isEmpty()? null : noticeRepository.findById(id).get();
+        if(notice != null) {
+            notice.countUp();
+            noticeRepository.save(notice);
+        }
+        return notice;
     }
 
+    public void noticeInsert(NoticeForm form){
+        Notice notice = Notice.builder()
+                .noticeTitle(form.getTitle())
+                .noticeContent(form.getContent())
+                .noticeWriter(form.getWriter())
+                .build();
+
+        noticeRepository.save(notice);
+    }
+    public void noticeUpdate(NoticeForm form){
+        Notice notice = getOneNotice(form.getId());
+        if(notice != null){
+            notice.setNotice(
+                    form.getTitle(),form.getContent(),form.getWriter(),form.getCount()
+            );
+            noticeRepository.save(notice);
+        }
+    }
 
 }

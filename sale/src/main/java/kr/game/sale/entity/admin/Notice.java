@@ -21,8 +21,6 @@ public class Notice {
     private int noticeCount;
     private String noticeWriter;
     private LocalDateTime noticeDate;
-    private String gcpImageLink;
-    private String orgImageName;
 
     // 값넣는 생성자
     @Builder
@@ -32,7 +30,13 @@ public class Notice {
         this.noticeWriter = noticeWriter;
         this.noticeDate = LocalDateTime.now();
     }
-
+    public void setNotice(String noticeTitle, String noticeContent, String noticeWriter,int count){
+        this.noticeTitle = noticeTitle;
+        this.noticeContent = noticeContent;
+        this.noticeWriter = noticeWriter;
+        this.noticeDate = LocalDateTime.now();
+        this.noticeCount = count;
+    }
 
     @QueryProjection
     public Notice(Long noticeId, String noticeTitle, String noticeContent, int noticeCount, String noticeWriter, LocalDateTime noticeDate) {
@@ -42,10 +46,6 @@ public class Notice {
         this.noticeCount = noticeCount;
         this.noticeWriter = noticeWriter;
         this.noticeDate = noticeDate;
-    }
-    public Notice(String gcpImageLink, String orgImageName) {
-        this.gcpImageLink = gcpImageLink;
-        this.orgImageName = orgImageName;
     }
 
     public String localDateFormater(){
