@@ -483,22 +483,28 @@
 
         $('#currPage').val(reviewPageDTO.currPage);
 
-        if(reviewPageDTO.currPage > reviewPageDTO.pagesize){
+        if(reviewPageDTO.currPage > reviewPageDTO.pageSize){
             $('#firstBtn').removeClass('disabled').removeClass('hide');
-            $('#firstBtn').find('a').attr('data-page', reviewPageDTO.currPage-1);
+            $('#firstBtn').find('a').attr('data-page', 1);
             $('#prevBtn').removeClass('disabled').removeClass('hide');
-            $('#prevBtn').find('a').attr('data-page', reviewPageDTO.currPage-1);
+            $('#prevBtn').find('a').attr('data-page', reviewPageDTO.startPage-1);
         }else{
             $('#firstBtn').addClass('disabled').addClass('hide');
             $('#prevBtn').addClass('disabled').addClass('hide');
         }
-        if(reviewPageDTO.totalPage > reviewPageDTO.pagesize && reviewPageDTO.endPage < reviewPageDTO.totalPage ){
+        if(reviewPageDTO.totalPage > reviewPageDTO.pageSize && reviewPageDTO.endPage < reviewPageDTO.totalPage ){
             $('#nextBtn').removeClass('disabled').removeClass('hide');
             $('#nextBtn').find('a').attr('data-page', reviewPageDTO.endPage+1);
         }else{
             $('#nextBtn').addClass('disabled').addClass('hide');
         }
-        $('#lastBtn').find('a').attr('data-page', reviewPageDTO.totalPage);
+
+        if(reviewPageDTO.currPage != reviewPageDTO.totalPage){
+            $('#lastBtn').removeClass('disabled').removeClass('hide');
+            $('#lastBtn').find('a').attr('data-page', reviewPageDTO.totalPage);
+        }else{
+            $('#lastBtn').addClass('disabled').addClass('hide');
+        }
 
         $('.live-link').remove();
 
@@ -534,11 +540,11 @@
             appId: $('#appId').val()
         };
 
-        if(formData.isPositive === null || formData.isPositive ===''){
+        if(formData.isPositive == null || formData.isPositive ==''){
             alert("평가를 선택해주세요.");
             return;
         }
-        if(formData.content === null || $.trim(formData.content) ===''){
+        if(formData.content == null || $.trim(formData.content) ==''){
             alert("내용을 입력해 주세요.");
             return;
         }

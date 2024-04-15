@@ -41,7 +41,9 @@ public class Review {
 
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
+            property = "id",
+            scope = Users.class
+            )
     @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne(fetch = FetchType.LAZY ,optional = false,cascade = CascadeType.REMOVE)
     @JoinColumn(name="user_id" , referencedColumnName ="user_id", nullable = false)

@@ -46,18 +46,8 @@ public class GameReviewController {
                 .user(user)
                 .game(game)
                 .build()
-         );
+        );
 
-       /* Pageable pageable = PageRequest.of(gameSearchDTO.getCurrPage()-1, gameSearchDTO.getPageSize(), Sort.by("releaseDate").ascending());
-        Page<Game> list = gameService.searchGamesByKeyword(gameSearchDTO,pageable);
-        for(Game g : list){
-            System.out.println(g);
-        }
-        gameSearchDTO.setPageCxt(gameSearchDTO.getCurrPage(), list.getTotalPages());
-
-        Map<String, Object> dataMap = new HashMap<>();
-        dataMap.put("gameSearchDTO", gameSearchDTO);
-        dataMap.put("list",list.getContent());*/
 
         return "success";
     }

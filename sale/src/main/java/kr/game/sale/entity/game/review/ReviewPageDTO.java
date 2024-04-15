@@ -9,7 +9,7 @@ import lombok.*;
 @ToString
 public class ReviewPageDTO {
 
-    private final int pageSize = 5;
+    private final int pageSize = 10;
     private int currPage;
     private int endPage;
     private int totalPage;

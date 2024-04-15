@@ -24,7 +24,7 @@ public class GameSearchDTO {
     private int startPage;
 
     public void setPageCxt(int currPage,int total) {
-        this.startPage =  this.currPage/10;
+
         this.totalPage = total;
         this.currPage = currPage;
         this.endPage = (int)(Math.ceil(this.currPage/10.0)*10);

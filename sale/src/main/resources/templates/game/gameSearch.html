@@ -424,23 +424,29 @@
         $('#search_interface_korean').prop("checked", koreanSupported);
 
         $('#currPage').val(gameSearchDTO.currPage);
-        $('.live-link').removeClass('active');
-        $('.live-link a').each(function() {
-            if ($(this).data('page') === gameSearchDTO.currPage) {
-                $(this).closest('.live-link').addClass('active');
-            }
-        });
-        if(gameSearchDTO.currPage > gameSearchDTO.pagesize){
+
+        if(gameSearchDTO.currPage > gameSearchDTO.pageSize){
             $('#firstBtn').removeClass('disabled').removeClass('hide');
-            $('#firstBtn').find('a').attr('data-page', gameSearchDTO.currPage-1);
+            $('#firstBtn').find('a').attr('data-page', 1);
             $('#prevBtn').removeClass('disabled').removeClass('hide');
-            $('#prevBtn').find('a').attr('data-page', gameSearchDTO.currPage-1);
+            $('#prevBtn').find('a').attr('data-page', gameSearchDTO.startPage-1);
+        }else{
+            $('#firstBtn').addClass('disabled').addClass('hide');
+            $('#prevBtn').addClass('disabled').addClass('hide');
         }
-        if(gameSearchDTO.totalPage > gameSearchDTO.pagesize && gameSearchDTO.endPage < gameSearchDTO.totalPage ){
+
+        if(gameSearchDTO.totalPage > gameSearchDTO.pageSize && gameSearchDTO.endPage < gameSearchDTO.totalPage ){
             $('#nextBtn').removeClass('disabled').removeClass('hide');
             $('#nextBtn').find('a').attr('data-page', gameSearchDTO.endPage+1);
+        }else {
+            $('#nextBtn').addClass('disabled').addClass('hide');
         }
-        $('#lastBtn').find('a').attr('data-page', gameSearchDTO.totalPage);
+        if(gameSearchDTO.currPage != gameSearchDTO.totalPage){
+            $('#lastBtn').removeClass('disabled').removeClass('hide');
+            $('#lastBtn').find('a').attr('data-page', gameSearchDTO.totalPage);
+        }else{
+            $('#lastBtn').addClass('disabled').addClass('hide');
+        }
         $('.live-link').remove();
 
         var html = '';
@@ -454,7 +460,6 @@
                 '</li>';
         }
         $(html).insertAfter('#prevBtn');
-
     }
 
 
