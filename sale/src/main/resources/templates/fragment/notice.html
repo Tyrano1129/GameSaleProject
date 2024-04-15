@@ -89,7 +89,7 @@
 </main>
 <main th:fragment="noticeForm">
     <div class="noticeFormcontainer">
-        <form class="noticeForm" action="/notice/insert" method="POST">
+        <form class="noticeForm" th:action="${notice} != null? '/notice/update' : '/notice/insert'" method="POST">
             <h1>공지사항</h1>
             <header class="noticeheader">
                 <hr />
@@ -104,7 +104,7 @@
             </footer>
             <input name="content" id="content"  type="hidden" th:value="${notice} != null? ${notice.content} : null"/>
             <input name="id" id="id"  type="hidden" th:value="${notice} != null? ${notice.id} : null"/>
-            <input name="count" id="count"  type="hidden" th:value="${notice} != null? ${notice.count} : null"/>
+            <input name="count" id="count"  type="hidden" th:value="${notice} != null? ${notice.count} : 0"/>
             <p class="btn">
                 <input
                         id="noticebutton"
@@ -114,6 +114,43 @@
                 />
             </p>
         </form>
+    </div>
+</main>
+<main th:fragment="noticeView">
+    <div class="blog-container">
+        <div class="blog-featured">
+            <div class="notice-item">
+                <div class="header-item">
+                    <h1 th:text="${notice.title}">해당 타이틀</h1>
+                </div>
+            </div>
+            <div class="notice-info">
+                <div class="info notice-writer">
+                    <i class="fa fa-user"></i>
+                    <span th:text="'작성자 : ' + ${notice.writer}">작성자 : 더좋은 게임즈 </span>
+                </div>
+                <div class="info notice-type">
+                    <i class="fa fa-folder-open"></i>
+                    <span>공지</span>
+                </div>
+                <div class="info notice-date">
+                    <i class="fa fa-calendar"></i>
+                    <span th:text="'작성일 : ' + ${notice.date}">작성일 : 2024-04-01</span>
+                </div>
+                <div class="info notice-count">
+                    <i class="fa fa-eye"></i>
+                    <span th:text="'조회수 : ' + ${notice.count}">조회수 : 32</span>
+                </div>
+            </div>
+            <div class="notice-main" th:utext="${notice.content}">
+
+            </div>
+            <div class="notice-back">
+                <a class="btn btn-primary" href="/notice">
+                    <span>목록</span>
+                </a>
+            </div>
+        </div>
     </div>
 </main>
 </body>

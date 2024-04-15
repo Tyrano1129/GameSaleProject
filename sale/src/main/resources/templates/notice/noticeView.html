@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragment/header :: common_header(~{link})}">
+<head th:replace="~{fragment/header :: common_header(~{::link})}">
     <meta charset="UTF-8">
     <title>Title</title>
-    <link>
+    <link rel="stylesheet" href="/css/noticeView.css" />
 </head>
 <style th:replace="~{fragment/header :: bodyinit}">
 </style>
 <body>
-<div>
+<div  style="width: 1200px">
     <header th:replace="~{fragment/header :: header}"></header>
     <nav th:replace="~{fragment/header :: nav}"></nav>
+    <main th:replace="~{fragment/notice :: noticeView}"></main>
 </div>
 </body>
 </html>
