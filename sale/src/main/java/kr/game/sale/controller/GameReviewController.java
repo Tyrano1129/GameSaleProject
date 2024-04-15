@@ -4,6 +4,7 @@ import kr.game.sale.entity.game.Game;
 import kr.game.sale.entity.game.review.Review;
 import kr.game.sale.entity.game.review.ReviewDTO;
 import kr.game.sale.entity.game.review.ReviewPageDTO;
+import kr.game.sale.entity.game.review.ReviewResponse;
 import kr.game.sale.entity.user.Users;
 import kr.game.sale.service.GameReviewService;
 import kr.game.sale.service.GameService;
@@ -57,12 +58,12 @@ public class GameReviewController {
     public Map<String, Object> listGameReview(@RequestBody ReviewPageDTO reviewPageDTO) {
         log.info(" reviewPageDTO =>{}"+ reviewPageDTO);
         Pageable pageable = PageRequest.of(reviewPageDTO.getCurrPage()-1, reviewPageDTO.getPageSize(), Sort.by("ID").descending());
-        Page<Review> list = gameReviewService.getList(reviewPageDTO,pageable);
+        Page<ReviewResponse> list = gameReviewService.getList(reviewPageDTO,pageable);
         if(list.getContent().size() == 0){
             log.error("리스트가 비었습니다.");
         }
-        for(Review r : list){
-            log.info(" Review =>{}"+ r.getGame().getSteamAppid());
+        for(ReviewResponse r : list){
+            log.info(" Review =>{}"+ r);
         }
         reviewPageDTO.setPageCxt(reviewPageDTO.getCurrPage(), list.getTotalPages());
         Map<String, Object> dataMap = new HashMap<>();

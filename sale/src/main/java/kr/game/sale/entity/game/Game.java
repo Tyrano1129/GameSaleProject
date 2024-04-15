@@ -83,10 +83,10 @@ public class Game implements Serializable {
 
     private int rating;
 
-    @OneToMany(mappedBy = "game", fetch = FetchType.LAZY)
+    /*@OneToMany(mappedBy = "game", fetch = FetchType.LAZY)
     @Transient
     @JsonIgnore
-    private List<Review> reviews = new ArrayList<>();
+    private List<Review> reviews = new ArrayList<>();*/
 
     @Transient
     private List<String> genreList;
@@ -164,7 +164,6 @@ public class Game implements Serializable {
                 throw new RuntimeException(e);
             }
         }
-
         return this.genreList;
     }
 
