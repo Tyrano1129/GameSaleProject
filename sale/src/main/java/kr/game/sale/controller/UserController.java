@@ -1,6 +1,9 @@
 package kr.game.sale.controller;
 
+import kr.game.sale.entity.form.OrderRequest;
+import kr.game.sale.entity.form.WishRequest;
 import kr.game.sale.entity.user.Users;
+import kr.game.sale.service.CartService;
 import kr.game.sale.service.QnAService;
 import kr.game.sale.service.UserService;
 import kr.game.sale.service.WishlistService;
@@ -12,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @Slf4j
 @RequiredArgsConstructor
@@ -20,6 +25,7 @@ public class UserController {
     private final UserService userService;
     private final QnAService qnaService;
     private final WishlistService wishlistService;
+    private final CartService cartService;
 
     @GetMapping("/joinForm")
     public String userJoinForm() {
@@ -37,7 +43,7 @@ public class UserController {
     public String emailDuplicated(@RequestParam("username") String username) {
         log.info("username : {}", username);
         boolean exist = userService.isEmailExist(username);
-        return exist ? "invalid" : "valid";
+        return exist ? "valid" : "invalid";
     }
 
     @PostMapping("/sendCodeToEmail")
@@ -119,5 +125,31 @@ public class UserController {
     public String addToWishlist(@RequestParam String appId) {
         wishlistService.addToWishlist(appId);
         return "success";
+    }
+
+    @PostMapping("/deleteWishlist")
+    @ResponseBody
+    public String deleteWishlist(@RequestBody List<String> wishNumbers) {
+        wishlistService.deleteWishlistByIdList(wishNumbers);
+        return "success";
+    }
+
+    @GetMapping("/deleteWish")
+    public String deleteItem(@RequestParam Long wishlistId) {
+        // wishlistId를 이용하여 해당 아이템을 삭제하는 로직을 구현
+        // 예를 들어, 서비스나 리포지토리를 이용하여 아이템을 삭제할 수 있습니다.
+        // 여기서는 단순히 wishlistId를 받아서 해당 아이템을 삭제하는 것으로 가정합니다.
+        log.info("위시리스트 아이디 : {}", wishlistId);
+        wishlistService.deleteAWish(wishlistId);
+        // 삭제 로직을 수행한 후, 삭제 후에 사용자를 리다이렉트할 페이지를 반환합니다.
+        return "redirect:/users/userWishlist";
+    }
+    @PostMapping("/moveToCart")
+    public String move(@ModelAttribute WishRequest wishRequest) {
+        List<String> list = wishRequest.getSelectedItems();
+        log.info("wish 의 id들 : {}", list.toString());
+        wishlistService.deleteWishlistByIdList(list);
+        cartService.moveToCart(list);
+        return "redirect:/cart/myCart";
     }
 }

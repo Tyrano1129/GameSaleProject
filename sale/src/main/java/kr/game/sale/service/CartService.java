@@ -4,9 +4,11 @@ import kr.game.sale.entity.game.Game;
 import kr.game.sale.entity.user.Cart;
 import kr.game.sale.entity.user.CartView;
 import kr.game.sale.entity.user.Users;
+import kr.game.sale.entity.user.Wishlist;
 import kr.game.sale.repository.game.GameRepository;
 import kr.game.sale.repository.user.CartRepository;
 import kr.game.sale.repository.user.UserRepository;
+import kr.game.sale.repository.user.WishlistRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -17,15 +19,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CartService {
-    public final CartRepository cartRepository;
-    public final UserRepository userRepository;
-    public final GameRepository gameRepository;
+    private final CartRepository cartRepository;
+    private final UserRepository userRepository;
+    private final GameRepository gameRepository;
+    private final UserService userService;
+    private final WishlistRepository wishlistRepository;
 
     private static @NotNull CartView getCartView(Cart cart) {
         CartView view = new CartView();
@@ -66,14 +71,14 @@ public class CartService {
         }
         cartRepository.deleteAllByIdInBatch(longList);
     }
-    private Users getOneUser(String username){
-        return userRepository.findByUsername(username).isEmpty()? null : userRepository.findByUsername(username).get();
+
+    private Users getOneUser(String username) {
+        return userRepository.findByUsername(username).isEmpty() ? null : userRepository.findByUsername(username).get();
     }
+
     @Transactional
     public void addCart(String steamAppid) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName(); // 로그인 중인 유저
-        Users users = getOneUser(username);
+        Users users = userService.getLoggedInUser();
 
         Cart cart = new Cart();
         cart.setUsers(users);
@@ -81,5 +86,34 @@ public class CartService {
         cart.setGame(game);
 
         cartRepository.save(cart);
+    }
+
+    @Transactional
+    public void moveToCart(List<String> wishIdStringList) {
+        Users users = userService.getLoggedInUser();
+        List<Long> wishIdLongList = new ArrayList<>();
+
+        for (String string : wishIdStringList) {
+            wishIdLongList.add(Long.parseLong(string));
+        }
+
+        List<Optional<Wishlist>> wishlistList = new ArrayList<>();
+        for (Long id : wishIdLongList) {
+            wishlistList.add(wishlistRepository.findById(id));
+        }
+
+        for (Optional<Wishlist> optionalWishlist : wishlistList) {
+            if (optionalWishlist.isPresent()) {
+                Wishlist wishlist = optionalWishlist.get();
+                Game game = wishlist.getGame();
+
+                Cart cart = new Cart();
+                cart.setUsers(users);
+//                Game game = gameRepository.findBySteamAppid(Integer.parseInt(steamAppid));
+                cart.setGame(game);
+
+                cartRepository.save(cart);
+            }
+        }
     }
 }

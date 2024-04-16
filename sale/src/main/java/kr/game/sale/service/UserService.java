@@ -34,6 +34,7 @@ public class UserService {
         String initPassword = users.getPassword();
         String enPassword = bCryptPasswordEncoder.encode(initPassword);
         users.setPassword(enPassword);
+        users.setUserPhone(users.getUserPhone());
         users.setUserRole(UserRole.ROLE_USER);
         userRepository.save(users);
     }

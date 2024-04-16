@@ -9,7 +9,6 @@ import kr.game.sale.entity.user.UserRole;
 import kr.game.sale.entity.user.Users;
 import kr.game.sale.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -23,7 +22,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     // userQuest 는 구글에서 코드를 받아서 accessToken을 응답 받는객체
     @Override
@@ -52,19 +50,22 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         } else {
             System.out.println("요청 실패");
         }
-        //System.out.println("oAuth2UserInfo.getProvider() : " + oAuth2UserInfo.getProvider());
-        //System.out.println("oAuth2UserInfo.getProviderId() : " + oAuth2UserInfo.getProviderId());
         Optional<Users> userOptional =
                 userRepository.findByProviderAndProviderId(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());
 
         Users users = new Users();
-        if (!userOptional.isPresent()) {
-            users.setUsername(oAuth2UserInfo.getEmail());
-            users.setUserNickname(oAuth2UserInfo.getName());
-            users.setUserRole(UserRole.ROLE_USER);
-            users.setProvider(oAuth2UserInfo.getProvider());
-            users.setProviderId(oAuth2UserInfo.getProviderId());
-            userRepository.save(users);
+        if (userOptional.isEmpty()) {
+            String email = oAuth2UserInfo.getEmail();
+            if (userRepository.findByUsername(email).isPresent()) {
+                users = userRepository.findByUsername(email).get();
+            } else {
+                users.setUsername(email);
+                users.setUserNickname(oAuth2UserInfo.getName());
+                users.setUserRole(UserRole.ROLE_USER);
+                users.setProvider(oAuth2UserInfo.getProvider());
+                users.setProviderId(oAuth2UserInfo.getProviderId());
+                userRepository.save(users);
+            }
         } else {
             users = userOptional.get();
         }
