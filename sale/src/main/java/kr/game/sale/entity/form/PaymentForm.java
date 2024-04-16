@@ -6,12 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @Slf4j
 public class PaymentForm {
-    private String username;
-    private String gameName;
+    private Long cartId;
+    private Long gameId;
     private int gamePrice;
     private int paymentPirce;
-    private String ordernum;
-    private String impUid;
     private String merchantUid;
 }
 

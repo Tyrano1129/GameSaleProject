@@ -1,5 +1,6 @@
 package kr.game.sale.controller;
 
+import com.querydsl.core.types.Order;
 import kr.game.sale.entity.form.OrderRequest;
 import kr.game.sale.entity.user.CartView;
 import kr.game.sale.entity.user.Users;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -49,13 +52,37 @@ public class CartController {
     }
 
     @PostMapping("/order")
-    public String order(@ModelAttribute OrderRequest orderRequest) {
-        List<String> list = orderRequest.getSelectedItems();
-        log.info("cart 의 id들 : {}", list.toString());
-
-       // 현재 로그인 중인 유저
+    public String order(@ModelAttribute OrderRequest orderRequest,Model model) {
+        log.info("cart 의 id들 : {}", orderRequest.toString());
         Users users = userService.getLoggedInUser();
+        List<String> lists = orderRequest.getSelectedItems();
+        // 해당하는 아이디 값 다시 담기
+        List<CartView> orderList = cartService.getMyOrder(users,lists);
+        int listTotal = 0;
+        int listDisPrice = 0;
+        int listGamePrice= 0;
+        for(CartView list : orderList){
+            listTotal += list.getTotal();
+            listDisPrice += list.getDisprice();
+            listGamePrice += list.getPrice();
+        }
+        log.info("list = {}",orderList);
+        log.info("listTotal = {}",listTotal);
+        log.info("listDisPrice = {}",listDisPrice);
+        log.info("listGamePrice = {}",listGamePrice);
+        DecimalFormat format = new DecimalFormat("#,###");
+        String listTotalView = format.format(listTotal);
+        String listDisPriceView = format.format(listDisPrice);
+        String listGamePriceView = format.format(listGamePrice);
+        // 현재 로그인 중인 유저
+        model.addAttribute("orderList",orderList);
+        model.addAttribute("listTotal",listTotal);
+        model.addAttribute("listDisPrice",listDisPrice);
+        model.addAttribute("listTotalView",listTotalView);
+        model.addAttribute("listDisPriceView",listDisPriceView);
+        model.addAttribute("listGamePriceView",listGamePriceView);
+        model.addAttribute("username",users.getUserNickname());
 
-        return "redirect:/cart/myCart";
+        return "users/payment";
     }
 }

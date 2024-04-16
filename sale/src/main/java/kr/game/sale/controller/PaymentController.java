@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @RequestMapping("/payment")
@@ -44,9 +45,8 @@ public class PaymentController {
     }
     // 결제 마무리
     @PostMapping("/paymentcheck")
-    public ResponseEntity<String> paymentComplete(@ModelAttribute PaymentForm payment) throws IOException {
-        String orderNumber = payment.getMerchantUid();
-
+    public @ResponseBody ResponseEntity<String> paymentComplete(@RequestBody List<PaymentForm> payment) throws IOException {
+        String orderNumber = payment.get(0).getMerchantUid();
         // 유저는 세션으로 가지고옴
         // 게임은 이름같은걸로 가지고옴
         // 게임 코드는 랜덤으로 만들예정
@@ -56,8 +56,9 @@ public class PaymentController {
         } catch(RuntimeException e){
             log.info("주문 상품 환불 진행 : 주문 번호 {}",orderNumber);
             String token = adminService.getToken(apiKey,secretKey);
-            adminService.refundRequest(token,orderNumber,e.getMessage());
+            adminService.refundRequest(token,orderNumber,e.getMessage(),0);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+
     }
 }

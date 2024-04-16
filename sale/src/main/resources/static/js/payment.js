@@ -14,18 +14,55 @@ function createnumber(){
     return parseInt(makeMerchanUid);
 }
 
+// 결제라인
 let checkd = true;
-function ordervalue(){
-    let order = {};
-    order.gameName = $('.gamename').val();
-    order.gamePrice = $('.gameprice').val();
-    order.paymentPrice = $('.paymentprice').val();
-    order.paymentOrderNum ="IMP" + createnumber();
-    return order;
+function ordervalue(number){
+    let payment = [];
+    let gamePrice = [...document.querySelectorAll("#price")];
+    let gameId = [...document.querySelectorAll("#gameId")];
+    let cartId = [...document.querySelectorAll("#cartId")];
+    let total = [...document.querySelectorAll("#total")];
+    let index = parseInt(document.querySelector("#index").value);
+    for(let i = 0; i < gameId.length; i+=1){
+        let data = {};
+        data.cartId = parseInt(cartId[i].value);
+        data.gameId = parseInt(gameId[i].value);
+        data.paymentPirce = parseInt(total[i].value);
+        data.merchantUid = "IMP"+number;
+        data.gamePrice = parseInt(gamePrice[i].value)
+        payment.push(data);
+
+    }
+    return payment;
+}
+// 타입 체크된거 찾기
+function orderType(){
+    let type;
+    let selete = document.getElementsByName("settlekind");
+    for(let i = 0; i < selete.length; i+=1){
+       if(selete[i].checked){
+           type = selete[i].value;
+           break;
+       }
+    }
+    return type;
 }
 function requestPay() {
+    let number = createnumber();
+    // let listTotal = parseInt(document.querySelector("#listtotal").value);
+    let listTotal = 300;
+    let orderName = document.querySelector("#ordername").value;
+    let username = document.querySelector("#username").value;
+    let data = ordervalue(number);
+    let type;
     if(!checkd){
         return;
+    }
+    // 결제 타입
+    if(!orderType()){
+        return;
+    }else{
+        type = orderType();
     }
     checkd = false;
 
@@ -35,42 +72,46 @@ function requestPay() {
     IMP.request_pay(
         {
             pg: "danal_tpay", // 다날
-            pay_method: "card", //결제방식
-            merchant_uid: "IMP" + createnumber(), // 주문번호(고유번호)
-            name: "게임이름", // 상품이름
-            amount: 300, // 결제가격
+            pay_method: type, //결제방식
+            merchant_uid: "IMP" + number, // 주문번호(고유번호)
+            name: orderName, // 상품이름
+            amount: listTotal, // 결제가격
             buyer_tel: "010-1234-5678", // 다날 필수
-            buyer_name : "유저 이름",
+            buyer_name : username,
         },
         function (rsp) {
             if (rsp.success) {
                 $.ajax({
-                    url : "/payment",
+                    url : "/payment/processing",
                     type : "post",
                     data: {
                         impUid: rsp.imp_uid,
                         merchantUid: rsp.merchant_uid
                     },
                     success : function (data){
-                        if(300 == data.response.amount){
+                        if(listTotal == data.response.amount){
                             // 저장 로직 또는 오류일경우 환불처리
-                            $.ajax({
-                                url:"/paymenttest",
-                                type:"post",
-                                data:{
-                                    impUid: rsp.imp_uid,
-                                    merchantUid: rsp.merchant_uid
+                            fetch("/payment/paymentcheck", {
+                                method: "POST",
+                                headers: {
+                                    "ConTent-Type": "application/json"
                                 },
-                                success : function (data){
-                                    console.log(data);
-                                    checkd = true;
-                                    $('.overlay').removeClass('active');
-                                },
-                                error :  function(request, status, error) {
-                                    alert("주문정보 저장을 실패");
-                                    checkd = true;
-                                    $('.overlay').removeClass('active');
+                                body: JSON.stringify(data)
+                            })
+                            .then(response => response.text())
+                            .then(data => {
+                                if(data == 200){
+                                    alert("결제완료 "+data);
                                 }
+                                checkd = true;
+                                $('.overlay').removeClass('active');
+                                location.href = "/";
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert("서버문제로 인하여 환불처리되었습니다.");
+                                checkd = true;
+                                $('.overlay').removeClass('active');
                             });
                         }
                     },
@@ -86,4 +127,5 @@ function requestPay() {
                 $('.overlay').removeClass('active');
             }
         });
+
 }
