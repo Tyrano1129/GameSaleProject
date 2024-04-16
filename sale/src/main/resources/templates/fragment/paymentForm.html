@@ -49,26 +49,34 @@
                                 </th>
                                 <th class="vm-cart-item-total">합계</th>
                             </tr>
-                            <tr th:each="list : ${cartList}">
+                            <tr th:each="list ,listStat: ${orderList}">
                                 <td>
                                     <img
                                             th:alt="${list.name}"
-                                            th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${list.getImg()}"
+                                            th:src="'https://cdn.akamai.steamstatic.com/steam/apps' + ${list.getImg()}"
                                             width="144"
                                             height="81"
                                             style="width: 144px"
                                     />
                                 </td>
-                                <td class="text-center" th:text="${list.name}">작성1</td>
-                                <td class="vm-cart-item-quantity" th:text="${list.price}">작성1</td>
-                                <td class="vm-cart-item-discount" th:text="${list.discount}">작성1</td>
-                                <td class="vm-cart-item-total" th:text="${list.total}">작성1</td>
+                                <td class="text-center"><p th:text="${list.name}"></p></td>
+                                <td class="vm-cart-item-quantity" ><p th:text="${list.priceview}+원"></p></td>
+                                <td class="vm-cart-item-discount" ><p th:text="${list.dispriceview}+원"></p></td>
+                                <td class="vm-cart-item-total" ><p th:text="${list.totalview}+원"></p></td>
+                                    <input type="hidden" id="gameId" name="gameId" th:value="${list.gameId}">
+                                    <input type="hidden" id="cartId" name="cartId" th:value="${list.cartId}">
+                                    <input type="hidden" id="price" name="price" th:value="${list.price}">
+                                    <input type="hidden" id="total" name="total" th:value="${list.total}">
+                                    <input th:if="${listStat.last}" type="hidden" id="ordername" name="ordername" th:value="${listStat.index ge 1}? ${list.name+'외'+listStat.index} : ${list.name}">
+                                    <input th:if="${listStat.last}" type="hidden" id="listtotal" name="listtotal" th:value="${listTotal}">
+                                    <input th:if="${listStat.last}" type="hidden" id="index" name="index" th:value="${listStat.index}">
+                                    <input th:if="${listStat.last}" type="hidden" id="username" name="username" th:value="${username}">
                             </tr>
                             <tr class="sectiontableentry1">
                                 <td colspan="2" align="left">합계</td>
-                                <td align="right">10000</td>
-                                <td align="right">0</td>
-                                <td align="right">10000</td>
+                                <td align="right" th:text="${listGamePriceView}+원">10000</td>
+                                <td align="right" th:text="${listDisPriceView}+원">0</td>
+                                <td align="right" th:text="${listTotalView}+원">10000</td>
                             </tr>
                             </tbody>
                         </table>
@@ -84,10 +92,19 @@
                                                     type="radio"
                                                     name="settlekind"
                                                     id="settlekind2"
-                                                    value=""
+                                                    value="card"
                                             />
                                             신용/체크카드 결제
                                         </label>
+<!--                                        <label>-->
+<!--                                            <input-->
+<!--                                                    type="radio"-->
+<!--                                                    name="settlekind"-->
+<!--                                                    id="settlekind3"-->
+<!--                                                    value="kakao"-->
+<!--                                            />-->
+<!--                                            카카오페이-->
+<!--                                        </label>-->
                                     </div>
                                 </li>
                             </ul>
@@ -97,18 +114,18 @@
                                 <span>최종결제 정보</span>
                                 <div class="finalsprice">
                                     <p>상품금액</p>
-                                    <p>1000원</p>
+                                    <p th:text="${listGamePriceView}+원">1000원</p>
                                 </div>
                                 <div class="finalsprice">
                                     <p>할은금액</p>
-                                    <p>1000원</p>
+                                    <p th:text="${listDisPriceView}+원">1000원</p>
                                 </div>
                                 <div class="finalsprice">
                                     <p>결제예정액</p>
-                                    <p>1000원</p>
+                                    <p th:text="${listTotalView}+원">1000원</p>
                                 </div>
                             </div>
-                            <button type="button" class="btn-payment" id="btn-payment" onclick="requestPay()">
+                            <button type="button" class="btn-payment" id="btn-payment" onclick="requestPay(form)">
                                 결제하기
                             </button>
                         </div>

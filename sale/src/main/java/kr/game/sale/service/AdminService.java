@@ -11,6 +11,7 @@ import kr.game.sale.entity.admin.Payment;
 import kr.game.sale.entity.admin.QnA;
 import kr.game.sale.entity.admin.Refund;
 import kr.game.sale.entity.form.NoticeForm;
+import kr.game.sale.entity.form.PaymentForm;
 import kr.game.sale.repository.admin.NoticeRepository;
 import kr.game.sale.repository.admin.PaymentRepository;
 import kr.game.sale.repository.admin.QnARepository;
@@ -54,7 +55,7 @@ public class AdminService {
 
 
     //토큰 요청 후 환불요청
-    public void refundRequest(String access_token,String merchant_uid,String reason) throws IOException {
+    public void refundRequest(String access_token,String merchant_uid,String reason,int price) throws IOException {
         URL url = new URL("https://api.iamport.kr/payments/cancel");
         HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
         // 요청 방식
@@ -73,6 +74,7 @@ public class AdminService {
         JsonObject json =  new JsonObject();
         json.addProperty("merchant_uid",merchant_uid);
         json.addProperty("reason",reason);
+        json.addProperty("amount",price);
 
         //출력 스트림으로 해당 conn에 요청
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
@@ -81,23 +83,22 @@ public class AdminService {
         bw.close();
 
         //입력 스트림으로 conn 요청에 대한 응답 반환
-        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
         String responseJson = new BufferedReader(new InputStreamReader(conn.getInputStream()))
                 .lines()
                 .collect(Collectors.joining("\n"));
-        br.close();
         conn.disconnect();
 
         log.info("결제 취소 완료 : 주문번호 {}",merchant_uid);
         System.out.println("응답 본문: " + responseJson);
 
-        JsonObject jsonResponse = JsonParser.parseString(responseJson).getAsJsonObject();
-        String resultCode = jsonResponse.get("code").getAsString();
-        String resultMessage = jsonResponse.get("message").getAsString();
-
-        System.out.println("결과 코드 = " + resultCode);
-        System.out.println("결과 메시지 = " + resultMessage);
+//        JsonObject jsonResponse = JsonParser.parseString(responseJson).getAsJsonObject();
+//        String resultCode = jsonResponse.get("code").getAsString();
+//        String resultMessage = jsonResponse.get("message").getAsString();
+//
+//        System.out.println("결과 코드 = " + resultCode);
+//        System.out.println("결과 메시지 = " + resultMessage);
     }
     // 토큰발급
     public String getToken(String apikey,String secretKey) throws IOException{
@@ -193,5 +194,12 @@ public class AdminService {
             noticeRepository.save(notice);
         }
     }
+
+    // payment
+    public void paymentInsert(List<PaymentForm> form){
+        for(PaymentForm list : form){
+        }
+    }
+
 
 }
