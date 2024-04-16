@@ -28,6 +28,8 @@ public class Review {
 
     private boolean isPositive;
 
+    private boolean isReported;
+
     @Column(columnDefinition = "TEXT")
     private String content;
 

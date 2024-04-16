@@ -8,6 +8,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.game.sale.entity.game.review.Review;
 import kr.game.sale.entity.game.review.ReviewPageDTO;
 import kr.game.sale.entity.game.review.ReviewSortType;
+import kr.game.sale.entity.game.review.report.ReviewReportDTO;
 import kr.game.sale.entity.game.review.vote.ReviewVoteDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +28,6 @@ import static kr.game.sale.entity.game.QGame.game;
 public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
-
-
-
-
 
     @Override
     public Page<Review> searchReview(ReviewPageDTO reviewPageDTO, Pageable pageable) {
@@ -58,20 +55,40 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom{
         return new PageImpl<>(reviews,pageable,totalCount);
     }
 
+    @Override
+    public Review findReviewByUserId(Long id) {
+        return queryFactory.selectFrom(review)
+                .where(
+                        isEqualToUserId(id)
+                ).fetchOne();
+    }
+
     @Transactional
     @Override
-    public void addVote(ReviewVoteDTO reviewVoteDTO) {
-        queryFactory.update(review)
+    public long addVote(ReviewVoteDTO reviewVoteDTO) {
+      return  queryFactory.update(review)
                 .set(review.voteCnt, review.voteCnt.add(1))
                 .where(review.reviewId.eq(Long.valueOf(reviewVoteDTO.getReviewId()))).execute();
     }
 
+    @Transactional
+    @Override
+    public long reportReview(ReviewReportDTO reviewReportDTO) {
+      return  queryFactory.update(review)
+                .set(review.isReported, true)
+                .where(review.reviewId.eq(Long.valueOf(reviewReportDTO.getReviewId())))
+                .execute();
+    }
+
     private BooleanExpression isPositive(ReviewSortType sortType) {
-        System.out.println(sortType.toString());
         if(Objects.isNull(sortType)) return null;
 
-        return sortType == ReviewSortType.POSITIVE ? review.isPositive.eq(true) :
+        return Objects.isNull(sortType) ? null:
+                sortType == ReviewSortType.POSITIVE ? review.isPositive.eq(true) :
                 sortType == ReviewSortType.NEGATIVE ? review.isPositive.eq(false) : null;
+    }
+    private BooleanExpression isEqualToUserId(Long value) {
+        return Objects.isNull(value) ? null : review.users.id.eq(value);
     }
 
     private BooleanExpression isEqualToGameId(Long value) {
@@ -80,6 +97,7 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom{
 
     private OrderSpecifier createOrderSpecifier(ReviewSortType sortType) {
         return switch (sortType) {
+            case HLEPFUL -> new OrderSpecifier<>(Order.DESC, review.voteCnt);
             default ->   new OrderSpecifier<>(Order.DESC, review.regDate);
         };
     }

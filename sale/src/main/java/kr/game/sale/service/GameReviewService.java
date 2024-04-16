@@ -8,6 +8,7 @@ import kr.game.sale.entity.game.SortType;
 import kr.game.sale.entity.game.review.Review;
 import kr.game.sale.entity.game.review.ReviewPageDTO;
 import kr.game.sale.entity.game.review.ReviewResponse;
+import kr.game.sale.entity.game.review.report.ReviewReportDTO;
 import kr.game.sale.entity.game.review.vote.ReviewVote;
 import kr.game.sale.entity.game.review.vote.ReviewVoteDTO;
 import kr.game.sale.entity.user.Users;
@@ -16,6 +17,7 @@ import kr.game.sale.repository.game.review.ReviewRepository;
 import kr.game.sale.repository.game.review.vote.ReviewVoteRepository;
 import kr.game.sale.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -31,17 +33,31 @@ public class GameReviewService {
     private final GameRepository gameRepository;
     private final UserRepository userRepository;
     private final ReviewVoteRepository voteRepository;
-
-    public void saveReview(Review review){
-        repository.save(review);
+    public ReviewVote findReviewVoteByUserId(Long id){return voteRepository.findReviewVoteByUserId(id);}
+    public Review findReviewByUserId(Long id){return repository.findReviewByUserId(id);}
+    public String saveReview(Review review){
+        try {
+            repository.save(review);
+            // 저장이 성공한 경우
+        } catch (DataIntegrityViolationException e) {
+            // 저장이 실패한 경우
+            // 예외 처리
+            e.printStackTrace(); // 예외를 적절히 처리하거나 로깅
+            return "fail";
+        }
+        return "success";
     }
 
-    public void saveReviewVote(ReviewVoteDTO reviewVoteDTO){
+    public String saveReviewReport(ReviewReportDTO reviewReportDTO){
+        return  repository.reportReview(reviewReportDTO)  > 0 ? "success" : "fail";
+    }
+
+    public String saveReviewVote(ReviewVoteDTO reviewVoteDTO){
         Users user = userRepository.getReferenceById(Long.valueOf(reviewVoteDTO.getUserId()));
         Review review = repository.getReferenceById(Long.valueOf(reviewVoteDTO.getReviewId()));
         voteRepository.save(ReviewVote.builder().users(user).review(review).build());
 
-        repository.addVote(reviewVoteDTO);
+      return  repository.addVote(reviewVoteDTO)  > 0 ? "success" : "fail";
     }
 
     public Page<ReviewResponse> getList(ReviewPageDTO reviewPageDTO, Pageable pageable){
