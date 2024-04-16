@@ -30,7 +30,7 @@ function alertError() {
     if (error === "001") {
         alert(`존재하지 않는 아이디 입니다.`);
     } else if (error === "002") {
-        alert(`내부 시스템 문제로 로그인 요청을 처리할 수 없습니다.`);
+        alert(`내부 시스템 에러 : 만약 SNS로 회원가입 하셨다면 SNS로그인을 이용해주세요.`);
     } else if (error === "003") {
         alert(`아이디(이메일)과 비밀번호를 확인하세요.`);
     } else if (error === "004") {

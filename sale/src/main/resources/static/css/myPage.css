@@ -52,7 +52,7 @@
 
 #myPage form {
     border: 1px solid rgba(255, 255, 255, 0.1);
-    /* padding: 25px; */
+    padding: 10px;
     color: #999999;
 }
 
@@ -205,3 +205,4 @@ select {
 #wishlistForm a {
     color: #999999;
 }
+

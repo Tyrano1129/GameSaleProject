@@ -15,6 +15,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+    @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         String errorMessage;
         if (exception instanceof UsernameNotFoundException) {

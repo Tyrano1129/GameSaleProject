@@ -6,6 +6,7 @@ import kr.game.sale.repository.game.GameRepository;
 import kr.game.sale.repository.user.WishlistRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,22 @@ public class WishlistService {
     private final WishlistRepository wishlistRepository;
     private final UserService userService;
     private final GameRepository gameRepository;
+
+    private static @NotNull List<WishlistView> getWishlistViews(List<Wishlist> wishlist) {
+        List<WishlistView> wishlistViewList = new ArrayList<>();
+        for (Wishlist wishlistItem : wishlist) {
+            WishlistView wishlistView = new WishlistView();
+            wishlistView.setWishlistId(wishlistItem.getId());
+//            wishlistView.setName(wishlistItem.getGame().getName());
+//            int price = wishlistItem.getGame().getPrice();
+//            wishlistView.setPrice(price);
+//            int discount = wishlistItem.getGame().getDiscount();
+//            wishlistView.setDiscount(discount);
+//            wishlistView.setTotal(getDiscountedPrice(price, discount));
+            wishlistViewList.add(wishlistView);
+        }
+        return wishlistViewList;
+    }
 
     @Transactional
     public List<WishlistView> getAllWishlistView() {
@@ -42,18 +59,7 @@ public class WishlistService {
         wishlistRepository.save(wl5);
 
         List<Wishlist> wishlist = wishlistRepository.findByUsers(userService.getLoggedInUser());
-        List<WishlistView> wishlistViewList = new ArrayList<>();
-        for (Wishlist wishlistItem : wishlist) {
-            WishlistView wishlistView = new WishlistView();
-            wishlistView.setWishlistId(wishlistView.getWishlistId());
-//            wishlistView.setName(wishlistItem.getGame().getName());
-//            int price = wishlistItem.getGame().getPrice();
-//            wishlistView.setPrice(price);
-//            int discount = wishlistItem.getGame().getDiscount();
-//            wishlistView.setDiscount(discount);
-//            wishlistView.setTotal(getDiscountedPrice(price, discount));
-            wishlistViewList.add(wishlistView);
-        }
+        List<WishlistView> wishlistViewList = getWishlistViews(wishlist);
         return wishlistViewList;
     }
 
@@ -66,10 +72,27 @@ public class WishlistService {
     }
 
     // 위시리스트에 추가하는 메서드
+    @Transactional
     public void addToWishlist(String appId) {
         Wishlist wishlist = new Wishlist();
         wishlist.setUsers(userService.getLoggedInUser());
         wishlist.setGame(gameRepository.findBySteamAppid(Integer.parseInt(appId)));
         wishlistRepository.save(wishlist);
+    }
+
+    // 선택된 위시리스트들을 삭제하는 메서드
+    @Transactional
+    public void deleteWishlistByIdList(List<String> stringList) {
+        List<Long> longList = new ArrayList<>();
+        for (String string : stringList) {
+            longList.add(Long.parseLong(string));
+        }
+        wishlistRepository.deleteAllById(longList);
+    }
+
+    // 삭제하기버튼을 눌렀을 때 해당하는 위시를 삭제하는 메서드
+    @Transactional
+    public void deleteAWish(Long id) {
+        wishlistRepository.deleteById(id);
     }
 }
