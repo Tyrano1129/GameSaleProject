@@ -59,7 +59,12 @@ public class GameReviewController {
     public Map<String, Object> listGameReview(@RequestBody ReviewPageDTO reviewPageDTO) {
         log.info(" reviewPageDTO =>{}"+ reviewPageDTO);
         Pageable pageable = PageRequest.of(reviewPageDTO.getCurrPage()-1, reviewPageDTO.getPageSize(), Sort.by("ID").descending());
-        Page<ReviewResponse> list = gameReviewService.getList(reviewPageDTO,pageable);
+       // Page<ReviewResponse> list = gameReviewService.getList(reviewPageDTO,pageable);
+        Users user = userService.getLoggedInUser();
+        if(user!= null){
+            reviewPageDTO.setUserId(user.getId());
+        }
+        Page<ReviewResponse> list = gameReviewService.findReviewsAndVoteByUserId(reviewPageDTO,pageable);
         if(list.getContent().size() == 0){
             log.error("리스트가 비었습니다.");
         }
@@ -80,11 +85,14 @@ public class GameReviewController {
         // gameSearchDTO를 사용하여 검색 로직을 수행하고 결과를 생성합니다.
         // 이 예시에서는 받은 DTO 객체를 문자열로 반환합니다.
         Users user = userService.getLoggedInUser();
-        if(user == null) return "LOGIN_REQUIRED";
+        if(user == null){
+            return "LOGIN_REQUIRED";
+        }else{
+            reviewVoteDTO.setUserId(user.getId());
+        }
         if(gameReviewService.findReviewVoteByUserId(user.getId()) != null) return  "ALREADY_VOTED";
 
         log.info(" reviewVoteDTO =>{}"+ reviewVoteDTO);
-        reviewVoteDTO.setUserId("1");
         String result =  gameReviewService.saveReviewVote(reviewVoteDTO);
         log.info(" voteGameReview result =>{}"+ result);
         return result;
@@ -96,9 +104,12 @@ public class GameReviewController {
         // gameSearchDTO를 사용하여 검색 로직을 수행하고 결과를 생성합니다.
         // 이 예시에서는 받은 DTO 객체를 문자열로 반환합니다.
         Users user = userService.getLoggedInUser();
-        if(user == null) return "LOGIN_REQUIRED";
+        if(user == null){
+            return "LOGIN_REQUIRED";
+        }else{
+            reviewReportDTO.setUserId(user.getId());
+        }
         log.info(" reviewReportDTO =>{}"+ reviewReportDTO);
-        reviewReportDTO.setUserId("1");
         String result =  gameReviewService.saveReviewReport(reviewReportDTO);
         log.info(" reportGameReview result =>{}"+ result);
         return result;

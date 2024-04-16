@@ -16,6 +16,7 @@ public class ReviewPageDTO {
     private int startPage;
     private String appId;
     private String sort;
+    private long userId;
     private ReviewSortType sortType;
 
     public void setSort(String sort) {

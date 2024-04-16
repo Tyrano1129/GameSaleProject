@@ -2,11 +2,16 @@
     background-color: #1b2838;
 }
 .main_container{
+    position: relative;
     height: 1000px;
     margin: 0 auto;
     width: 1152px;
 }
-
+.main_container .text-right{
+    right: 32px;
+    position: absolute;
+    top: 33px;
+}
 .nav-tabs {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -177,7 +182,7 @@ a {
     text-align: center;
 }
 .vm-product-descr-container-1 h2:hover .vmproduct-title{
-    color: #4d729f;
+    color: #67c1f5;
 }
 .spacer .vm-product-descr-container-1 .vmproduct-title {
     position: relative;

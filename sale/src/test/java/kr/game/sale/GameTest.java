@@ -1,10 +1,22 @@
 package kr.game.sale;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import kr.game.sale.entity.game.Game;
+import kr.game.sale.entity.game.review.Review;
+import kr.game.sale.entity.game.review.ReviewResponse;
+import kr.game.sale.entity.user.Users;
+import kr.game.sale.service.GameReviewService;
+import kr.game.sale.service.GameService;
+import kr.game.sale.service.UserService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 @SpringBootTest
 public class GameTest {
-    /*
+/*
     private UserService userService;
     private GameService gameService;
     private GameReviewService gameReviewService;
@@ -17,6 +29,17 @@ public class GameTest {
 
     @Test
     public void removeTest(){
+
+
+        List<ReviewResponse> list = gameReviewService.findReviewsAndVoteByUserId(1L,1623730L);
+
+        for (ReviewResponse r : list){
+            System.out.println(r.getReviewId());
+            if(r.getReviewVoteId() != 0){
+                System.out.println(r.getReviewVoteId() +" <- 회원 리뷴");
+            }
+        }
+
         try {
             gameService.initData();
         } catch (JsonProcessingException e) {
@@ -35,8 +58,8 @@ public class GameTest {
 
 
         userService.adminUsersOneDelete(1l);
-    }
-*/
+    }*/
+
 
 //    @Test
 //    public void initData(){
@@ -73,7 +96,7 @@ public class GameTest {
 //    @Test
 //    public void ReviewListTest(){
 
-
 }
+
 
 

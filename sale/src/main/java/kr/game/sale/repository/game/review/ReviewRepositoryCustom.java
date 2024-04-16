@@ -19,6 +19,8 @@ import java.util.List;
 public interface ReviewRepositoryCustom {
     public Page<Review> searchReview(ReviewPageDTO gameSearchDTO, Pageable pageable);
 
+    public Page<ReviewResponse> findReviewsAndVoteByUserId(ReviewPageDTO reviewPageDTO, Pageable pageable);
+
     public Review findReviewByUserId(Long id);
 
     public long addVote(ReviewVoteDTO reviewVoteDTO);

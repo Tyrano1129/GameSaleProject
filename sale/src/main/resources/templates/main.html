@@ -21,11 +21,14 @@
                 </a>
                 <div class="header-images">
                     <div th:each="game : ${listMap['popularity']}">
-                        <img th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getHeaderImage()}}" th:alt="${game.getName()}">
+                        <a th:href="@{/game/detail/{steamAppid}(steamAppid=${game.getSteamAppid()})}">
+                            <img th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getHeaderImage()}}" th:alt="${game.getName()}">
+                        </a>
+
                         <div class="item-content">
                             <div class="article-header clearfix">
                                 <h2 class="article-title" itemprop="headline">
-                                    <a href="#" >
+                                    <a th:href="@{/game/detail/{steamAppid}(steamAppid=${game.getSteamAppid()})}">
                                         <div class="banner_label">
                                             <span>절찬판매중</span>
                                         </div>
@@ -85,7 +88,7 @@
 
                             <div class="vm-product-descr-container-1" style="min-height:80px">
                                 <h2 style="text-align:left;" >
-                                    <a href="#" class="vmproduct-title" th:text="${game.getName()}"></a>
+                                    <a th:href="@{/game/detail/{steamAppid}(steamAppid=${game.getSteamAppid()})}" class="vmproduct-title" th:text="${game.getName()}"></a>
                                 </h2>
                                 <div class="vm3pr-customfields-product" itemprop="productID" content="50004330">
                                     <div style="float:left;">
@@ -156,10 +159,11 @@
                             </div>
                         </div>
                     </div><!--리스트 col-->
-                    <div class="text-right"><a th:href="@{/game/search/fromMain}"  title="전체보기">전체보기</a></div>
+
                 </div><!--리스트 parent-->
                 </th:block>
             </div><!--리스트 컨테이너-->
+            <div class="text-right"><a th:href="@{/game/search/fromMain}"  title="전체보기">전체보기</a></div>
         </div><!--하단 컨테이너 -->
     </div><!--하단 back-->
 </div>

@@ -9,6 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ReviewReportDTO {
     private String reviewId;
-    private String userId;
+    private long userId;
 
 }

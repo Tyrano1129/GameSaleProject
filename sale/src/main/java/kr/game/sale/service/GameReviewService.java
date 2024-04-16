@@ -53,7 +53,7 @@ public class GameReviewService {
     }
 
     public String saveReviewVote(ReviewVoteDTO reviewVoteDTO){
-        Users user = userRepository.getReferenceById(Long.valueOf(reviewVoteDTO.getUserId()));
+        Users user = userRepository.getReferenceById(reviewVoteDTO.getUserId());
         Review review = repository.getReferenceById(Long.valueOf(reviewVoteDTO.getReviewId()));
         voteRepository.save(ReviewVote.builder().users(user).review(review).build());
 
@@ -66,4 +66,10 @@ public class GameReviewService {
         Page<ReviewResponse>  reviewResponses = reviews.map(r -> new ReviewResponse(r));
         return reviewResponses;
     }
+
+    public Page<ReviewResponse> findReviewsAndVoteByUserId(ReviewPageDTO reviewPageDTO, Pageable pageable){
+        return repository.findReviewsAndVoteByUserId(reviewPageDTO, pageable);
+    }
+
+
 }
