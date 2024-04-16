@@ -2,7 +2,11 @@ package kr.game.sale.controller;
 
 import kr.game.sale.entity.game.Game;
 import kr.game.sale.entity.game.GameSearchDTO;
+import kr.game.sale.entity.game.review.Review;
+import kr.game.sale.entity.user.Users;
+import kr.game.sale.service.GameReviewService;
 import kr.game.sale.service.GameService;
+import kr.game.sale.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -24,6 +28,8 @@ import java.util.Map;
 @RequestMapping("/game")
 public class GameController {
     private final GameService gameService;
+    private final UserService userService;
+    private final GameReviewService reviewService;
 
     @GetMapping
     public String gameForm(){
@@ -95,10 +101,17 @@ public class GameController {
 
     @GetMapping("/detail/{steamAppid}")
     public String gameDetail(@PathVariable("steamAppid") String steamAppid, Model model){
+        Users user = userService.getLoggedInUser();
+        if(user != null){
+            Review review =reviewService.findReviewByUserId(user.getId());
+            if (review != null) user = null;
+        }
+
         Game game = gameService.findOneById(steamAppid);
         if(game != null){
             log.info("found game =>{}",game);
             model.addAttribute("game",game);
+            model.addAttribute("user",user);
             return "game/gameDetail";
         }else{
             return "redirect:/";

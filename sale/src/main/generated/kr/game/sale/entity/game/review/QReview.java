@@ -28,11 +28,15 @@ public class QReview extends EntityPathBase<Review> {
 
     public final BooleanPath isPositive = createBoolean("isPositive");
 
+    public final BooleanPath isReported = createBoolean("isReported");
+
     public final DateTimePath<java.time.LocalDateTime> regDate = createDateTime("regDate", java.time.LocalDateTime.class);
 
     public final NumberPath<Long> reviewId = createNumber("reviewId", Long.class);
 
     public final kr.game.sale.entity.user.QUsers users;
+
+    public final NumberPath<Integer> voteCnt = createNumber("voteCnt", Integer.class);
 
     public QReview(String variable) {
         this(Review.class, forVariable(variable), INITS);

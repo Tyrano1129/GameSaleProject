@@ -5,6 +5,8 @@ import kr.game.sale.entity.game.review.Review;
 import kr.game.sale.entity.game.review.ReviewDTO;
 import kr.game.sale.entity.game.review.ReviewPageDTO;
 import kr.game.sale.entity.game.review.ReviewResponse;
+import kr.game.sale.entity.game.review.report.ReviewReportDTO;
+import kr.game.sale.entity.game.review.vote.ReviewVoteDTO;
 import kr.game.sale.entity.user.Users;
 import kr.game.sale.service.GameReviewService;
 import kr.game.sale.service.GameService;
@@ -36,11 +38,13 @@ public class GameReviewController {
     public String insertGameReview(@RequestBody ReviewDTO reviewDTO) {
         // gameSearchDTO를 사용하여 검색 로직을 수행하고 결과를 생성합니다.
         // 이 예시에서는 받은 DTO 객체를 문자열로 반환합니다.
+        Users user = userService.getLoggedInUser();
+        if(user == null) return "LOGIN_REQUIRED";
         log.info(" reviewDTO =>{}"+ reviewDTO);
         Game game =  gameService.findOneById(reviewDTO.getAppId());
 
-        Users user = userService.getOneUsers(1L);
-        gameReviewService.saveReview(Review.builder()
+        /*Users user = userService.getOneUsers(1L);*/
+        return  gameReviewService.saveReview(Review.builder()
                 .isPositive(reviewDTO.getIsPositive())
                 .content(reviewDTO.getContent())
                 .localDateTime(LocalDateTime.now())
@@ -48,9 +52,6 @@ public class GameReviewController {
                 .game(game)
                 .build()
         );
-
-
-        return "success";
     }
 
     @PostMapping("/list")
@@ -73,62 +74,35 @@ public class GameReviewController {
         return dataMap;
     }
 
+    @PostMapping("/vote")
+    @ResponseBody
+    public String voteGameReview(@RequestBody ReviewVoteDTO reviewVoteDTO) {
+        // gameSearchDTO를 사용하여 검색 로직을 수행하고 결과를 생성합니다.
+        // 이 예시에서는 받은 DTO 객체를 문자열로 반환합니다.
+        Users user = userService.getLoggedInUser();
+        if(user == null) return "LOGIN_REQUIRED";
+        if(gameReviewService.findReviewVoteByUserId(user.getId()) != null) return  "ALREADY_VOTED";
 
-
-
-    /*
-    @GetMapping("/search/fromBar")
-    public String searchFormBar(@RequestParam("keyword")String keyword, Model model){
-
-        log.info("searchFormBar 실행");
-        log.info("keyword =>{}",keyword);
-        GameSearchDTO dto = new GameSearchDTO();
-        dto.setSearchKeyword(keyword);
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("releaseDate").ascending());
-        Page<Game> list = gameService.searchGamesByKeyword(dto,pageable);
-        List<String> publishers = gameService.findAllPublishers();
-        for(Game g : list){
-            System.out.println(g);
-        }
-        dto.setPageCxt(1, list.getTotalPages());
-
-        log.info("gameSearchDTO =>{}"+dto);
-        model.addAttribute("gameSearchDTO", dto);
-        model.addAttribute("list",list);
-        model.addAttribute("publishers",publishers);
-
-        return "game/gameSearch";
+        log.info(" reviewVoteDTO =>{}"+ reviewVoteDTO);
+        reviewVoteDTO.setUserId("1");
+        String result =  gameReviewService.saveReviewVote(reviewVoteDTO);
+        log.info(" voteGameReview result =>{}"+ result);
+        return result;
     }
 
-    @GetMapping("/search/fromMain")
-    public String searchMain(Model model){
-        log.info("findMainList(\"최신순\") 실행");
-
-        GameSearchDTO dto = new GameSearchDTO();
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("releaseDate").ascending());
-        Page<Game> list = gameService.searchGamesByKeyword(dto,pageable);
-
-        List<String> publishers = gameService.findAllPublishers();
-        for(Game g : list){
-            System.out.println(g);
-        }
-        dto.setPageCxt(1, list.getTotalPages());
-
-        model.addAttribute("gameSearchDTO", dto);
-        model.addAttribute("list",list);
-        model.addAttribute("publishers",publishers);
-        return "game/gameSearch";
+    @PostMapping("/report")
+    @ResponseBody
+    public String reportGameReview(@RequestBody ReviewReportDTO reviewReportDTO) {
+        // gameSearchDTO를 사용하여 검색 로직을 수행하고 결과를 생성합니다.
+        // 이 예시에서는 받은 DTO 객체를 문자열로 반환합니다.
+        Users user = userService.getLoggedInUser();
+        if(user == null) return "LOGIN_REQUIRED";
+        log.info(" reviewReportDTO =>{}"+ reviewReportDTO);
+        reviewReportDTO.setUserId("1");
+        String result =  gameReviewService.saveReviewReport(reviewReportDTO);
+        log.info(" reportGameReview result =>{}"+ result);
+        return result;
     }
 
-    @GetMapping("/detail/{steamAppid}")
-    public String gameDetail(@PathVariable("steamAppid") String steamAppid, Model model){
-        Game game = gameService.findOneById(steamAppid);
-        if(game != null){
-            log.info("found game =>{}",game);
-            model.addAttribute("game",game);
-            return "game/gameDetail";
-        }else{
-            return "redirect:/";
-        }
-    }*/
+
 }

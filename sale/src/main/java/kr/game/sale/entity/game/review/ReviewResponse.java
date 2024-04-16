@@ -15,6 +15,7 @@ public class ReviewResponse {
     private String regDate;
     private long steamAppid;
     private String userNickName;
+    private int voteCnt;
 
     public ReviewResponse(Review review){
         this.reviewId = review.getReviewId();
@@ -23,5 +24,6 @@ public class ReviewResponse {
         this.regDate = review.getRegDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.steamAppid = review.getGame().getSteamAppid();
         this.userNickName = review.getUsers().getUserNickname();
+        this.voteCnt = review.getVoteCnt();
     }
 }

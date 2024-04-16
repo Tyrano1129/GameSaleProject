@@ -110,14 +110,14 @@
                                                 <div class="category-view">
                                                     <div class="browse-view">
                                                         <h1 style="border-top:1px solid rgba(255,255,255,0.1);">
-                                                            <span>게임검색</span></h1>
-
+                                                            <span>게임 리뷰</span></h1>
                                                         <input id="currPage" type="number" name="currPage" value=1 hidden="hidden">
                                                         <input id="sort" type="text" name="sort" value="REG_DATE" hidden="hidden">
                                                         <input id="appId" type="hidden" name="appId" th:value="${game.getSteamAppid()}">
 
                                                         <div class="row" id="searchBox">
                                                             <div class="container">
+                                                                <th:block th:if="${user != null}">
                                                                 <form class="form-horizontal" id="reviewFrm"
                                                                       name="searchFrm2" >
                                                                     <input type="text" name="isPositive"
@@ -152,8 +152,7 @@
                                                                                         <textarea id="reviewContent"
                                                                                                   cols="15" rows="15"
                                                                                                   name="content"
-                                                                                                  class="form-control">
-                                                                                        </textarea>
+                                                                                                  class="form-control"></textarea>
                                                                                     <span class="input-group-btn">
                                                                                             <input id="insertReviewBtn"
                                                                                                     class="btn btn-default"
@@ -166,8 +165,9 @@
                                                                         </div>
                                                                     </div>
                                                                 </form>
+                                                                </th:block>
                                                                 <div class="well well-sm" id="search_keyword">
-                                                                    <div>정렬 옵션 : <span class="reviewSort" data-sort="REG_DATE">최신순</span> <span class="reviewSort" data-sort="POSITIVE">긍정 리뷰</span><span class="reviewSort" data-sort="NEGATIVE">부정 리뷰</span> <span class="reviewSort" data-sort="HLEPFUL">도움이 된 리뷰</span>
+                                                                    <div class="reviewSortP">정렬 옵션 : <span class="reviewSort" data-sort="REG_DATE">최신순</span> <span class="reviewSort" data-sort="POSITIVE">긍정 리뷰</span><span class="reviewSort" data-sort="NEGATIVE">부정 리뷰</span> <span class="reviewSort" data-sort="HLEPFUL">도움이 된 리뷰</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -259,11 +259,7 @@
                                                             <ul class="pagination">
                                                                 <li class="pageBtn"  id="firstBtn"><a href="#" th:text="${'« First'}"></a></li>
                                                                 <li class="pageBtn" id="prevBtn"><a href="#"  th:text="${'« Prev'}"></a></li>
-                                                                <!--<th:block th:each="n : ${#numbers.sequence(gameSearchDTO.getStartPage(),gameSearchDTO.getEndPage())}">
-                                                                    <li class="live-link" th:classappend="${n == gameSearchDTO.getCurrPage() ? 'active': '' }" >
-                                                                        <a href="#" th:attr="data-page=${n}" th:text="${n}"></a>
-                                                                    </li>
-                                                                </th:block>-->
+
                                                                 <li class="pageBtn" id="nextBtn"><a href="#"  th:text="${'Next »'}"></a></li>
                                                                 <li class="pageBtn" id="lastBtn" ><a href="#"  th:text="${'Last »'}"></a></li>
                                                             </ul>
@@ -420,11 +416,80 @@
 
     $(document).ready(function(){
         getReviewList();
-
     });
 
     $('.screenshot_thumbnail').on('click', function () {
         $('#screenshot_image').html($(this).find('img').attr('data-url'));
+    });
+
+    //신고 기능
+    $(document).on("click", '.reportBtn', function(event) {
+        event.preventDefault();
+
+        var formData = {
+            reviewId: $(this).attr('data-reviewId')
+        };
+        var jsonData = JSON.stringify(formData);
+        console.log(JSON.parse(jsonData));
+        // Ajax 요청
+        $.ajax({
+            type: 'POST',
+            url: '/gameReview/report',
+            contentType: 'application/json',
+            data: jsonData,
+            success: function(response) {
+                console.log(response);
+                if(response == "success"){
+                    alert("신고되었습니다.");
+                }else if(response == "LOGIN_REQUIRED"){
+                    alert("로그인이 필요한 서비스입니다.");
+                }else{
+                    alert("실패했습니다.");
+                }
+
+            },
+            error: function(xhr, status, error) {
+                // 요청이 실패하면 이 부분을 실행
+                console.error(xhr.responseText);
+            }
+        });
+    });
+
+    //유용해요 기능
+    $(document).on("click", '.voteBtn', function(event) {
+        event.preventDefault();
+
+        var formData = {
+            reviewId: $(this).attr('data-reviewId')
+        };
+        var jsonData = JSON.stringify(formData);
+        console.log(JSON.parse(jsonData));
+        // Ajax 요청
+        $.ajax({
+            type: 'POST',
+            url: '/gameReview/vote',
+            contentType: 'application/json',
+            data: jsonData,
+            success: function(response) {
+                console.log(response);
+                if(response == "success"){
+                    alert("의견을 보냈습니다.");
+                    getReviewList();
+                }else if(response == "ALREADY_VOTED"){
+                    alert("이미 의견을 보낸 리뷰입니다.");
+                }else if(response == "LOGIN_REQUIRED"){
+                    alert("로그인이 필요한 서비스입니다.");
+                }else{
+                    alert("실패했습니다.");
+                }
+
+
+            },
+            error: function(xhr, status, error) {
+                // 요청이 실패하면 이 부분을 실행
+                console.error(xhr.responseText);
+            }
+        });
     });
 
     $(document).on("click", '.live-link , .pageBtn', function(event) {
@@ -456,8 +521,6 @@
                 console.log(response.list);
                 console.log(response.reviewPageDTO);
                  // 성공적으로 요청이 완료되면 이 부분을 실행
-
-                // setValue(response.gameSearchDTO);
 
                  var col = "";
                  $('.list-group-item').html('');
@@ -533,21 +596,25 @@
     $('#insertReviewBtn').on('click', function () {
         console.log('#insertReviewBtn.on.click');
         var formElement = $(this).closest("form");
-        var formData = {
-            isPositive: formElement.find('input[name="isPositive"]').val() == "up",
-            content: formElement.find('textarea[name="content"]').val(),
-            appId: $('#appId').val()
-        };
-        console.log(formData.isPositive);
-        if(formData.isPositive !=true && formData.isPositive != false){
+
+
+        let isPositive =  formElement.find('input[name="isPositive"]').val();
+        let content =  formElement.find('textarea[name="content"]').val();
+        console.log(isPositive);
+        if(isPositive !="up" && isPositive != "down"){
             alert("평가를 선택해주세요.");
             return;
         }
-        if(formData.content == null || $.trim(formData.content) ==''){
+        if(content == null || $.trim(content+'') ==''){
+            formElement.find('textarea[name="content"]').focus();
             alert("내용을 입력해 주세요.");
             return;
         }
-
+        var formData = {
+            isPositive: isPositive == "up",
+            content: content,
+            appId: $('#appId').val()
+        };
         var jsonData = JSON.stringify(formData);
         console.log(JSON.parse(jsonData));
         // Ajax 요청
@@ -557,11 +624,16 @@
             contentType: 'application/json',
             data: jsonData,
             success: function(response) {
-                console.log('success');
-                // 성공적으로 요청이 완료되면 이 부분을 실행
-                getReviewList();
-
-                // 받은 응답에 대한 추가적인 처리를 수행할 수 있습니다.
+                console.log(response);
+                if (response == "success") {
+                    alert("등록되었습니다.");
+                    $('#reviewFrm').remove();
+                    getReviewList();
+                }else if(response == "LOGIN_REQUIRED"){
+                    alert("로그인이 필요한 서비스입니다.");
+                }else{
+                    alert("실패했습니다.");
+                }
             },
             error: function(xhr, status, error) {
                 // 요청이 실패하면 이 부분을 실행
@@ -613,7 +685,12 @@
         html +=  review.content;
         html += '    </div>';
         html += '    <div class="PricebasePrice vm-display vm-price-value" style="font-size: 12px; text-transform: uppercase; font-style: normal; display: inline-block;">';
-        html += '        <span class="PricebasePrice" style="color: #ffffff; opacity: 0.4;">' + review.regDate + '</span>';
+        html += '        <span class="PricebasePrice" style="color: #ffffff; opacity: 0.4;">' + review.regDate;
+        if(review.voteCnt == 0){
+            html +=  '   0명의 회원이 이 리뷰가 유용하다고 합니다.</span>';
+        }else{
+            html +=  '   '+review.voteCnt +'명의 회원이 이 리뷰가 유용하다고 합니다.</span>';
+        }
         html += '    </div>';
         html += '</h2>';
 
@@ -623,8 +700,8 @@
 
 // 네 번째 div 요소 (유용해요와 신고 버튼)
         html += '        <div class="vm-product-descr-container-1" style="margin-left: 10px; margin-right: 10px; width:66px;padding:0;overflow:hidden; color: #8091a2;">';
-        html += '            <span class="label" data-reviewId="' + review.reviewId + '"  style="background-color: #4e69a2; padding: .2em .6em .3em; font-size:13px; font-family:tahoma; color:#e7e7e7; padding-top:8px; padding-bottom:8px;display:block;">유용해요</span>';
-        html += '            <span class="label" data-reviewId="' + review.reviewId + '" style="padding: .2em .6em .3em; font-size:13px; font-family:tahoma; color:#8091a2;padding-top:8px; padding-bottom:8px;display:block;">신고</span>';
+        html += '            <span class="label voteBtn" data-reviewId="' + review.reviewId + '"  >유용해요</span>';
+        html += '            <span class="label reportBtn" data-reviewId="' + review.reviewId + '" style="padding: .2em .6em .3em; font-size:13px; cursor: pointer; font-family:tahoma; color:#8091a2;padding-top:8px; padding-bottom:8px;display:block;">신고</span>';
         html += '        </div>';
 
         html += '    </div>';

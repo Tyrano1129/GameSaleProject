@@ -517,8 +517,31 @@ div.product {
 .vm-pagination ul li {
     display: inline;
 }
-
+.voteBtn:active {
+    background: #202c45;
+}
+.voteBtn{
+    background-color: #4e69a2;
+    padding: .2em .6em .3em;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: tahoma;
+    color: #e7e7e7;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    display: block;
+}
+.reviewSortP{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.reviewSort:active{
+    background: dimgray;
+}
 .reviewSort{
+    margin-left: 5px;
+    margin-right: 5px;
     cursor: pointer;
     background: rgba(255, 255, 255, 0.1);
     color: #ffffff;
