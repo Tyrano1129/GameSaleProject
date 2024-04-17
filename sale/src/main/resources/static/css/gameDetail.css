@@ -522,6 +522,9 @@ a {
     padding: 10px;
 }
 .product-description p {
+    bottom: -17px;
+    right: 60px;
+    position: absolute;
     line-height: 24px;
     /*white-space: pre-line;*/
     word-wrap: break-word;

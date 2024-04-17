@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/main_body.css">
+    <link rel="stylesheet" href="/css/modal.css">
 </head>
 <style th:replace="~{fragment/header :: bodyinit}"></style>
 <body>
@@ -22,9 +23,9 @@
                 <div class="header-images">
                     <div th:each="game : ${listMap['popularity']}">
                         <a th:href="@{/game/detail/{steamAppid}(steamAppid=${game.getSteamAppid()})}">
-                            <img th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getHeaderImage()}}" th:alt="${game.getName()}">
+                            <img th:if="${game.platform eq 'steam' }" th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getHeaderImage()}}" th:alt="${game.getName()}">
+                            <img th:unless="${game.platform eq 'steam' }" th:src="@{game.getHeaderImage()}" th:alt="${game.getName()}">
                         </a>
-
                         <div class="item-content">
                             <div class="article-header clearfix">
                                 <h2 class="article-title" itemprop="headline">
@@ -91,11 +92,15 @@
                                 <a th:title="${game.getName()}"
                                    th:href="@{/game/detail/{steamAppid}(steamAppid=${game.getSteamAppid()})}"
                                    class="vmproduct-img"
-                                   itemprop="url"><img
-                                        th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getHeaderImage()}}"
+                                   itemprop="url">
+
+                                    <img th:if="${game.platform eq 'steam' }" th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getHeaderImage()}}"
                                         th:alt="${game.getName()}"
                                         class="featuredProductImage" width="255"
                                         itemprop="image" onerror="this.src='/images/404.jpg'">
+                                    <img th:unless="${game.platform eq 'steam' }" th:src="@{game.getHeaderImage()}" th:alt="${game.getName()}"
+                                         class="featuredProductImage" width="255"
+                                         itemprop="image" onerror="this.src='/images/404.jpg'">
                                 </a>
                             </div>
 
@@ -189,6 +194,8 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
+        initModal();
+        initSortBtn();
         $('.header-images').slick({
             prevArrow: $('.prev-left'),
             nextArrow: $('.prev-right'),
@@ -200,7 +207,7 @@
             autoplaySpeed: 2500,
             pauseOnHover: true,
         });
-        initSortBtn();
+
 
     });
     function refundAccept(){
@@ -225,8 +232,6 @@
         $('.nav li').removeClass('active');
         $(this).addClass('active');
         let name = $(this).attr('data-toggle');
-      /*  $('.tab-pane').removeClass('active');
-        $('.tab-pane.'+name).addClass('active');*/
 
         $('.tab-pane').removeClass('in');
         setTimeout(function (){
@@ -257,16 +262,16 @@
                     .then(response => response.text())
                     .then(data => {
                         if(data==="success"){
-                            alert("장바구니에 담았습니다.")
+                            showModalCheck("장바구니에 담았습니다.")
                         }else {
-                            alert("이미 장바구니에 등록된 상품입니다.")
+                            showModalCheck("이미 장바구니에 등록된 상품입니다.")
                         }
                     })
                     .catch(error => {
                         console.log("error: ", error);
                     });
             } else {
-                alert("로그인을 하셔야 이용이 가능합니다.");
+                showModalCheck("로그인을 하셔야 이용이 가능합니다.");
             }
         });
     });
