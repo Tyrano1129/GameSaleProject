@@ -4,7 +4,6 @@ import kr.game.sale.entity.game.Game;
 import kr.game.sale.entity.user.Cart;
 import kr.game.sale.entity.user.CartView;
 import kr.game.sale.entity.user.Users;
-import kr.game.sale.entity.user.Wishlist;
 import kr.game.sale.repository.game.GameRepository;
 import kr.game.sale.repository.user.CartRepository;
 import kr.game.sale.repository.user.UserRepository;
@@ -27,12 +26,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CartService {
+    private final UserService userService;
     private final CartRepository cartRepository;
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
-    private final UserService userService;
     private final WishlistRepository wishlistRepository;
+    private final GameService gameService;
 
+    // 카트뷰로 전환해주는 메서드
     private static @NotNull CartView getCartView(Cart cart) {
         DecimalFormat format = new DecimalFormat("#,###");
         CartView view = new CartView();
@@ -58,6 +59,7 @@ public class CartService {
         return view;
     }
 
+    // 내 장바구니를 모두 가져오는 메서드
     public List<CartView> getMyCart() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName(); // 로그인 중인 유저
@@ -90,6 +92,7 @@ public class CartService {
         return cartList;
     }
 
+    // 위시리스트를 비우는 메서드
     @Transactional
     public void deleteCartByIdList(List<String> stringList) {
         List<Long> longList = new ArrayList<>();
@@ -103,44 +106,43 @@ public class CartService {
         return userRepository.findByUsername(username).isEmpty() ? null : userRepository.findByUsername(username).get();
     }
 
+    // 장바구니에 담는 메서드
     @Transactional
     public void addCart(String steamAppid) {
         Users users = userService.getLoggedInUser();
 
         Cart cart = new Cart();
         cart.setUsers(users);
-        Game game = gameRepository.findBySteamAppid(Integer.parseInt(steamAppid));
+        Game game = gameRepository.findBySteamAppid(Long.valueOf(steamAppid));
         cart.setGame(game);
 
         cartRepository.save(cart);
     }
 
+    // 위시리스트에서 장바구니로 이동시키는 메서드
     @Transactional
-    public void moveToCart(List<String> wishIdStringList) {
+    public void moveToCart(List<String> gameIdStringList) {
         Users users = userService.getLoggedInUser();
-        List<Long> wishIdLongList = new ArrayList<>();
+        List<Long> gameIdLongList = new ArrayList<>();
 
-        for (String string : wishIdStringList) {
-            wishIdLongList.add(Long.parseLong(string));
+        for (String stringId : gameIdStringList) {
+            if (this.getMySingleCart(stringId) != null)
+                continue; // 이미 장바구니에 담겨져있는 상품이면 건너뛰기
+            gameIdLongList.add(Long.parseLong(stringId));
         }
 
-        List<Optional<Wishlist>> wishlistList = new ArrayList<>();
-        for (Long id : wishIdLongList) {
-            wishlistList.add(wishlistRepository.findById(id));
+        for (Long gameId : gameIdLongList) {
+            Cart cart = new Cart();
+            cart.setUsers(users);
+            cart.setGame(gameRepository.findBySteamAppid(gameId));
+            cartRepository.save(cart);
         }
+    }
 
-        for (Optional<Wishlist> optionalWishlist : wishlistList) {
-            if (optionalWishlist.isPresent()) {
-                Wishlist wishlist = optionalWishlist.get();
-                Game game = wishlist.getGame();
-
-                Cart cart = new Cart();
-                cart.setUsers(users);
-//                Game game = gameRepository.findBySteamAppid(Integer.parseInt(steamAppid));
-                cart.setGame(game);
-
-                cartRepository.save(cart);
-            }
-        }
+    // 장바구니담기를 눌렀을 때, 이미 담겨져있는 상품인지를 확인하는 메서드
+    public Cart getMySingleCart(String steamAppid) {
+        Users users = userService.getLoggedInUser();
+        Game game = gameRepository.findBySteamAppid(Long.valueOf(steamAppid));
+        return cartRepository.findByUsersAndGame(users, game);
     }
 }

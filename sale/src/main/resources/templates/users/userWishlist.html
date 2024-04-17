@@ -30,6 +30,7 @@
                 <tr>
                     <th><label for="chk_all"></label><input id="chk_all" name="chk_all" type="checkbox" value="Y"></th>
                     <th>위시리스트 아이디</th>
+                    <th>게임코드</th>
                     <th>상품명</th>
                     <th>정상가(원)</th>
                     <th>판매가(원)</th>
@@ -41,7 +42,8 @@
                         <input name="sno[]" type="checkbox" value="">
                     </label></td>
                     <td name="sno[]" th:text="${list.wishlistId}"></td>
-                    <td><a th:href="@{'/games/' + ${list.name}}"><span th:text="${list.name}"></span></a></td>
+                    <td name="game_codes[]" th:text="${list.steamAppid}"></td>
+                    <td><a th:href="@{'/game/detail/' + ${list.steamAppid}}"><span th:text="${list.name}"></span></a></td>
                     <td th:text="${list.price}"></td>
                     <td th:text="${list.total}"></td>
                     <td th:text="${list.discount}"></td>

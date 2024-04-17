@@ -120,6 +120,8 @@ public class UserController {
     @PostMapping("/addToWishlist")
     @ResponseBody
     public String addToWishlist(@RequestParam String appId) {
+        if (wishlistService.getMySingleWish(appId) != null)
+            return "fail";
         wishlistService.addToWishlist(appId);
         return "success";
     }
@@ -143,11 +145,12 @@ public class UserController {
     }
 
     @PostMapping("/moveToCart")
-    public String move(@ModelAttribute WishRequest wishRequest) {
-        List<String> list = wishRequest.getSelectedItems();
-        log.info("wish 의 id들 : {}", list.toString());
-        wishlistService.deleteWishlistByIdList(list);
-        cartService.moveToCart(list);
+    public String move(@ModelAttribute WishRequest selectedItems,
+                       @ModelAttribute WishRequest gameCodes) {
+        List<String> wishIdList=selectedItems.getSelectedItems();
+        List<String> gameIdList=selectedItems.getGameCodes();
+        wishlistService.deleteWishlistByIdList(wishIdList);
+        cartService.moveToCart(gameIdList);
         return "redirect:/cart/myCart";
     }
 
