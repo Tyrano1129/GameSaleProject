@@ -25,6 +25,8 @@ public class CartController {
     @PostMapping("/addToCart")
     @ResponseBody
     public String addToCart(@RequestParam String appId) {
+        if (cartService.getMySingleCart(appId) != null)
+            return "fail";
         cartService.addCart(appId);
         return "success";
     }

@@ -1,5 +1,8 @@
 package kr.game.sale.service;
 
+import kr.game.sale.entity.game.Game;
+import kr.game.sale.entity.user.Cart;
+import kr.game.sale.entity.user.Users;
 import kr.game.sale.entity.user.Wishlist;
 import kr.game.sale.entity.user.WishlistView;
 import kr.game.sale.repository.game.GameRepository;
@@ -24,51 +27,33 @@ public class WishlistService {
 
     private static @NotNull List<WishlistView> getWishlistViews(List<Wishlist> wishlist) {
         List<WishlistView> wishlistViewList = new ArrayList<>();
-        for (Wishlist wishlistItem : wishlist) {
+        for (Wishlist item : wishlist) {
             WishlistView wishlistView = new WishlistView();
-            wishlistView.setWishlistId(wishlistItem.getId());
-//            wishlistView.setName(wishlistItem.getGame().getName());
-//            int price = wishlistItem.getGame().getPrice();
-//            wishlistView.setPrice(price);
-//            int discount = wishlistItem.getGame().getDiscount();
-//            wishlistView.setDiscount(discount);
-//            wishlistView.setTotal(getDiscountedPrice(price, discount));
+            wishlistView.setWishlistId(item.getId());
+            wishlistView.setSteamAppid(item.getGame().getSteamAppid());
+            wishlistView.setName(item.getGame().getName());
+            int price = item.getGame().getPrice();
+            wishlistView.setPrice(price);
+            int discount = item.getGame().getDiscount();
+            wishlistView.setDiscount(discount);
+            wishlistView.setTotal(getDiscountedPrice(price, discount));
             wishlistViewList.add(wishlistView);
         }
         return wishlistViewList;
     }
 
-    @Transactional
-    public List<WishlistView> getAllWishlistView() {
-
-        // 테스트
-        Wishlist wl1 = new Wishlist();
-        Wishlist wl2 = new Wishlist();
-        Wishlist wl3 = new Wishlist();
-        Wishlist wl4 = new Wishlist();
-        Wishlist wl5 = new Wishlist();
-        wl1.setUsers(userService.getLoggedInUser());
-        wl2.setUsers(userService.getLoggedInUser());
-        wl3.setUsers(userService.getLoggedInUser());
-        wl4.setUsers(userService.getLoggedInUser());
-        wl5.setUsers(userService.getLoggedInUser());
-        wishlistRepository.save(wl1);
-        wishlistRepository.save(wl2);
-        wishlistRepository.save(wl3);
-        wishlistRepository.save(wl4);
-        wishlistRepository.save(wl5);
-
-        List<Wishlist> wishlist = wishlistRepository.findByUsers(userService.getLoggedInUser());
-        List<WishlistView> wishlistViewList = getWishlistViews(wishlist);
-        return wishlistViewList;
-    }
-
     // 할인율이 적용된 가격을 얻는 메서드입니다.
-    private int getDiscountedPrice(int price, int discount) {
+    private static int getDiscountedPrice(int price, int discount) {
         double discountedPrice = price * (1.0 - discount / 100.0);
         int total = (int) discountedPrice;
         total = total - (total % 10); // 1의 자리를 버림
         return total;
+    }
+
+    @Transactional
+    public List<WishlistView> getAllWishlistView() {
+        List<Wishlist> wishlist = wishlistRepository.findByUsers(userService.getLoggedInUser());
+        return getWishlistViews(wishlist);
     }
 
     // 위시리스트에 추가하는 메서드
@@ -76,7 +61,7 @@ public class WishlistService {
     public void addToWishlist(String appId) {
         Wishlist wishlist = new Wishlist();
         wishlist.setUsers(userService.getLoggedInUser());
-        wishlist.setGame(gameRepository.findBySteamAppid(Integer.parseInt(appId)));
+        wishlist.setGame(gameRepository.findBySteamAppid(Long.valueOf(appId)));
         wishlistRepository.save(wishlist);
     }
 
@@ -94,5 +79,12 @@ public class WishlistService {
     @Transactional
     public void deleteAWish(Long id) {
         wishlistRepository.deleteById(id);
+    }
+    
+    // 위시리스트에 이미 담긴 상품인지 확인하는 메서드
+    public Wishlist getMySingleWish(String steamAppid) {
+        Users users = userService.getLoggedInUser();
+        Game game = gameRepository.findBySteamAppid(Long.valueOf(steamAppid));
+        return wishlistRepository.findByUsersAndGame(users, game);
     }
 }

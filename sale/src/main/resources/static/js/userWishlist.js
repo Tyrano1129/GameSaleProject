@@ -3,20 +3,25 @@ $(document).ready(function () {
     // 체크박스 전체선택하는 함수
     $("#chk_all").bind("click", function () {
         if ($("#chk_all:checked").val() === "Y") {
-            $('input[name="sno[]"]').prop("checked", true);
+            $('input[name="sno[]"]').prop("checked", true).change();
+            $('input[name="game_codes[]"]').prop("checked", true).change();
             $('input[name="checked"]').val("true");
         } else {
-            $('input[name="sno[]"]').prop("checked", false);
+            $('input[name="sno[]"]').prop("checked", false).change();
+            $('input[name="game_codes[]"]').prop("checked", false).change();
             $('input[name="checked"]').val("false");
         }
     });
 
     // 각 체크박스를 클릭할 때마다 상태를 변경하는 함수
-    $('input[name="sno[]"]').on("click", function () {
+    $('input[name="sno[]"]').on("change", function () {
         // 현재 체크박스의 checked 상태를 가져옴
         let isChecked = $(this).prop("checked");
         // 현재 체크박스의 상태를 반전하여 checked input 의 값을 설정
         $(this).closest('tr').find('input[name="checked"]').val(isChecked ? "true" : "false");
+
+        // game_codes[] 체크박스의 상태도 함께 변경
+        $(this).closest('tr').find('input[name="game_codes[]"]').prop("checked", isChecked).change();
     });
 
     // 선택 삭제 버튼 클릭 시
@@ -64,29 +69,45 @@ $(document).ready(function () {
 
 // 장바구니 이동 버튼 이벤트 핸들러
 document.getElementById("move_to_cart_btn").addEventListener("click", () => {
-    // 체크된 상품의 위시번호를 담을 배열
+    // 폼 요소 가져오기
+    let form = document.getElementById("wishlistForm");
+
+    // 선택된 상품의 위시번호들을 담을 배열
     let selectedItems = [];
+    // 선택된 상품의 게임코드들을 담을 배열
+    let gameCodes = [];
 
     // 각 행에서 선택된 주문번호 추출
     $("input[name='sno[]']:checked").each(function () {
         // 현재 행에서 위시번호 추출하여 배열에 추가
         let orderNumber = $(this).closest('tr').find('td[name="sno[]"]').text();
         selectedItems.push(orderNumber);
-        console.log(orderNumber);
+
+        // 현재 행에서 게임코드 추출하여 배열에 추가
+        let code = $(this).closest('tr').find('td[name="game_codes[]"]').text();
+        gameCodes.push(code);
     });
 
     // 선택된 상품이 있는지 확인
-    if (selectedItems.length > 0) {
-        // 폼 요소 가져오기
-        let form = document.getElementById("wishlistForm");
+    if (gameCodes.length > 0) {
         // 선택된 상품의 위시번호를 숨겨진 필드로 폼에 추가
         selectedItems.forEach(function (item) {
             let input = document.createElement("input");
             input.setAttribute("type", "hidden");
-            input.setAttribute("name", "selectedItems");
+            input.setAttribute("name", "selectedItems[]");
             input.setAttribute("value", item);
             form.appendChild(input);
         });
+
+        // 선택된 상품의 게임코드를 숨겨진 필드로 폼에 추가
+        gameCodes.forEach(function (code) {
+            let input = document.createElement("input");
+            input.setAttribute("type", "hidden");
+            input.setAttribute("name", "gameCodes[]");
+            input.setAttribute("value", code);
+            form.appendChild(input);
+        });
+
         // 폼 전송
         form.submit();
     } else {

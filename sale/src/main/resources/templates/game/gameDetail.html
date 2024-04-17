@@ -362,11 +362,10 @@
                                                         </div>
 
                                                         <div class="vmproduct-link" style="text-align:center">
-                                                            <button type="button" class="btn btn-warning btn-lg"
-                                                                    id="btn_cart" data="50004664" data-assetid="0"
-                                                                    data-prodtp="4">장바구니</button>
-                                                            <button type="button" class="btn btn-default btn-lg"
-                                                                    id="btn_wishlist" data="50004664">위시리스트</button>
+                                                            <button type="button" class="btn btn-warning btn-lg btn_cart"
+                                                                    id="btn_cart" th:attr="data-appId=${game.getSteamAppid()}">장바구니</button>
+                                                            <button type="button" class="btn btn-default btn-lg btn_wishlist"
+                                                                    id="btn_wishlist" th:attr="data-appId=${game.getSteamAppid()}">위시리스트</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -729,5 +728,63 @@
             $('#'+name).addClass('in');
         },250);
 
+    });
+
+// 장바구니에 담는 함수
+$('.btn_cart').on('click', function () {
+    console.log(`장바구니로`);
+    console.log($(this).attr('data-appId'));
+    isLoggedIn(logTrueFalse => {
+        if (logTrueFalse) {
+            const url = "/cart/addToCart";
+            fetch(url,{
+                method: "POST",
+                headers: {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"},
+                body: "appId="+$(this).attr('data-appId'),
+            })
+                .then(response => response.text())
+                .then(data => {
+                    if(data==="success"){
+                        alert("장바구니에 담았습니다.")
+                    }else {
+                        alert("이미 장바구니에 등록된 상품입니다.")
+                    }
+                })
+                .catch(error => {
+                    console.log("error: ", error);
+                });
+        } else {
+            alert("로그인을 하셔야 이용이 가능합니다.");
+        }
+    });
+});
+
+    // 위시리스트에 담는 함수
+    $('.btn_wishlist').on('click', function () {
+        console.log(`위시리스트로`);
+        console.log($(this).attr('data-appId'));
+        isLoggedIn(logTrueFalse => {
+            if (logTrueFalse) {
+                const url = "/users/addToWishlist";
+                fetch(url,{
+                    method: "POST",
+                    headers: {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"},
+                    body: "appId="+$(this).attr('data-appId'),
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        if(data==="success"){
+                            alert("위시리스트에 담았습니다.")
+                        }else {
+                            alert("이미 위시리스트에 담긴 상품입니다.")
+                        }
+                    })
+                    .catch(error => {
+                        console.log("error: ", error);
+                    });
+            } else {
+                alert("로그인을 하셔야 이용이 가능합니다.");
+            }
+        });
     });
 </script>
