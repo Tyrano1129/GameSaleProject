@@ -30,8 +30,13 @@ public class GameTest {
     @Test
     public void removeTest(){
 
+        /*gameReviewService.deleteReview(4L);
 
-        List<ReviewResponse> list = gameReviewService.findReviewsAndVoteByUserId(1L,1623730L);
+        List<Review> list = gameReviewService.findAllReportedReviews();
+        for (Review r : list){
+            System.out.println(r.getReviewId());
+        }*/
+        /*List<ReviewResponse> list = gameReviewService.findReviewsAndVoteByUserId(1L,1623730L);
 
         for (ReviewResponse r : list){
             System.out.println(r.getReviewId());

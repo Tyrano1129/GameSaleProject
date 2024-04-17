@@ -181,6 +181,8 @@
     </div><!--하단 back-->
 </div>
 </div>
+<div th:replace="~{fragment/admin :: modal}"></div>
+<div class="overlay"></div>
 </body>
 </html>
 <script defer src="/js/header.js" type="text/javascript"></script>
@@ -201,6 +203,20 @@
         initSortBtn();
 
     });
+    function refundAccept(){
+        document.querySelector(".modal").classList.remove("active");
+        document.querySelector(".overlay").classList.remove("active");
+    }
+    function initModal(){
+        $('.btn-list > button:last').remove();
+    }
+
+    function showModalCheck(subject) {
+        document.querySelector(".modal").classList.add("active");
+        document.querySelector(".overlay").classList.add("active");
+        document.querySelector(".subject").innerHTML = subject;
+    }
+
     function initSortBtn(){
         $('.tab-pane').removeClass('active');
         $(".tab-pane.releaseDate").addClass('active contents in');

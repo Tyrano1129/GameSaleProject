@@ -33,8 +33,13 @@ public class GameReviewService {
     private final GameRepository gameRepository;
     private final UserRepository userRepository;
     private final ReviewVoteRepository voteRepository;
+
+    public List<Review> findAllReportedReviews(){return repository.findAllReportedReviews();}
+
+    public void deleteReview(Long reiviewId){repository.deleteById(reiviewId);}
+
     public ReviewVote findReviewVoteByUserId(Long userId,Long reviewId){return voteRepository.findReviewVoteByUserId( userId,reviewId);}
-    public Review findReviewByUserId(Long id){return repository.findReviewByUserId(id);}
+    public Review findReviewByUserId(Long userId, Long steamAppId){return repository.findReviewByUserId(userId, steamAppId);}
     public String saveReview(Review review){
         try {
             repository.save(review);

@@ -79,17 +79,11 @@ public class Game implements Serializable {
 
     private String genres; //JSON 형태 저장
 
-    @Column(name = "steam_rank", columnDefinition="serial")
-    /*@Generated(GenerationTime.INSERT)*/
-    private Long steamRank;
+    private String platform;
 
     private int rating;
     private int stock;
 
-    /*@OneToMany(mappedBy = "game", fetch = FetchType.LAZY)
-    @Transient
-    @JsonIgnore
-    private List<Review> reviews = new ArrayList<>();*/
 
     @Transient
     private List<String> genreList;
@@ -201,7 +195,8 @@ public class Game implements Serializable {
     public Game convertRawData(SteamGameDTO rawData){
         Game game = new Game();
         try{
-            game.steamAppid = (long) rawData.getSteamAppid();
+            //game.steamAppid = (long) rawData.getSteamAppid();
+            game.platform= "steam";
             game.name = rawData.getName();
             game.supportedLanguages = rawData.getSupportedLanguages();
             game.detailedDescription = rawData.getDetailedDescription();

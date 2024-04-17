@@ -21,9 +21,11 @@ public interface ReviewRepositoryCustom {
 
     public Page<ReviewResponse> findReviewsAndVoteByUserId(ReviewPageDTO reviewPageDTO, Pageable pageable);
 
-    public Review findReviewByUserId(Long id);
+    public Review findReviewByUserId(Long userId, Long steamAppId);
 
     public long addVote(ReviewVoteDTO reviewVoteDTO);
 
     public long reportReview(ReviewReportDTO reviewReportDTO);
+
+    public List<Review> findAllReportedReviews();
 }
