@@ -7,12 +7,10 @@ import kr.game.sale.entity.admin.Refund;
 import kr.game.sale.entity.form.GameForm;
 import kr.game.sale.entity.form.RoleListForm;
 import kr.game.sale.entity.game.Game;
+import kr.game.sale.entity.game.review.Review;
 import kr.game.sale.entity.user.UserRole;
 import kr.game.sale.entity.user.Users;
-import kr.game.sale.service.AdminService;
-import kr.game.sale.service.GameService;
-import kr.game.sale.service.GoogleGCPService;
-import kr.game.sale.service.UserService;
+import kr.game.sale.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -40,6 +38,7 @@ public class AdminController {
     private final GameService gameService;
     private final AdminService adminService;
     private final GoogleGCPService googleGCPService;
+    private final GameReviewService gameReviewService;
     private GameForm init(){
         //gameForm 여러곳에 이용하기위한 객체 생성
         return new GameForm();
@@ -50,11 +49,13 @@ public class AdminController {
         List<Users> userList = userService.getUserList();
         List<QnA> qnaList = adminService.getQnAList();
         List<Refund> refundList = adminService.getRefundList();
+        List<Review> reviewsList = gameReviewService.findAllReportedReviews();
 
         model.addAttribute("gameList",gameList);
         model.addAttribute("userList",userList);
         model.addAttribute("qnaList",qnaList);
         model.addAttribute("refundList",refundList);
+        model.addAttribute("reviewsList",reviewsList);
         return "admin/adminForm";
     }
 
@@ -101,6 +102,11 @@ public class AdminController {
         return "ok";
     }
 
+    @DeleteMapping("/reviewOneDelete")
+    public @ResponseBody String reviewOneDelete(Long id){
+        gameReviewService.deleteReview(id);
+        return "ok";
+    }
     @PostMapping("/userListRoleUpdate")
     public @ResponseBody String userListRoleUpdate(@RequestBody List<RoleListForm> roleList){
         System.out.println("roleList = " + roleList);
@@ -133,7 +139,7 @@ public class AdminController {
             screenshotsList.add(screanshots);
         }
         adminService.gameInsert(game,headerImage,screenshotsList);
-        return "redirect:/admin/adminForm";
+        return "redirect:/admin";
     }
 
 
