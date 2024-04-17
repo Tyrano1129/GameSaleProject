@@ -34,7 +34,7 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom{
 
         OrderSpecifier orderSpecifier = createOrderSpecifier(reviewPageDTO.getSortType());
 
-        // Review와 ReviewLike를 조인하여 특정 사용자가 특정 게임에 대해 좋아요한 리뷰를 가져옵니다.
+        // Review와 ReviewVote를 조인하여 특정 사용자가 특정 게임에 대해 유용해요 한 리뷰를 가져옵니다.
         QueryResults<ReviewResponse> queryResults = queryFactory
                 .select(Projections.bean(ReviewResponse.class,
                         review.reviewId,

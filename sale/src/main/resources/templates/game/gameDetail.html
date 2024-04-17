@@ -69,13 +69,19 @@
                                             </th:block>
                                         </th:block>
                                         <th:block th:if="${game.screenshots != null}">
-                                            <th:block th:each="shots, shotsStat : ${game.getScreenshootsList()}" >
+                                            <th:block th:if="${game.platform eq 'steam'}" th:each="shots, shotsStat : ${game.getScreenshootsList()}" >
                                                 <div  th:if="${shotsStat.odd == true}"
                                                       class="item screenshot_thumbnail" style="cursor:pointer">
                                                 <img  th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getScreenshootsList().get(shotsStat.index)}}"
                                                      data-type="image/jpeg"
                                                       th:attr="data-url=${'<img src=''https://cdn.akamai.steamstatic.com/steam/apps' + game.getScreenshootsList().get(shotsStat.index+1)+'''>'}">
-
+                                                </div>
+                                            </th:block>
+                                            <th:block th:unless="${game.platform eq 'steam'}" th:each="shots, shotsStat : ${game.getScreenshootsList()}" >
+                                                <div  class="item screenshot_thumbnail" style="cursor:pointer">
+                                                    <img  th:src="@{shots}"
+                                                          data-type="image/jpeg"
+                                                          th:attr="data-url=${'<img src='''+ shots+'''>'}">
                                                 </div>
                                             </th:block>
                                         </th:block>
@@ -149,11 +155,14 @@
                                                                             <div class="col-sm-99"
                                                                                  style="    margin-top: 10px;    width: 70%;">
                                                                                 <div class="input-group"
-                                                                                     style="    height: 80px;">
-                                                                                        <textarea id="reviewContent"
-                                                                                                  cols="15" rows="15"
-                                                                                                  name="content"
-                                                                                                  class="form-control"></textarea>
+                                                                                     style="position: relative; height: 80px;">
+                                                                                    <textarea id="reviewContent"
+                                                                                              cols="15" rows="15"
+                                                                                              name="content"
+                                                                                              class="form-control"></textarea>
+                                                                                    <p class="count">
+                                                                                        <span>0</span> / 100
+                                                                                    </p>
                                                                                     <span class="input-group-btn">
                                                                                             <input id="insertReviewBtn"
                                                                                                     class="btn btn-default"
@@ -199,7 +208,7 @@
                                                                         <div class="vm-product-descr-container-1"
                                                                              style="width:570px;padding:0; height: 100%;">
                                                                             <div class="vm3pr-customfields-product"
-                                                                                 style="height: 100%;">
+                                                                                 style="display: flex; align-items: center;height: 100%;">
                                                                                 <a href="#"
                                                                                    class="vote_header tooltip"
                                                                                    data-tooltip-text="평가 전체 보기">
@@ -278,11 +287,19 @@
                         <div class="right">
                             <div class="vm-product-details-container">
                                 <div class="t3-module module normal-module">
-                                    <div id="goods_img"><img
+                                    <div id="goods_img">
+
+                                        <img th:if="${game.platform eq 'steam'}"
                                             th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getHeaderImage()}}"
                                             th:alt="${game.getName()}"
                                             width="320" height="150"
-                                            onerror="this.src='/images/404.jpg'"></div>
+                                            onerror="this.src='/images/404.jpg'">
+                                        <img th:unless="${game.platform eq 'steam'}"
+                                             th:src="@{game.getHeaderImage()}"
+                                             th:alt="${game.getName()}"
+                                             width="320" height="150"
+                                             onerror="this.src='/images/404.jpg'">
+                                    </div>
                                     <div class="module-inner">
                                         <div class="module-ct">
                                             <div class="vmgroup single-product  normal-module">
@@ -443,7 +460,12 @@
         document.querySelector(".overlay").classList.add("active");
         document.querySelector(".subject").innerHTML = subject;
     }
+    $('#reviewContent').on('keyup', function() {
+        if (this.value.length > 100) this.value = this.value.substr(0, 100);
 
+        $('.input-group .count span').html(this.value.length);
+
+    });
     //신고 기능
     $(document).on("click", '.reportBtn', function(event) {
         event.preventDefault();
@@ -698,7 +720,7 @@
 // 세 번째 div 요소 (리뷰 내용과 등록일)
         html += '        <div class="vm-product-descr-container-1" style="width:570px;padding:0;height: 100%;">';
         // div 요소 시작
-        html += '<div class="vm3pr-customfields-product" style="height: 100%; display: flex;">';
+        html += '<div class="vm3pr-customfields-product" style="height: 100%; display: flex; align-items: center;">';
 
 // 평가 링크
         html += '<a href="#" class="vote_header tooltip" data-tooltip-text="평가 전체 보기">';

@@ -201,9 +201,14 @@
                                         <div class="vm-product-media-container">
                                             <a th:title="${game.getName()}"
                                                th:href="@{/game/detail/{steamAppid}(steamAppid=${game.getSteamAppid()})}">
-                                                <img  th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getHeaderImage()}}"
-                                                      th:alt="${game.getName()}" class="browseProductImage"
+                                                <img th:if="${game.platform eq 'steam'}"
+                                                     th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getHeaderImage()}}"
+                                                     th:alt="${game.getName()}" class="browseProductImage"
                                                     style="width:173px;height:81px;min-width:173px">
+                                                <img th:unless="${game.platform eq 'steam'}"
+                                                     th:src="@{game.getHeaderImage()}"
+                                                     th:alt="${game.getName()}" class="browseProductImage"
+                                                     style="width:173px;height:81px;min-width:173px">
                                             </a>
                                         </div>
 
@@ -468,9 +473,13 @@
             '<div class="product vm-col vm-col-3 vertical-separator col" child-height="83">' +
             '<div class="spacer" style="min-height:83px">' +
             '<div class="vm-product-media-container">' +
-            '<a title="' + game.name + '" href="/game/detail/' + game.steamAppid + '">' +
-            '<img src="https://cdn.akamai.steamstatic.com/steam/apps/' + game.headerImage + '" alt="' + game.name + '" class="browseProductImage" style="width:173px;height:81px;min-width:173px">' +
-            '</a>' +
+            '<a title="' + game.name + '" href="/game/detail/' + game.steamAppid + '">';
+           if(game.platform == 'steam'){
+               html += '<img src="https://cdn.akamai.steamstatic.com/steam/apps/' + game.headerImage + '" alt="' + game.name + '" class="browseProductImage" style="width:173px;height:81px;min-width:173px">';
+           } else{
+               html += '<img src="' + game.headerImage + '" alt="' + game.name + '" class="browseProductImage" style="width:173px;height:81px;min-width:173px">';
+           }
+            html +='</a>' +
             '</div>' +
             '<div style="padding: 10px 0 0 0;clear:both;float:left;width:80px;margin:0;text-align:center">' +
             '<div style="display:block;"><img src="/images/steam.svg" width="60" alt="Steam"></div>' +
