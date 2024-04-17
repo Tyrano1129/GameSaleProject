@@ -1,6 +1,5 @@
 package kr.game.sale.controller;
 
-import kr.game.sale.entity.form.OrderRequest;
 import kr.game.sale.entity.form.WishRequest;
 import kr.game.sale.entity.user.Users;
 import kr.game.sale.service.CartService;
@@ -144,6 +143,7 @@ public class UserController {
         // 삭제 로직을 수행한 후, 삭제 후에 사용자를 리다이렉트할 페이지를 반환합니다.
         return "redirect:/users/userWishlist";
     }
+
     @PostMapping("/moveToCart")
     public String move(@ModelAttribute WishRequest wishRequest) {
         List<String> list = wishRequest.getSelectedItems();
