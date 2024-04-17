@@ -1,9 +1,9 @@
 package kr.game.sale.controller;
 
+import kr.game.sale.entity.admin.Payment;
 import kr.game.sale.entity.form.WishRequest;
 import kr.game.sale.entity.user.Users;
 import kr.game.sale.repository.admin.PaymentRepository;
-import kr.game.sale.repository.admin.RefundRepository;
 import kr.game.sale.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +24,8 @@ public class UserController {
     private final QnAService qnaService;
     private final WishlistService wishlistService;
     private final CartService cartService;
+    private final PaymentRepository paymentRepository;
+
     @GetMapping("/joinForm")
     public String userJoinForm() {
         return "users/userJoinForm";
@@ -75,7 +77,10 @@ public class UserController {
     }
 
     @GetMapping("/myPage")
-    public String myPage() {
+    public String myPage(Model model) {
+        Users user = userService.getLoggedInUser();
+        List<Payment>paymentList= paymentRepository.findAllByUser(user);
+        model.addAttribute("paymentList",paymentList);
         return "users/myPage";
     }
 
@@ -147,12 +152,10 @@ public class UserController {
     @PostMapping("/moveToCart")
     public String move(@ModelAttribute WishRequest selectedItems,
                        @ModelAttribute WishRequest gameCodes) {
-        List<String> wishIdList=selectedItems.getSelectedItems();
-        List<String> gameIdList=selectedItems.getGameCodes();
+        List<String> wishIdList = selectedItems.getSelectedItems();
+        List<String> gameIdList = selectedItems.getGameCodes();
         wishlistService.deleteWishlistByIdList(wishIdList);
         cartService.moveToCart(gameIdList);
         return "redirect:/cart/myCart";
     }
-
-
 }

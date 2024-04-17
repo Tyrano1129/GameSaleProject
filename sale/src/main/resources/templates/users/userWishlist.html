@@ -43,12 +43,14 @@
                     </label></td>
                     <td name="sno[]" th:text="${list.wishlistId}"></td>
                     <td name="game_codes[]" th:text="${list.steamAppid}"></td>
-                    <td><a th:href="@{'/game/detail/' + ${list.steamAppid}}"><span th:text="${list.name}"></span></a></td>
+                    <td><a th:href="@{'/game/detail/' + ${list.steamAppid}}"><span th:text="${list.name}"></span></a>
+                    </td>
                     <td th:text="${list.price}"></td>
                     <td th:text="${list.total}"></td>
                     <td th:text="${list.discount}"></td>
                     <td>
-                        <button th:onclick="|location.href='@{/users/deleteWish(wishlistId=${list.wishlistId})}'|" type="button"><i
+                        <button th:onclick="|location.href='@{/users/deleteWish(wishlistId=${list.wishlistId})}'|"
+                                type="button"><i
                                 class="fa fa-close"></i> 삭제
                         </button>
                     </td>

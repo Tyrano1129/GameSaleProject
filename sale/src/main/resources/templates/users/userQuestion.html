@@ -15,10 +15,10 @@
         <h1>마이페이지</h1>
         <ul class="menu">
             <li onclick="location.href='/users/myPage'"><a><span>주문내역</span></a></li>
-            <li onclick="location.href='/users/userQuestion'"><a><span>문의내역</span></a></li>
+            <li class="activated" onclick="location.href='/users/userQuestion'"><a><span>문의내역</span></a></li>
             <li onclick="location.href='/users/userWishlist'"><a><span>위시리스트</span></a></li>
             <li onclick="location.href='/users/userUpdate'"><a><span>정보수정</span></a></li>
-            <li class="activated" onclick="location.href='/users/userResign'"><a><span>회원탈퇴</span></a></li>
+            <li onclick="location.href='/users/userResign'"><a><span>회원탈퇴</span></a></li>
         </ul>
 
         <div class="docs-section">
@@ -33,7 +33,7 @@
 
         <!-- 문의하기 -->
         <div class="docs-section">
-            <h1><strong>문의하기</strong></h1>
+            <h1><strong>  문의하기</strong></h1>
             <form action="/qna/addQuestion" enctype="multipart/form-data" id="questionForm" method="post"
                   name="questionForm"
                   onclick="">

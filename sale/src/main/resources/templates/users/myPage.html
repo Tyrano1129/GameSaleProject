@@ -20,8 +20,39 @@
             <li onclick="location.href='/users/userUpdate'"><a><span>정보수정</span></a></li>
             <li onclick="location.href='/users/userResign'"><a><span>회원탈퇴</span></a></li>
         </ul>
+        <div class="docs-section" style="color:#FF9900;">
+            <p><strong>※ 다이렉트 게임즈에서는 전자상거래법 및 개인정보처리방침에 의거 구매 후 5년 이상 지난 거래내역 정보는 특별한 사유가 없을 시 파기처리를 원칙으로 합니다. 따라서 최대
+                5년간의
+                주문 내역 및 제공 콘텐츠를 조회하실 수 있으며, 5년이 지난 주문 내역은 '고객지원 - 문의하기'를 통해 요청해주시기 바랍니다.</strong></p>
+            <p><strong>※ [특전제공] 타이틀은 개발사/퍼블리셔 정책에 따라 출시 후 예고 없이 특전 지급이 중단될 수 있습니다.</strong></p>
+            <p><strong>※ 주문 완료 후 가급적 빠른 시일 내에 제품 코드(키)를 활성화 하시고, 플랫폼에 등록해 주시기 바랍니다.</strong></p>
+        </div>
+        <form>
+            <table id="orderListTable">
+                <tr>
+                    <th>결제번호</th>
+                    <th>상품명</th>
+                    <th>상품가격</th>
+                    <th>결제금액</th>
+                    <th>주문일자</th>
+                    <th>환불</th>
+                </tr>
+                <tr th:each="list : ${paymentList}">
+                    <td th:text="${list.paymentId}"></td>
+                    <td th:text="${list.gameName}"></td>
+                    <td th:text="${list.gamePrice}"></td>
+                    <td th:text="${list.paymentPrice}"></td>
+                    <td th:text="${list.paymenDate}"></td>
+                    <td>
+                        <span th:if="${list.paymentResult}"><button type="button">환불처리중</button></span>
+                        <span th:unless="${list.paymentResult}"><button type="button" onclick="requestRefund('${list.paymentId}')">환불요청</button></span>
+                    </td>
+                </tr>
+            </table>
+        </form>
     </div>
 
 </div>
 </body>
 </html>
+<script defer src="/js/userOrderList.js" type="text/javascript"></script>
