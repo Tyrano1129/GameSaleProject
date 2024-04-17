@@ -1,22 +1,22 @@
 function requestRefund(paymentId) {
+
+    let logId = parseInt(paymentId);
+
     // fetch를 사용하여 paymentId를 서버로 전송
     fetch('/payment/refund', {
-        method: 'GET',
+        method: 'POST',
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
         body: "paymentId=" + paymentId,
     })
-        .then(function (response) {
-            if (response.ok) {
-                // 요청이 성공적으로 처리되었을 때 실행할 코드
-                console.log('환불 요청이 성공적으로 전송되었습니다.');
+        .then(response => response.text())
+        .then((data) => {
+            if (data) {
+                alert(`환불요청에 성공했습니다.`);
+                location.reload();
             } else {
-                // 오류 응답 처리
-                console.error('환불 요청이 실패하였습니다.');
+                alert(`환불요청에 실패했습니다.`)
             }
-        })
-        .catch(function (error) {
-            console.error('네트워크 오류:', error);
-        });
+        }).catch(error => console.error('Error:', error));
 }

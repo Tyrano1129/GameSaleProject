@@ -44,8 +44,7 @@
                     <td th:text="${list.paymentPrice}"></td>
                     <td th:text="${list.paymenDate}"></td>
                     <td>
-                        <span th:if="${list.paymentResult}"><button type="button">환불처리중</button></span>
-                        <span th:unless="${list.paymentResult}"><button type="button" onclick="requestRefund('${list.paymentId}')">환불요청</button></span>
+                        <span th:text="${list.paymentResult}"></span>
                     </td>
                 </tr>
             </table>

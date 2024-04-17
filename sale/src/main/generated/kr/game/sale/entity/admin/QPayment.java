@@ -38,7 +38,7 @@ public class QPayment extends EntityPathBase<Payment> {
 
     public final NumberPath<Integer> paymentPrice = createNumber("paymentPrice", Integer.class);
 
-    public final BooleanPath paymentResult = createBoolean("paymentResult");
+    public final StringPath paymentResult = createString("paymentResult");
 
     public final kr.game.sale.entity.user.QUsers user;
 
