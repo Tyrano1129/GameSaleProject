@@ -177,7 +177,43 @@
                 </tr>
             </table>
         </div>
-
+        <div class="reviewcontainer">
+            <h1>신고리뷰 관리 리스트</h1>
+            <table class="reviewList">
+                <tr>
+                    <th>번호</th>
+                    <th>게임이름</th>
+                    <th>이름</th>
+                    <th>내용</th>
+                    <th>날짜</th>
+                    <th>좋아요수</th>
+                    <th>삭제</th>
+                </tr>
+                <tr th:each="list : ${reviewList}">
+                    <td id="number">
+                        <p th:text="${list.reviewId}">1</p>
+                    </td>
+                    <td id="gamename">
+                        <p th:text="${list.game.name}">그러게 무슨게임이지?</p>
+                    </td>
+                    <td id="username">
+                        <p th:text="${list.users.userNickname}">뭐였더라</p>
+                    </td>
+                    <td id="subject">
+                        <p th:text="${list.reviewId}">40000원</p>
+                    </td>
+                    <td id="date">
+                        <p th:text="${list.regDate}">2023-01-01</p>
+                    </td>
+                    <td id="count">
+                        <p th:text="${list.voteCnt}">액션</p>
+                    </td>
+                    <td id="삭제">
+                        <a class="btn delete" th:data-delete="${list.reviewId}" onclick="refundCheck('리뷰을 삭제 하시겠습니까?','reviewdelete',this)">삭제</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </main>
 </div>
 <div th:fragment="modal" class="modal">

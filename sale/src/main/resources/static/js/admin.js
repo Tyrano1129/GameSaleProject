@@ -22,7 +22,7 @@ function listOn(b) {
     document.querySelector(".qnacontainer").style.display = "none";
     document.querySelector(".refundcontainer").style.display = "none";
     document.querySelector(".gamecontainer").style.display = "none";
-    // document.querySelector(".reviewcontainer").style.display="none";
+    document.querySelector(".reviewcontainer").style.display="none";
     if (b.id === "user") {
         document.querySelector(".usercontainer").style.display = "block";
     } else if (b.id === "game") {
@@ -32,7 +32,7 @@ function listOn(b) {
     } else if (b.id === "refund") {
         document.querySelector(".refundcontainer").style.display = "block";
     } else if (b.id === "review") {
-        // document.querySelector(".reviewcontainer").style.display="block";
+        document.querySelector(".reviewcontainer").style.display="block";
     }
 }
 
@@ -77,7 +77,7 @@ function userListRoleUpdate() {
         });
 }
 
-function userDelete(value, url) {
+function valuesDelete(value, url) {
     let id = parseInt(value);
     console.log(id);
     fetch("/admin/" + url, {
@@ -120,12 +120,14 @@ function refundAccept() {
         console.log(id);
         userListRoleUpdate()
     } else if (id === "userdelete") {
-        userDelete(sub.getAttribute("data-delete"), "userOneDelete");
+        valuesDelete(sub.getAttribute("data-delete"), "userOneDelete");
     } else if (id === "gamedelete") {
-        userDelete(sub.getAttribute("data-delete"), "gameOneDelete");
+        valuesDelete(sub.getAttribute("data-delete"), "gameOneDelete");
     } else if (id === "paymentDelete") {
         console.log(sub.getAttribute("data-delete"));
-        // userDelete(sub.getAttribute("data-delete"));
+        //valuesDelete(sub.getAttribute("data-delete"));
+    } else if(id ==="reviewdelete"){
+        valuesDelete(sub.getAttribute("data-delete"),"reviewOneDelete")
     }
     document.querySelector(".modal").classList.remove("active");
     document.querySelector(".overlay").classList.remove("active");
@@ -243,21 +245,17 @@ ClassicEditor.create(document.querySelector("#rcmRequirements"), {
         console.warn("Build id: g64ljk55ssvc-goqlohse75uw");
         console.error(error);
     });
-function testText(form) {
+function result(form){
     form.minRequirements.value = editorMin.getData().toString();
     form.rcmRequirements.value = editorRcm.getData().toString();
     console.log(form.minRequirements.value);
     console.log(form.rcmRequirements.value);
     form.submit();
-}
-
-function result(form){
     // const input = document.querySelector("#resultbtn");
     // for(let i = 0; i < form.multiFile.files.length; i+=1){
     //     const file = form.multiFile.files[i];
     //     console.log('Selected file:', file.name);
     // }
-    testText(form);
     // if(input.value ==="추가"){
     //     fetch('/admin/gameInsert',{
     //         headers:{

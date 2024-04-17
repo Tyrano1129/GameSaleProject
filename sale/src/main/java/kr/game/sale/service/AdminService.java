@@ -16,6 +16,7 @@ import kr.game.sale.entity.form.GameForm;
 import kr.game.sale.entity.form.NoticeForm;
 import kr.game.sale.entity.form.PaymentForm;
 import kr.game.sale.entity.game.Game;
+import kr.game.sale.entity.game.review.Review;
 import kr.game.sale.entity.user.Cart;
 import kr.game.sale.entity.user.Users;
 import kr.game.sale.repository.admin.NoticeRepository;
@@ -23,6 +24,7 @@ import kr.game.sale.repository.admin.PaymentRepository;
 import kr.game.sale.repository.admin.QnARepository;
 import kr.game.sale.repository.admin.RefundRepository;
 import kr.game.sale.repository.game.GameRepository;
+import kr.game.sale.repository.game.review.ReviewRepository;
 import kr.game.sale.repository.user.CartRepository;
 import kr.game.sale.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -85,6 +87,8 @@ public class AdminService {
         return paymentRepository.findById(id).isPresent()? paymentRepository.findById(id).get() : null;
     }
     /* qna */
+
+    /* review */
 
 
     /* game */
@@ -169,6 +173,7 @@ public class AdminService {
                         .gameCode(uuid)
                         .game(game)
                         .user(user)
+                        .paymentResult("환불요청")
                         .build();
                 cartRepository.deleteById(list.getCartId());
                 paymentRepository.save(pay);
