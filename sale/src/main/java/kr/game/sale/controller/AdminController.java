@@ -11,17 +11,21 @@ import kr.game.sale.entity.user.UserRole;
 import kr.game.sale.entity.user.Users;
 import kr.game.sale.service.AdminService;
 import kr.game.sale.service.GameService;
+import kr.game.sale.service.GoogleGCPService;
 import kr.game.sale.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,9 +39,10 @@ public class AdminController {
     private final UserService userService;
     private final GameService gameService;
     private final AdminService adminService;
-    private Game init(){
+    private final GoogleGCPService googleGCPService;
+    private GameForm init(){
         //gameForm 여러곳에 이용하기위한 객체 생성
-        return new Game();
+        return new GameForm();
     }
     @GetMapping
     public String adminForm(Model model){
@@ -76,6 +81,7 @@ public class AdminController {
                 .rcmRequirements(game.getRcmRequirements())
                 .headerImage(game.getHeaderImage())
                 .screenshots(game.getScreenshootsList())
+                .stock(game.getStock())
                 .build();
 
         String update = "/admin/gameUpdate";
@@ -118,8 +124,16 @@ public class AdminController {
         return responseData;
     }
     @PostMapping("/gameInsert")
-    public String gmaeInsert(){
-        return "admin/adminForm";
+    public  String gmaeInsert(@ModelAttribute GameForm game) throws IOException, ParseException {
+        log.info("game={}",game);
+        List<String> screenshotsList = new ArrayList<>();
+        String headerImage = googleGCPService.updateImageInfo(game.getHeaderFile(),"game");
+        for(MultipartFile file : game.getScreenFile()){
+            String screanshots = googleGCPService.updateImageInfo(file,"game");
+            screenshotsList.add(screanshots);
+        }
+        adminService.gameInsert(game,headerImage,screenshotsList);
+        return "redirect:/admin/adminForm";
     }
 
 

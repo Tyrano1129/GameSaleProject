@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import kr.game.sale.entity.game.review.Review;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,7 @@ import java.util.Random;
 public class Game implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="steam_appid")
     private Long steamAppid;
 
@@ -78,10 +80,11 @@ public class Game implements Serializable {
     private String genres; //JSON 형태 저장
 
     @Column(name = "steam_rank", columnDefinition="serial")
-    @Generated(GenerationTime.INSERT)
+    /*@Generated(GenerationTime.INSERT)*/
     private Long steamRank;
 
     private int rating;
+    private int stock;
 
     /*@OneToMany(mappedBy = "game", fetch = FetchType.LAZY)
     @Transient
@@ -96,6 +99,33 @@ public class Game implements Serializable {
     private List<String> screenshootsList;
     @Transient
     private int salesPrice;
+
+    @Builder
+    public Game(Long steamAppid, String name, String enName, String detailedDescription, String supportedLanguages, String headerImage, String minRequirements, String rcmRequirements, int price, String developers, String publisher, String screenshots, String movies, Date releaseDate, int discount, String genres, Long steamRank, int rating, List<String> genreList, List<String> movieList, List<String> screenshootsList, int salesPrice,int stock) {
+        this.steamAppid = steamAppid;
+        this.name = name;
+        this.enName = enName;
+        this.detailedDescription = detailedDescription;
+        this.supportedLanguages = supportedLanguages;
+        this.headerImage = headerImage;
+        this.minRequirements = minRequirements;
+        this.rcmRequirements = rcmRequirements;
+        this.price = price;
+        this.developers = developers;
+        this.publisher = publisher;
+        this.screenshots = screenshots;
+        this.movies = movies;
+        this.releaseDate = releaseDate;
+        this.discount = discount;
+        this.genres = genres;
+        this.steamRank = steamRank;
+        this.rating = rating;
+        this.genreList = genreList;
+        this.movieList = movieList;
+        this.screenshootsList = screenshootsList;
+        this.salesPrice = salesPrice;
+        this.stock = stock;
+    }
 
     public String getFormattedPrice(){
        // int bNum = price/100;

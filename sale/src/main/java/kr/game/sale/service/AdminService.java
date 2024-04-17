@@ -1,5 +1,7 @@
 package kr.game.sale.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
@@ -38,6 +40,8 @@ import org.springframework.web.multipart.MultipartRequest;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -84,8 +88,25 @@ public class AdminService {
 
 
     /* game */
-    public void gameInsert(GameForm form){
 
+    // 게임추가
+    public void gameInsert(GameForm form,String headerimage,List<String> screenshotsList) throws JsonProcessingException, ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        ObjectMapper mapper = new ObjectMapper();
+        Game game = Game.builder()
+                .name(form.getName())
+                .supportedLanguages(form.getSupportedLanguages())
+                .price(form.getPrice())
+                .developers(form.getDevelopers())
+                .releaseDate(formatter.parse(form.getReleaseDate()))
+                .stock(form.getStock())
+                .genres(form.getGenres())
+                .minRequirements(form.getMinRequirements())
+                .rcmRequirements(form.getRcmRequirements())
+                .headerImage(headerimage)
+                .screenshots(mapper.writeValueAsString(screenshotsList))
+                .build();
+        gameRepository.save(game);
     }
 
     /* notice */
