@@ -101,13 +101,17 @@ public class GameController {
 
     @GetMapping("/detail/{steamAppid}")
     public String gameDetail(@PathVariable("steamAppid") String steamAppid, Model model){
-        Users user = userService.getLoggedInUser();
-        if(user != null){
-            Review review =reviewService.findReviewByUserId(user.getId());
-            if (review != null) user = null;
-        }
 
         Game game = gameService.findOneById(steamAppid);
+        Users user = userService.getLoggedInUser();
+
+        if(user != null){
+            Review review =reviewService.findReviewByUserId(user.getId(), game.getSteamAppid());
+            if (review != null){
+                user = null;
+            }
+        }
+
         if(game != null){
             log.info("found game =>{}",game);
             model.addAttribute("game",game);

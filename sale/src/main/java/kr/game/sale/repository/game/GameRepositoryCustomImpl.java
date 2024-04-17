@@ -87,6 +87,7 @@ public class GameRepositoryCustomImpl  implements GameRepositoryCustom{
             SteamGameDTO gameMap2 = mapper.readValue(innerDataNode.toString(), new TypeReference<SteamGameDTO>() {
             });
             // SteamGame gameMap2= mapper.readValue(innerDataNode.toString(),SteamGame.class);
+
             if (gameMap2.getPriceOverview() == null) {
                 gameMap2.setNewPriceOverview(game.getPrice());
             }
@@ -165,7 +166,7 @@ public class GameRepositoryCustomImpl  implements GameRepositoryCustom{
     private OrderSpecifier createOrderSpecifier(SortType sortType) {
         return switch (sortType) {
             case DISCOUNT -> new OrderSpecifier<>(Order.DESC, game.discount);
-            case POPULARITY -> new OrderSpecifier<>(Order.ASC, game.steamRank);
+            case POPULARITY -> new OrderSpecifier<>(Order.ASC, game.steamAppid);
             case HIGH_PRICE -> new OrderSpecifier<>(Order.DESC, game.price);
             case LOW_PRICE -> new OrderSpecifier<>(Order.ASC, game.price);
             default ->   new OrderSpecifier<>(Order.DESC, game.releaseDate);

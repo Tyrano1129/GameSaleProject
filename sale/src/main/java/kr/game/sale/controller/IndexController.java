@@ -41,7 +41,7 @@ public class IndexController {
         Pageable pageable = PageRequest.of(0,5);
         Page<Notice> nList = adminService.getNoticeList(pageable,"");
         try {
-            log.info("gameService getList is null =>{}",gameService.getList().size());
+            ///log.info("gameService getList is null =>{}",gameService.getList().size());
             if (gameService.getList().isEmpty()) { // reg date로 확인하는 로직 추가 예정
                 gameService.initData();
             }

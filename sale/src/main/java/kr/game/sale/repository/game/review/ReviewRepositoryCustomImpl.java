@@ -72,11 +72,6 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom{
                 .where(
                         isEqualToGameId(Long.valueOf(reviewPageDTO.getAppId())),
                         isPositive(reviewPageDTO.getSortType())
-                        /*containsKeyword(game.name, gameSearchDTO.getSearchKeyword()),
-                        containsKeyword(game.name, gameSearchDTO.getInnerSearchKeyword()),
-                        containsCategory(game.genres, gameSearchDTO.getSearchCategory()),
-                        containsPublisher(game.publisher, gameSearchDTO.getSearchPublisher()),
-                        koreanSupported(gameSearchDTO.getSearchInterfaceKorean())*/
                 )
                 .orderBy(orderSpecifier)
                 .offset(pageable.getOffset()) // 페이징 시작 위치 설정
@@ -90,10 +85,10 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom{
     }
 
     @Override
-    public Review findReviewByUserId(Long id) {
+    public Review findReviewByUserId(Long userId, Long steamAppId) {
         return queryFactory.selectFrom(review)
                 .where(
-                        isEqualToUserId(id)
+                        isEqualToFKId(userId,steamAppId)
                 ).fetchOne();
     }
 
@@ -112,6 +107,20 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom{
                 .set(review.isReported, true)
                 .where(review.reviewId.eq(Long.valueOf(reviewReportDTO.getReviewId())))
                 .execute();
+    }
+
+    @Override
+    public List<Review> findAllReportedReviews() {
+
+        return queryFactory.selectFrom(review)
+                .where(review.isReported.isTrue())
+                .fetch();
+    }
+
+    private BooleanExpression isEqualToFKId(Long userId,Long steamAppId) {
+
+        return Objects.isNull(userId) || Objects.isNull(steamAppId)? null
+                : review.users.id.eq(userId).and(review.game.steamAppid.eq(steamAppId));
     }
 
     private BooleanExpression isPositive(ReviewSortType sortType) {

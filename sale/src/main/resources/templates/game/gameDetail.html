@@ -416,23 +416,26 @@
 </html>
 <script type="text/javascript">
 
+    let reportEvent = false;
+    let voteEvent = false;
+    let insertEvent = false;
+
     $(document).ready(function(){
         getReviewList();
         initModal();
     });
-
+/* 버튼 클릭 함수 모음*/
     $('.screenshot_thumbnail').on('click', function () {
         $('#screenshot_image').html($(this).find('img').attr('data-url'));
     });
 
-    function closeModal(){
+    //모달창 확인 버튼함수
+    function refundAccept(){
         document.querySelector(".modal").classList.remove("active");
         document.querySelector(".overlay").classList.remove("active");
     }
     function initModal(){
         $('.btn-list > button:last').remove();
-        $('.btn-list > button:first').off("refundAccept");
-        $('.btn-list > button:first').on("click", closeModal);
     }
 
     function showModalCheck(subject) {
@@ -444,7 +447,8 @@
     //신고 기능
     $(document).on("click", '.reportBtn', function(event) {
         event.preventDefault();
-
+        if(reportEvent == true)return;
+        reportEvent = true;
         var formData = {
             reviewId: $(this).attr('data-reviewId')
         };
@@ -459,11 +463,11 @@
             success: function(response) {
                 console.log(response);
                 if(response == "success"){
-                    alert("신고되었습니다.");
+                    showModalCheck("신고되었습니다.");
                 }else if(response == "LOGIN_REQUIRED"){
-                    alert("로그인이 필요한 서비스입니다.");
+                    showModalCheck("로그인이 필요한 서비스입니다.");
                 }else{
-                    alert("실패했습니다.");
+                    showModalCheck("실패했습니다.");
                 }
 
             },
@@ -471,12 +475,16 @@
                 // 요청이 실패하면 이 부분을 실행
                 console.error(xhr.responseText);
             }
-        });
+        }).always( function (){
+            reportEvent = false;
+        })
     });
 
     //유용해요 기능
     $(document).on("click", '.voteBtn', function(event) {
         event.preventDefault();
+        if(voteEvent == true)return;
+        voteEvent = true;
 
         var formData = {
             reviewId: $(this).attr('data-reviewId')
@@ -508,6 +516,8 @@
                 // 요청이 실패하면 이 부분을 실행
                 console.error(xhr.responseText);
             }
+        }).always( function (){
+            voteEvent = false;
         });
     });
 
@@ -521,6 +531,7 @@
         $('#sort').val($(this).attr('data-sort'));
         getReviewList();
     });
+    /* 리뷰 리스트 출력 함수 */
     function getReviewList(){
         var formData = {
             currPage: $('#currPage').val(),
@@ -612,8 +623,11 @@
         $(this).addClass('selected');
     });
 
+    /* 리뷰 추가 함수 */
     $('#insertReviewBtn').on('click', function () {
         console.log('#insertReviewBtn.on.click');
+        if(insertEvent == true)return;
+        insertEvent = true;
         var formElement = $(this).closest("form");
 
 
@@ -621,14 +635,16 @@
         let content =  formElement.find('textarea[name="content"]').val();
         console.log(isPositive);
         if(isPositive !="up" && isPositive != "down"){
-            alert("평가를 선택해주세요.");
+            showModalCheck("평가를 선택해주세요.");
             return;
         }
         if(content == null || $.trim(content+'') ==''){
             formElement.find('textarea[name="content"]').focus();
-            alert("내용을 입력해 주세요.");
+            showModalCheck("내용을 입력해 주세요.");
             return;
         }
+
+
         var formData = {
             isPositive: isPositive == "up",
             content: content,
@@ -645,22 +661,22 @@
             success: function(response) {
                 console.log(response);
                 if (response == "success") {
-                    alert("등록되었습니다.");
+                    showModalCheck("등록되었습니다.");
                     $('#reviewFrm').remove();
                     getReviewList();
                 }else if(response == "LOGIN_REQUIRED"){
-                    alert("로그인이 필요한 서비스입니다.");
+                    showModalCheck("로그인이 필요한 서비스입니다.");
                 }else{
-                    alert("실패했습니다.");
+                    showModalCheck("실패했습니다.");
                 }
             },
             error: function(xhr, status, error) {
                 // 요청이 실패하면 이 부분을 실행
                 console.error(xhr.responseText);
             }
+        }).always( function (){
+            insertEvent = false;
         });
-
-
     });
 
 
@@ -694,7 +710,7 @@
         }
         html += '    </div>';
         html += '    <span class="label label-light" style="width: 100%; background: rgba(255, 255, 255, 0.1); font-size: 13px; background: rgba(255,255,255,0.1);color: #ffffff;">';
-        html += (review.positive == true ? '긍정' : '부정');
+        html += (review.isPositive == true ? '긍정' : '부정');
         html+= '</span>';
         html += '</a>';
 
@@ -732,9 +748,6 @@
         return html;
     }
 
-
-
-
     $('.nav li').on('click', function () {
         $('.nav li').removeClass('active');
         $(this).addClass('active');
@@ -767,16 +780,16 @@ $('.btn_cart').on('click', function () {
                 .then(response => response.text())
                 .then(data => {
                     if(data==="success"){
-                        alert("장바구니에 담았습니다.")
+                        showModalCheck("장바구니에 담았습니다.")
                     }else {
-                        alert("이미 장바구니에 등록된 상품입니다.")
+                        showModalCheck("이미 장바구니에 등록된 상품입니다.")
                     }
                 })
                 .catch(error => {
                     console.log("error: ", error);
                 });
         } else {
-            alert("로그인을 하셔야 이용이 가능합니다.");
+            showModalCheck("로그인을 하셔야 이용이 가능합니다.");
         }
     });
 });
@@ -796,16 +809,16 @@ $('.btn_cart').on('click', function () {
                     .then(response => response.text())
                     .then(data => {
                         if(data==="success"){
-                            alert("위시리스트에 담았습니다.")
+                            showModalCheck("위시리스트에 담았습니다.")
                         }else {
-                            alert("이미 위시리스트에 담긴 상품입니다.")
+                            showModalCheck("이미 위시리스트에 담긴 상품입니다.")
                         }
                     })
                     .catch(error => {
                         console.log("error: ", error);
                     });
             } else {
-                alert("로그인을 하셔야 이용이 가능합니다.");
+                showModalCheck("로그인을 하셔야 이용이 가능합니다.");
             }
         });
     });
