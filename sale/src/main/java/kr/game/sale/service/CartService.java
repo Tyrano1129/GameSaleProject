@@ -1,6 +1,5 @@
 package kr.game.sale.service;
 
-import kr.game.sale.entity.form.OrderRequest;
 import kr.game.sale.entity.game.Game;
 import kr.game.sale.entity.user.Cart;
 import kr.game.sale.entity.user.CartView;
@@ -46,12 +45,12 @@ public class CartService {
         view.setGameId(cart.getGame().getSteamAppid());
         int discount = cart.getGame().getDiscount();
         double discountedPrice = cart.getGame().getPrice() * (1.0 - discount / 100.0);
-        int total=  (int) discountedPrice;
+        int total = (int) discountedPrice;
         total = total - (total % 10); // 1의 자리를 버림
         // 할인된 금액
         int disprice = cart.getGame().getPrice() - total;
         view.setDisprice(disprice);
-        log.info("disprice={}",disprice);
+        log.info("disprice={}", disprice);
         // 할인된금액 - game 금액
         view.setTotal(total);
         view.setTotalview(format.format(total));
@@ -74,21 +73,23 @@ public class CartService {
         }
         return result;
     }
+
     // order cart 값
-    public List<CartView> getMyOrder(Users user,List<String> orderRequests){
+    public List<CartView> getMyOrder(Users user, List<String> orderRequests) {
         List<CartView> cartList = new ArrayList<>();
         for (String list : orderRequests) {
             // 해당하는 카트값 하나씩 가지고오기
-            Optional<Cart> cart = cartRepository.findByIdAndUsers(Long.parseLong(list),user);
+            Optional<Cart> cart = cartRepository.findByIdAndUsers(Long.parseLong(list), user);
             CartView view = null;
             // 값 있으면 true
-            if(cart.isPresent()){
+            if (cart.isPresent()) {
                 view = getCartView(cart.get());
             }
             cartList.add(view);
         }
         return cartList;
     }
+
     @Transactional
     public void deleteCartByIdList(List<String> stringList) {
         List<Long> longList = new ArrayList<>();

@@ -36,7 +36,7 @@ public class QPayment extends EntityPathBase<Payment> {
 
     public final NumberPath<Integer> paymentPrice = createNumber("paymentPrice", Integer.class);
 
-    public final kr.game.sale.entity.user.QUsers User;
+    public final kr.game.sale.entity.user.QUsers user;
 
     public QPayment(String variable) {
         this(Payment.class, forVariable(variable), INITS);
@@ -57,7 +57,7 @@ public class QPayment extends EntityPathBase<Payment> {
     public QPayment(Class<? extends Payment> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.game = inits.isInitialized("game") ? new kr.game.sale.entity.game.QGame(forProperty("game")) : null;
-        this.User = inits.isInitialized("User") ? new kr.game.sale.entity.user.QUsers(forProperty("User")) : null;
+        this.user = inits.isInitialized("user") ? new kr.game.sale.entity.user.QUsers(forProperty("user")) : null;
     }
 
 }
