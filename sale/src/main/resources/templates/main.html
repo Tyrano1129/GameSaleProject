@@ -54,6 +54,19 @@
                     <i class="fa-solid fa-chevron-right"></i>
                 </a>
             </div><!-- 리스트 col-->
+            <div class="t3-module module normal-module" id="Mod120">
+                <div class="module-inner">
+                    <h3 class="module-title"><strong><span style="font-size:16px">공지사항</span></strong>
+                        <div class="pull-right" style="padding-top:4px;"><a href="/notice">+
+                            더보기</a></div>
+                    </h3>
+                    <div class="list-group">
+                        <th:block th:each="n : ${nList}">
+                            <a class="list-group-item" th:href="@{/notice/noticeView(id=${n.noticeId})}" th:text="${n.noticeTitle}"></a>
+                        </th:block>
+                    </div>
+                </div>
+            </div><!-- 공지 리스트-->
         </div> <!--상단 컨테이너-->
     </div><!--산단 back-->
 
@@ -70,7 +83,7 @@
 
             <div class="tab-content">
                 <th:block th:each="entry : ${listMap}" >
-                <div class="tab-pane" th:classappend="${entry.key}">
+                <div class="tab-pane fade" th:classappend="${entry.key}">
                     <div class="col"  child-height="348" th:each="game : ${entry.value}">
                         <div class="spacer"
                              style="min-height: 350px;padding-bottom:10px;padding-left:15px;padding-right:15px;">
@@ -190,14 +203,27 @@
     });
     function initSortBtn(){
         $('.tab-pane').removeClass('active');
-        $(".tab-pane.releaseDate").addClass('active');
+        $(".tab-pane.releaseDate").addClass('active contents in');
     }
     $('.nav li').on('click', function () {
         $('.nav li').removeClass('active');
         $(this).addClass('active');
         let name = $(this).attr('data-toggle');
-        $('.tab-pane').removeClass('active');
-        $('.tab-pane.'+name).addClass('active');
+      /*  $('.tab-pane').removeClass('active');
+        $('.tab-pane.'+name).addClass('active');*/
+
+        $('.tab-pane').removeClass('in');
+        setTimeout(function (){
+            $('.tab-pane').removeClass('active');
+            $('.tab-pane').removeClass('contents');
+
+            $('.tab-pane.'+name).addClass('active');
+            $('.tab-pane.'+name).addClass('contents');
+            setTimeout(function (){
+                $('.tab-pane.'+name).addClass('in');
+            },150);
+        },180);
+
     });
 
     // 장바구니에 담는 함수

@@ -28,7 +28,6 @@
     display:inline-block;
     width: 100%;
     color: white;
-    margin-bottom: 32px;
     padding-left: 0;
     list-style: none;
 }
@@ -108,6 +107,18 @@ a {
 
 
 /*하단 리스트 col*/
+.fade {
+    opacity: 0;
+    -webkit-transition: opacity 0.15s linear;
+    -o-transition: opacity 0.15s linear;
+    transition: opacity 0.15s linear;
+}
+.fade.in {
+    opacity: 1;
+}
+.tab-content > .active {
+    display: block;
+}
 
 .tab-content .tab-pane .col{
     margin-bottom: 50px;
@@ -117,7 +128,7 @@ a {
     font-size: 14px;
 }
 
-.tab-pane.active{
+.tab-pane.contents{
     display: flex;
 }
 

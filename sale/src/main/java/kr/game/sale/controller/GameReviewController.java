@@ -90,7 +90,8 @@ public class GameReviewController {
         }else{
             reviewVoteDTO.setUserId(user.getId());
         }
-        if(gameReviewService.findReviewVoteByUserId(user.getId()) != null) return  "ALREADY_VOTED";
+        log.info(" user =>{}"+user.getId());
+        if(gameReviewService.findReviewVoteByUserId(user.getId(), Long.valueOf(reviewVoteDTO.getReviewId())) != null) return  "ALREADY_VOTED";
 
         log.info(" reviewVoteDTO =>{}"+ reviewVoteDTO);
         String result =  gameReviewService.saveReviewVote(reviewVoteDTO);

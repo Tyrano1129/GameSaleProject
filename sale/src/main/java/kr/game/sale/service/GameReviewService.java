@@ -33,7 +33,7 @@ public class GameReviewService {
     private final GameRepository gameRepository;
     private final UserRepository userRepository;
     private final ReviewVoteRepository voteRepository;
-    public ReviewVote findReviewVoteByUserId(Long id){return voteRepository.findReviewVoteByUserId(id);}
+    public ReviewVote findReviewVoteByUserId(Long userId,Long reviewId){return voteRepository.findReviewVoteByUserId( userId,reviewId);}
     public Review findReviewByUserId(Long id){return repository.findReviewByUserId(id);}
     public String saveReview(Review review){
         try {

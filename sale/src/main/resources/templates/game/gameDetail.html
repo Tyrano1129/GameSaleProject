@@ -5,6 +5,7 @@
     <title>더좋은 게임</title>
     <link rel="stylesheet" href="/css/gameDetail.css">
     <link rel="stylesheet" href="/css/gameDetail_review.css">
+    <link rel="stylesheet" href="/css/modal.css">
 </head>
 <style th:replace="~{fragment/header :: bodyinit}"></style>
 <body>
@@ -410,17 +411,36 @@
     </div>
 </div>
 </div>
+<div th:replace="~{fragment/admin :: modal}"></div>
+<div class="overlay"></div>
 </body>
 </html>
 <script type="text/javascript">
 
     $(document).ready(function(){
         getReviewList();
+        initModal();
     });
 
     $('.screenshot_thumbnail').on('click', function () {
         $('#screenshot_image').html($(this).find('img').attr('data-url'));
     });
+
+    function closeModal(){
+        document.querySelector(".modal").classList.remove("active");
+        document.querySelector(".overlay").classList.remove("active");
+    }
+    function initModal(){
+        $('.btn-list > button:last').remove();
+        $('.btn-list > button:first').off("refundAccept");
+        $('.btn-list > button:first').on("click", closeModal);
+    }
+
+    function showModalCheck(subject) {
+        document.querySelector(".modal").classList.add("active");
+        document.querySelector(".overlay").classList.add("active");
+        document.querySelector(".subject").innerHTML = subject;
+    }
 
     //신고 기능
     $(document).on("click", '.reportBtn', function(event) {
@@ -473,14 +493,14 @@
             success: function(response) {
                 console.log(response);
                 if(response == "success"){
-                    alert("의견을 보냈습니다.");
+                    showModalCheck("의견을 보냈습니다.");
                     getReviewList();
                 }else if(response == "ALREADY_VOTED"){
-                    alert("이미 의견을 보낸 리뷰입니다.");
+                    showModalCheck("이미 의견을 보낸 리뷰입니다.");
                 }else if(response == "LOGIN_REQUIRED"){
-                    alert("로그인이 필요한 서비스입니다.");
+                    showModalCheck("로그인이 필요한 서비스입니다.");
                 }else{
-                    alert("실패했습니다.");
+                    showModalCheck("실패했습니다.");
                 }
 
 
@@ -726,8 +746,10 @@
             $('.tab-pane').removeClass('active');
 
             $('#'+name).addClass('active');
-            $('#'+name).addClass('in');
-        },250);
+            setTimeout(function (){
+                $('#'+name).addClass('in');
+            },150);
+        },180);
 
     });
 </script>
