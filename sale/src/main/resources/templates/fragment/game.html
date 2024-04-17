@@ -7,8 +7,13 @@
 <body>
 <div th:fragment="gameForm" class="gameformcontainer">
     <h1>게임 정보</h1>
-    <form class="gameform" th:action="${update} != null? ${update} : '/admin/gameInsert'" method="post">
+    <form class="gameform" th:action="${update} != null? '/admin/gameUpdate' : '/admin/gameInsert'" method="post" enctype="multipart/form-data">
         <div class="gameinfo">
+            <input name="id" type="hidden" th:value="${game.id} != null? ${game.id} : null">
+            <div>
+                <label>수량</label>
+                <input name="stock" type="number" th:value="${game.stock} != null? ${game.stock} : null">
+            </div>
             <div>
                 <label>게임이름</label>
                 <input
@@ -94,13 +99,12 @@
                 <h3>헤더 이미지</h3>
                 <div class="filebox">
                     <input
-                            name="headerImage"
                             class="upload-name"
-                            value="첨부파일"
+                            th:value="${game.rcmRequirements} != null? ${game.rcmRequirements} : '첨부파일'"
                             placeholder="첨부파일"
                     />
-                    <label for="files" th:value="${game.headerImage}">파일찾기</label>
-                    <input type="file" id="files"/>
+                    <label for="files" >파일찾기</label>
+                    <input name="headerFile" type="file" id="files"/>
                 </div>
             </div>
             <div class="screenshotsimge">
@@ -110,7 +114,7 @@
                         <label for="multifile">파일찾기</label>
                     </div>
                     <input
-                            name="screenshots"
+                            name="screenFile"
                             id="multifile"
                             type="file"
                             onchange="addFile(this);"

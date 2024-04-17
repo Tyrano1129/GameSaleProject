@@ -24,7 +24,7 @@ public class GoogleGCPService {
 
     @Value("${spring.cloud.gcp.storage.bucket}")
     private String bucketName;
-    public String updateMemberInfo(MultipartFile dto,String url) throws IOException {
+    public String updateImageInfo(MultipartFile dto,String url) throws IOException {
         String uuid = UUID.randomUUID().toString();
         String ext = dto.getContentType();
         // Cloud에 이미지 업로드

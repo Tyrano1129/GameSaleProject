@@ -40,3 +40,19 @@ ClassicEditor.create(document.querySelector("#editor"), {
         console.warn("Build id: g64ljk55ssvc-goqlohse75uw");
         console.error(error);
     });
+function testText(form) {
+    if(!editor.getData()){
+        alert("내용을 입력해주세요.");
+        return false;
+    }
+    if(!form.title.value.trim()){
+        alert("제목을 입력해주세요");
+        return false;
+    }
+    if(!form.writer.value.trim()){
+        form.writer.value = "관리자";
+    }
+    form.content.value = editor.getData().toString();
+    console.log(form.content.value);
+    form.submit();
+}

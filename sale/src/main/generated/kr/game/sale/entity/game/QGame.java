@@ -53,6 +53,10 @@ public class QGame extends EntityPathBase<Game> {
 
     public final NumberPath<Long> steamAppid = createNumber("steamAppid", Long.class);
 
+    public final NumberPath<Long> steamRank = createNumber("steamRank", Long.class);
+
+    public final NumberPath<Integer> stock = createNumber("stock", Integer.class);
+
     public final StringPath supportedLanguages = createString("supportedLanguages");
 
     public QGame(String variable) {

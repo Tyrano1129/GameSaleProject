@@ -146,6 +146,7 @@
                     <th>가격</th>
                     <th>발매일</th>
                     <th>장르</th>
+                    <th>수량</th>
                     <th>삭제</th>
                 </tr>
                 <tr th:each="list : ${gameList}">
@@ -166,6 +167,9 @@
                     </td>
                     <td>
                         <p th:text="${list.genres}">액션</p>
+                    </td>
+                    <td>
+                        <p th:text="${list.stock}"></p>
                     </td>
                     <td>
                         <button class="btn delete" th:data-delete="${list.steamAppid}" onclick="refundCheck('게임을 삭제 하시겠습니까?','gamedelete',this)">삭제</button>
