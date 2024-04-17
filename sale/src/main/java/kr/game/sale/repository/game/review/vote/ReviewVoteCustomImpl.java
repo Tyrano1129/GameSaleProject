@@ -17,12 +17,15 @@ public class ReviewVoteCustomImpl implements ReviewVoteCustom{
 
     private final JPAQueryFactory queryFactory;
     @Override
-    public ReviewVote findReviewVoteByUserId(Long id) {
+    public ReviewVote findReviewVoteByUserId(Long userId,Long reviewId) {
         return queryFactory.selectFrom(reviewVote)
-                .where(isEqualToUserId(id)).fetchOne();
+                .where(
+                        isEqualToId(userId, reviewId)
+                ).fetchOne();
     }
+    private BooleanExpression isEqualToId(Long userId,Long reviewId) {
 
-    private BooleanExpression isEqualToUserId(Long value) {
-        return Objects.isNull(value) ? null : review.users.id.eq(value);
+        return Objects.isNull(userId) || Objects.isNull(reviewId)? null
+                : reviewVote.users.id.eq(userId).and(reviewVote.id.eq(reviewId));
     }
 }

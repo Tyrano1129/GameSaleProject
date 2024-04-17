@@ -4,5 +4,5 @@ import kr.game.sale.entity.game.review.vote.ReviewVote;
 
 public interface ReviewVoteCustom {
 
-    public ReviewVote findReviewVoteByUserId(Long id);
+    public ReviewVote findReviewVoteByUserId(Long userId,Long reviewId);
 }

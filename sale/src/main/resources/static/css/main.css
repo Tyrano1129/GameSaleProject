@@ -3,20 +3,19 @@
 .pro-Container-back{
     /*background-color: blueviolet;*/
     margin-top: 20px;
-    margin-bottom: 40px;
 }
 .main-background .container{
 
     margin:  0 auto;
 }
 .promotion.container{
-    border: 1px black solid;
+    display: flex;
     height: 400px;
     width: 1152px;
 }
 .main-promotions{
     position: relative;
-    width: 880px;
+    width: 850px;
     height: 400px;
     background-color: orange;
 }
@@ -78,7 +77,7 @@
 
 .slick-dots {
     position: absolute;
-    left: 50%;
+    left: 48%;
     /* margin-left: -50px;  */
     /* width의 50% */
     /* margin-top: -50px; */
@@ -192,5 +191,85 @@
     height: 64px;
     line-height: 64px;
 }
+
+.t3-module {
+    padding-left: 26px;
+    height: 100%;
+    background: transparent;
+    color: inherit;
+}
+.t3-module .module-inner {
+    padding: 0;
+}
+.t3-module.normal-module .module-title {
+    margin-bottom: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid #323e4c \9;
+}
+
+.module-title {
+    background: transparent;
+    color: white;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    margin: 0 0 10px 0;
+    padding: 20px 32px 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid #323e4c \9;
+    text-transform: uppercase;
+}
+.module-title span {
+    position: relative;
+    display: inline-block;
+}
+.module-title span:before {
+    content: "";
+    border-top: 1px solid #67c1f5;
+    box-shadow: 0 0 4px rgba(255,255,255,0.5);
+    width: 100%;
+    height: 0;
+    position: absolute;
+    top: -21px;
+    left: 0;
+}
+element.style {
+    padding-top: 4px;
+}
+.pull-right {
+    float: right;
+}
+.pull-right {
+    float: right !important;
+}
+.list-group {
+    margin-bottom: 20px;
+    padding-left: 0;
+}
+#Mod120 .list-group-item {
+    letter-spacing: -1px;
+}
+.list-group-item:first-child {
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+}
+
+a.list-group-item {
+    color: rgba(255, 255, 255, 0.5);
+}
+.list-group-item {
+    font-size: 13px;
+}
+.list-group-item {
+    height: 20px;width:240px;white-space:nowrap;text-overflow:ellipsis; overflow:hidden;white-space:nowrap;
+
+
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.01);
+}
+
 
 
