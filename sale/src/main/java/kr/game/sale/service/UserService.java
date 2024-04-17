@@ -1,9 +1,13 @@
 package kr.game.sale.service;
 
 import jakarta.persistence.EntityManager;
+import kr.game.sale.entity.admin.Payment;
+import kr.game.sale.entity.admin.Refund;
 import kr.game.sale.entity.form.RoleListForm;
 import kr.game.sale.entity.user.UserRole;
 import kr.game.sale.entity.user.Users;
+import kr.game.sale.repository.admin.PaymentRepository;
+import kr.game.sale.repository.admin.RefundRepository;
 import kr.game.sale.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +32,8 @@ public class UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JavaMailSender sender;
     private final EntityManager em;
+    private final PaymentRepository paymentRepository;
+    private final RefundRepository refundRepository;
 
     @Transactional
     public void addUser(Users users) {
@@ -69,9 +75,11 @@ public class UserService {
     public Users getOneUsers(Long id) {
         return userRepository.findById(id).isEmpty() ? null : userRepository.findById(id).get();
     }
-    public Users getOneUernameUser(String username){
-        return userRepository.findByUsername(username).isEmpty()? null : userRepository.findByUsername(username).get();
+
+    public Users getOneUernameUser(String username) {
+        return userRepository.findByUsername(username).isEmpty() ? null : userRepository.findByUsername(username).get();
     }
+
     // 권한 변경
     @Transactional
     public void userRoleUpdate(RoleListForm role) {
@@ -95,7 +103,7 @@ public class UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName(); // 로그인 중인 유저
         Optional<Users> users = userRepository.findByUsername(username);
-        return users.isEmpty()? null : users.get();
+        return users.isEmpty() ? null : users.get();
     }
 
     @Transactional
@@ -114,5 +122,19 @@ public class UserService {
     public void userResign() {
         Users users = getLoggedInUser();
         userRepository.deleteById(users.getId());
+    }
+
+    @Transactional
+    public void makeRefund(Long paymentId) {
+        Optional<Payment> pm = paymentRepository.findById(paymentId);
+        if (pm.isPresent()) {
+            pm.get().setPaymentResult("환불처리중");
+            Refund rf = Refund.builder()
+                    .payment(pm.get())
+                    .refundReason("test")
+                    .refundWhether(false)
+                    .build();
+            refundRepository.save(rf);
+        }
     }
 }

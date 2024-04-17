@@ -95,7 +95,7 @@ public class Game implements Serializable {
     private int salesPrice;
 
     @Builder
-    public Game(Long steamAppid, String name, String enName, String detailedDescription, String supportedLanguages, String headerImage, String minRequirements, String rcmRequirements, int price, String developers, String publisher, String screenshots, String movies, Date releaseDate, int discount, String genres, Long steamRank, int rating, List<String> genreList, List<String> movieList, List<String> screenshootsList, int salesPrice,int stock) {
+    public Game(Long steamAppid, String name, String enName, String detailedDescription, String supportedLanguages, String headerImage, String minRequirements, String rcmRequirements, int price, String developers, String publisher, String screenshots, String movies, Date releaseDate, int discount, String genres, String platform, int rating, List<String> genreList, List<String> movieList, List<String> screenshootsList, int salesPrice,int stock) {
         this.steamAppid = steamAppid;
         this.name = name;
         this.enName = enName;
@@ -112,7 +112,7 @@ public class Game implements Serializable {
         this.releaseDate = releaseDate;
         this.discount = discount;
         this.genres = genres;
-        this.steamRank = steamRank;
+        this.platform = platform;
         this.rating = rating;
         this.genreList = genreList;
         this.movieList = movieList;

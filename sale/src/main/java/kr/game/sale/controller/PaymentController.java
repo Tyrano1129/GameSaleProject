@@ -7,6 +7,7 @@ import jakarta.annotation.PostConstruct;
 import kr.game.sale.entity.form.PaymentDataForm;
 import kr.game.sale.entity.form.PaymentForm;
 import kr.game.sale.service.AdminService;
+import kr.game.sale.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaymentController {
     private final AdminService adminService;
+    private final UserService userService;
     private IamportClient iamportClient;
     @Value("${imp.api.key}")
     private String apiKey;
@@ -78,10 +80,11 @@ public class PaymentController {
     }
 
     // 환불요청 버튼 눌렀을 때 실행되는 메서드
-    @GetMapping("/refund")
+    @PostMapping("/refund")
     @ResponseBody
-    public String gameRefund(@RequestBody Long paymentId) {
+    public String gameRefund(Long paymentId) {
         log.info("결제 아이디 = {}", paymentId);
-        return null;
+        userService.makeRefund(paymentId);
+        return "success";
     }
 }
