@@ -3,11 +3,10 @@ package kr.game.sale.repository.game.review;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import kr.game.sale.entity.game.review.Review;
-import kr.game.sale.entity.game.review.ReviewPageDTO;
-import kr.game.sale.entity.game.review.ReviewSortType;
+import kr.game.sale.entity.game.review.*;
 import kr.game.sale.entity.game.review.report.ReviewReportDTO;
 import kr.game.sale.entity.game.review.vote.ReviewVoteDTO;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +27,41 @@ import static kr.game.sale.entity.game.QGame.game;
 public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
+
+
+
+    public Page<ReviewResponse> findReviewsAndVoteByUserId(ReviewPageDTO reviewPageDTO, Pageable pageable) {
+
+        OrderSpecifier orderSpecifier = createOrderSpecifier(reviewPageDTO.getSortType());
+
+        // Review와 ReviewLike를 조인하여 특정 사용자가 특정 게임에 대해 좋아요한 리뷰를 가져옵니다.
+        QueryResults<ReviewResponse> queryResults = queryFactory
+                .select(Projections.bean(ReviewResponse.class,
+                        review.reviewId,
+                        review.isPositive,
+                        review.content,
+                        review.regDate,
+                        review.game.steamAppid,
+                        review.voteCnt,
+                        review.users.userNickname.as("userNickName"),
+                        reviewVote.id.as("reviewVoteId")))
+                .from(review)
+                .leftJoin(reviewVote)
+                .on(review.reviewId.eq(reviewVote.review.reviewId).and(reviewVote.users.id.eq(reviewPageDTO.getUserId())))
+                .where(
+                        isEqualToGameId(Long.valueOf(reviewPageDTO.getAppId())),
+                        isPositive(reviewPageDTO.getSortType())
+                )
+                .orderBy(orderSpecifier)
+                .offset(pageable.getOffset()) // 페이징 시작 위치 설정
+                .limit(pageable.getPageSize()) // 한 페이지에 보여줄 아이템 수 설정
+                .fetchResults();
+
+        long totalCount = queryResults.getTotal();
+        List<ReviewResponse> ReviewResponses = queryResults.getResults();//*
+
+        return new PageImpl<>(ReviewResponses,pageable,totalCount);
+    }
 
     @Override
     public Page<Review> searchReview(ReviewPageDTO reviewPageDTO, Pageable pageable) {

@@ -9,6 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ReviewVoteDTO {
     private String reviewId;
-    private String userId;
+    private long userId;
 
 }

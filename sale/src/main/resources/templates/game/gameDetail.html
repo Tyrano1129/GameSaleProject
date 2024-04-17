@@ -668,7 +668,7 @@
 // 평가 링크
         html += '<a href="#" class="vote_header tooltip" data-tooltip-text="평가 전체 보기">';
         html += '    <div class="thumb">';
-        if(review.positive == true){
+        if(review.isPositive == true){
             html += '        <img id="votingImage" src="/images/thumbsUp.png" width="50%">';
         }else{
             html += '        <img id="votingImage" src="/images/thumbsDown.png" width="50%">';
@@ -685,7 +685,7 @@
         html +=  review.content;
         html += '    </div>';
         html += '    <div class="PricebasePrice vm-display vm-price-value" style="font-size: 12px; text-transform: uppercase; font-style: normal; display: inline-block;">';
-        html += '        <span class="PricebasePrice" style="color: #ffffff; opacity: 0.4;">' + review.regDate;
+        html += '        <span class="PricebasePrice" style="color: #ffffff; opacity: 0.4;">' + review.formattedRegDate;
         if(review.voteCnt == 0){
             html +=  '   0명의 회원이 이 리뷰가 유용하다고 합니다.</span>';
         }else{
@@ -700,7 +700,11 @@
 
 // 네 번째 div 요소 (유용해요와 신고 버튼)
         html += '        <div class="vm-product-descr-container-1" style="margin-left: 10px; margin-right: 10px; width:66px;padding:0;overflow:hidden; color: #8091a2;">';
-        html += '            <span class="label voteBtn" data-reviewId="' + review.reviewId + '"  >유용해요</span>';
+        if(review.reviewVoteId != 0){
+            html += '            <span class="label myVote" data-reviewId="' + review.reviewId + '"  >유용해요</span>';
+        }else{
+            html += '            <span class="label voteBtn" data-reviewId="' + review.reviewId + '"  >유용해요</span>';
+        }
         html += '            <span class="label reportBtn" data-reviewId="' + review.reviewId + '" style="padding: .2em .6em .3em; font-size:13px; cursor: pointer; font-family:tahoma; color:#8091a2;padding-top:8px; padding-bottom:8px;display:block;">신고</span>';
         html += '        </div>';
 

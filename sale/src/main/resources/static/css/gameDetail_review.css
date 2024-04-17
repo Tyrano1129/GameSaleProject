@@ -520,6 +520,18 @@ div.product {
 .voteBtn:active {
     background: #202c45;
 }
+.myVote{
+    cursor: none;
+    background-color: #202c45;
+    padding: .2em .6em .3em;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: tahoma;
+    color: #e7e7e7;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    display: block;
+}
 .voteBtn{
     background-color: #4e69a2;
     padding: .2em .6em .3em;

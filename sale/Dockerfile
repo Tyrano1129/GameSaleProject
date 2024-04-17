@@ -13,7 +13,7 @@ EXPOSE 8081
 VOLUME /app/upload
 
 WORKDIR $APP_HOME
-
+# ENTRYPOINT ["java","-jar","/app/test.jar"]
 RUN chmod +x /app/entrypoint.sh
 
 ENTRYPOINT ["/app/entrypoint.sh"]
