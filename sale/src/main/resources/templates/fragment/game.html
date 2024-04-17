@@ -65,24 +65,28 @@
         </div>
         <div class="specificationscontainer">
             <div class="specifications">
-                <label th:if="${game.minRequirements} == null">최소사양</label>
-                <textarea th:if="${game.minRequirements} == null"
-                            name="minRequirements"
-                            id="minRequirements"
+                <div class="min">
+                <label>최소사양</label>
+                    <textarea
+                                name="minRequirements"
+                                id="minRequirements"
+                                cols="50"
+                                rows="10"
+                                th:text="${game.minRequirements} != null? ${game.minRequirements} : null"
+                                placeholder="내용을 입력해 주세요."
+                    ></textarea>
+                </div>
+                <div class="rcm">
+                <label>권장사양</label>
+                    <textarea
+                            name="rcmRequirements"
+                            id="rcmRequirements"
                             cols="50"
                             rows="10"
+                            th:text="${game.rcmRequirements} != null? ${game.rcmRequirements} : null"
                             placeholder="내용을 입력해 주세요."
-                ></textarea>
-                <div th:if="${game.minRequirements} != null" th:utext="${game.minRequirements}"></div>
-                <label th:if="${game.rcmRequirements} == null">권장사양</label>
-                <textarea th:if="${game.rcmRequirements} == null"
-                        name="rcmRequirements"
-                        id="rcmRequirements"
-                        cols="50"
-                        rows="10"
-                        placeholder="내용을 입력해 주세요."
-                ></textarea>
-                <div th:if="${game.rcmRequirements} != null" th:utext="${game.rcmRequirements}"></div>
+                    ></textarea>
+                </div>
             </div>
         </div>
         <div class="imagecontainer">
@@ -95,8 +99,8 @@
                             value="첨부파일"
                             placeholder="첨부파일"
                     />
-                    <label for="files">파일찾기</label>
-                    <input type="file" id="files" th:value="${game.headerImage}"/>
+                    <label for="files" th:value="${game.headerImage}">파일찾기</label>
+                    <input type="file" id="files"/>
                 </div>
             </div>
             <div class="screenshotsimge">
@@ -112,11 +116,18 @@
                             onchange="addFile(this);"
                             multiple
                     />
-                    <div class="file-list"></div>
+                    <div class="file-list">
+                        <th:block th:if="${game.screenshots} != null" th:each="list, listStat: ${game.screenshots}">
+                            <div th:id="${'file'+listStat.index}" class="filebox">
+                                <p class="name" th:text="${list}"></p>
+<!--                                <a class="delete" th:onclick="'deleteFile(' + ${listStat.index}+')'"> x </a>-->
+                            </div>
+                        </th:block>
+                    </div>
                 </div>
             </div>
         </div>
-        <div>
+        <div class="buttonInsert">
             <input type="button" id="resultbtn" name="btn" th:value="${update} != null? '수정':'추가'" onclick="result(form)">
         </div>
     </form>

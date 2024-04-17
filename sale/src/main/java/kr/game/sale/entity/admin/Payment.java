@@ -27,10 +27,15 @@ public class Payment {
     private String gameName;
     private int gamePrice;
     private int paymentPrice;
-    private String paymentOrdernum;
+    private String paymentOrdernum; // MerchantUid
+    private String gameCode;
+    private boolean paymentResult; // 환불 요청여부
+    public Payment(boolean paymentResult) {
+        this.paymentResult = paymentResult;
+    }
 
     @Builder
-    public Payment(Users user, Game game, String gameName, int gamePrice, int paymentPrice, String paymentOrdernum) {
+    public Payment(Users user, Game game, String gameName, int gamePrice, int paymentPrice, String paymentOrdernum,String gameCode) {
         this.user = user;
         this.game = game;
         this.paymenDate = LocalDateTime.now();
@@ -38,6 +43,7 @@ public class Payment {
         this.gamePrice = gamePrice;
         this.paymentPrice = paymentPrice;
         this.paymentOrdernum = paymentOrdernum;
+        this.gameCode = gameCode;
     }
     public String localDateFormater(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");

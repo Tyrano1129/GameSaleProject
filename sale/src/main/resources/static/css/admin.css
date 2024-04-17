@@ -416,6 +416,26 @@ input[type="file"] {
     color: #ff5353;
     margin-left: 5px;
 }
+.ck-editor__editable {
+    height: 200px;
+}
+.ck-content {
+    font-size: 12px;
+}
+.buttonInsert{
 
+    text-align: center;
+}
+#resultbtn{
+    border: 0;
+    background-color: black;
+    padding: 5px;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 10px;
+    cursor: pointer;
+}
 /* review */
 

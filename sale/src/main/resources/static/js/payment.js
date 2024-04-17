@@ -29,7 +29,7 @@ function ordervalue(number){
         data.gameId = parseInt(gameId[i].value);
         data.paymentPirce = parseInt(total[i].value);
         data.merchantUid = "IMP"+number;
-        data.gamePrice = parseInt(gamePrice[i].value)
+        data.gamePrice = parseInt(gamePrice[i].value);
         payment.push(data);
 
     }
@@ -49,11 +49,11 @@ function orderType(){
 }
 function requestPay() {
     let number = createnumber();
-    // let listTotal = parseInt(document.querySelector("#listtotal").value);
-    let listTotal = 300;
+    let listTotal = parseInt(document.querySelector("#listtotal").value);
+    // let listTotal = 300;
     let orderName = document.querySelector("#ordername").value;
     let username = document.querySelector("#username").value;
-    let data = ordervalue(number);
+    let dataList = ordervalue(number);
     let type;
     if(!checkd){
         return;
@@ -96,13 +96,11 @@ function requestPay() {
                                 headers: {
                                     "ConTent-Type": "application/json"
                                 },
-                                body: JSON.stringify(data)
+                                body: JSON.stringify(dataList)
                             })
                             .then(response => response.text())
                             .then(data => {
-                                if(data == 200){
-                                    alert("결제완료 "+data);
-                                }
+                                alert("결제완료 "+data);
                                 checkd = true;
                                 $('.overlay').removeClass('active');
                                 location.href = "/";
@@ -112,6 +110,28 @@ function requestPay() {
                                 alert("서버문제로 인하여 환불처리되었습니다.");
                                 checkd = true;
                                 $('.overlay').removeClass('active');
+                            });
+                        }else{
+                            // 만약 해당결제 금액이 다를경우
+                            fetch("/payment/errorPayment", {
+                                method: "POST",
+                                headers: {
+                                    "ConTent-Type": "application/json"
+                                },
+                                body: JSON.stringify(dataList)
+                            })
+                                .then(response => response.text())
+                                .then(data => {
+                                    alert("결제실패 "+data);
+                                    checkd = true;
+                                    $('.overlay').removeClass('active');
+                                    location.href = "/";
+                            })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert("서버문제로 인하여 환불처리되었습니다.");
+                                    checkd = true;
+                                    $('.overlay').removeClass('active');
                             });
                         }
                     },
