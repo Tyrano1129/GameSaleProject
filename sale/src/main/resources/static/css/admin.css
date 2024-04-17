@@ -438,4 +438,40 @@ input[type="file"] {
     cursor: pointer;
 }
 /* review */
-
+.reviewcontainer{
+    display: none;
+    width: 100%;
+}
+.reviewList {
+    border-collapse: collapse;
+    width: 100%;
+    border-bottom: 1px solid #839da5;
+}
+.reviewList tr th {
+    background-color: antiquewhite;
+}
+.reviewList tr td {
+    border-top: 1px solid #839da5;
+    color: darkgreen;
+    text-align: center;
+}
+.reviewList tr td a {
+    text-decoration: none;
+    color: #839da5;
+}
+.reviewList tr td .btn {
+    border: 0;
+    padding: 10px;
+    border-radius: 5px;
+    color: #ffffff;
+    background-color: #09b83e;
+    cursor: pointer;
+}
+.reviewList tr td .btn:hover {
+    background-color: #34465d;
+}
+.reviewcontainer h1 {
+    text-align: center;
+    color: rgb(198, 138, 61);
+    margin: 20px 0px;
+}

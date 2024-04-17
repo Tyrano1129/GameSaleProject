@@ -29,7 +29,7 @@ public class Payment {
     private int paymentPrice;
     private String paymentOrdernum; // MerchantUid
     private String gameCode;
-    private String paymentResult ="환불요청"; // 환불 요청여부
+    private String paymentResult; // 환불 요청여부
     public void setPaymentResult(String paymentResult) {
         this.paymentResult = paymentResult;
     }
