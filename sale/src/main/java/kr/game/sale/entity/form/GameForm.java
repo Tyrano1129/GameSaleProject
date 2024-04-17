@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -23,12 +24,13 @@ public class GameForm {
     private String minRequirements;
     private String rcmRequirements;
     private String headerImage;
+    private int stock;
     private List<String> screenshots;
-    private MultipartFile multipartFile;
-    private List<MultipartFile> multiFile;
+    private MultipartFile headerFile;
+    private List<MultipartFile> screenFile;
 
     @Builder
-    public GameForm(Long id, String name, String supportedLanguages, int price, String viewprice, String developers, String releaseDate, String genres, String minRequirements, String rcmRequirements, String headerImage, List<String> screenshots) {
+    public GameForm(Long id, String name, String supportedLanguages, int price, String viewprice, String developers, String releaseDate, String genres, String minRequirements, String rcmRequirements, String headerImage, List<String> screenshots,int stock) {
         this.id = id;
         this.name = name;
         this.supportedLanguages = supportedLanguages;
@@ -41,5 +43,6 @@ public class GameForm {
         this.rcmRequirements = rcmRequirements;
         this.headerImage = headerImage;
         this.screenshots = screenshots;
+        this.stock = stock;
     }
 }

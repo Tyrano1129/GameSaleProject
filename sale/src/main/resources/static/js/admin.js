@@ -201,12 +201,63 @@ function deleteFile(num) {
     document.querySelector("#file" + num).remove();
     filesArr[num].is_delete = true;
 }
+
+
+let editorMin;
+let editorRcm;
+let content = [...document.querySelectorAll("#contents")];
+ClassicEditor.create(document.querySelector("#minRequirements"), {
+    language: "ko",
+    removePlugins: ["Heading"],
+})
+    .then((newEditor) => {
+        editorMin = newEditor;
+    })
+    .then((editorMin) => {
+        window.editor = editorMin;
+    })
+    .catch((error) => {
+        console.error("Oops, something went wrong!");
+        console.error(
+            "Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:"
+        );
+        console.warn("Build id: g64ljk55ssvc-goqlohse75uw");
+        console.error(error);
+    });
+
+ClassicEditor.create(document.querySelector("#rcmRequirements"), {
+    language: "ko",
+    removePlugins: ["Heading"],
+})
+    .then((newEditor) => {
+        editorRcm = newEditor;
+    })
+    .then((editorRcm) => {
+        window.editor = editorRcm;
+    })
+    .catch((error) => {
+        console.error("Oops, something went wrong!");
+        console.error(
+            "Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:"
+        );
+        console.warn("Build id: g64ljk55ssvc-goqlohse75uw");
+        console.error(error);
+    });
+function testText(form) {
+    form.minRequirements.value = editorMin.getData().toString();
+    form.rcmRequirements.value = editorRcm.getData().toString();
+    console.log(form.minRequirements.value);
+    console.log(form.rcmRequirements.value);
+    form.submit();
+}
+
 function result(form){
     // const input = document.querySelector("#resultbtn");
-    for(let i = 0; i < form.screenshots.files.length; i+=1){
-        const file = form.screenshots.files[i];
-        console.log('Selected file:', file.name);
-    }
+    // for(let i = 0; i < form.multiFile.files.length; i+=1){
+    //     const file = form.multiFile.files[i];
+    //     console.log('Selected file:', file.name);
+    // }
+    testText(form);
     // if(input.value ==="추가"){
     //     fetch('/admin/gameInsert',{
     //         headers:{
@@ -227,43 +278,3 @@ function result(form){
     // }
     // else if(input.value ==="수정"){}
 }
-
-let editor;
-let content = document.querySelector("#contents");
-ClassicEditor.create(document.querySelector("#minRequirements"), {
-    language: "ko",
-    removePlugins: ["Heading"],
-})
-    .then((newEditor) => {
-        editor = newEditor;
-    })
-    .then((editor) => {
-        window.editor = editor;
-    })
-    .catch((error) => {
-        console.error("Oops, something went wrong!");
-        console.error(
-            "Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:"
-        );
-        console.warn("Build id: g64ljk55ssvc-goqlohse75uw");
-        console.error(error);
-    });
-
-ClassicEditor.create(document.querySelector("#rcmRequirements"), {
-    language: "ko",
-    removePlugins: ["Heading"],
-})
-    .then((newEditor) => {
-        editor = newEditor;
-    })
-    .then((editor) => {
-        window.editor = editor;
-    })
-    .catch((error) => {
-        console.error("Oops, something went wrong!");
-        console.error(
-            "Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:"
-        );
-        console.warn("Build id: g64ljk55ssvc-goqlohse75uw");
-        console.error(error);
-    });

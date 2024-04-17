@@ -166,7 +166,7 @@ public class NoticeController {
     @PostMapping("/image")
     public @ResponseBody Map<String,Object> getImageUpdate(MultipartRequest request) throws IOException {
         Map<String,Object> responseData = new HashMap<>();
-        String gcpUrl = googleGCPService.updateMemberInfo(Objects.requireNonNull(request.getFile("upload")),"notice");
+        String gcpUrl = googleGCPService.updateImageInfo(Objects.requireNonNull(request.getFile("upload")),"notice");
         responseData.put("uploaded",true);
         responseData.put("url",gcpUrl);
         return responseData;
