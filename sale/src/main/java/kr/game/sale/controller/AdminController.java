@@ -75,7 +75,7 @@ public class AdminController {
                 .minRequirements(game.getMinRequirements())
                 .rcmRequirements(game.getRcmRequirements())
                 .headerImage(game.getHeaderImage())
-                .screenshots(game.getScreenshots())
+                .screenshots(game.getScreenshootsList())
                 .build();
 
         String update = "/admin/gameUpdate";
@@ -121,4 +121,6 @@ public class AdminController {
     public String gmaeInsert(){
         return "admin/adminForm";
     }
+
+
 }

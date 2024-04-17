@@ -45,11 +45,13 @@ public class PaymentController {
     }
     // 결제 마무리
     @PostMapping("/paymentcheck")
-    public @ResponseBody ResponseEntity<String> paymentComplete(@RequestBody List<PaymentForm> payment) throws IOException {
-        String orderNumber = payment.get(0).getMerchantUid();
+    public @ResponseBody ResponseEntity<String> paymentComplete(@RequestBody List<PaymentForm> list) throws IOException {
+        String orderNumber = list.get(0).getMerchantUid();
         // 유저는 세션으로 가지고옴
         // 게임은 이름같은걸로 가지고옴
         // 게임 코드는 랜덤으로 만들예정
+        log.info("list = {}",list);
+        adminService.paymentInsert(list);
         try{
             log.info("결제 성공 : 주문번호 {}",orderNumber);
             return ResponseEntity.ok().build();
@@ -57,8 +59,23 @@ public class PaymentController {
             log.info("주문 상품 환불 진행 : 주문 번호 {}",orderNumber);
             String token = adminService.getToken(apiKey,secretKey);
             adminService.refundRequest(token,orderNumber,e.getMessage(),0);
+            adminService.paymentErrorDelete(list.get(0).getMerchantUid());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+    }
+    @PostMapping("/errorPayment")
+    public @ResponseBody String paymentError(@ModelAttribute List<PaymentForm> list) throws IOException{
+        log.info("list = {}",list);
+        RuntimeException e = new RuntimeException();
+        String orderNumber = list.get(1).getMerchantUid();
+        log.info("주문 상품 환불 진행 : 주문 번호 {}",orderNumber);
+        String token = adminService.getToken(apiKey,secretKey);
+        adminService.refundRequest(token,orderNumber,e.getMessage(),0);
+        return "결제 실패하였습니다. 확인후에 이용해주세요.";
+    }
+    @GetMapping("/refund")
+    public String gameRefund(@ModelAttribute Long id){
 
+        return "redirect:/";
     }
 }

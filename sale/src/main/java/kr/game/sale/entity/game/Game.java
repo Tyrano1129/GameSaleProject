@@ -138,6 +138,7 @@ public class Game implements Serializable {
                 throw new RuntimeException(e);
             }
         }
+        log.info("screenshootsList = {}",screenshootsList);
         return this.screenshootsList;
     }
     public List<String> getMovieList(){

@@ -1,10 +1,7 @@
 package kr.game.sale.entity.admin;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
@@ -25,6 +22,7 @@ public class Refund {
     private LocalDateTime refundAplctdate;
     private boolean refundWhether;
 
+    @Builder
     public Refund(Payment payment, String refundReason, boolean refundWhether) {
         this.payment = payment;
         this.refundReason = refundReason;

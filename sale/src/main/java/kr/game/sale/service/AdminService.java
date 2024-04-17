@@ -10,18 +10,26 @@ import kr.game.sale.entity.admin.Notice;
 import kr.game.sale.entity.admin.Payment;
 import kr.game.sale.entity.admin.QnA;
 import kr.game.sale.entity.admin.Refund;
+import kr.game.sale.entity.form.GameForm;
 import kr.game.sale.entity.form.NoticeForm;
 import kr.game.sale.entity.form.PaymentForm;
+import kr.game.sale.entity.game.Game;
+import kr.game.sale.entity.user.Cart;
+import kr.game.sale.entity.user.Users;
 import kr.game.sale.repository.admin.NoticeRepository;
 import kr.game.sale.repository.admin.PaymentRepository;
 import kr.game.sale.repository.admin.QnARepository;
 import kr.game.sale.repository.admin.RefundRepository;
+import kr.game.sale.repository.game.GameRepository;
+import kr.game.sale.repository.user.CartRepository;
 import kr.game.sale.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,9 +58,130 @@ public class AdminService {
     private final QnARepository qnARepository;
     // Refund
     private final RefundRepository refundRepository;
-    // stroge
-    private final Storage storage;
+    // game
+    private final GameRepository gameRepository;
+    // Cart
+    private final CartRepository cartRepository;
 
+
+    private Users getLoggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); // 로그인 중인 유저
+        Optional<Users> users = userRepository.findByUsername(username);
+        return users.isEmpty()? null : users.get();
+    }
+    public List<QnA> getQnAList(){
+        return qnARepository.findAll();
+    }
+
+    public List<Refund> getRefundList(){
+        return refundRepository.findAll();
+    }
+    private Payment getOnePaymet(Long id){
+        return paymentRepository.findById(id).isPresent()? paymentRepository.findById(id).get() : null;
+    }
+    /* qna */
+
+
+    /* game */
+    public void gameInsert(GameForm form){
+
+    }
+
+    /* notice */
+    public Page<Notice> getNoticeList(Pageable pageable, String title){
+        return noticeRepository.searchPageSimple(pageable,title);
+    }
+
+    public void noticeInsert(){
+        if(noticeRepository.countAllBy() < 1){
+            for(int i = 0; i < 100; i+=1){
+                noticeRepository.save(new Notice("noticeTitle"+i,"<p>가나다라마바사아자차카타파하<p>" + i,"test"+i));
+            }
+        }
+    }
+    public Notice getOneNotice(Long id){
+        Notice notice = noticeRepository.findById(id).isEmpty()? null : noticeRepository.findById(id).get();
+        if(notice != null) {
+            notice.countUp();
+            noticeRepository.save(notice);
+        }
+        return notice;
+    }
+
+    public void noticeInsert(NoticeForm form){
+        Notice notice = Notice.builder()
+                .noticeTitle(form.getTitle())
+                .noticeContent(form.getContent())
+                .noticeWriter(form.getWriter())
+                .build();
+        noticeRepository.save(notice);
+    }
+    public void noticeUpdate(NoticeForm form){
+        Notice notice = getOneNotice(form.getId());
+        if(notice != null){
+            notice.setNotice(
+                    form.getTitle(),form.getContent(),form.getWriter(),form.getCount()
+            );
+            noticeRepository.save(notice);
+        }
+    }
+
+
+    /* payment */
+
+
+    private Game getOneGame(Long id){
+        return gameRepository.findById(id).isPresent()? gameRepository.findById(id).get() : null;
+    }
+    public void paymentInsert(List<PaymentForm> form){
+        Users user = getLoggedInUser();
+        for(PaymentForm list : form){
+            String uuid = UUID.randomUUID().toString();
+            Game game = getOneGame(list.getGameId());
+            if(game != null) {
+                Payment pay = Payment.builder()
+                        .paymentOrdernum(list.getMerchantUid())
+                        .paymentPrice(list.getPaymentPirce())
+                        .gamePrice(list.getGamePrice())
+                        .gameName(game.getName())
+                        .gameCode(uuid)
+                        .game(game)
+                        .user(user)
+                        .build();
+                cartRepository.deleteById(list.getCartId());
+                paymentRepository.save(pay);
+            }else{
+                break;
+            }
+        }
+    }
+    // 결제 오류났을때 데이터 지우기
+    public void paymentErrorDelete(String paymentOrdernum){
+        paymentRepository.deleteAllByPaymentOrdernum(paymentOrdernum);
+    }
+
+
+    /* refund */
+
+
+    public void refundInsert(String refundReason, Long id){
+        Payment pay = getOnePaymet(id);
+        log.info("pay = {}",pay);
+        if(pay != null){
+            Refund refund = Refund.builder()
+                    .payment(pay)
+                    .refundReason(refundReason)
+                    .build();
+            refundRepository.save(refund);
+            log.info("refund = {}",refund);
+        }
+    }
+
+
+    public void refundGame(String paymentOrdernum,int price){
+
+    }
 
     //토큰 요청 후 환불요청
     public void refundRequest(String access_token,String merchant_uid,String reason,int price) throws IOException {
@@ -138,68 +267,4 @@ public class AdminService {
         log.info("Iamport 액서스 토큰 발급 성공 : {}",accessToken);
         return accessToken;
     }
-
-    //결제 데이터 저장
-    @Transactional
-    public void paymentInsert(Payment payment){
-
-    }
-    /* qna */
-
-    public List<QnA> getQnAList(){
-        return qnARepository.findAll();
-    }
-    /* refund */
-    public List<Refund> getRefundList(){
-        return refundRepository.findAll();
-    }
-
-
-    /* 공지사항 */
-    public Page<Notice> getNoticeList(Pageable pageable, String title){
-        return noticeRepository.searchPageSimple(pageable,title);
-    }
-
-    public void noticeInsert(){
-        if(noticeRepository.countAllBy() < 1){
-            for(int i = 0; i < 100; i+=1){
-                noticeRepository.save(new Notice("noticeTitle"+i,"<p>가나다라마바사아자차카타파하<p>" + i,"test"+i));
-            }
-        }
-    }
-
-    public Notice getOneNotice(Long id){
-        Notice notice = noticeRepository.findById(id).isEmpty()? null : noticeRepository.findById(id).get();
-        if(notice != null) {
-            notice.countUp();
-            noticeRepository.save(notice);
-        }
-        return notice;
-    }
-
-    public void noticeInsert(NoticeForm form){
-        Notice notice = Notice.builder()
-                .noticeTitle(form.getTitle())
-                .noticeContent(form.getContent())
-                .noticeWriter(form.getWriter())
-                .build();
-        noticeRepository.save(notice);
-    }
-    public void noticeUpdate(NoticeForm form){
-        Notice notice = getOneNotice(form.getId());
-        if(notice != null){
-            notice.setNotice(
-                    form.getTitle(),form.getContent(),form.getWriter(),form.getCount()
-            );
-            noticeRepository.save(notice);
-        }
-    }
-
-    // payment
-    public void paymentInsert(List<PaymentForm> form){
-        for(PaymentForm list : form){
-        }
-    }
-
-
 }
