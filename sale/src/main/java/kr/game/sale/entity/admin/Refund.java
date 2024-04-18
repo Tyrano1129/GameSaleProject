@@ -22,6 +22,15 @@ public class Refund {
     private LocalDateTime refundAplctdate;
     private boolean refundWhether;
 
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+
+    public void setRefundWhether(boolean refundWhether) {
+        this.refundWhether = refundWhether;
+    }
+
     @Builder
     public Refund(Payment payment, String refundReason, boolean refundWhether) {
         this.payment = payment;
