@@ -59,6 +59,8 @@
                                                 <!--<option value="salepercent" >할인율순</option>-->
                                             </select>
                                         </div>
+                                    </div>
+
                                     <div class="orderlistcontainer">
                                         <div class="title" style="text-align:left">장르</div>
                                         <div class="">
@@ -120,6 +122,22 @@
                                             </select>
                                         </div>
                                     </div>
+
+                                    <!---<div class="orderlistcontainer">
+                                        <div class="title" style="text-align:left">플랫폼 </div>
+                                        <div class="">
+                                            <select name="search_platform" id="search_platform"
+                                                class="form-control">
+                                                <option value="">::: 플랫폼 선택 :::</option>
+                                                <option value="34">Epic</option>
+                                                <option value="35">Rockstar Games Launcher</option>
+                                                <option value="1">Steam</option>
+                                                <option value="30">Ubisoft Connect</option>
+                                                <option value="32">기타</option>
+                                            </select>
+                                        </div>
+                                    </div>-->
+
                                     <div class="orderlistcontainer">
                                         <div class="title" style="text-align:left">퍼블리셔</div>
                                         <div class="">
@@ -133,6 +151,24 @@
                                             </select>
                                         </div>
                                     </div>
+
+                                    <!--<div class="orderlistcontainer">
+                                        <div class="title" style="text-align:left">언어 </div>
+                                        <div class="">
+                                            <select name="search_language" id="search_language" class="form-control">
+                                            <option value="">::: 언어 선택 :::</option>
+                                                                        <option value="한국어" >한국어</option>
+                                                                        <option value="영어" >영어</option>
+                                                                        <option value="기타" >기타</option>
+                                                                        <option value="미정" >미정</option>
+                                                                        <option value="한국어 업데이트 예정" >한국어 업데이트 예정</option>
+                                                                        </select>
+                                        </div>
+                                    </div>-->
+
+                                    <div class="orderlistcontainer">
+                                        <div class="title" style="text-align:left">한글지원</div>
+
                                         <div class="checkbox" style="text-indent:10px;font-size:14px">
                                             <label>
                                                 <input id="search_interface_korean" name="searchInterfaceKorean"
@@ -141,7 +177,25 @@
                                                        value="Y">한글화게임
                                             </label>
                                         </div>
-                                        <div class="clear"></div>
+                                    </div>
+
+                                    <!---<div class="orderlistcontainer">
+                                        <div class="title" style="text-align:left">게임유형 </div>
+                                        <div class="">
+                                            <select name="search_goods_kind" id="search_goods_kind"
+                                                class="form-control">
+                                                <option value="">::: 게임유형 선택 :::</option>
+                                                <option value="all">전체</option>
+                                                <option value="1">기본게임</option>
+                                                <option value="2">DLC</option>
+                                                <option value="3">번들</option>
+                                            </select>
+                                        </div>
+                                    </div>--->
+
+
+                                    <div class="clear"></div>
+
                                     <input class="btn btn-block btn-info" id="filterSearchBtn" type="button"
                                            value="검색하기">
                                 </div>
@@ -204,7 +258,6 @@
                                                         top: 25%;
                                                         left: 25%;"></span>
                                                     </span>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -216,7 +269,6 @@
                                               th:text="${!#strings.isEmpty(gameSearchDTO.getSearchKeyword()) ? gameSearchDTO.getSearchKeyword() :''}">
                                             <i class="fa fa-remove" role="button" style="cursor:pointer"></i>
                                         </span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -246,6 +298,8 @@
                                             <div style="display:block;"><img alt="Steam" src="/images/steam.svg"
                                                                              width="60">
                                             </div>
+                                        </div>
+
                                         <div class="vm-product-descr-container-1" style="width:370px;padding:0;">
                                             <h2 style="font-size:14px;letter-spacing:-1px;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;width:370px;overflow:hidden;">
                                                 <a th:href="@{/game/detail/{steamAppid}(steamAppid=${game.getSteamAppid()})}"
@@ -256,13 +310,12 @@
                                                     <span class="label label-light"
                                                           style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;"
                                                           th:text="${game.getPublisher()}"></span>
-                                                    <span class="label label-light"
-                                                          style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;"
-                                                          th:text="${game.getGenreList().get(0)}"></span>
-                                                    <!--<span class="label label-light" style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;">18세 이용가</span>-->
-                                                    <span class="label label-default"
-                                                          style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;">한국어</span>
-                                                </div>
+                                                <span class="label label-light"
+                                                      style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;"
+                                                      th:text="${game.getGenreList().get(0)}"></span>
+                                                <!--<span class="label label-light" style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;">18세 이용가</span>-->
+                                                <span class="label label-default"
+                                                      style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;">한국어</span>
                                             </div>
                                         </div>
                                         <div class="vm-product-descr-container-1"
@@ -274,6 +327,8 @@
                                                 </span>
                                             </th:block>
                                         </div>
+
+
                                         <div class="vm3pr-2" style="clear:both;width:80px;padding:0;">
                                             <div class="product-price salesprice"
                                                  style="width:80px;text-align:right;padding:0;margin:0;">
@@ -284,6 +339,8 @@
                                                               th:text="${game.getFormattedPrice()}"><span
                                                                 style="font-family:dotum">\</span> </span>
                                                     </div>
+
+
                                                     <span class="price-crossed"></span>
                                                     <div class="PricesalesPrice vm-display vm-price-value"
                                                          style="padding-right:4px">
@@ -292,9 +349,12 @@
                                                               th:text="${game.getFormattedSalesPrice()}"><span
                                                                 style="font-family:dotum;">\</span></span>
                                                     </div>
-
                                                 </th:block>
                                             </div>
+                                            <div class="clear"></div>
+                                        </div>
+
+
                                         <div class="vm-button2"
                                              style="width:50px;margin:0;margin-right:8px;text-align:center;padding:0; float:right">
                                             <th:block th:if="${game.getStock() > 0}">
@@ -310,12 +370,14 @@
                                             </th:block>
                                         </div>
                                     </div>
-                                </div><!--반복 col-->
+                                </div>
+                            </div><!--반복 col-->
 
-                            </div>
-
-                            <div class="clear"></div>
                         </div>
+
+                        <div class="clear"></div>
+                    </div>
+
                     <div class="vm-pagination" style="clear:both;">
                         <input hidden="hidden" id="currPage" th:value="${gameSearchDTO.getCurrPage()}" type="number">
                         <div style="width:800px;height:38px;margin:0 auto">
@@ -326,7 +388,7 @@
                                 <li class="pageBtn"
                                     id="prevBtn"
                                     th:classappend="${gameSearchDTO.getStartPage() > gameSearchDTO.getPageSize() ? '':'disabled hide' }"><a href="#" th:attr="data-page=${gameSearchDTO.getStartPage()-1}"
-                                                    th:text="${'« Prev'}"></a></li>
+                                                                                                                                            th:text="${'« Prev'}"></a></li>
                                 <th:block
                                         th:each="n : ${#numbers.sequence(gameSearchDTO.getStartPage(),gameSearchDTO.getEndPage())}">
                                     <li class="live-link"
@@ -337,7 +399,7 @@
                                 <li class="pageBtn"
                                     id="nextBtn"
                                     th:classappend="${gameSearchDTO.getEndPage() < gameSearchDTO.getTotalPage() ? '':'disabled hide' }"><a href="#" th:attr="data-page=${gameSearchDTO.getEndPage()+1}"
-                                                    th:text="${'Next »'}"></a></li>
+                                                                                                                                           th:text="${'Next »'}"></a></li>
                                 <li class="pageBtn" id="lastBtn"><a href="#"
                                                                     th:attr="data-page=${gameSearchDTO.getTotalPage()}"
                                                                     th:text="${'Last »'}"></a></li>
