@@ -41,7 +41,7 @@ public class GameReviewController {
         Users user = userService.getLoggedInUser();
         if(user == null) return "LOGIN_REQUIRED";
         log.info(" reviewDTO =>{}"+ reviewDTO);
-        Game game =  gameService.findOneById(reviewDTO.getAppId());
+        Game game =  gameService.findOneById(Long.valueOf(reviewDTO.getAppId()));
 
         /*Users user = userService.getOneUsers(1L);*/
         return  gameReviewService.saveReview(Review.builder()

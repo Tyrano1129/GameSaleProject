@@ -44,7 +44,7 @@ public class QnA {
     }
 
     // 답변자
-    public QnA(String qnaRespondent, String qnaAnwerContent) {
+    public void QnAAdminUpdate(String qnaRespondent, String qnaAnwerContent) {
         this.qnaIsAnswered = true;
         this.qnaRespondent = qnaRespondent;
         this.qnaAnwerContent = qnaAnwerContent;

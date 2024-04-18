@@ -25,12 +25,13 @@ public class GameForm {
     private String rcmRequirements;
     private String headerImage;
     private int stock;
+    private String platform;
     private List<String> screenshots;
     private MultipartFile headerFile;
     private List<MultipartFile> screenFile;
 
     @Builder
-    public GameForm(Long id, String name, String supportedLanguages, int price, String viewprice, String developers, String releaseDate, String genres, String minRequirements, String rcmRequirements, String headerImage, List<String> screenshots,int stock) {
+    public GameForm(Long id, String name, String supportedLanguages, int price, String viewprice, String developers, String releaseDate, String genres, String minRequirements, String rcmRequirements, String headerImage, List<String> screenshots,int stock, String platform) {
         this.id = id;
         this.name = name;
         this.supportedLanguages = supportedLanguages;
@@ -44,5 +45,6 @@ public class GameForm {
         this.headerImage = headerImage;
         this.screenshots = screenshots;
         this.stock = stock;
+        this.platform = platform;
     }
 }

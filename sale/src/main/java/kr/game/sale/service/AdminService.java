@@ -15,6 +15,7 @@ import kr.game.sale.entity.admin.Refund;
 import kr.game.sale.entity.form.GameForm;
 import kr.game.sale.entity.form.NoticeForm;
 import kr.game.sale.entity.form.PaymentForm;
+import kr.game.sale.entity.form.QnAAmdinForm;
 import kr.game.sale.entity.game.Game;
 import kr.game.sale.entity.game.review.Review;
 import kr.game.sale.entity.user.Cart;
@@ -68,6 +69,8 @@ public class AdminService {
     private final GameRepository gameRepository;
     // Cart
     private final CartRepository cartRepository;
+    // game
+    private final GameService gameService;
 
 
     private Users getLoggedInUser() {
@@ -86,9 +89,20 @@ public class AdminService {
     private Payment getOnePaymet(Long id){
         return paymentRepository.findById(id).isPresent()? paymentRepository.findById(id).get() : null;
     }
-    /* qna */
+
     public Refund getOneRefund(Long id){
         return refundRepository.findById(id).isPresent()? refundRepository.findById(id).get() : null;
+    }
+    /* qna */
+    private QnA getOneQnA(Long id){
+        return qnARepository.findById(id).isPresent()? qnARepository.findById(id).get() : null;
+    }
+    public void qnaOneUpdate(QnAAmdinForm form){
+        QnA qna = getOneQnA(form.getId());
+        if(qna != null){
+            qna.QnAAdminUpdate(form.getQnaRespondent(), form.getQnaAnwerContent());
+            qnARepository.save(qna);
+        }
     }
     /* game */
 
@@ -109,6 +123,14 @@ public class AdminService {
                 .headerImage(headerimage)
                 .screenshots(mapper.writeValueAsString(screenshotsList))
                 .build();
+        gameRepository.save(game);
+    }
+
+    public void gameUpdate(GameForm form) throws JsonProcessingException, ParseException {
+        Game game = gameService.findOneById(form.getId());
+        game.setStock(form.getStock());
+        game.setMinRequirements(form.getMinRequirements());
+        game.setRcmRequirements(form.getRcmRequirements());
         gameRepository.save(game);
     }
 
@@ -157,7 +179,6 @@ public class AdminService {
         Payment pay = getOnePayment(id);
         if(pay != null){
             pay.setPaymentResult("환불처리완료!");
-            refund.setPayment(pay);
             refund.setRefundWhether(true);
             refundRepository.save(refund);
             paymentRepository.save(pay);
@@ -167,14 +188,12 @@ public class AdminService {
     /* payment */
 
 
-    private Game getOneGame(Long id){
-        return gameRepository.findById(id).isPresent()? gameRepository.findById(id).get() : null;
-    }
+
     public void paymentInsert(List<PaymentForm> form){
         Users user = getLoggedInUser();
         for(PaymentForm list : form){
             String uuid = UUID.randomUUID().toString();
-            Game game = getOneGame(list.getGameId());
+            Game game = gameService.findOneById(list.getGameId());
             if(game != null) {
                 game.stockDown();
                 Payment pay = Payment.builder()
@@ -203,19 +222,6 @@ public class AdminService {
 
     /* refund */
 
-
-    public void refundInsert(String refundReason, Long id){
-        Payment pay = getOnePaymet(id);
-        log.info("pay = {}",pay);
-        if(pay != null){
-            Refund refund = Refund.builder()
-                    .payment(pay)
-                    .refundReason(refundReason)
-                    .build();
-            refundRepository.save(refund);
-            log.info("refund = {}",refund);
-        }
-    }
 
 
     public void refundGame(String paymentOrdernum,int price){

@@ -55,7 +55,7 @@
                             <p th:text="${list.refundWhether}"></p>
                         </td>
                         <td>
-                            <button th:data-delete="${list.refundId}" onclick="refundCheck('환불 처리 하시겠습니까?','paymentDelete',this)">환불</button>
+                            <button th:data-value="${list.refundId}" onclick="refundCheck('환불 처리 하시겠습니까?','paymentDelete',this)">환불</button>
                         </td>
                     </tr>
                 </table>
@@ -96,7 +96,7 @@
                             <p th:text="${list.userPhone}">123</p>
                         </td>
                         <td>
-                            <input type="button" th:data-delete="${list.id}" onclick="refundCheck('유저를 삭제 하시겠습니까?','userdelete',this)" value="삭제">
+                            <input type="button" th:data-value="${list.id}" onclick="refundCheck('유저를 삭제 하시겠습니까?','userdelete',this)" value="삭제">
                         </td>
                     </tr>
                 </table>
@@ -113,7 +113,8 @@
                         <th>답변여부</th>
                         <th>답변자</th>
                     </tr>
-                    <tr th:each="list : ${qnaList}">
+                    <th:block th:each="list : ${qnaList}">
+                    <tr class="qnatitle" th:data-id="${list.qnaId}">
                         <td>
                             <p th:text="${list.qnaId}">123</p>
                         </td>
@@ -130,6 +131,41 @@
                             <p th:text="${list.qnaRespondent}">123</p>
                         </td>
                     </tr>
+                    <tr class="qnatextarray" th:data-id="${list.qnaId}">
+                        <td id="qnausercontent" colspan="5">
+                            <div class="qancontnetarray">
+                                <span th:text="${list.qnaContent}">해당내용은 문의 내용입니다.</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="qnatextarray" th:data-id="${list.qnaId}">
+                        <td colspan="5">
+                            <div class="qnatext">
+                                <label>답변 : </label>
+                                <textarea
+                                        th:if="${!list.qnaIsAnswered}"
+                                        name="qnaAnwerContent"
+                                        id="qnaAnwerContent"
+                                        th:data-id="${list.qnaId}"
+                                        cols="50"
+                                        rows="10"
+                                ></textarea>
+                                <textarea th:unless="${!list.qnaIsAnswered}"
+                                          name="qnaAnwerContent"
+                                          th:data-id="${list.qnaId}"
+                                          cols="50"
+                                          rows="10"
+                                          th:text="${list.qnaAnwerContent}"
+                                          disabled>
+                                </textarea>
+                                <div class="button-qna">
+                                    <button th:if="${!list.qnaIsAnswered}" class="btn-qna-text" th:data-value="${list.qnaId}" onclick="refundCheck('답변을하겠습니까?','qnaupdate',this)">올리기</button>
+                                    <button th:unless="${!list.qnaIsAnswered}" class="btn-qna-text" th:data-value="${list.qnaId}" onclick="return false">올리기</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </th:block>
                 </table>
             </div>
         </div>
@@ -172,7 +208,7 @@
                         <p th:text="${list.stock}"></p>
                     </td>
                     <td>
-                        <button class="btn delete" th:data-delete="${list.steamAppid}" onclick="refundCheck('게임을 삭제 하시겠습니까?','gamedelete',this)">삭제</button>
+                        <button class="btn delete" th:data-value="${list.steamAppid}" onclick="refundCheck('게임을 삭제 하시겠습니까?','gamedelete',this)">삭제</button>
                     </td>
                 </tr>
             </table>
@@ -209,7 +245,7 @@
                         <p th:text="${list.voteCnt}">액션</p>
                     </td>
                     <td id="삭제">
-                        <a class="btn delete" th:data-delete="${list.reviewId}" onclick="refundCheck('리뷰을 삭제 하시겠습니까?','reviewdelete',this)">삭제</a>
+                        <a class="btn delete" th:data-value="${list.reviewId}" onclick="refundCheck('리뷰을 삭제 하시겠습니까?','reviewdelete',this)">삭제</a>
                     </td>
                 </tr>
             </table>

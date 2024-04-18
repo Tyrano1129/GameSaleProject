@@ -177,6 +177,7 @@ public class UserService {
                 number = num;
                 payment.setOrdernum(num);
                 payment.setPaymentList(paymentOneView(num,paymentList));
+                payment.setPaymentResult(paymentList.get(0).getPaymentResult());
             }
             list.add(payment);
         }

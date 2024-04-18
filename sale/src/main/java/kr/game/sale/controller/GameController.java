@@ -102,7 +102,7 @@ public class GameController {
     @GetMapping("/detail/{steamAppid}")
     public String gameDetail(@PathVariable("steamAppid") String steamAppid, Model model){
 
-        Game game = gameService.findOneById(steamAppid);
+        Game game = gameService.findOneById(Long.valueOf(steamAppid));
         Users user = userService.getLoggedInUser();
 
         if(user != null){
