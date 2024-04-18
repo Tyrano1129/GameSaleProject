@@ -20,6 +20,9 @@ $('input[name="goods_code[]"]').on("click", function () {
 $(document).ready(function () {
     // 선택 삭제 버튼 클릭 시
     $("#btn_select_delete").click(function () {
+        const delBtn = document.getElementById("btn_select_delete");
+        delBtn.style.display = "none";
+
         // 선택된 주문번호 배열 초기화
         let orderNumbers = [];
 
@@ -32,8 +35,9 @@ $(document).ready(function () {
 
         // 만약 선택된 주문번호가 없다면 경고 메시지 출력 후 함수 종료
         if (orderNumbers.length === 0) {
+            location.reload();
             alert("선택된 주문이 없습니다.");
-            return;
+            return false;
         }
 
         // 배열 출력
@@ -55,6 +59,7 @@ $(document).ready(function () {
                     location.reload();
                     alert(`선택한 게임이 장바구니에서 삭제됐습니다.`);
                 } else {
+                    location.reload();
                     alert(`장바구니 삭제에 실패했습니다.`)
                 }
             }).catch(error => console.error('Error:', error));
@@ -62,7 +67,10 @@ $(document).ready(function () {
 });
 
 // 주문하기 버튼 클릭 이벤트 핸들러
-document.getElementById("btn_order").addEventListener("click", () => {
+document.getElementById("btn_order").addEventListener("click", (target) => {
+    const btnOrder = document.getElementById("btn_order");
+    btnOrder.style.display = "none";
+
     // 체크된 상품의 주문번호를 담을 배열
     let selectedItems = [];
 
@@ -91,5 +99,6 @@ document.getElementById("btn_order").addEventListener("click", () => {
     } else {
         // 선택된 상품이 없는 경우 사용자에게 알림 메시지 표시
         alert("주문할 상품을 선택해주세요.");
+        location.reload();
     }
 });
