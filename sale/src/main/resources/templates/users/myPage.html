@@ -27,7 +27,7 @@
             <p><strong>※ [특전제공] 타이틀은 개발사/퍼블리셔 정책에 따라 출시 후 예고 없이 특전 지급이 중단될 수 있습니다.</strong></p>
             <p><strong>※ 주문 완료 후 가급적 빠른 시일 내에 제품 코드(키)를 활성화 하시고, 플랫폼에 등록해 주시기 바랍니다.</strong></p>
         </div>
-        <form>
+        <form action="#" id="refundForm" method="post">
             <table id="orderListTable">
                 <tr>
                     <th>결제번호</th>
@@ -44,10 +44,34 @@
                     <td th:text="${list.paymentPrice}"></td>
                     <td th:text="${list.paymenDate}"></td>
                     <td>
-                        <span th:text="${list.paymentResult}"></span>
+                        <div th:if="${list.paymentResult=='환불요청'}">
+                            <button class="refund_btn" th:attr="paymentOrdernum=${list.getPaymentOrdernum()}"
+                                    type="button">환불요청
+                            </button>
+                        </div>
+                        <span th:unless="${list.paymentResult}"></span>
                     </td>
                 </tr>
             </table>
+            <div id="refundOverlay"></div>
+            <div id="refundModal">
+                <h3>환불 사유를 선택해주세요.</h3>
+                <label>
+                    <select class="form-control" name="reason" required="">
+                        <option value="">:::환불사유를 선택해 주세요:::</option>
+                        <option value="1">게임이 실행되지 않습니다.</option>
+                        <option value="2">사용자의 단순 변심</option>
+                        <option value="3">결제 프로세스가 중복으로 이루어졌습니다.</option>
+                        <option value="4">상품가격 불만</option>
+                        <option value="5">개인 정보유출 우려</option>
+                        <option value="6">쇼핑몰의 신뢰도 불만</option>
+                        <option value="7">쇼핑 기능 불만</option>
+                        <option value="8">기타</option>
+                    </select>
+                </label>
+                <button id="realResignBtn" onclick="doRefundReal(form)" type="button">환불요청</button>
+                <button onclick="hideModal()" type="button">취소하기</button>
+            </div>
         </form>
     </div>
 

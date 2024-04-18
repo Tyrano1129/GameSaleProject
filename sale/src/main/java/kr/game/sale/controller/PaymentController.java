@@ -82,9 +82,10 @@ public class PaymentController {
     // 환불요청 버튼 눌렀을 때 실행되는 메서드
     @PostMapping("/refund")
     @ResponseBody
-    public String gameRefund(Long paymentId) {
-        log.info("결제 아이디 = {}", paymentId);
-        userService.makeRefund(paymentId);
+    public String gameRefund(@RequestParam String code, @RequestParam String reason) {
+        log.info("code = {}", code);
+        log.info("reason = {}", reason);
+        userService.makeRefund(code,reason);
         return "success";
     }
 }

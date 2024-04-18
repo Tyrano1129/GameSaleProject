@@ -125,13 +125,15 @@ public class UserService {
     }
 
     @Transactional
-    public void makeRefund(Long paymentId) {
-        Optional<Payment> pm = paymentRepository.findById(paymentId);
-        if (pm.isPresent()) {
-            pm.get().setPaymentResult("환불처리중");
+    public void makeRefund(String paymentOrdernum, String reason) {
+        List<Payment> pmList = paymentRepository.findAllByPaymentOrdernum(paymentOrdernum);
+        for (Payment pm : pmList) {
+            pm.setPaymentResult("환불처리중");
+        }
+
+        if (!pmList.isEmpty()) {
             Refund rf = Refund.builder()
-                    .payment(pm.get())
-                    .refundReason("test")
+                    .refundReason(reason)
                     .refundWhether(false)
                     .build();
             refundRepository.save(rf);
