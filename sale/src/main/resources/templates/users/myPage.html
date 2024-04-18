@@ -28,6 +28,7 @@
             <p><strong>※ 주문 완료 후 가급적 빠른 시일 내에 제품 코드(키)를 활성화 하시고, 플랫폼에 등록해 주시기 바랍니다.</strong></p>
         </div>
         <form action="#" id="refundForm" method="post">
+            <th:block th:each="number : ${#numbers.sequence(1,2)}">
             <table id="orderListTable">
                 <tr>
                     <th>결제번호</th>
@@ -53,6 +54,7 @@
                     </td>
                 </tr>
             </table>
+            </th:block>
             <div id="refundOverlay"></div>
             <div id="refundModal">
                 <h3>환불 사유를 선택해주세요.</h3>
