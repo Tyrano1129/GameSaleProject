@@ -10,4 +10,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     void deleteAllByPaymentOrdernum(String paymentOrdernum);
 
     List<Payment> findAllByUser(Users user);
+
+    List<Payment> findAllByPaymentOrdernum(String paymentOrdernum);
 }
