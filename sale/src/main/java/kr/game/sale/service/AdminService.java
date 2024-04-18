@@ -139,7 +139,7 @@ public class AdminService {
         return noticeRepository.searchPageSimple(pageable,title);
     }
 
-    public void noticeInsert(){
+    public void noticeinit(){
         if(noticeRepository.countAllBy() < 1){
             for(int i = 0; i < 100; i+=1){
                 noticeRepository.save(new Notice("noticeTitle"+i,"<p>가나다라마바사아자차카타파하<p>" + i,"test"+i));
@@ -187,8 +187,6 @@ public class AdminService {
 
     /* payment */
 
-
-
     public void paymentInsert(List<PaymentForm> form){
         Users user = getLoggedInUser();
         for(PaymentForm list : form){
@@ -221,12 +219,6 @@ public class AdminService {
 
 
     /* refund */
-
-
-
-    public void refundGame(String paymentOrdernum,int price){
-
-    }
 
     //토큰 요청 후 환불요청
     public void refundRequest(String access_token,String merchant_uid,String reason,int price) throws IOException {

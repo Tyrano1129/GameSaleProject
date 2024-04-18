@@ -33,6 +33,7 @@ public class IndexController {
 
     @GetMapping({"/",""})
     public String home(Model model){
+        adminService.noticeinit();
         Map<String,List<Game>> map = new HashMap<>();
         List<Game> list1 = null;
         List<Game> list2 = null;

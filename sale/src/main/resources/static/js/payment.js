@@ -42,28 +42,30 @@ function orderType(){
     for(let i = 0; i < selete.length; i+=1){
        if(selete[i].checked){
            type = selete[i].value;
+           console.log(type);
            break;
        }
     }
     return type;
 }
 function requestPay() {
+    if(!checkd){
+        return;
+    }
+    let type;
+    // 결제 타입
+    if(!orderType()){
+        alert("결제방법을 선택해주세요");
+        return;
+    }else{
+        type = orderType();
+    }
     let number = createnumber();
     let listTotal = parseInt(document.querySelector("#listtotal").value);
     // let listTotal = 300;
     let orderName = document.querySelector("#ordername").value;
     let username = document.querySelector("#username").value;
     let dataList = ordervalue(number);
-    let type;
-    if(!checkd){
-        return;
-    }
-    // 결제 타입
-    if(!orderType()){
-        return;
-    }else{
-        type = orderType();
-    }
     checkd = false;
 
     IMP.init("imp15605565");

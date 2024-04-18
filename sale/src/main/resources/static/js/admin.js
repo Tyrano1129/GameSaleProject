@@ -13,7 +13,7 @@ function activereset() {
         b.classList = "";
     });
 }
-
+let checkd = false;
 function listOn(b) {
     if (!document.querySelector(".usercontainer")) {
         location.href = "/admin";
@@ -144,6 +144,10 @@ function refundCheck(subject, result, data) {
 }
 
 function refundAccept() {
+    if(checkd){
+        return;
+    }
+    checkd = true;
     let id = sub.getAttribute("data-id");
     if (id === "userupdate") {
         console.log(id);
@@ -163,6 +167,7 @@ function refundAccept() {
     document.querySelector(".modal").classList.remove("active");
     document.querySelector(".overlay").classList.remove("active");
     location.href = "#";
+    checkd = false;
 }
 
 function refundCancel() {

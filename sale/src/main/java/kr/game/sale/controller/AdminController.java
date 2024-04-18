@@ -143,6 +143,14 @@ public class AdminController {
         Refund refund = adminService.getOneRefund(id);
         RuntimeException e = new RuntimeException();
         if (refund != null) {
+            String[] payment = refund.getPaymentIds().split(",");
+            log.info("payment={}",payment.toString());
+            List<Payment> pays = new ArrayList<>();
+            for(String pay : payment){
+                Payment p = adminService.getOnePaymet(Long.parseLong(pay));
+                pays.add(p);
+            }
+            refund.setPaymentList(pays);
             String token = adminService.getToken(apiKey, secretKey);
             adminService.refundRequest(token, refund.getPaymentList().get(0).getPaymentOrdernum(), e.getMessage(), 0);
             adminService.paymentUpdate(refund.getPaymentList().get(0).getPaymentId(), refund);
