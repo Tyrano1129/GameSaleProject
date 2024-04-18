@@ -7,6 +7,14 @@ const emailDuplicatedBtn = document.getElementById("emailDuplicatedBtn");
 const emailSendingBtn = document.getElementById("emailSendingBtn");
 const codeInput = document.getElementById("codeInput");
 const joinBtn = document.getElementById("joinBtn");
+const joinForm = document.getElementById("userJoinForm");
+
+// 폼에서 엔터키, 스페이스바 작동하지 않게하기, 특정 폼에서만 동작하게하기
+joinForm.addEventListener("keypress", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+    }
+});
 
 // 입력값들의 유효성 체크
 function validCheck(form) {
@@ -105,13 +113,6 @@ function getResult(data) {
     }
 }
 
-// 폼에서 Enter 동작하지 않게 하기
-document.addEventListener("keypress", (event) => {
-    if (event.key === "Enter") {
-        event.preventDefault();
-    }
-});
-
 // 비밀번호와 비밀번호확인이 일치하는지 판단하는 함수
 pwConfirmInput.addEventListener("keyup", () => {
     let pw = pwInput.value.trim();
@@ -130,7 +131,7 @@ pwConfirmInput.addEventListener("keyup", () => {
 emailInput.addEventListener("keyup", () => {
     check = -1;
     emailInput.style.border = "3px red solid";
-    emailDuplicatedBtn.style.visibility="visible";
+    emailDuplicatedBtn.style.visibility = "visible";
 });
 
 // 이메일로 인증코드를 발송하는 함수
