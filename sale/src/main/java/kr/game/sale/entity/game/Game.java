@@ -236,6 +236,7 @@ public class Game implements Serializable {
             Random rd = new Random();
             game.discount = rd.nextInt(11)+5;
             game.rating = convertRating(rawData.getRating());
+            game.stock = 5;
 
         }catch (Exception e){
             log.error("Exception => {}", e.getMessage());

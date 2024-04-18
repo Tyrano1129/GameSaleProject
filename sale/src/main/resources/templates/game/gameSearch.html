@@ -206,7 +206,7 @@
                                                      th:alt="${game.getName()}" class="browseProductImage"
                                                     style="width:173px;height:81px;min-width:173px">
                                                 <img th:unless="${game.platform eq 'steam'}"
-                                                     th:src="@{game.getHeaderImage()}"
+                                                     th:src="${game.getHeaderImage()}"
                                                      th:alt="${game.getName()}" class="browseProductImage"
                                                      style="width:173px;height:81px;min-width:173px">
                                             </a>

@@ -82,13 +82,14 @@
     /* width의 50% */
     /* margin-top: -50px; */
     /* height의 50% */
-    bottom: 0%;
+    bottom: -15%;
     list-style: none;
-    transform: rotate(90deg);
+    transform: rotate(270deg);
 
 
     button {
 
+        cursor: pointer;
         color: transparent;
         /* justify-items: center; */
         width: 10px;

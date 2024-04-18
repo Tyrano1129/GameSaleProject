@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import kr.game.sale.entity.game.Game;
 import kr.game.sale.entity.game.review.Review;
 import kr.game.sale.entity.game.review.ReviewResponse;
+import kr.game.sale.entity.game.review.vote.ReviewVoteDTO;
 import kr.game.sale.entity.user.Users;
+import kr.game.sale.repository.game.review.ReviewRepository;
 import kr.game.sale.service.GameReviewService;
 import kr.game.sale.service.GameService;
 import kr.game.sale.service.UserService;
@@ -13,22 +15,63 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @SpringBootTest
 public class GameTest {
-/*
+    /*private final ReviewRepository repository;
+
     private UserService userService;
     private GameService gameService;
     private GameReviewService gameReviewService;
     @Autowired
-    GameTest(GameService gameservice, GameReviewService gamereviewservice, UserService userservice) {
+    GameTest(ReviewRepository repository, GameService gameservice, GameReviewService gamereviewservice, UserService userservice) {
+        this.repository = repository;
         this.userService = userservice;
         this.gameService = gameservice;
         this.gameReviewService = gamereviewservice;
     }
 
     @Test
-    public void removeTest(){
+    public void removeTest() throws InterruptedException {
+        int memberCount = 100;
+        int ticketAmount = 10;
+
+        ExecutorService executorsService = Executors.newFixedThreadPool(memberCount);
+        CountDownLatch latch = new CountDownLatch(memberCount);
+
+        AtomicInteger successCount = new AtomicInteger();
+        AtomicInteger failCount = new AtomicInteger();
+
+        for (int i = 0; i < memberCount; i++) {
+            repository.decreaseVote(1L);
+          *//*  executorsService.submit(()->{
+                try {
+                   // repository.decreaseVote(1L);
+                    ReviewVoteDTO dto = new ReviewVoteDTO();
+                    dto.setReviewId("1");
+                    repository.decreaseVote(1L);
+                    successCount.incrementAndGet();
+                } catch (Exception e) {
+                    failCount.incrementAndGet();
+                    System.out.println(e.getMessage());
+                }finally {
+                    latch.countDown();
+                }
+            });*//*
+        }
+        //latch.await();
+
+        System.out.println("successCount = " + successCount);
+        System.out.println("failCount = " + failCount);
+    }*/
+
+
+        //출처: https://woonys.tistory.com/277 [WOONY's 인사이트:티스토리]
+
 
         /*gameReviewService.deleteReview(4L);
 
@@ -36,6 +79,7 @@ public class GameTest {
         for (Review r : list){
             System.out.println(r.getReviewId());
         }*/
+
         /*List<ReviewResponse> list = gameReviewService.findReviewsAndVoteByUserId(1L,1623730L);
 
         for (ReviewResponse r : list){
@@ -63,7 +107,7 @@ public class GameTest {
 
 
         userService.adminUsersOneDelete(1l);
-    }*/
+    }/**/
 
 
 //    @Test

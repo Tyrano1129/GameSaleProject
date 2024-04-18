@@ -79,7 +79,8 @@
                                             </th:block>
                                             <th:block th:unless="${game.platform eq 'steam'}" th:each="shots, shotsStat : ${game.getScreenshootsList()}" >
                                                 <div  class="item screenshot_thumbnail" style="cursor:pointer">
-                                                    <img  th:src="@{shots}"
+
+                                                    <img  th:src="${shots}"
                                                           data-type="image/jpeg"
                                                           th:attr="data-url=${'<img src='''+ shots+'''>'}">
                                                 </div>
@@ -295,7 +296,7 @@
                                             width="320" height="150"
                                             onerror="this.src='/images/404.jpg'">
                                         <img th:unless="${game.platform eq 'steam'}"
-                                             th:src="@{game.getHeaderImage()}"
+                                             th:src="${game.getHeaderImage()}"
                                              th:alt="${game.getName()}"
                                              width="320" height="150"
                                              onerror="this.src='/images/404.jpg'">
