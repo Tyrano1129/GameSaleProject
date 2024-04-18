@@ -381,10 +381,23 @@
                                                         </div>
 
                                                         <div class="vmproduct-link" style="text-align:center">
-                                                            <button type="button" class="btn btn-warning btn-lg btn_cart"
-                                                                    id="btn_cart" th:attr="data-appId=${game.getSteamAppid()}">장바구니</button>
-                                                            <button type="button" class="btn btn-default btn-lg btn_wishlist"
-                                                                    id="btn_wishlist" th:attr="data-appId=${game.getSteamAppid()}">위시리스트</button>
+                                                            <th:block th:if="${game.stock > 0}">
+                                                                <button class="btn btn-warning btn-lg btn_cart"
+                                                                        id="btn_cart"
+                                                                        th:attr="data-appId=${game.getSteamAppid()}"
+                                                                        type="button">
+                                                                    장바구니
+                                                                </button>
+                                                                <button class="btn btn-default btn-lg btn_wishlist"
+                                                                        id="btn_wishlist"
+                                                                        th:attr="data-appId=${game.getSteamAppid()}"
+                                                                        type="button">
+                                                                    위시리스트
+                                                                </button>
+                                                            </th:block>
+                                                            <th:block th:unless="${game.stock > 0}">
+                                                                <strong style="color:red">품절 상품입니다.</strong>
+                                                            </th:block>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -397,7 +410,7 @@
 
                             <div class="clear"></div>
 
-                            <div class="product-share-container">
+                            <!--<div class="product-share-container">
                                 <div class="docs-section">
                                     <div class="page-header">
                                         <h2 style="font-size:16px;text-indent:20px">공유하기</h2>
@@ -405,20 +418,20 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="input-inline">
-                                                <!--<button type="button" class="btn" id="btn_facebook" style="background:#4e69a2;color:#ffffff;font-size:13px"><i class="fa fa-facebook" style="background:#4e69a2;color:#ffffff"></i> 페이스북</button>-->
+                                                &lt;!&ndash;<button type="button" class="btn" id="btn_facebook" style="background:#4e69a2;color:#ffffff;font-size:13px"><i class="fa fa-facebook" style="background:#4e69a2;color:#ffffff"></i> 페이스북</button>&ndash;&gt;
                                                 <button type="button" class="btn btn_facebook" id="btn_facebook"><i
                                                         class="fa fa-facebook"
                                                         style="background:#4e69a2;color:#ffffff;font-size:32px;"></i></button>
                                                 <button type="button" class="btn btn_x" id="btn_twitter"><img
                                                         src="/images/sns/logo-x.svg"
                                                         style="width:32px;height:32px;"></button>
-                                                <!--<button type="button" class="btn" id="btn_twitter" style="background:#319de1;color:#ffffff;font-size:13px"><i class="fa fa-twitter" style="background:#319de1;color:#ffffff"></i> 트위터</button>-->
-                                                <!--<button type="button" class="btn" id="btn_google" style="background:#df513f;color:#ffffff;font-size:13px"><i class="fa fa-google-plus" style="background:#df513f;color:#ffffff"></i> 구글+</button>-->
+                                                &lt;!&ndash;<button type="button" class="btn" id="btn_twitter" style="background:#319de1;color:#ffffff;font-size:13px"><i class="fa fa-twitter" style="background:#319de1;color:#ffffff"></i> 트위터</button>&ndash;&gt;
+                                                &lt;!&ndash;<button type="button" class="btn" id="btn_google" style="background:#df513f;color:#ffffff;font-size:13px"><i class="fa fa-google-plus" style="background:#df513f;color:#ffffff"></i> 구글+</button>&ndash;&gt;
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                         </div><!-- right -->
                     </div>
                     </div>

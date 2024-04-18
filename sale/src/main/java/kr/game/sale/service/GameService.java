@@ -20,14 +20,19 @@ import java.util.Optional;
 public class GameService {
 
     private final GameRepository gameRepository;
+    private boolean saveDataEvent =false;
 
     public void initData() throws JsonProcessingException {
+        if(saveDataEvent == true)return;
+        saveDataEvent = true;
         List<Game> list = gameRepository.saveGameData();
         gameRepository.saveAll(list);
+        saveDataEvent = false;
     }
 
-    public Game findOneById(String id){
-        Optional<Game> game =gameRepository.findById(Long.valueOf(id));
+
+    public Game findOneById(Long id){
+        Optional<Game> game = gameRepository.findById(id);
         if(game.isPresent()){
             return game.get();
         }else{
@@ -60,11 +65,6 @@ public class GameService {
                  break;
         }
         return result;
-    }
-
-    // admin 라인
-    public Game getOneGames(Long id){
-        return gameRepository.findById(id).isEmpty()? null : gameRepository.findById(id).get();
     }
 
     public void gameOneDelete(Long id){

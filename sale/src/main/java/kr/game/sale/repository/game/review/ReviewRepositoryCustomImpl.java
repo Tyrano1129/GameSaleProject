@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static kr.game.sale.entity.game.review.QReview.review;
 import static kr.game.sale.entity.game.review.vote.QReviewVote.reviewVote;
@@ -113,6 +114,18 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom{
                 .execute();
     }
 
+    @Transactional
+    @Override
+    public int findVoteCntById(Long id)  {
+        Optional<Integer> result = Optional.ofNullable(queryFactory.select(review.voteCnt)
+                .from(review)
+                .where(review.reviewId.eq(id))
+                .fetchOne());
+        if(!result.isPresent()) throw new NullPointerException();
+        return result.get();
+    }
+
+
     /**/
 
     @Transactional
@@ -159,32 +172,4 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom{
             default ->   new OrderSpecifier<>(Order.DESC, review.regDate);
         };
     }
-
-
-    /*public Page<Review> searchReview(ReviewPageDTO reviewPageDTO, Pageable pageable) {
-
-
-
-
-        *//*OrderSpecifier orderSpecifier = createOrderSpecifier(gameSearchDTO.getSortType());
-
-        QueryResults<Game> queryResults = queryFactory
-                .selectFrom(game)
-                .where(
-                        containsKeyword(game.name, gameSearchDTO.getSearchKeyword()),
-                        containsKeyword(game.name, gameSearchDTO.getInnerSearchKeyword()),
-                        containsCategory(game.genres, gameSearchDTO.getSearchCategory()),
-                        containsPublisher(game.publisher, gameSearchDTO.getSearchPublisher()),
-                        koreanSupported(gameSearchDTO.getSearchInterfaceKorean())
-                )
-                .orderBy(orderSpecifier)
-                .offset(pageable.getOffset()) // 페이징 시작 위치 설정
-                .limit(pageable.getPageSize()) // 한 페이지에 보여줄 아이템 수 설정
-                .fetchResults();
-
-        long totalCount = queryResults.getTotal();
-        List<Game> games = queryResults.getResults();*//*
-
-        return new PageImpl<>(games,pageable,totalCount);
-    }*/
 }

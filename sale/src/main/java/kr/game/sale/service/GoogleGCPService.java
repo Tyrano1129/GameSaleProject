@@ -25,11 +25,12 @@ public class GoogleGCPService {
     @Value("${spring.cloud.gcp.storage.bucket}")
     private String bucketName;
     public String updateImageInfo(MultipartFile dto,String url) throws IOException {
+        if (dto != null) {
         String uuid = UUID.randomUUID().toString();
         String ext = dto.getContentType();
         // Cloud에 이미지 업로드
         BlobInfo blobInfo = storage.create(
-                BlobInfo.newBuilder(bucketName, url+"/"+uuid)
+                BlobInfo.newBuilder(bucketName, url + "/" + uuid)
                         .setContentType(ext)
                         .build(),
                 dto.getInputStream()
@@ -37,8 +38,10 @@ public class GoogleGCPService {
 //        BlobId blodId = BlobId.of(buketName,uuid);
 //        boolean deleted = storage.delete(blodId);
         blobInfo.getName();
-        log.info("Name={}",blobInfo.getName());
-        log.info("blobInfo = {}",blobInfo.getMediaLink());
+        log.info("Name={}", blobInfo.getName());
+        log.info("blobInfo = {}", blobInfo.getMediaLink());
         return blobInfo.getMediaLink();
+        }
+        return "false";
     }
 }

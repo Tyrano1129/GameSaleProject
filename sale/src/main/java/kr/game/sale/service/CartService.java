@@ -110,10 +110,9 @@ public class CartService {
     @Transactional
     public void addCart(String steamAppid) {
         Users users = userService.getLoggedInUser();
-
         Cart cart = new Cart();
         cart.setUsers(users);
-        Game game = gameRepository.findBySteamAppid(Long.valueOf(steamAppid));
+        Game game = gameRepository.findById(Long.valueOf(steamAppid)).get();
         cart.setGame(game);
 
         cartRepository.save(cart);

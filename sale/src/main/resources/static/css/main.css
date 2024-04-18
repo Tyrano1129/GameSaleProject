@@ -17,7 +17,12 @@
     position: relative;
     width: 850px;
     height: 400px;
-    background-color: orange;
+}
+.header-images{
+    visibility: hidden;
+}
+.header-images.show{
+    visibility: visible;
 }
 .main-promotions .header-images div img{
     width: 100%;
