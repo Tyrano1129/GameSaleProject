@@ -39,6 +39,7 @@ public class AdminController {
     private final AdminService adminService;
     private final GoogleGCPService googleGCPService;
     private final GameReviewService gameReviewService;
+
     @Value("${imp.api.key}")
     private String apiKey;
     @Value("${imp.api.secretkey}")

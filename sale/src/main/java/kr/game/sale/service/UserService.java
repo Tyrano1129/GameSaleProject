@@ -3,6 +3,7 @@ package kr.game.sale.service;
 import jakarta.persistence.EntityManager;
 import kr.game.sale.entity.admin.Payment;
 import kr.game.sale.entity.admin.Refund;
+import kr.game.sale.entity.form.PaymentView;
 import kr.game.sale.entity.form.RoleListForm;
 import kr.game.sale.entity.user.UserRole;
 import kr.game.sale.entity.user.Users;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -138,5 +140,46 @@ public class UserService {
                     .build();
             refundRepository.save(rf);
         }
+    }
+    public List<Payment> findAllByUser(Users user){
+        return paymentRepository.findAllByUser(user);
+    }
+    //orderNumList
+    public List<String> orderNumList(List<Payment> paymentList){
+        List<String> ordernum = new ArrayList<>();
+        ordernum.add(paymentList.get(0).getPaymentOrdernum());
+        int i = 0;
+        for(Payment list : paymentList){
+            if(!ordernum.get(i).equals(list.getPaymentOrdernum())){
+                ordernum.add(list.getPaymentOrdernum());
+                i+=1;
+            }
+        }
+        return ordernum;
+    }
+    private List<Payment> paymentOneView(String number,List<Payment> list){
+        List<Payment> lists = new ArrayList<>();
+        for(Payment pay : list){
+            if(number.equals(pay.getPaymentOrdernum())){
+                lists.add(pay);
+            }else{
+                break;
+            }
+        }
+        return lists;
+    }
+    public List<PaymentView>  paymentViewList(List<Payment> paymentList, List<String> ordernumList){
+        List<PaymentView> list = new ArrayList<>();
+        String number = "";
+        for(String num : ordernumList){
+            PaymentView payment = new PaymentView();
+            if(!number.equals(num)){
+                number = num;
+                payment.setOrdernum(num);
+                payment.setPaymentList(paymentOneView(num,paymentList));
+            }
+            list.add(payment);
+        }
+        return list;
     }
 }

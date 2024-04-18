@@ -1,6 +1,7 @@
 package kr.game.sale.controller;
 
 import kr.game.sale.entity.admin.Payment;
+import kr.game.sale.entity.form.PaymentView;
 import kr.game.sale.entity.form.WishRequest;
 import kr.game.sale.entity.user.Users;
 import kr.game.sale.repository.admin.PaymentRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -24,7 +26,6 @@ public class UserController {
     private final QnAService qnaService;
     private final WishlistService wishlistService;
     private final CartService cartService;
-    private final PaymentRepository paymentRepository;
 
     @GetMapping("/joinForm")
     public String userJoinForm() {
@@ -79,7 +80,13 @@ public class UserController {
     @GetMapping("/myPage")
     public String myPage(Model model) {
         Users user = userService.getLoggedInUser();
-        List<Payment>paymentList= paymentRepository.findAllByUser(user);
+        List<Payment> paymentList = userService.findAllByUser(user);
+        // order 담기
+        List<String> ordernum = userService.orderNumList(paymentList);
+        List<PaymentView> list = userService.paymentViewList(paymentList,ordernum);
+        log.info("ordernum = {}",ordernum);
+        log.info("paymentList = {}",paymentList);
+        log.info("list = {}",list);
         model.addAttribute("paymentList",paymentList);
         return "users/myPage";
     }
@@ -158,4 +165,5 @@ public class UserController {
         cartService.moveToCart(gameIdList);
         return "redirect:/cart/myCart";
     }
+
 }
