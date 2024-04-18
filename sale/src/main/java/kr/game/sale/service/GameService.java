@@ -20,10 +20,14 @@ import java.util.Optional;
 public class GameService {
 
     private final GameRepository gameRepository;
+    private boolean saveDataEvent =false;
 
     public void initData() throws JsonProcessingException {
+        if(saveDataEvent == true)return;
+        saveDataEvent = true;
         List<Game> list = gameRepository.saveGameData();
         gameRepository.saveAll(list);
+        saveDataEvent = false;
     }
 
     public Game findOneById(String id){

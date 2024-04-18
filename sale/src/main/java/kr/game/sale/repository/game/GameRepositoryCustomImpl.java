@@ -142,8 +142,8 @@ public class GameRepositoryCustomImpl  implements GameRepositoryCustom{
         return queryFactory
                 .selectFrom(game)
                 .where(
-                        koreanSupported(condition.getLanguage())
-
+                        koreanSupported(condition.getLanguage()),
+                        game.stock.ne(0)
                 )
                 .orderBy(orderSpecifier)
                 .limit(12)

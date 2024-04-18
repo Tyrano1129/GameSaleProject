@@ -7,9 +7,11 @@ import kr.game.sale.entity.game.review.ReviewResponse;
 import kr.game.sale.entity.game.review.vote.ReviewVoteDTO;
 import kr.game.sale.entity.user.Users;
 import kr.game.sale.repository.game.review.ReviewRepository;
+import kr.game.sale.service.CartService;
 import kr.game.sale.service.GameReviewService;
 import kr.game.sale.service.GameService;
 import kr.game.sale.service.UserService;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,22 +24,52 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @SpringBootTest
 public class GameTest {
-    /*private final ReviewRepository repository;
-
+    /*
+    private final ReviewRepository repository;
+private final CartService cartService;
     private UserService userService;
     private GameService gameService;
     private GameReviewService gameReviewService;
     @Autowired
-    GameTest(ReviewRepository repository, GameService gameservice, GameReviewService gamereviewservice, UserService userservice) {
+    GameTest(ReviewRepository repository, CartService cartService, GameService gameservice, GameReviewService gamereviewservice, UserService userservice) {
         this.repository = repository;
+        this.cartService = cartService;
         this.userService = userservice;
         this.gameService = gameservice;
         this.gameReviewService = gamereviewservice;
     }
 
     @Test
+    public void removeTest2() throws InterruptedException {
+        int memberCount = 10;
+        ExecutorService executorsService = Executors.newFixedThreadPool(memberCount);
+        CountDownLatch latch = new CountDownLatch(memberCount);
+
+        AtomicInteger successCount = new AtomicInteger();
+        AtomicInteger failCount = new AtomicInteger();
+        for (int i = 0; i < memberCount; i++) {
+            executorsService.submit(()->{
+                try {
+                    cartService.addCart("1");
+                    successCount.incrementAndGet();
+                } catch (Exception e) {
+                    failCount.incrementAndGet();
+                    System.out.println(e.getMessage());
+                }finally {
+                    latch.countDown();
+                }
+            });
+        }
+        latch.await();
+
+        System.out.println("successCount = " + successCount);
+        System.out.println("failCount = " + failCount);
+       // Assertions.assertThat(repository.findVoteCntById(1L)).isEqualTo(50);
+    }
+
+    @Test
     public void removeTest() throws InterruptedException {
-        int memberCount = 100;
+        int memberCount = 50;
         int ticketAmount = 10;
 
         ExecutorService executorsService = Executors.newFixedThreadPool(memberCount);
@@ -46,14 +78,66 @@ public class GameTest {
         AtomicInteger successCount = new AtomicInteger();
         AtomicInteger failCount = new AtomicInteger();
 
+       */
+/* executorsService.execute(()->{
+            ReviewVoteDTO dto = new ReviewVoteDTO();
+            dto.setReviewId("1");
+            repository.addVote(dto);
+            latch.countDown();
+            *//*
+*/
+/*try {
+                // repository.decreaseVote(1L);
+                ReviewVoteDTO dto = new ReviewVoteDTO();
+                dto.setReviewId("1");
+                repository.addVote(dto);
+                int result = repository.findVoteCntById(1L);
+                System.out.println("result = " + result);
+                successCount.incrementAndGet();
+            } catch (Exception e) {
+                failCount.incrementAndGet();
+                System.out.println(e.getMessage());
+            }finally {
+                latch.countDown();
+            }*//*
+*/
+/*
+        });
+        executorsService.execute(()->{
+            ReviewVoteDTO dto = new ReviewVoteDTO();
+            dto.setReviewId("1");
+            repository.addVote(dto);
+            latch.countDown();
+            *//*
+*/
+/*try {
+                // repository.decreaseVote(1L);
+                ReviewVoteDTO dto = new ReviewVoteDTO();
+                dto.setReviewId("1");
+                repository.addVote(dto);
+                int result = repository.findVoteCntById(1L);
+                System.out.println("result = " + result);
+                successCount.incrementAndGet();
+            } catch (Exception e) {
+                failCount.incrementAndGet();
+                System.out.println(e.getMessage());
+            }finally {
+                latch.countDown();
+            }*//*
+*/
+/*
+        });*//*
+
         for (int i = 0; i < memberCount; i++) {
-            repository.decreaseVote(1L);
-          *//*  executorsService.submit(()->{
+            //repository.decreaseVote(1L);
+            executorsService.submit(()->{
                 try {
                    // repository.decreaseVote(1L);
                     ReviewVoteDTO dto = new ReviewVoteDTO();
                     dto.setReviewId("1");
-                    repository.decreaseVote(1L);
+                    repository.addVote(dto);
+                    int result = repository.findVoteCntById(1L);
+                    System.out.println("result = " + result);
                     successCount.incrementAndGet();
                 } catch (Exception e) {
                     failCount.incrementAndGet();
@@ -61,13 +145,15 @@ public class GameTest {
                 }finally {
                     latch.countDown();
                 }
-            });*//*
+            });
         }
-        //latch.await();
+        latch.await();
 
         System.out.println("successCount = " + successCount);
         System.out.println("failCount = " + failCount);
-    }*/
+        Assertions.assertThat(repository.findVoteCntById(1L)).isEqualTo(50);
+    }
+*/
 
 
         //출처: https://woonys.tistory.com/277 [WOONY's 인사이트:티스토리]

@@ -48,7 +48,6 @@ public class Game implements Serializable {
 
     @Column(name ="supported_languages" ,columnDefinition = "TEXT CHARACTER SET UTF8")
     private String supportedLanguages;
-    //화면에 뿌려줄 때 가공 메서드 필요
 
     @Lob
     @Column(name ="header_image")

@@ -17,9 +17,11 @@
         <div class="row equal-height">
             <div class="t3-sidebar-left">
 
-                <form id="filterSearchFrm" >
-                    <input type="text" name="innerSearchKeyword" th:value="${gameSearchDTO.getInnerSearchKeyword()}" hidden="hidden">
-                    <input type="text" name="searchKeyword" th:value="${gameSearchDTO.getSearchKeyword()}"  hidden="hidden">
+                <form id="filterSearchFrm">
+                    <input hidden="hidden" name="innerSearchKeyword" th:value="${gameSearchDTO.getInnerSearchKeyword()}"
+                           type="text">
+                    <input hidden="hidden" name="searchKeyword" th:value="${gameSearchDTO.getSearchKeyword()}"
+                           type="text">
                     <div class="t3-module module">
                         <div class="module-inner">
                             <h3 class="module-title "><span>검색 옵션</span></h3>
@@ -28,13 +30,31 @@
                                     <div class="orderlistcontainer">
                                         <div class="title" style="text-align:left">정렬순</div>
                                         <div class="">
-                                            <select name="sort"  id="search_sort" class="form-control">
-                                                <option value=""  th:selected="${#strings.isEmpty(gameSearchDTO.getSort())}" >::: 정렬순 선택 :::</option>
-                                                <option value="최신순" th:selected="${!#strings.isEmpty(gameSearchDTO.getSort())} and ${gameSearchDTO.getSort().equals('최신순')}" >출시일순</option>
-                                                <option value="할인율순" th:selected="${!#strings.isEmpty(gameSearchDTO.getSort())} and ${gameSearchDTO.getSort().equals('할인율순')}">할인율순</option>
-                                                <option value="인기순" th:selected="${!#strings.isEmpty(gameSearchDTO.getSort())} and ${gameSearchDTO.getSort().equals('인기순')}">인기순</option>
-                                                <option value="높은가격순" th:selected="${!#strings.isEmpty(gameSearchDTO.getSort())} and ${gameSearchDTO.getSort().equals('높은가격순')}">높은가격순</option>
-                                                <option value="낮은가격순" th:selected="${!#strings.isEmpty(gameSearchDTO.getSort())} and ${gameSearchDTO.getSort().equals('낮은순')}">낮은가격순</option>
+                                            <select class="form-control" id="search_sort" name="sort">
+                                                <option th:selected="${#strings.isEmpty(gameSearchDTO.getSort())}"
+                                                        value="">:::
+                                                    정렬순 선택 :::
+                                                </option>
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSort())} and ${gameSearchDTO.getSort().equals('최신순')}"
+                                                        value="최신순">
+                                                    출시일순
+                                                </option>
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSort())} and ${gameSearchDTO.getSort().equals('할인율순')}"
+                                                        value="할인율순">
+                                                    할인율순
+                                                </option>
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSort())} and ${gameSearchDTO.getSort().equals('인기순')}"
+                                                        value="인기순">
+                                                    인기순
+                                                </option>
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSort())} and ${gameSearchDTO.getSort().equals('높은가격순')}"
+                                                        value="높은가격순">
+                                                    높은가격순
+                                                </option>
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSort())} and ${gameSearchDTO.getSort().equals('낮은순')}"
+                                                        value="낮은가격순">
+                                                    낮은가격순
+                                                </option>
                                                 <!--<option value="salepercent" >할인율순</option>-->
                                             </select>
                                         </div>
@@ -43,22 +63,61 @@
                                     <div class="orderlistcontainer">
                                         <div class="title" style="text-align:left">장르</div>
                                         <div class="">
-                                            <select name="searchCategory" id="search_category"
-                                                    class="form-control">
+                                            <select class="form-control" id="search_category"
+                                                    name="searchCategory">
                                                 <option value="">::: 장르 선택 :::</option>
-                                                <option value="액션" th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('액션')}">액션</option>
-                                                <option value="어드벤쳐" th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('어드벤쳐')}">어드벤쳐</option>
-                                                <option value="레이싱" th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('레이싱')}">레이싱</option>
-                                                <option value="스포츠" th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('스포츠')}">스포츠</option>
-                                                <option value="롤플레잉" th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('롤플레잉')}">롤플레잉</option>
-                                                <option value="슈팅" th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('슈팅')}">슈팅</option>
-                                                <option value="FPS" th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('FPS')}">FPS</option>
-                                                <option value="퍼즐" th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('퍼즐')}">퍼즐</option>
-                                                <option value="시뮬레이션" th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('시뮬레이션')}">시뮬레이션</option>
-                                                <option value="기타" th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('기타')}">기타</option>
-                                                <option value="전략" th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('전략')}">전략</option>
-                                                <option value="RPG" th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('RPG')}">RPG</option>
-                                                <option value="캐주얼" th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('캐주얼')}">캐주얼</option>
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('액션')}"
+                                                        value="액션">
+                                                    액션
+                                                </option>
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('어드벤쳐')}"
+                                                        value="어드벤쳐">
+                                                    어드벤쳐
+                                                </option>
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('레이싱')}"
+                                                        value="레이싱">
+                                                    레이싱
+                                                </option>
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('스포츠')}"
+                                                        value="스포츠">
+                                                    스포츠
+                                                </option>
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('롤플레잉')}"
+                                                        value="롤플레잉">
+                                                    롤플레잉
+                                                </option>
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('슈팅')}"
+                                                        value="슈팅">
+                                                    슈팅
+                                                </option>
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('FPS')}"
+                                                        value="FPS">
+                                                    FPS
+                                                </option>
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('퍼즐')}"
+                                                        value="퍼즐">
+                                                    퍼즐
+                                                </option>
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('시뮬레이션')}"
+                                                        value="시뮬레이션">
+                                                    시뮬레이션
+                                                </option>
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('기타')}"
+                                                        value="기타">
+                                                    기타
+                                                </option>
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('전략')}"
+                                                        value="전략">
+                                                    전략
+                                                </option>
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('RPG')}"
+                                                        value="RPG">
+                                                    RPG
+                                                </option>
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('캐주얼')}"
+                                                        value="캐주얼">
+                                                    캐주얼
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -81,11 +140,12 @@
                                     <div class="orderlistcontainer">
                                         <div class="title" style="text-align:left">퍼블리셔</div>
                                         <div class="">
-                                            <select name="searchPublisher" id="search_publisher"
-                                                    class="form-control">
+                                            <select class="form-control" id="search_publisher"
+                                                    name="searchPublisher">
                                                 <option value="">::: 퍼블리셔 선택 :::</option>
                                                 <th:block th:each="p :${publishers}">
-                                                    <option th:value="${p}"  th:text="${p}" th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchPublisher()) && gameSearchDTO.getSearchPublisher().equals(p)}"></option>
+                                                    <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchPublisher()) && gameSearchDTO.getSearchPublisher().equals(p)}" th:text="${p}"
+                                                            th:value="${p}"></option>
                                                 </th:block>
                                             </select>
                                         </div>
@@ -110,8 +170,10 @@
 
                                         <div class="checkbox" style="text-indent:10px;font-size:14px">
                                             <label>
-                                                <input type="checkbox" id="search_interface_korean"
-                                                       name="searchInterfaceKorean" th:checked="${!#strings.isEmpty(gameSearchDTO.getSearchInterfaceKorean())}" value="Y">한글화게임
+                                                <input id="search_interface_korean" name="searchInterfaceKorean"
+                                                       th:checked="${!#strings.isEmpty(gameSearchDTO.getSearchInterfaceKorean())}"
+                                                       type="checkbox"
+                                                       value="Y">한글화게임
                                             </label>
                                         </div>
                                     </div>
@@ -133,7 +195,8 @@
 
                                     <div class="clear"></div>
 
-                                    <input id="filterSearchBtn" type="button" class="btn btn-block btn-info" value="검색하기">
+                                    <input class="btn btn-block btn-info" id="filterSearchBtn" type="button"
+                                           value="검색하기">
                                 </div>
                             </div>
                         </div>
@@ -142,7 +205,7 @@
 
             </div>
 
-            <div id="t3-content" class="t3-content" >
+            <div class="t3-content" id="t3-content">
                 <div id="system-message-container"></div>
                 <div class="category-view">
                     <div class="browse-view">
@@ -150,15 +213,27 @@
 
                         <div class="row" id="searchBox">
                             <div class="container">
-                                <form class="form-horizontal" id="innerSearchForm" >
-                                    <input type="text" name="innerSearchKeyword" th:value="${!#strings.isEmpty(gameSearchDTO.getInnerSearchKeyword()) ? gameSearchDTO.getInnerSearchKeyword() :''}"  hidden="hidden">
-                                    <input type="text" name="searchKeyword" th:value="${!#strings.isEmpty(gameSearchDTO.getSearchKeyword()) ? gameSearchDTO.getSearchKeyword() :''}"  hidden="hidden">
+                                <form class="form-horizontal" id="innerSearchForm">
+                                    <input hidden="hidden" name="innerSearchKeyword"
+                                           th:value="${!#strings.isEmpty(gameSearchDTO.getInnerSearchKeyword()) ? gameSearchDTO.getInnerSearchKeyword() :''}"
+                                           type="text">
+                                    <input hidden="hidden" name="searchKeyword"
+                                           th:value="${!#strings.isEmpty(gameSearchDTO.getSearchKeyword()) ? gameSearchDTO.getSearchKeyword() :''}"
+                                           type="text">
 
-                                    <input type="text" name="sort" th:value="${!#strings.isEmpty(gameSearchDTO.getSort()) ? gameSearchDTO.getSort() :''}" hidden="hidden">
-                                    <input type="text" name="searchCategory" th:value="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) ? gameSearchDTO.getSearchCategory() :''}" hidden="hidden">
-                                    <input type="text" name="searchPublisher" th:value="${!#strings.isEmpty(gameSearchDTO.getSearchPublisher()) ? gameSearchDTO.getSearchPublisher() :''}" hidden="hidden">
+                                    <input hidden="hidden" name="sort"
+                                           th:value="${!#strings.isEmpty(gameSearchDTO.getSort()) ? gameSearchDTO.getSort() :''}"
+                                           type="text">
+                                    <input hidden="hidden" name="searchCategory"
+                                           th:value="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) ? gameSearchDTO.getSearchCategory() :''}"
+                                           type="text">
+                                    <input hidden="hidden" name="searchPublisher"
+                                           th:value="${!#strings.isEmpty(gameSearchDTO.getSearchPublisher()) ? gameSearchDTO.getSearchPublisher() :''}"
+                                           type="text">
 
-                                    <input type="text" name="searchInterfaceKorean" th:value="${!#strings.isEmpty(gameSearchDTO.getSearchInterfaceKorean()) ? gameSearchDTO.getSearchInterfaceKorean() :''}" hidden="hidden">
+                                    <input hidden="hidden" name="searchInterfaceKorean"
+                                           th:value="${!#strings.isEmpty(gameSearchDTO.getSearchInterfaceKorean()) ? gameSearchDTO.getSearchInterfaceKorean() :''}"
+                                           type="text">
 
                                     <div class="well text-center" id="search_box">
                                         <div class="form-group">
@@ -167,10 +242,14 @@
                                             <div class="col-sm-6">
 
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" id="innerSearchBar" name="innerKeyword" value="">
+                                                    <input class="form-control" id="innerSearchBar" name="innerKeyword"
+                                                           type="text" value="">
 
-                                                    <span class="input-group-btn" id="innerSearchBtn" style="position:relative; width:10%; height:100%;">
-                                                      <input class="btn btn-default " style="width: 100%;" th:text="${!#strings.isEmpty(gameSearchDTO.getInnerSearchKeyword()) ? gameSearchDTO.getInnerSearchKeyword() :''}" type="button">
+                                                    <span class="input-group-btn" id="innerSearchBtn"
+                                                          style="position:relative; width:10%; height:100%;">
+                                                      <input class="btn btn-default " style="width: 100%;"
+                                                             th:text="${!#strings.isEmpty(gameSearchDTO.getInnerSearchKeyword()) ? gameSearchDTO.getInnerSearchKeyword() :''}"
+                                                             type="button">
                                                     <span class="fa fa-search" style="
                                                         cursor: pointer;
                                                         position: absolute;
@@ -184,8 +263,9 @@
                                     </div>
                                 </form>
                                 <div class="well well-sm" id="keywords">
-                                    <div >검색어 : &nbsp;
-                                        <span class="label label-default label-lg keyword" th:text="${!#strings.isEmpty(gameSearchDTO.getSearchKeyword()) ? gameSearchDTO.getSearchKeyword() :''}">
+                                    <div>검색어 : &nbsp;
+                                        <span class="label label-default label-lg keyword"
+                                              th:text="${!#strings.isEmpty(gameSearchDTO.getSearchKeyword()) ? gameSearchDTO.getSearchKeyword() :''}">
                                             <i class="fa fa-remove" role="button" style="cursor:pointer"></i>
                                         </span>
                                     </div>
@@ -196,32 +276,33 @@
 
                             <!--반복 col-->
                             <div class="row equal-height equal-height-child" th:each="game:${list}">
-                                <div class="product vm-col vm-col-3 vertical-separator col" child-height="83">
+                                <div child-height="83" class="product vm-col vm-col-3 vertical-separator col">
                                     <div class="spacer" style="min-height:83px">
                                         <div class="vm-product-media-container">
-                                            <a th:title="${game.getName()}"
-                                               th:href="@{/game/detail/{steamAppid}(steamAppid=${game.getSteamAppid()})}">
-                                                <img th:if="${game.platform eq 'steam'}"
-                                                     th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getHeaderImage()}}"
-                                                     th:alt="${game.getName()}" class="browseProductImage"
-                                                    style="width:173px;height:81px;min-width:173px">
-                                                <img th:unless="${game.platform eq 'steam'}"
-                                                     th:src="${game.getHeaderImage()}"
-                                                     th:alt="${game.getName()}" class="browseProductImage"
-                                                     style="width:173px;height:81px;min-width:173px">
+                                            <a th:href="@{/game/detail/{steamAppid}(steamAppid=${game.getSteamAppid()})}"
+                                               th:title="${game.getName()}">
+                                                <img class="browseProductImage"
+                                                     style="width:173px;height:81px;min-width:173px"
+                                                     th:alt="${game.getName()}" th:if="${game.platform eq 'steam'}"
+                                                     th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getHeaderImage()}}">
+                                                <img class="browseProductImage"
+                                                     style="width:173px;height:81px;min-width:173px"
+                                                     th:alt="${game.getName()}" th:src="${game.getHeaderImage()}"
+                                                     th:unless="${game.platform eq 'steam'}">
                                             </a>
                                         </div>
 
                                         <div class=""
                                              style="padding: 10px 0 0 0;clear:both;float:left;width:80px;margin:0;text-align:center">
-                                            <div style="display:block;"><img src="/images/steam.svg" width="60" alt="Steam">
+                                            <div style="display:block;"><img alt="Steam" src="/images/steam.svg"
+                                                                             width="60">
                                             </div>
                                         </div>
 
                                         <div class="vm-product-descr-container-1" style="width:370px;padding:0;">
                                             <h2 style="font-size:14px;letter-spacing:-1px;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;width:370px;overflow:hidden;">
-                                                <a th:text="${game.getName()}"
-                                                   th:href="@{/game/detail/{steamAppid}(steamAppid=${game.getSteamAppid()})}">
+                                                <a th:href="@{/game/detail/{steamAppid}(steamAppid=${game.getSteamAppid()})}"
+                                                   th:text="${game.getName()}">
                                                 </a>
                                             </h2>
                                             <div class="vm3pr-customfields-product">
@@ -238,32 +319,36 @@
                                         </div>
                                         <div class="vm-product-descr-container-1"
                                              style="width:45px;padding:0;overflow:hidden;">
+                                            <th:block th:if="${game.getStock() > 0}">
                                                 <span class="label label-danger"
                                                       style="padding: .2em .6em .3em;font-size:13px;font-family:tahoma;color:#ffffff;padding-top:8px;padding-bottom:8px;display:block;"
                                                       th:text="${game.getDiscount()+'%'}">
                                                 </span>
+                                            </th:block>
                                         </div>
 
 
                                         <div class="vm3pr-2" style="clear:both;width:80px;padding:0;">
                                             <div class="product-price salesprice"
                                                  style="width:80px;text-align:right;padding:0;margin:0;">
-
-                                                <div class="PricebasePrice vm-display vm-price-value"
-                                                     style="text-align:right;padding-right:4px">
-                                                        <span class="PricebasePrice" th:text="${game.getFormattedPrice()}"><span
+                                                <th:block th:if="${game.getStock() > 0}">
+                                                    <div class="PricebasePrice vm-display vm-price-value"
+                                                         style="text-align:right;padding-right:4px">
+                                                        <span class="PricebasePrice"
+                                                              th:text="${game.getFormattedPrice()}"><span
                                                                 style="font-family:dotum">\</span> </span>
-                                                </div>
+                                                    </div>
 
 
-                                                <span class="price-crossed"></span>
-                                                <div class="PricesalesPrice vm-display vm-price-value"
-                                                     style="padding-right:4px">
+                                                    <span class="price-crossed"></span>
+                                                    <div class="PricesalesPrice vm-display vm-price-value"
+                                                         style="padding-right:4px">
                                                         <span class="PricesalesPrice"
                                                               style="color:#ffffff !important"
                                                               th:text="${game.getFormattedSalesPrice()}"><span
                                                                 style="font-family:dotum;">\</span></span>
-                                                </div>
+                                                    </div>
+                                                </th:block>
                                             </div>
                                             <div class="clear"></div>
                                         </div>
@@ -271,11 +356,17 @@
 
                                         <div class="vm-button2"
                                              style="width:50px;margin:0;margin-right:8px;text-align:center;padding:0; float:right">
-                                            <button type="button"
-                                                    class="btn btn-default btn-warning btn-lg btn_cart"
-                                                    th:attr="data-appId=${game.getSteamAppid()}"><span
-                                                    class="fa fa-shopping-cart"
-                                                    style="font-size:16px;color:#ffffff;"></span></button>
+                                            <th:block th:if="${game.getStock() > 0}">
+                                                <button class="btn btn-default btn-warning btn-lg btn_cart"
+                                                        th:attr="data-appId=${game.getSteamAppid()}"
+                                                        type="button"><span
+                                                        class="fa fa-shopping-cart"
+                                                        style="font-size:16px;color:#ffffff;"></span></button>
+                                            </th:block>
+                                            <th:block th:unless="${game.getStock() > 0}">
+                                                <span class="label label-slod-out"
+                                                      style="background-color: #5cb85c;font-size:14px;font-family:tahoma;color:#ffffff;padding-top:8px;padding-bottom:8px;">품절</span>
+                                            </th:block>
                                         </div>
                                     </div>
                                 </div>
@@ -287,40 +378,56 @@
                     </div>
 
                     <div class="vm-pagination" style="clear:both;">
-                        <input id="currPage" type="number" th:value="${gameSearchDTO.getCurrPage()}" hidden="hidden" >
+                        <input hidden="hidden" id="currPage" th:value="${gameSearchDTO.getCurrPage()}" type="number">
                         <div style="width:800px;height:38px;margin:0 auto">
                             <ul class="pagination">
-                                <li class="pageBtn" th:classappend="${gameSearchDTO.getStartPage() > gameSearchDTO.getPageSize() ? '':'disabled hide' }" id="firstBtn"><a href="#" th:attr="data-page=${1}" th:text="${'« First'}"></a></li>
-                                <li class="pageBtn" th:classappend="${gameSearchDTO.getStartPage() > gameSearchDTO.getPageSize() ? '':'disabled hide' }" id="prevBtn"><a href="#" th:attr="data-page=${gameSearchDTO.getStartPage()-1}" th:text="${'« Prev'}"></a></li>
-                                <th:block th:each="n : ${#numbers.sequence(gameSearchDTO.getStartPage(),gameSearchDTO.getEndPage())}">
-                                    <li class="live-link" th:classappend="${n == gameSearchDTO.getCurrPage() ? 'active': '' }" >
+                                <li class="pageBtn"
+                                    id="firstBtn"
+                                    th:classappend="${gameSearchDTO.getStartPage() > gameSearchDTO.getPageSize() ? '':'disabled hide' }"><a href="#" th:attr="data-page=${1}" th:text="${'« First'}"></a></li>
+                                <li class="pageBtn"
+                                    id="prevBtn"
+                                    th:classappend="${gameSearchDTO.getStartPage() > gameSearchDTO.getPageSize() ? '':'disabled hide' }"><a href="#" th:attr="data-page=${gameSearchDTO.getStartPage()-1}"
+                                                    th:text="${'« Prev'}"></a></li>
+                                <th:block
+                                        th:each="n : ${#numbers.sequence(gameSearchDTO.getStartPage(),gameSearchDTO.getEndPage())}">
+                                    <li class="live-link"
+                                        th:classappend="${n == gameSearchDTO.getCurrPage() ? 'active': '' }">
                                         <a href="#" th:attr="data-page=${n}" th:text="${n}"></a>
                                     </li>
                                 </th:block>
-                                <li class="pageBtn" th:classappend="${gameSearchDTO.getEndPage() < gameSearchDTO.getTotalPage() ? '':'disabled hide' }" id="nextBtn"><a href="#" th:attr="data-page=${gameSearchDTO.getEndPage()+1}" th:text="${'Next »'}"></a></li>
-                                <li class="pageBtn" id="lastBtn" ><a href="#" th:attr="data-page=${gameSearchDTO.getTotalPage()}" th:text="${'Last »'}"></a></li>
+                                <li class="pageBtn"
+                                    id="nextBtn"
+                                    th:classappend="${gameSearchDTO.getEndPage() < gameSearchDTO.getTotalPage() ? '':'disabled hide' }"><a href="#" th:attr="data-page=${gameSearchDTO.getEndPage()+1}"
+                                                    th:text="${'Next »'}"></a></li>
+                                <li class="pageBtn" id="lastBtn"><a href="#"
+                                                                    th:attr="data-page=${gameSearchDTO.getTotalPage()}"
+                                                                    th:text="${'Last »'}"></a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
-
 </div>
 </div>
-
 </div>
 </body>
 
 </html>
 <script type="text/javascript">
+    let searchEvent = false;
     $(document).ready(function () {
+
     });
 
     function search(formData){
+        if(searchEvent === true){
+            console.log("검색중...");
+            showModalCheck("검색중...")
+            return;
+        }
+        searchEvent = true;
 
         // 객체를 JSON 문자열로 변환
         var jsonData = JSON.stringify(formData);
@@ -354,6 +461,9 @@
                 // 요청이 실패하면 이 부분을 실행
                 console.error(xhr.responseText);
             }
+        }).always( function (){
+            console.log("검색끝...");
+           searchEvent = false;
         });
     }
 
@@ -424,7 +534,6 @@
         $('#filterSearchFrm input[name="searchKeyword"]').val(gameSearchDTO.searchKeyword);
 
         $('#innerSearchForm input[name="searchInterfaceKorean"]').val(gameSearchDTO.searchInterfaceKorean);
-        console.log((gameSearchDTO.searchInterfaceKorean != null && $.trim(gameSearchDTO.searchInterfaceKorean) != ''));
         let koreanSupported =(gameSearchDTO.searchInterfaceKorean != null && $.trim(gameSearchDTO.searchInterfaceKorean) != '');
         $('#search_interface_korean').prop("checked", koreanSupported);
 
@@ -469,6 +578,7 @@
 
 
     function createGameHTML(game) {
+
         var html = '<div class="row equal-height equal-height-child">' +
             '<div class="product vm-col vm-col-3 vertical-separator col" child-height="83">' +
             '<div class="spacer" style="min-height:83px">' +
@@ -489,27 +599,35 @@
             '<a title="' + game.name + '" href="/game/detail/' + game.steamAppid + '">' + game.name + '</a>' +
             '</h2>' +
             '<div class="vm3pr-customfields-product">' +
-            '<span class="label label-light" style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;">' + game.publisher + '</span>' +
-            '<span class="label label-light" style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;">' + game.genreList[0] + '</span>' +
-            '<span class="label label-default" style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;">한국어</span>' +
+            '<span class="label label-light" style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff; margin-right: 5px">' + game.publisher + '</span>' +
+            '<span class="label label-light" style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;margin-right: 5px">' + game.genreList[0] + '</span>' +
+            '<span class="label label-default" style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;margin-right: 5px">한국어</span>' +
             '</div>' +
             '</div>' +
-            '<div class="vm-product-descr-container-1" style="width:45px;padding:0;overflow:hidden;">' +
-            '<span class="label label-danger" style="padding: .2em .6em .3em;font-size:13px;font-family:tahoma;color:#ffffff;padding-top:8px;padding-bottom:8px;display:block;">' + game.discount + '%</span>' +
-            '</div>' +
+            '<div class="vm-product-descr-container-1" style="width:45px;padding:0;overflow:hidden;">';
+           if(game.stock > 0){
+               html +='<span class="label label-danger" style="padding: .2em .6em .3em;font-size:13px;font-family:tahoma;color:#ffffff;padding-top:8px;padding-bottom:8px;display:block;">' + game.discount + '%</span>';
+           }
+             html+= '</div>' +
             '<div class="vm3pr-2" style="clear:both;width:80px;padding:0;">' +
-            '<div class="product-price salesprice" style="width:80px;text-align:right;padding:0;margin:0;">' +
-            '<div class="PricebasePrice vm-display vm-price-value" style="text-align:right;padding-right:4px"><span class="PricebasePrice">' + game.formattedPrice + '</span></div>' +
+            '<div class="product-price salesprice" style="width:80px;text-align:right;padding:0;margin:0;">';
+           if(game.stock > 0){
+            html+='<div class="PricebasePrice vm-display vm-price-value" style="text-align:right;padding-right:4px"><span class="PricebasePrice">' + game.formattedPrice + '</span></div>' +
             '<span class="price-crossed"></span>' +
-            '<div class="PricesalesPrice vm-display vm-price-value" style="padding-right:4px"><span class="PricesalesPrice" style="color:#ffffff !important">' + game.formattedSalesPrice + '</span></div>' +
-            '</div>' +
+            '<div class="PricesalesPrice vm-display vm-price-value" style="padding-right:4px"><span class="PricesalesPrice" style="color:#ffffff !important">' + game.formattedSalesPrice + '</span></div>';
+           }
+            html+='</div>' +
             '<div class="clear"></div>' +
             '</div>' +
-            '<div class="vm-button2" style="width:50px;margin:0;margin-right:8px;text-align:center;padding:0; float:right;">' +
-            '<button type="button" class="btn btn-default btn-warning btn-lg btn_cart" data-appId="' + game.steamAppid + '">' +
+            '<div class="vm-button2" style="width:50px;margin:0;margin-right:8px;text-align:center;padding:0; float:right;">';
+            if(game.stock > 0){
+            html+='<button type="button" class="btn btn-default btn-warning btn-lg btn_cart" data-appId="' + game.steamAppid + '">' +
             '<span class="fa fa-shopping-cart" style="font-size:16px;color:#ffffff;"></span>' +
-            '</button>' +
-            '</div>' +
+            '</button>';
+            }else{
+            html+='<span class="label label-slod-out" style="background-color: #5cb85c;font-size:14px;font-family:tahoma;color:#ffffff;padding-top:8px;padding-bottom:8px;">품절</span>';
+            }
+             html+='</div>' +
             '</div>' +
             '</div>' +
             '</div>';
