@@ -32,9 +32,9 @@ public class GameService {
 
 
     public Game findOneById(Long id){
-        Optional<Game> game = gameRepository.findById(id);
-        if(game.isPresent()){
-            return game.get();
+        Game game = gameRepository.findBySteamAppid(id);
+        if(game!= null){
+            return game;
         }else{
             return null;
         }
