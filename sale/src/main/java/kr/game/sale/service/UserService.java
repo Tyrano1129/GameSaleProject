@@ -126,57 +126,73 @@ public class UserService {
         userRepository.deleteById(users.getId());
     }
 
+    // 환불객체 만들기
     @Transactional
     public void makeRefund(String paymentOrdernum, String reason) {
         List<Payment> pmList = paymentRepository.findAllByPaymentOrdernum(paymentOrdernum);
+
+        String paymentIds = "";
+        for (int i = 0; i < pmList.size(); i++) {
+            if (i != 0)
+                paymentIds += ",";
+            paymentIds += pmList.get(i).getPaymentId();
+        }
+
         for (Payment pm : pmList) {
             pm.setPaymentResult("환불처리중");
         }
 
         if (!pmList.isEmpty()) {
             Refund rf = Refund.builder()
+                    .paymentList(pmList)
                     .refundReason(reason)
                     .refundWhether(false)
+                    .paymentIds(paymentIds)
                     .build();
+            log.info("페이먼트아이디들 : {}", paymentIds);
             refundRepository.save(rf);
         }
     }
-    public List<Payment> findAllByUser(Users user){
+
+    public List<Payment> findAllByUser(Users user) {
         return paymentRepository.findAllByUser(user);
     }
+
     //orderNumList
-    public List<String> orderNumList(List<Payment> paymentList){
+    public List<String> orderNumList(List<Payment> paymentList) {
         List<String> ordernum = new ArrayList<>();
         ordernum.add(paymentList.get(0).getPaymentOrdernum());
         int i = 0;
-        for(Payment list : paymentList){
-            if(!ordernum.get(i).equals(list.getPaymentOrdernum())){
+        for (Payment list : paymentList) {
+            if (!ordernum.get(i).equals(list.getPaymentOrdernum())) {
                 ordernum.add(list.getPaymentOrdernum());
-                i+=1;
+                i += 1;
             }
         }
         return ordernum;
     }
-    private List<Payment> paymentOneView(String number,List<Payment> list){
+
+    private List<Payment> paymentOneView(String number, List<Payment> list) {
         List<Payment> lists = new ArrayList<>();
-        for(Payment pay : list){
-            if(number.equals(pay.getPaymentOrdernum())){
+        for (Payment pay : list) {
+            if (number.equals(pay.getPaymentOrdernum())) {
+                log.info("pay : {}", pay);
                 lists.add(pay);
-            }else{
-                break;
             }
         }
         return lists;
     }
-    public List<PaymentView>  paymentViewList(List<Payment> paymentList, List<String> ordernumList){
+
+    public List<PaymentView> paymentViewList(List<Payment> paymentList, List<String> ordernumList) {
         List<PaymentView> list = new ArrayList<>();
         String number = "";
-        for(String num : ordernumList){
+        for (String num : ordernumList) {
             PaymentView payment = new PaymentView();
-            if(!number.equals(num)){
+            if (!number.equals(num)) {
                 number = num;
-                payment.setOrdernum(num);
-                payment.setPaymentList(paymentOneView(num,paymentList));
+                payment.setOrdernum(number);
+                payment.setPaymentList(paymentOneView(number, paymentList));
+                payment.setPaymentResult(payment.getPaymentList().get(0).getPaymentResult());
             }
             list.add(payment);
         }

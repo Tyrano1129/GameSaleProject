@@ -10,4 +10,5 @@ import java.util.List;
 public class PaymentView {
     private String ordernum;
     private List<Payment> paymentList;
+    private String paymentResult;
 }

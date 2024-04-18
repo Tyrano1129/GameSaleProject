@@ -204,18 +204,18 @@ public class AdminService {
     /* refund */
 
 
-    public void refundInsert(String refundReason, Long id){
-        Payment pay = getOnePaymet(id);
-        log.info("pay = {}",pay);
-        if(pay != null){
-            Refund refund = Refund.builder()
-                    .payment(pay)
-                    .refundReason(refundReason)
-                    .build();
-            refundRepository.save(refund);
-            log.info("refund = {}",refund);
-        }
-    }
+//    public void refundInsert(String refundReason, Long id){
+//        Payment pay = getOnePaymet(id);
+//        log.info("pay = {}",pay);
+//        if(pay != null){
+//            Refund refund = Refund.builder()
+//                    .payment(pay)
+//                    .refundReason(refundReason)
+//                    .build();
+//            refundRepository.save(refund);
+//            log.info("refund = {}",refund);
+//        }
+//    }
 
 
     public void refundGame(String paymentOrdernum,int price){

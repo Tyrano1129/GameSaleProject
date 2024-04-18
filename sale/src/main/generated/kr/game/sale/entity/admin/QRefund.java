@@ -24,6 +24,8 @@ public class QRefund extends EntityPathBase<Refund> {
 
     public final QPayment payment;
 
+    public final StringPath paymentIds = createString("paymentIds");
+
     public final DateTimePath<java.time.LocalDateTime> refundAplctdate = createDateTime("refundAplctdate", java.time.LocalDateTime.class);
 
     public final NumberPath<Long> refundId = createNumber("refundId", Long.class);

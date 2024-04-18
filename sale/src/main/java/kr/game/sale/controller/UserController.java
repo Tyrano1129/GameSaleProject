@@ -81,13 +81,15 @@ public class UserController {
     public String myPage(Model model) {
         Users user = userService.getLoggedInUser();
         List<Payment> paymentList = userService.findAllByUser(user);
+        if(paymentList.isEmpty())
+            return "users/myPage";
         // order 담기
         List<String> ordernum = userService.orderNumList(paymentList);
         List<PaymentView> list = userService.paymentViewList(paymentList,ordernum);
         log.info("ordernum = {}",ordernum);
         log.info("paymentList = {}",paymentList);
         log.info("list = {}",list);
-        model.addAttribute("paymentList",paymentList);
+        model.addAttribute("list",list);
         return "users/myPage";
     }
 

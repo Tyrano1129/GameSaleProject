@@ -28,7 +28,7 @@
             <p><strong>※ 주문 완료 후 가급적 빠른 시일 내에 제품 코드(키)를 활성화 하시고, 플랫폼에 등록해 주시기 바랍니다.</strong></p>
         </div>
         <form action="#" id="refundForm" method="post">
-            <th:block th:each="list : ${paymentViewList}">
+            <th:block th:each="list : ${list}">
                 <table id="orderListTable">
                     <tr>
                         <th>결제번호</th>
@@ -36,9 +36,8 @@
                         <th>상품가격</th>
                         <th>결제금액</th>
                         <th>주문일자</th>
-                        <th>환불</th>
                     </tr>
-                    <tr th:each="game : ${list.gameName}">
+                    <tr th:each="game : ${list.paymentList}">
                         <td th:text="${game.paymentId}"></td>
                         <td th:text="${game.gameName}"></td>
                         <td th:text="${game.gamePrice}"></td>
@@ -46,13 +45,16 @@
                         <td th:text="${game.paymenDate}"></td>
                     </tr>
                     <tr>
-                        <td>
-                            <div th:if="${list.paymentResult=='환불요청'}">
-                                <button class="refund_btn" th:attr="paymentOrdernum=${list.getPaymentOrdernum()}"
+                        <td colspan="5">
+                            <div th:if="${list.paymentResult == '환불요청'}">
+                                <button class="refund_btn" th:attr="paymentOrdernum=${list.ordernum}"
                                         type="button">환불요청
                                 </button>
                             </div>
-                            <span th:unless="${list.paymentResult}"></span></td>
+                            <div th:if="${list.paymentResult != '환불요청'}">
+                                <span th:text="${list.paymentResult}"></span>
+                            </div>
+                        </td>
                     </tr>
                 </table>
             </th:block>
