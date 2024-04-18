@@ -26,6 +26,9 @@ function doLogin(form) {
     form.submit()
 }
 
+//
+
+
 function alertError() {
 
     const error = new URL(window.location.href).searchParams.get("error");
