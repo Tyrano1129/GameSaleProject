@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -18,11 +17,7 @@ public class QRefund extends EntityPathBase<Refund> {
 
     private static final long serialVersionUID = 1673684816L;
 
-    private static final PathInits INITS = PathInits.DIRECT2;
-
     public static final QRefund refund = new QRefund("refund");
-
-    public final QPayment payment;
 
     public final StringPath paymentIds = createString("paymentIds");
 
@@ -35,24 +30,15 @@ public class QRefund extends EntityPathBase<Refund> {
     public final BooleanPath refundWhether = createBoolean("refundWhether");
 
     public QRefund(String variable) {
-        this(Refund.class, forVariable(variable), INITS);
+        super(Refund.class, forVariable(variable));
     }
 
     public QRefund(Path<? extends Refund> path) {
-        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
+        super(path.getType(), path.getMetadata());
     }
 
     public QRefund(PathMetadata metadata) {
-        this(metadata, PathInits.getFor(metadata, INITS));
-    }
-
-    public QRefund(PathMetadata metadata, PathInits inits) {
-        this(Refund.class, metadata, inits);
-    }
-
-    public QRefund(Class<? extends Refund> type, PathMetadata metadata, PathInits inits) {
-        super(type, metadata, inits);
-        this.payment = inits.isInitialized("payment") ? new QPayment(forProperty("payment"), inits.get("payment")) : null;
+        super(Refund.class, metadata);
     }
 
 }

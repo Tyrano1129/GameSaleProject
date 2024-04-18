@@ -86,7 +86,7 @@ public class AdminService {
     public List<Refund> getRefundList(){
         return refundRepository.findAll();
     }
-    private Payment getOnePaymet(Long id){
+    public Payment getOnePaymet(Long id){
         return paymentRepository.findById(id).isPresent()? paymentRepository.findById(id).get() : null;
     }
 
@@ -257,7 +257,7 @@ public class AdminService {
         bw.close();
 
         //입력 스트림으로 conn 요청에 대한 응답 반환
-        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
         String responseJson = new BufferedReader(new InputStreamReader(conn.getInputStream()))
                 .lines()
@@ -267,12 +267,12 @@ public class AdminService {
         log.info("결제 취소 완료 : 주문번호 {}",merchant_uid);
         System.out.println("응답 본문: " + responseJson);
 
-        JsonObject jsonResponse = JsonParser.parseString(responseJson).getAsJsonObject();
-        String resultCode = jsonResponse.get("code").getAsString();
-        String resultMessage = jsonResponse.get("message").getAsString();
-
-        System.out.println("결과 코드 = " + resultCode);
-        System.out.println("결과 메시지 = " + resultMessage);
+//        JsonObject jsonResponse = JsonParser.parseString(responseJson).getAsJsonObject();
+//        String resultCode = jsonResponse.get("code").getAsString();
+//        String resultMessage = jsonResponse.get("message").getAsString();
+//
+//        System.out.println("결과 코드 = " + resultCode);
+//        System.out.println("결과 메시지 = " + resultMessage);
     }
     // 토큰발급
     public String getToken(String apikey,String secretKey) throws IOException{
