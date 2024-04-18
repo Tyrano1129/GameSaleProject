@@ -9,5 +9,5 @@ import java.util.List;
 @Data
 public class PaymentView {
     private String ordernum;
-    private List<Payment> gameName;
+    private List<Payment> paymentList;
 }
