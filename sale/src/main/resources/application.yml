@@ -19,7 +19,7 @@ spring:
         credentials:
           location: classpath:tidal-pathway-419203-b177acd7ad62.json
         project-id: tidal-pathway-419203
-        bucket: beach-test-image
+        bucket: kr-game-sale
   config:
     activate:
       on-profile: common

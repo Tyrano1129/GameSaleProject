@@ -125,7 +125,7 @@ function refundAccept() {
         valuesDelete(sub.getAttribute("data-delete"), "gameOneDelete");
     } else if (id === "paymentDelete") {
         console.log(sub.getAttribute("data-delete"));
-        //valuesDelete(sub.getAttribute("data-delete"));
+        valuesDelete(sub.getAttribute("data-delete"),"paymentOneDelete");
     } else if(id ==="reviewdelete"){
         valuesDelete(sub.getAttribute("data-delete"),"reviewOneDelete")
     }
@@ -250,6 +250,50 @@ function result(form){
     form.rcmRequirements.value = editorRcm.getData().toString();
     console.log(form.minRequirements.value);
     console.log(form.rcmRequirements.value);
+    if(!form.stock.value.trim()){
+        alert("수량 확인해주세요");
+        return false;
+    }
+    if(!form.name.value.trim()){
+        alert("이름 확인해주세요");
+        return false;
+    }
+    if(!form.supportedLanguages.value.trim()){
+        alert("언어 확인해주세요");
+        return false;
+    }
+    if(!form.price.value.trim()){
+        alert("금액 확인해주세요");
+        return false;
+    }
+    if(!form.developers.value.trim()){
+        alert("개발사 확인해주세요");
+        return false;
+    }
+    if(!form.releaseDate.value.trim()){
+        alert("날짜 확인해주세요");
+        return false;
+    }
+    if(!form.genres.value.trim()){
+        alert("장르 확인해주세요");
+        return false;
+    }
+    if(!form.minRequirements.value.trim()){
+        alert("최소사양 확인해주세요");
+        return false;
+    }
+    if(!form.rcmRequirements.value.trim()){
+        alert("권장사양 확인해주세요");
+        return false;
+    }
+    if(!form.headerFile.value.trim()){
+        alert("헤더이미지 확인해주세요");
+        return false;
+    }
+    if(!form.screenFile.value.trim()){
+        alert("소개이미지 확인해주세요");
+        return false;
+    }
     form.submit();
     // const input = document.querySelector("#resultbtn");
     // for(let i = 0; i < form.multiFile.files.length; i+=1){

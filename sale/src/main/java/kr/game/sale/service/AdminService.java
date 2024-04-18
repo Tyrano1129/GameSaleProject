@@ -87,14 +87,13 @@ public class AdminService {
         return paymentRepository.findById(id).isPresent()? paymentRepository.findById(id).get() : null;
     }
     /* qna */
-
-    /* review */
-
-
+    public Refund getOneRefund(Long id){
+        return refundRepository.findById(id).isPresent()? refundRepository.findById(id).get() : null;
+    }
     /* game */
 
     // 게임추가
-    public void gameInsert(GameForm form,String headerimage,List<String> screenshotsList) throws JsonProcessingException, ParseException {
+    public void gameInsert(GameForm form,String headerimage,List<String> screenshotsList,List<String> genresList) throws JsonProcessingException, ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         ObjectMapper mapper = new ObjectMapper();
         Game game = Game.builder()
@@ -104,7 +103,7 @@ public class AdminService {
                 .developers(form.getDevelopers())
                 .releaseDate(formatter.parse(form.getReleaseDate()))
                 .stock(form.getStock())
-                .genres(form.getGenres())
+                .genres(mapper.writeValueAsString(genresList))
                 .minRequirements(form.getMinRequirements())
                 .rcmRequirements(form.getRcmRequirements())
                 .headerImage(headerimage)
@@ -151,7 +150,19 @@ public class AdminService {
             noticeRepository.save(notice);
         }
     }
-
+    private Payment getOnePayment(Long id){
+        return paymentRepository.findById(id).isPresent()? paymentRepository.findById(id).get() : null;
+    }
+    public void paymentUpdate(Long id,Refund refund){
+        Payment pay = getOnePayment(id);
+        if(pay != null){
+            pay.setPaymentResult("환불처리완료!");
+            refund.setPayment(pay);
+            refund.setRefundWhether(true);
+            refundRepository.save(refund);
+            paymentRepository.save(pay);
+        }
+    }
 
     /* payment */
 
@@ -165,6 +176,7 @@ public class AdminService {
             String uuid = UUID.randomUUID().toString();
             Game game = getOneGame(list.getGameId());
             if(game != null) {
+                game.stockDown();
                 Payment pay = Payment.builder()
                         .paymentOrdernum(list.getMerchantUid())
                         .paymentPrice(list.getPaymentPirce())
@@ -176,6 +188,7 @@ public class AdminService {
                         .paymentResult("환불요청")
                         .build();
                 cartRepository.deleteById(list.getCartId());
+                gameRepository.save(game);
                 paymentRepository.save(pay);
             }else{
                 break;
@@ -238,7 +251,7 @@ public class AdminService {
         bw.close();
 
         //입력 스트림으로 conn 요청에 대한 응답 반환
-//        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
         String responseJson = new BufferedReader(new InputStreamReader(conn.getInputStream()))
                 .lines()
@@ -248,12 +261,12 @@ public class AdminService {
         log.info("결제 취소 완료 : 주문번호 {}",merchant_uid);
         System.out.println("응답 본문: " + responseJson);
 
-//        JsonObject jsonResponse = JsonParser.parseString(responseJson).getAsJsonObject();
-//        String resultCode = jsonResponse.get("code").getAsString();
-//        String resultMessage = jsonResponse.get("message").getAsString();
-//
-//        System.out.println("결과 코드 = " + resultCode);
-//        System.out.println("결과 메시지 = " + resultMessage);
+        JsonObject jsonResponse = JsonParser.parseString(responseJson).getAsJsonObject();
+        String resultCode = jsonResponse.get("code").getAsString();
+        String resultMessage = jsonResponse.get("message").getAsString();
+
+        System.out.println("결과 코드 = " + resultCode);
+        System.out.println("결과 메시지 = " + resultMessage);
     }
     // 토큰발급
     public String getToken(String apikey,String secretKey) throws IOException{

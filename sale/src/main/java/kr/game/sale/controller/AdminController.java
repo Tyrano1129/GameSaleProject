@@ -2,9 +2,11 @@ package kr.game.sale.controller;
 
 import com.google.cloud.Date;
 import kr.game.sale.entity.admin.Notice;
+import kr.game.sale.entity.admin.Payment;
 import kr.game.sale.entity.admin.QnA;
 import kr.game.sale.entity.admin.Refund;
 import kr.game.sale.entity.form.GameForm;
+import kr.game.sale.entity.form.PaymentView;
 import kr.game.sale.entity.form.RoleListForm;
 import kr.game.sale.entity.game.Game;
 import kr.game.sale.entity.game.review.Review;
@@ -13,6 +15,7 @@ import kr.game.sale.entity.user.Users;
 import kr.game.sale.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +26,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.SimpleFormatter;
 
 @Slf4j
@@ -39,6 +39,10 @@ public class AdminController {
     private final AdminService adminService;
     private final GoogleGCPService googleGCPService;
     private final GameReviewService gameReviewService;
+    @Value("${imp.api.key}")
+    private String apiKey;
+    @Value("${imp.api.secretkey}")
+    private String secretKey;
     private GameForm init(){
         //gameForm 여러곳에 이용하기위한 객체 생성
         return new GameForm();
@@ -121,26 +125,37 @@ public class AdminController {
        userService.adminUsersOneDelete(id);
         return "ok";
     }
-    @PostMapping("/image")
-    public @ResponseBody Map<String,Object> updateMemberInfo(MultipartRequest request) throws IOException {
-        Map<String,Object> responseData = new HashMap<>();
-//        String gcpUrl = .updateMemberInfo(request);
-//        responseData.put("uploaded",true);
-//        responseData.put("url",gcpUrl);
-        return responseData;
+    @DeleteMapping("/paymentOneDelete")
+    public @ResponseBody String paymentOneDelete(Long id) throws IOException {
+        Refund refund = adminService.getOneRefund(id);
+        RuntimeException e = new RuntimeException();
+        if(refund != null){
+            String token = adminService.getToken(apiKey,secretKey);
+            adminService.refundRequest(token,refund.getPayment().getPaymentOrdernum(),e.getMessage(),0);
+            adminService.paymentUpdate(refund.getPayment().getPaymentId(),refund);
+        }
+        return "ok";
     }
+
     @PostMapping("/gameInsert")
     public  String gmaeInsert(@ModelAttribute GameForm game) throws IOException, ParseException {
         log.info("game={}",game);
         List<String> screenshotsList = new ArrayList<>();
+        String[] genres = game.getGenres().split(",");
+        List<String> genresList = new ArrayList<>(Arrays.asList(genres));
         String headerImage = googleGCPService.updateImageInfo(game.getHeaderFile(),"game");
         for(MultipartFile file : game.getScreenFile()){
             String screanshots = googleGCPService.updateImageInfo(file,"game");
             screenshotsList.add(screanshots);
         }
-        adminService.gameInsert(game,headerImage,screenshotsList);
+        adminService.gameInsert(game,headerImage,screenshotsList,genresList);
         return "redirect:/admin";
     }
 
+    private void paymentview(){
+        List<PaymentView> list = null;
+        for(int i =0; i < list.size(); i+=1){
+        }
+    }
 
 }
