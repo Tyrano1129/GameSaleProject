@@ -74,4 +74,3 @@ function doResignReal(form) {
     form.submit();
     alert(`회원탈퇴에 성공했습니다.`);
 }
-

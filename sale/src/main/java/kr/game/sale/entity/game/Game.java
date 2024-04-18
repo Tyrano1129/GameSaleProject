@@ -329,5 +329,8 @@ public class Game implements Serializable {
                 "rating=" + rating + '\'' +
                 '}';
     }
+    public void stockDown(){
+        this.stock -= 1;
+    }
 
 }
