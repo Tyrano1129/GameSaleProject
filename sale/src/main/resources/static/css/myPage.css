@@ -134,7 +134,7 @@ select {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: tomato;
+    background-color: #ecf0f1;
     padding: 20px;
     z-index: 1001;
     color: black;
