@@ -142,24 +142,21 @@ select {
     border-radius: 5px;
 }
 
-#myPage #question_table,
-#orderListTable {
+#myPage #orderListTable {
     width: 100%;
     text-align: center;
     border-spacing: 0;
     border: 0;
 }
 
-#myPage #question_table,
-#orderListTable th {
+#myPage #orderListTable th {
     background-color: #FFFFFF0D;
     border: 1px solid rgba(255, 255, 255, 0.1);
     text-align: center;
     height: 40px;
 }
 
-#myPage #question_table,
-#orderListTable td {
+#myPage #orderListTable td {
     border: 1px solid rgba(255, 255, 255, 0.1);
     height: 40px;
     color: #999999;
@@ -219,4 +216,25 @@ select {
 
 #refundModal select {
     color: black;
+}
+
+#myPage #questionForm {
+    width: 750px
+}
+
+#myPage #question_table {
+    border-spacing: 0;
+    border: 0;
+}
+
+#myPage #question_table th {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+#myPage #question_table td {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
+    text-align: center;
 }

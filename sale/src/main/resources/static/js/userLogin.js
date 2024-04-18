@@ -22,12 +22,17 @@ function doLogin(form) {
         return false;
     }
 
-    document.getElementById("loginBtn").style.display = "none";
+    const btn = document.getElementById("loginBtn");
+    disableTheBtn(btn);
     form.submit()
 }
 
-//
-
+// 버튼을 비활성화 하는 함수
+// const btn = document.getElementById();
+function disableTheBtn(btn) {
+    btn.disabled = true;
+    btn.style.opacity = "50%";
+}
 
 function alertError() {
 

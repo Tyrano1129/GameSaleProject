@@ -47,6 +47,9 @@ function doRefundReal(form) {
     formData.append('code', code);
     formData.append('reason', reason);
 
+    const realRefundBtn =document.getElementById("realResignBtn");
+    disableTheBtn(realRefundBtn);
+
     // 서버로 POST 요청 보내기
     fetch('/payment/refund', {
         method: 'POST',
@@ -65,6 +68,14 @@ function doRefundReal(form) {
         })
         .catch(error => {
             console.error('Error:', error);
+            location.reload();
             alert(`환불요청에 실패했습니다.`);
         });
+}
+
+// 버튼을 비활성화 하는 함수
+// const btn = document.getElementById();
+function disableTheBtn(btn) {
+    btn.disabled = true;
+    btn.style.opacity = "50%";
 }

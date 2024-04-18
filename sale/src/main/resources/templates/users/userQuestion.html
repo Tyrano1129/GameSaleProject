@@ -12,7 +12,7 @@
     <nav th:replace="~{fragment/header :: nav}"></nav>
 
     <div id="myPage">
-        <h1>마이페이지</h1>
+        <h1 style="margin-left: 15px;">마이페이지</h1>
         <ul class="menu">
             <li onclick="location.href='/users/myPage'"><a><span>주문내역</span></a></li>
             <li class="activated" onclick="location.href='/users/userQuestion'"><a><span>문의내역</span></a></li>
@@ -33,7 +33,7 @@
 
         <!-- 문의하기 -->
         <div class="docs-section">
-            <h1><strong>  문의하기</strong></h1>
+            <h1><strong> 문의하기</strong></h1>
             <form action="/qna/addQuestion" enctype="multipart/form-data" id="questionForm" method="post"
                   name="questionForm"
                   onclick="">
@@ -85,14 +85,14 @@
 
         <!-- 내 문의들 -->
         <h1><strong>문의내역</strong></h1>
-        <table class="kblocktable" id="question_table">
-            <tr class="question">
-                <th class="num">번호</th>
-                <th class="type">구분</th>
-                <th class="content">제목</th>
-                <th class="date">작성일자</th>
-            </tr>
-            <div th:each="list : ${qnaList}">
+        <div th:each="list : ${qnaList}">
+            <table id="question_table">
+                <tr class="question">
+                    <th class="num">번호</th>
+                    <th class="type">구분</th>
+                    <th class="content">제목</th>
+                    <th class="date">작성일자</th>
+                </tr>
                 <tr class="question">
                     <td class="num" th:text="${list.qnaId}"></td>
                     <td class="type">기타</td>
@@ -111,8 +111,8 @@
                     <td colspan="3" th:text="${list.qnaAnwerContent}"></td>
                 </tr>
                 <tr id="idForBottomMargin"></tr>
-            </div>
-        </table>
+            </table>
+        </div>
         <div id="temporary_blank_space"></div>
     </div>
 </div>

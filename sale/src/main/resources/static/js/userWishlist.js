@@ -26,7 +26,9 @@ $(document).ready(function () {
 
     // 선택 삭제 버튼 클릭 시
     $("#all_delete_btn").click(function () {
-        document.getElementById("all_delete_btn").style.display = "none";
+        const btn=document.getElementById("all_delete_btn");
+        disableTheBtn(btn);
+
         // 선택된 위시리스트번호 배열 초기화
         let wishNumbers = [];
 
@@ -60,11 +62,11 @@ $(document).ready(function () {
             .then((res) => res.text())
             .then((data) => {
                 if (data === "success") {
-                    location.reload();
                     alert(`선택한 위시리스트가 장바구니에서 삭제됐습니다.`);
-                } else {
                     location.reload();
+                } else {
                     alert(`위시리스트 삭제에 실패했습니다.`)
+                    location.reload();
                 }
             }).catch(error => console.error('Error:', error));
     });
@@ -72,7 +74,8 @@ $(document).ready(function () {
 
 // 장바구니 이동 버튼 이벤트 핸들러
 document.getElementById("move_to_cart_btn").addEventListener("click", () => {
-    document.getElementById("move_to_cart_btn").style.display = "none";
+    const btn = document.getElementById("move_to_cart_btn");
+    disableTheBtn(btn);
     // 폼 요소 가져오기
     let form = document.getElementById("wishlistForm");
 
@@ -116,7 +119,14 @@ document.getElementById("move_to_cart_btn").addEventListener("click", () => {
         form.submit();
     } else {
         // 선택된 위시가 없는 경우 사용자에게 알림 메시지 표시
-        location.reload();
         alert("장바구니로 이동할 위시를 선택해주세요.");
+        location.reload();
     }
 });
+
+// 버튼을 비활성화 하는 함수
+// const btn = document.getElementById();
+function disableTheBtn(btn) {
+    btn.disabled = true;
+    btn.style.opacity = "50%";
+}
