@@ -25,7 +25,10 @@ public interface ReviewRepositoryCustom {
 
     public long addVote(ReviewVoteDTO reviewVoteDTO);
 
+    public long decreaseVote(Long id);
+
     public long reportReview(ReviewReportDTO reviewReportDTO);
 
     public List<Review> findAllReportedReviews();
+
 }

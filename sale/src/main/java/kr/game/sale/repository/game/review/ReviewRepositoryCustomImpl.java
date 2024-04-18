@@ -6,6 +6,7 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.LockModeType;
 import kr.game.sale.entity.game.review.*;
 import kr.game.sale.entity.game.review.report.ReviewReportDTO;
 import kr.game.sale.entity.game.review.vote.ReviewVoteDTO;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -97,8 +99,21 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom{
     public long addVote(ReviewVoteDTO reviewVoteDTO) {
       return  queryFactory.update(review)
                 .set(review.voteCnt, review.voteCnt.add(1))
-                .where(review.reviewId.eq(Long.valueOf(reviewVoteDTO.getReviewId()))).execute();
+                .where(review.reviewId.eq(Long.valueOf(reviewVoteDTO.getReviewId())))
+              .execute();
     }
+
+   @Transactional
+   @Override
+    public long decreaseVote(Long id){
+        return  queryFactory.update(review)
+                .set(review.voteCnt, review.voteCnt.subtract(1))
+                .where(review.reviewId.eq(id))
+                .setLockMode(LockModeType.PESSIMISTIC_WRITE)
+                .execute();
+    }
+
+    /**/
 
     @Transactional
     @Override
