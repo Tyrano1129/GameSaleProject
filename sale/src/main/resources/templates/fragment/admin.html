@@ -43,7 +43,11 @@
                             <p th:text="${list.refundId}">123</p>
                         </td>
                         <td>
-
+                            <p>
+                                <th:block th:each="payment : ${list.paymentList}">
+                                    <th:block th:text="${payment.gameName}"></th:block>
+                                </th:block>
+                            </p>
                         </td>
                         <td>
                             <p th:text="${list.refundReason}">122</p>

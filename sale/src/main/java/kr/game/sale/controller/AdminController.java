@@ -1,5 +1,6 @@
 package kr.game.sale.controller;
 
+import kr.game.sale.entity.admin.Payment;
 import kr.game.sale.entity.admin.QnA;
 import kr.game.sale.entity.admin.Refund;
 import kr.game.sale.entity.form.GameForm;
@@ -52,6 +53,15 @@ public class AdminController {
         List<QnA> qnaList = adminService.getQnAList();
         List<Refund> refundList = adminService.getRefundList();
         List<Review> reviewsList = gameReviewService.findAllReportedReviews();
+        for(Refund list : refundList){
+            String[] payment = list.getPaymentIds().split(",");
+            List<Payment> pays = new ArrayList<>();
+            for(String pay : payment){
+                Payment p = adminService.getOnePaymet(Long.parseLong(pay));
+                pays.add(p);
+            }
+            list.setPaymentList(pays);
+        }
 
         model.addAttribute("gameList", gameList);
         model.addAttribute("userList", userList);

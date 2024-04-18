@@ -25,12 +25,15 @@ public class Refund {
     private List<Payment> paymentList;
 
 
-    public void setPayment(List<Payment> paymentList) {
+    public void setPaymentList(List<Payment> paymentList) {
         this.paymentList = paymentList;
     }
 
     public void setRefundWhether(boolean refundWhether) {
         this.refundWhether = refundWhether;
+    }
+    public boolean getRefundWhether(){
+        return this.refundWhether;
     }
 
     @Builder
