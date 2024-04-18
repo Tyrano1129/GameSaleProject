@@ -36,7 +36,6 @@ public class NoticeController {
     // 초기값
     @GetMapping
     public String notice(Model model, HttpSession session){
-        adminService.noticeInsert();
         Pageable pageable = PageRequest.of(0,15);
         if(session.getAttribute("noticePage") != null){
             session.removeAttribute("noticePage");
