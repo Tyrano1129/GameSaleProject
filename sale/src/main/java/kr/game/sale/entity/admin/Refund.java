@@ -16,9 +16,6 @@ public class Refund {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long refundId;
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "payment_id")
-    private Payment payment;
     private String refundReason;
     private LocalDateTime refundAplctdate;
     private boolean refundWhether;
@@ -28,8 +25,8 @@ public class Refund {
     private List<Payment> paymentList;
 
 
-    public void setPayment(Payment payment) {
-        this.payment = payment;
+    public void setPayment(List<Payment> paymentList) {
+        this.paymentList = paymentList;
     }
 
     public void setRefundWhether(boolean refundWhether) {

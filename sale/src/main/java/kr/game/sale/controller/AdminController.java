@@ -134,8 +134,8 @@ public class AdminController {
         RuntimeException e = new RuntimeException();
         if (refund != null) {
             String token = adminService.getToken(apiKey, secretKey);
-            adminService.refundRequest(token, refund.getPayment().getPaymentOrdernum(), e.getMessage(), 0);
-            adminService.paymentUpdate(refund.getPayment().getPaymentId(), refund);
+            adminService.refundRequest(token, refund.getPaymentList().get(0).getPaymentOrdernum(), e.getMessage(), 0);
+            adminService.paymentUpdate(refund.getPaymentList().get(0).getPaymentId(), refund);
         }
         return "ok";
     }
