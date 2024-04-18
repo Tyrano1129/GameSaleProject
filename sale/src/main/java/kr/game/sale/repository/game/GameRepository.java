@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Lock;
 import java.util.Optional;
 
 public interface GameRepository extends JpaRepository<Game, Long>, GameRepositoryCustom {
-    @Lock(LockModeType.PESSIMISTIC_READ)
+
     Game findBySteamAppid(Long steamAppid);
 
     @Override
