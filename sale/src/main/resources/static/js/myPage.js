@@ -9,11 +9,14 @@ myPage.addEventListener("keypress", (event) => {
 });
 
 // 원하는 폼에서는 스페이스바 작동하게하기
-questionForm.addEventListener("keypress", (event) => {
-    if (event.key === " ") {
-        event.stopPropagation(); // 해당 이벤트의 전파를 중지합니다.
-    }
-});
+
+if (questionForm) {
+    questionForm.addEventListener("keypress", (event) => {
+        if (event.key === " ") {
+            event.stopPropagation(); // 해당 이벤트의 전파를 중지합니다.
+        }
+    });
+}
 
 function doUpdate(form) {
     if (!form.password.value.trim()) {
@@ -46,6 +49,7 @@ function doUpdate(form) {
         form.password.focus();
         return false;
     }
+    document.getElementById("userUpdateBtn").style.display = "none";
     form.submit();
     alert(`회원 정보를 수정했습니다.`);
 }
@@ -71,6 +75,7 @@ function hideModal() {
 }
 
 function doResignReal(form) {
+    document.getElementById("realResignBtn").style.display = "none";
     form.submit();
     alert(`회원탈퇴에 성공했습니다.`);
 }

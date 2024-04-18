@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
@@ -21,6 +22,10 @@ public class Refund {
     private String refundReason;
     private LocalDateTime refundAplctdate;
     private boolean refundWhether;
+    private String paymentIds;
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @Transient
+    private List<Payment> paymentList;
 
 
     public void setPayment(Payment payment) {
@@ -32,10 +37,11 @@ public class Refund {
     }
 
     @Builder
-    public Refund(Payment payment, String refundReason, boolean refundWhether) {
-        this.payment = payment;
+    public Refund(List<Payment>  paymentList, String refundReason, boolean refundWhether,String paymentIds) {
+        this.paymentList = paymentList;
         this.refundReason = refundReason;
         this.refundAplctdate = LocalDateTime.now();
         this.refundWhether = refundWhether;
+        this.paymentIds = paymentIds;
     }
 }

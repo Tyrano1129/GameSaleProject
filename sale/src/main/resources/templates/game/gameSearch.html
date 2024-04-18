@@ -4,7 +4,8 @@
 <head th:replace="~{fragment/header :: common_header(~{::link})}">
     <meta charset="UTF-8">
     <title>더좋은 게임</title>
-    <link rel="stylesheet" href="/css/gameSearch.css">
+    <link href="/css/gameSearch.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/modal.css">
 </head>
 <style th:replace="~{fragment/header :: bodyinit}"></style>
 
@@ -58,8 +59,6 @@
                                                 <!--<option value="salepercent" >할인율순</option>-->
                                             </select>
                                         </div>
-                                    </div>
-
                                     <div class="orderlistcontainer">
                                         <div class="title" style="text-align:left">장르</div>
                                         <div class="">
@@ -121,22 +120,6 @@
                                             </select>
                                         </div>
                                     </div>
-
-                                    <!---<div class="orderlistcontainer">
-                                        <div class="title" style="text-align:left">플랫폼 </div>
-                                        <div class="">
-                                            <select name="search_platform" id="search_platform"
-                                                class="form-control">
-                                                <option value="">::: 플랫폼 선택 :::</option>
-                                                <option value="34">Epic</option>
-                                                <option value="35">Rockstar Games Launcher</option>
-                                                <option value="1">Steam</option>
-                                                <option value="30">Ubisoft Connect</option>
-                                                <option value="32">기타</option>
-                                            </select>
-                                        </div>
-                                    </div>-->
-
                                     <div class="orderlistcontainer">
                                         <div class="title" style="text-align:left">퍼블리셔</div>
                                         <div class="">
@@ -150,24 +133,6 @@
                                             </select>
                                         </div>
                                     </div>
-
-                                    <!--<div class="orderlistcontainer">
-                                        <div class="title" style="text-align:left">언어 </div>
-                                        <div class="">
-                                            <select name="search_language" id="search_language" class="form-control">
-                                            <option value="">::: 언어 선택 :::</option>
-                                                                        <option value="한국어" >한국어</option>
-                                                                        <option value="영어" >영어</option>
-                                                                        <option value="기타" >기타</option>
-                                                                        <option value="미정" >미정</option>
-                                                                        <option value="한국어 업데이트 예정" >한국어 업데이트 예정</option>
-                                                                        </select>
-                                        </div>
-                                    </div>-->
-
-                                    <div class="orderlistcontainer">
-                                        <div class="title" style="text-align:left">한글지원</div>
-
                                         <div class="checkbox" style="text-indent:10px;font-size:14px">
                                             <label>
                                                 <input id="search_interface_korean" name="searchInterfaceKorean"
@@ -176,25 +141,7 @@
                                                        value="Y">한글화게임
                                             </label>
                                         </div>
-                                    </div>
-
-                                    <!---<div class="orderlistcontainer">
-                                        <div class="title" style="text-align:left">게임유형 </div>
-                                        <div class="">
-                                            <select name="search_goods_kind" id="search_goods_kind"
-                                                class="form-control">
-                                                <option value="">::: 게임유형 선택 :::</option>
-                                                <option value="all">전체</option>
-                                                <option value="1">기본게임</option>
-                                                <option value="2">DLC</option>
-                                                <option value="3">번들</option>
-                                            </select>
-                                        </div>
-                                    </div>--->
-
-
-                                    <div class="clear"></div>
-
+                                        <div class="clear"></div>
                                     <input class="btn btn-block btn-info" id="filterSearchBtn" type="button"
                                            value="검색하기">
                                 </div>
@@ -257,6 +204,7 @@
                                                         top: 25%;
                                                         left: 25%;"></span>
                                                     </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -268,6 +216,7 @@
                                               th:text="${!#strings.isEmpty(gameSearchDTO.getSearchKeyword()) ? gameSearchDTO.getSearchKeyword() :''}">
                                             <i class="fa fa-remove" role="button" style="cursor:pointer"></i>
                                         </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -297,8 +246,6 @@
                                             <div style="display:block;"><img alt="Steam" src="/images/steam.svg"
                                                                              width="60">
                                             </div>
-                                        </div>
-
                                         <div class="vm-product-descr-container-1" style="width:370px;padding:0;">
                                             <h2 style="font-size:14px;letter-spacing:-1px;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;width:370px;overflow:hidden;">
                                                 <a th:href="@{/game/detail/{steamAppid}(steamAppid=${game.getSteamAppid()})}"
@@ -309,12 +256,13 @@
                                                     <span class="label label-light"
                                                           style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;"
                                                           th:text="${game.getPublisher()}"></span>
-                                                <span class="label label-light"
-                                                      style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;"
-                                                      th:text="${game.getGenreList().get(0)}"></span>
-                                                <!--<span class="label label-light" style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;">18세 이용가</span>-->
-                                                <span class="label label-default"
-                                                      style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;">한국어</span>
+                                                    <span class="label label-light"
+                                                          style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;"
+                                                          th:text="${game.getGenreList().get(0)}"></span>
+                                                    <!--<span class="label label-light" style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;">18세 이용가</span>-->
+                                                    <span class="label label-default"
+                                                          style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;">한국어</span>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="vm-product-descr-container-1"
@@ -326,8 +274,6 @@
                                                 </span>
                                             </th:block>
                                         </div>
-
-
                                         <div class="vm3pr-2" style="clear:both;width:80px;padding:0;">
                                             <div class="product-price salesprice"
                                                  style="width:80px;text-align:right;padding:0;margin:0;">
@@ -338,8 +284,6 @@
                                                               th:text="${game.getFormattedPrice()}"><span
                                                                 style="font-family:dotum">\</span> </span>
                                                     </div>
-
-
                                                     <span class="price-crossed"></span>
                                                     <div class="PricesalesPrice vm-display vm-price-value"
                                                          style="padding-right:4px">
@@ -348,12 +292,9 @@
                                                               th:text="${game.getFormattedSalesPrice()}"><span
                                                                 style="font-family:dotum;">\</span></span>
                                                     </div>
+
                                                 </th:block>
                                             </div>
-                                            <div class="clear"></div>
-                                        </div>
-
-
                                         <div class="vm-button2"
                                              style="width:50px;margin:0;margin-right:8px;text-align:center;padding:0; float:right">
                                             <th:block th:if="${game.getStock() > 0}">
@@ -369,14 +310,12 @@
                                             </th:block>
                                         </div>
                                     </div>
-                                </div>
-                            </div><!--반복 col-->
+                                </div><!--반복 col-->
 
+                            </div>
+
+                            <div class="clear"></div>
                         </div>
-
-                        <div class="clear"></div>
-                    </div>
-
                     <div class="vm-pagination" style="clear:both;">
                         <input hidden="hidden" id="currPage" th:value="${gameSearchDTO.getCurrPage()}" type="number">
                         <div style="width:800px;height:38px;margin:0 auto">
@@ -412,14 +351,17 @@
 </div>
 </div>
 </div>
+<div th:replace="~{fragment/admin :: modal}"></div>
+<div class="overlay"></div>
 </body>
 
 </html>
 <script type="text/javascript">
     let searchEvent = false;
     $(document).ready(function () {
-
+        initModal();
     });
+
 
     function search(formData){
         if(searchEvent === true){
@@ -439,7 +381,7 @@
             contentType: 'application/json',
             data: jsonData,
             dataType: "json",
-            success: function(response) {
+            success: function (response) {
                 // 성공적으로 요청이 완료되면 이 부분을 실행
                 console.log(response.gameSearchDTO);
                 console.log(response.list);
@@ -448,8 +390,8 @@
 
                 var col = "";
                 $('.list-group-item').html('');
-                for(let i = 0; i < response.list.length; i++){
-                    var game =  response.list[i];
+                for (let i = 0; i < response.list.length; i++) {
+                    var game = response.list[i];
                     cal = "";
                     cal = createGameHTML(game);
                     $('.list-group-item').append(cal);
@@ -457,7 +399,7 @@
 
                 // 받은 응답에 대한 추가적인 처리를 수행할 수 있습니다.
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 // 요청이 실패하면 이 부분을 실행
                 console.error(xhr.responseText);
             }
@@ -467,7 +409,7 @@
         });
     }
 
-    $(document).on("click", '.live-link , .pageBtn', function(event) {
+    $(document).on("click", '.live-link , .pageBtn', function (event) {
         event.preventDefault();
         var formElement = $('#innerSearchForm');
         var formData = {
@@ -484,12 +426,12 @@
     });
 
 
-    $('#filterSearchBtn , #innerSearchBtn').on('click',function(event) {
+    $('#filterSearchBtn , #innerSearchBtn').on('click', function (event) {
         console.log('#filterSearchBtn #innerSearchBtn).on(click');
         var formElement = $(this).closest("form");
         var formData = null;
 
-        if($(this).attr('id') === 'innerSearchBtn'){
+        if ($(this).attr('id') === 'innerSearchBtn') {
             let innSearchVal = formElement.find('input[name="innerKeyword"]').val();
             formElement.find('input[name="innerSearchKeyword"]').val(innSearchVal);
 
@@ -502,7 +444,7 @@
                 searchKeyword: formElement.find('input[name="searchKeyword"]').val(),
                 currPage: 1
             };
-        }else{
+        } else {
             formData = {
                 innerSearchKeyword: formElement.find('input[name="innerSearchKeyword"]').val(),
                 sort: formElement.find('select[name="sort"]').val(),
@@ -516,7 +458,7 @@
         search(formData);
     });
 
-    function setValue(gameSearchDTO){
+    function setValue(gameSearchDTO) {
 
         $('#innerSearchForm input[name="innerSearchKeyword"]').val(gameSearchDTO.innerSearchKeyword);
         $('#filterSearchFrm input[name="innerSearchKeyword"]').val(gameSearchDTO.innerSearchKeyword);
@@ -539,34 +481,34 @@
 
         $('#currPage').val(gameSearchDTO.currPage);
 
-        if(gameSearchDTO.currPage > gameSearchDTO.pageSize){
+        if (gameSearchDTO.currPage > gameSearchDTO.pageSize) {
             $('#firstBtn').removeClass('disabled').removeClass('hide');
             $('#firstBtn').find('a').attr('data-page', 1);
             $('#prevBtn').removeClass('disabled').removeClass('hide');
-            $('#prevBtn').find('a').attr('data-page', gameSearchDTO.startPage-1);
-        }else{
+            $('#prevBtn').find('a').attr('data-page', gameSearchDTO.startPage - 1);
+        } else {
             $('#firstBtn').addClass('disabled').addClass('hide');
             $('#prevBtn').addClass('disabled').addClass('hide');
         }
 
-        if(gameSearchDTO.totalPage > gameSearchDTO.pageSize && gameSearchDTO.endPage < gameSearchDTO.totalPage ){
+        if (gameSearchDTO.totalPage > gameSearchDTO.pageSize && gameSearchDTO.endPage < gameSearchDTO.totalPage) {
             $('#nextBtn').removeClass('disabled').removeClass('hide');
-            $('#nextBtn').find('a').attr('data-page', gameSearchDTO.endPage+1);
-        }else {
+            $('#nextBtn').find('a').attr('data-page', gameSearchDTO.endPage + 1);
+        } else {
             $('#nextBtn').addClass('disabled').addClass('hide');
         }
-        if(gameSearchDTO.currPage != gameSearchDTO.totalPage){
+        if (gameSearchDTO.currPage != gameSearchDTO.totalPage) {
             $('#lastBtn').removeClass('disabled').removeClass('hide');
             $('#lastBtn').find('a').attr('data-page', gameSearchDTO.totalPage);
-        }else{
+        } else {
             $('#lastBtn').addClass('disabled').addClass('hide');
         }
         $('.live-link').remove();
 
         var html = '';
-        for(let i = gameSearchDTO.startPage; i <= gameSearchDTO.endPage; i++){
-            var newClass= '';
-            if(i == gameSearchDTO.currPage){
+        for (let i = gameSearchDTO.startPage; i <= gameSearchDTO.endPage; i++) {
+            var newClass = '';
+            if (i == gameSearchDTO.currPage) {
                 newClass = 'active';
             }
             html += '<li class="live-link ' + newClass + '">' +
@@ -584,12 +526,12 @@
             '<div class="spacer" style="min-height:83px">' +
             '<div class="vm-product-media-container">' +
             '<a title="' + game.name + '" href="/game/detail/' + game.steamAppid + '">';
-           if(game.platform == 'steam'){
-               html += '<img src="https://cdn.akamai.steamstatic.com/steam/apps/' + game.headerImage + '" alt="' + game.name + '" class="browseProductImage" style="width:173px;height:81px;min-width:173px">';
-           } else{
-               html += '<img src="' + game.headerImage + '" alt="' + game.name + '" class="browseProductImage" style="width:173px;height:81px;min-width:173px">';
-           }
-            html +='</a>' +
+        if (game.platform == 'steam') {
+            html += '<img src="https://cdn.akamai.steamstatic.com/steam/apps/' + game.headerImage + '" alt="' + game.name + '" class="browseProductImage" style="width:173px;height:81px;min-width:173px">';
+        } else {
+            html += '<img src="' + game.headerImage + '" alt="' + game.name + '" class="browseProductImage" style="width:173px;height:81px;min-width:173px">';
+        }
+        html += '</a>' +
             '</div>' +
             '<div style="padding: 10px 0 0 0;clear:both;float:left;width:80px;margin:0;text-align:center">' +
             '<div style="display:block;"><img src="/images/steam.svg" width="60" alt="Steam"></div>' +
@@ -635,4 +577,46 @@
         return html;
     }
 
+
+    // 장바구니에 담는 함수
+    $('.btn_cart').on('click', function () {
+        console.log(`장바구니로`);
+        console.log($(this).attr('data-appId'));
+        isLoggedIn(logTrueFalse => {
+            if (logTrueFalse) {
+                const url = "/cart/addToCart";
+                fetch(url, {
+                    method: "POST",
+                    headers: {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"},
+                    body: "appId=" + $(this).attr('data-appId'),
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        if (data === "success") {
+                            showModalCheck("장바구니에 담았습니다.")
+                        } else {
+                            showModalCheck("이미 장바구니에 등록된 상품입니다.")
+                        }
+                    })
+                    .catch(error => {
+                        console.log("error: ", error);
+                    });
+            } else {
+                showModalCheck("로그인을 하셔야 이용이 가능합니다.");
+            }
+        });
+    });
+
+    function showModalCheck(subject) {
+        document.querySelector(".modal").classList.add("active");
+        document.querySelector(".overlay").classList.add("active");
+        document.querySelector(".subject").innerHTML = subject;
+    }
+    function refundAccept(){
+        document.querySelector(".modal").classList.remove("active");
+        document.querySelector(".overlay").classList.remove("active");
+    }
+    function initModal(){
+        $('.btn-list > button:last').remove();
+    }
 </script>

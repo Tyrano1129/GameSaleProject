@@ -27,13 +27,13 @@ public class Users {
     private String provider;
     private String providerId;
 
-    // Cart 와의 일대다 관계 설정
-    @OneToMany(fetch = FetchType.LAZY)
-    @Transient
-    private List<Cart> carts;
-
-    // QnA 와의 일대다 관계 설정
-    @OneToMany(fetch = FetchType.LAZY)
-    @Transient
-    private List<QnA> qnas;
+//    // Cart 와의 일대다 관계 설정
+//    @OneToMany(fetch = FetchType.LAZY)
+//    @Transient
+//    private List<Cart> carts;
+//
+//    // QnA 와의 일대다 관계 설정
+//    @OneToMany(fetch = FetchType.LAZY)
+//    @Transient
+//    private List<QnA> qnas;
 }

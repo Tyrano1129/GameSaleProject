@@ -1,4 +1,12 @@
 const emailInput = document.getElementById("username");
+const loginForm = document.getElementById("userLoginForm");
+
+// 폼에서 엔터키, 스페이스바 작동하지 않게하기, 특정 폼에서만 동작하게하기
+loginForm.addEventListener("keypress", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+    }
+});
 
 alertError();
 
@@ -14,6 +22,7 @@ function doLogin(form) {
         return false;
     }
 
+    document.getElementById("loginBtn").style.display = "none";
     form.submit()
 }
 
