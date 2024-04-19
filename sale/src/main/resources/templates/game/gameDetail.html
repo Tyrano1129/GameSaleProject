@@ -161,7 +161,12 @@
                                                                                               cols="15" rows="15"
                                                                                               name="content"
                                                                                               class="form-control"></textarea>
-                                                                                    <p class="count">
+                                                                                    <p class="count" style="    bottom: -17px;
+                                                                                                                right: 60px;
+                                                                                                                position: absolute;
+                                                                                                                line-height: 24px;
+                                                                                                                white-space: pre-line;
+                                                                                                                word-wrap: break-word;">
                                                                                         <span>0</span> / 100
                                                                                     </p>
                                                                                     <span class="input-group-btn">
@@ -445,15 +450,18 @@
 <div class="overlay"></div>
 </body>
 </html>
-<script type="text/javascript">
+<script defer type="text/javascript">
 
-    let reportEvent = false;
-    let voteEvent = false;
-    let insertEvent = false;
+    let reportEvent;
+    let voteEvent;
+    let insertEvent;
 
     $(document).ready(function(){
         getReviewList();
         initModal();
+        reportEvent = false;
+        voteEvent = false;
+        insertEvent = false;
     });
 /* 버튼 클릭 함수 모음*/
     $('.screenshot_thumbnail').on('click', function () {
@@ -661,8 +669,9 @@
 
     /* 리뷰 추가 함수 */
     $('#insertReviewBtn').on('click', function () {
+
+        if(insertEvent === true)return;
         console.log('#insertReviewBtn.on.click');
-        if(insertEvent == true)return;
         insertEvent = true;
         var formElement = $(this).closest("form");
 
@@ -671,12 +680,14 @@
         let content =  formElement.find('textarea[name="content"]').val();
         console.log(isPositive);
         if(isPositive !="up" && isPositive != "down"){
-            showModalCheck("평가를 선택해주세요.");
+            showModalCheck("평가를 선택해주세요.")
+            insertEvent = false;
             return;
         }
         if(content == null || $.trim(content+'') ==''){
             formElement.find('textarea[name="content"]').focus();
             showModalCheck("내용을 입력해 주세요.");
+            insertEvent = false;
             return;
         }
 

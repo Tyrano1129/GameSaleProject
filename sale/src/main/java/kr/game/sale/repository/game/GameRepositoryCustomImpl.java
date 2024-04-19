@@ -55,20 +55,17 @@ public class GameRepositoryCustomImpl  implements GameRepositoryCustom{
                 .bodyToMono(String.class)
                 .block();
 
-        System.out.println("===============");
-        System.out.println(result);
         Map<String, SteamSpyDataDTO> gameMap = mapper.readValue(result, new TypeReference<Map<String, SteamSpyDataDTO>>() {
         });
         List<SteamSpyDataDTO> list = List.copyOf(gameMap.values());
         list = list.stream().filter(g -> g.getPrice() > 0).collect(Collectors.toList());
 
-        List<SteamSpyDataDTO> topTenList = list.subList(0, 5);
+        List<SteamSpyDataDTO> topTenList = list.subList(0, 20);
 
 
         List<Game> Games = new ArrayList<>();
         for (SteamSpyDataDTO game : topTenList) {
 
-            System.out.println("===============  steamAPI  ===============");
             //https://store.steampowered.com/api/appdetails?appids=730&l=korea
             String steamRs = steamAPIWebclient.get()
                     .uri(uriBuilder -> uriBuilder
@@ -80,21 +77,16 @@ public class GameRepositoryCustomImpl  implements GameRepositoryCustom{
                     .retrieve()
                     .bodyToMono(String.class).log()
                     .block();
-            System.out.println("데이터" + steamRs);
 
             JsonNode rootNode = mapper.readTree(steamRs);
             JsonNode innerDataNode = rootNode.get(String.valueOf(game.getAppid())).get("data");
             SteamGameDTO gameMap2 = mapper.readValue(innerDataNode.toString(), new TypeReference<SteamGameDTO>() {
             });
-            // SteamGame gameMap2= mapper.readValue(innerDataNode.toString(),SteamGame.class);
-
             if (gameMap2.getPriceOverview() == null) {
                 gameMap2.setNewPriceOverview(game.getPrice());
             }
-            System.out.println(gameMap2);
             Game gameObj = new Game();
             gameObj = gameObj.convertRawData(gameMap2);
-            System.out.println(gameObj);
             if(!gameObj.getName().trim().equals(game.getName().trim())){
                 gameObj.setEnName(game.getName());
             }

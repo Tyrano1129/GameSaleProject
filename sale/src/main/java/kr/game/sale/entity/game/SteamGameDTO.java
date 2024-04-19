@@ -36,6 +36,9 @@ public class SteamGameDTO {
     @JsonProperty("price_overview")
     private PriceData priceOverview;
 
+    @JsonProperty("ratings")
+    private Ratings ratings;
+
     private List<String> developers;
 
     private List<Screenshot> screenshots;
@@ -62,6 +65,8 @@ public class SteamGameDTO {
         sb.append("Movies: ").append(movies).append("\n");
         sb.append("Release Date: ").append(releaseDate).append("\n");
         sb.append("Genres: ").append(genres).append("\n");
+        if(ratings.getSteamGermany() != null)  sb.append("rating.steamGermany: ").append(ratings.getSteamGermany().getRequiredAge()).append("\n");
+        if(ratings.getPegi() != null)  sb.append("rating.pegi: ").append(ratings.getPegi().getRating()).append("\n");
         return sb.toString();
     }
 
@@ -76,6 +81,37 @@ public class SteamGameDTO {
     }
 }
 
+@ToString
+@Getter
+@Setter
+@NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+class Ratings{
+    @JsonProperty("steam_germany")
+    private SteamGermany steamGermany;
+
+    @JsonProperty("pegi")
+    private Pegi pegi;
+
+}
+
+@ToString
+@Getter
+@Setter
+@NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+class SteamGermany{
+    @JsonProperty("required_age")
+    private String requiredAge;
+}
+@ToString
+@Getter
+@Setter
+@NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+class Pegi{
+    private String rating;
+}
 
 @ToString
 @Getter
