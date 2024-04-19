@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import kr.game.sale.entity.game.Game;
 import kr.game.sale.entity.user.Users;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +21,7 @@ public class Payment {
     private Long paymentId;
     @ManyToOne(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Users user;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="gaem_id")
