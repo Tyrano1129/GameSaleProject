@@ -1,8 +1,8 @@
 // gameForm
 
 
-var filesArr = [];
-var fileNo = 0;
+let filesArr = [];
+let fileNo = 0;
 
 let files = document.querySelector("#files");
 if(files){
