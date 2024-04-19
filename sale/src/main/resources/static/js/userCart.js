@@ -21,7 +21,7 @@ $(document).ready(function () {
     // 선택 삭제 버튼 클릭 시
     $("#btn_select_delete").click(function () {
         const delBtn = document.getElementById("btn_select_delete");
-        delBtn.style.display = "none";
+        disableTheBtn(delBtn);
 
         // 선택된 주문번호 배열 초기화
         let orderNumbers = [];
@@ -69,7 +69,7 @@ $(document).ready(function () {
 // 주문하기 버튼 클릭 이벤트 핸들러
 document.getElementById("btn_order").addEventListener("click", (target) => {
     const btnOrder = document.getElementById("btn_order");
-    btnOrder.style.display = "none";
+    disableTheBtn(btnOrder);
 
     // 체크된 상품의 주문번호를 담을 배열
     let selectedItems = [];
@@ -94,7 +94,9 @@ document.getElementById("btn_order").addEventListener("click", (target) => {
             input.setAttribute("value", item);
             form.appendChild(input);
         });
+
         // 폼 전송
+        disableTheBtn(btnOrder);
         form.submit();
     } else {
         // 선택된 상품이 없는 경우 사용자에게 알림 메시지 표시
@@ -102,3 +104,10 @@ document.getElementById("btn_order").addEventListener("click", (target) => {
         location.reload();
     }
 });
+
+// 버튼을 비활성화 하는 함수
+// const btn = document.getElementById();
+function disableTheBtn(btn) {
+    btn.disabled = true;
+    btn.style.opacity = "50%";
+}

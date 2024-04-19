@@ -69,9 +69,16 @@ function validCheck(form) {
     }
 
     // ***********
-    joinBtn.style.visibility = "hidden";
+    disableTheBtn(joinBtn);
     form.submit();
     // ***********
+}
+
+// 버튼을 비활성화 하는 함수
+// const btn = document.getElementById();
+function disableTheBtn(btn) {
+    btn.disabled = true;
+    btn.style.opacity = "50%";
 }
 
 // 이메일 중복 체크하는 버튼 이벤트
