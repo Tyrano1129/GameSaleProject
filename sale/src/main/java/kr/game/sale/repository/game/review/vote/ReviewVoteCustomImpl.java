@@ -26,6 +26,6 @@ public class ReviewVoteCustomImpl implements ReviewVoteCustom{
     private BooleanExpression isEqualToId(Long userId,Long reviewId) {
 
         return Objects.isNull(userId) || Objects.isNull(reviewId)? null
-                : reviewVote.users.id.eq(userId).and(reviewVote.id.eq(reviewId));
+                : reviewVote.users.id.eq(userId).and(reviewVote.review.reviewId.eq(reviewId));
     }
 }
