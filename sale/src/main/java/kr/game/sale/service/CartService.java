@@ -56,6 +56,7 @@ public class CartService {
         view.setTotal(total);
         view.setTotalview(format.format(total));
         view.setDispriceview(format.format(disprice));
+        view.setPlatform(cart.getGame().getPlatform());
         return view;
     }
 

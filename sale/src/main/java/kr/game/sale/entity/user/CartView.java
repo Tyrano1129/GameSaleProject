@@ -21,4 +21,5 @@ public class CartView{
     private String priceview;
     private String totalview;
     private String dispriceview;
+    private String platform;
 }

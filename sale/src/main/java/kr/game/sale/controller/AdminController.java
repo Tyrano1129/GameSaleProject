@@ -131,16 +131,22 @@ public class AdminController {
 
     @PostMapping("/userListRoleUpdate")
     public @ResponseBody String userListRoleUpdate(@RequestBody List<RoleListForm> roleList) {
-        System.out.println("roleList = " + roleList);
-        for (RoleListForm list : roleList) {
-            userService.userRoleUpdate(list);
+        Users user = userService.getLoggedInUser();
+        if(user.getUserRole().toString().equals("ROLE_ADMIN")){
+            System.out.println("roleList = " + roleList);
+            for (RoleListForm list : roleList) {
+                userService.userRoleUpdate(list);
+            }
         }
         return "ok";
     }
 
     @DeleteMapping("/userOneDelete")
     public @ResponseBody String userOneDate(Long id) {
-        userService.adminUsersOneDelete(id);
+        Users user = userService.getLoggedInUser();
+        if(user.getUserRole().toString().equals("ROLE_ADMIN")){
+            userService.adminUsersOneDelete(id);
+        }
         return "ok";
     }
 

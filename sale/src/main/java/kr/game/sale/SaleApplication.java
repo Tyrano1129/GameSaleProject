@@ -1,6 +1,7 @@
 package kr.game.sale;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import kr.game.sale.entity.game.Game;
@@ -17,12 +18,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.TimeZone;
+
 @SpringBootApplication
 @RequiredArgsConstructor
 public class SaleApplication {
     private final UserRepository userRepository;
 //    private final CartRepository cartRepository;
-
+    @PostConstruct
+    public void init() {
+        // timezone 설정 JAVA 서버에 올라갔을때 위한 설정
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+    }
     public static void main(String[] args) {
         SpringApplication.run(SaleApplication.class, args);
     }
