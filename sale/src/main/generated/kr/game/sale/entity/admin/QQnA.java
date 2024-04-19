@@ -22,8 +22,6 @@ public class QQnA extends EntityPathBase<QnA> {
 
     public static final QQnA qnA = new QQnA("qnA");
 
-    public final StringPath fileName = createString("fileName");
-
     public final DateTimePath<java.time.LocalDateTime> localDateTime = createDateTime("localDateTime", java.time.LocalDateTime.class);
 
     public final StringPath qnaAnwerContent = createString("qnaAnwerContent");
