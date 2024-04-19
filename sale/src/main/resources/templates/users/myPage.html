@@ -36,6 +36,7 @@
                         <th>상품가격</th>
                         <th>결제금액</th>
                         <th>주문일자</th>
+                        <th>게임코드</th>
                     </tr>
                     <tr th:each="game : ${list.paymentList}">
                         <td th:text="${game.paymentId}"></td>
@@ -43,9 +44,10 @@
                         <td th:text="${game.gamePrice}"></td>
                         <td th:text="${game.paymentPrice}"></td>
                         <td th:text="${game.paymenDate}"></td>
+                        <td th:text="${game.gameCode}"></td>
                     </tr>
                     <tr>
-                        <td colspan="5">
+                        <td colspan="6">
                             <div th:if="${list.paymentResult == '환불요청'}">
                                 <button class="refund_btn" th:attr="paymentOrdernum=${list.ordernum}"
                                         type="button">환불요청
