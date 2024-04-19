@@ -16,6 +16,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
+import org.thymeleaf.util.StringUtils;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -224,8 +225,8 @@ public class Game implements Serializable {
 
             try {
                 game.releaseDate = convertStringToDate(rawData.getReleaseDate().getDate());
-            } catch (ParseException e) {
-                log.error("ParseException error => {}", e.getMessage());
+            } catch (Exception e) {
+                log.error("Exception error => {}", e.getMessage());
             }
 
             try {
@@ -297,7 +298,7 @@ public class Game implements Serializable {
     }
     public String convertDateToString() throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        return formatter.format(this.releaseDate);
+        return this.releaseDate == null ? "" : formatter.format(this.releaseDate);
     }
     public Date convertStringToDate(String rawDate) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 MM월 dd일");
