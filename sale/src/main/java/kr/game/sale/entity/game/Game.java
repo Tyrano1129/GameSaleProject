@@ -121,6 +121,10 @@ public class Game implements Serializable {
         this.salesPrice = salesPrice;
     }
 
+    public boolean isKoreanSupported(){
+        return this.supportedLanguages.contains("한국");
+    }
+
     public String getFormattedPrice(){
        // int bNum = price/100;
         DecimalFormat format = new DecimalFormat("#,###");

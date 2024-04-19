@@ -71,9 +71,9 @@
                                                         value="액션">
                                                     액션
                                                 </option>
-                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('어드벤쳐')}"
-                                                        value="어드벤쳐">
-                                                    어드벤쳐
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('어드벤처')}"
+                                                        value="어드벤처">
+                                                    어드벤처
                                                 </option>
                                                 <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('레이싱')}"
                                                         value="레이싱">
@@ -118,6 +118,10 @@
                                                 <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('캐주얼')}"
                                                         value="캐주얼">
                                                     캐주얼
+                                                </option>
+                                                <option th:selected="${!#strings.isEmpty(gameSearchDTO.getSearchCategory()) && gameSearchDTO.getSearchCategory().equals('인디')}"
+                                                        value="인디">
+                                                    인디
                                                 </option>
                                             </select>
                                         </div>
@@ -210,7 +214,7 @@
                 <div id="system-message-container"></div>
                 <div class="category-view">
                     <div class="browse-view">
-                        <h1 style="border-top:1px solid rgba(255,255,255,0.1);"><span>게임검색</span></h1>
+                        <h1 style="border-top:1px solid rgba(255,255,255,0.1);"><span>게임 검색</span></h1>
 
                         <div class="row" id="searchBox">
                             <div class="container">
@@ -314,7 +318,7 @@
                                                       style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;"
                                                       th:text="${game.getGenreList().get(0)}"></span>
                                                 <!--<span class="label label-light" style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;">18세 이용가</span>-->
-                                                <span class="label label-default"
+                                                <span th:if="${game.isKoreanSupported() == true}" class="label label-default"
                                                       style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;">한국어</span>
                                             </div>
                                         </div>
@@ -604,9 +608,11 @@
             '</h2>' +
             '<div class="vm3pr-customfields-product">' +
             '<span class="label label-light" style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff; margin-right: 5px">' + game.publisher + '</span>' +
-            '<span class="label label-light" style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;margin-right: 5px">' + game.genreList[0] + '</span>' +
-            '<span class="label label-default" style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;margin-right: 5px">한국어</span>' +
-            '</div>' +
+            '<span class="label label-light" style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;margin-right: 5px">' + game.genreList[0] + '</span>';
+            if(game.supportedLanguages.includes('한국')){
+                html+='<span class="label label-default" style="background: rgba(255,255,255,0.1);font-size:11px;padding-top:4px;padding-bottom:4px;color: #ffffff;margin-right: 5px">한국어</span>';
+            }
+            html +='</div>' +
             '</div>' +
             '<div class="vm-product-descr-container-1" style="width:45px;padding:0;overflow:hidden;">';
            if(game.stock > 0){
@@ -641,7 +647,7 @@
 
 
     // 장바구니에 담는 함수
-    $('.btn_cart').on('click', function () {
+    $(document).on('click','.btn_cart', function () {
         console.log(`장바구니로`);
         console.log($(this).attr('data-appId'));
         isLoggedIn(logTrueFalse => {
