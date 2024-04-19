@@ -1,14 +1,11 @@
 // gameForm
 
 
-let filesArr = [];
-let fileNo = 0;
+var filesArr = [];
+var fileNo = 0;
 
 let files = document.querySelector("#files");
 if(files){
-files.addEventListener("change", (e) => {
-    document.querySelector(".upload-name").value = e.target.value;
-});
 function addFile(obj) {
     for (const file of obj.files) {
         // 첨부파일 검증
@@ -34,15 +31,35 @@ function addFile(obj) {
         }
     }
 }
-
-function validation(obj) {
+function headerFiles(obj){
     const fileType = [
         "application/pdf",
-        "image/gif",
         "image/jpeg",
         "image/png",
         "image/bmp",
     ];
+    let files = obj.files[0];
+    console.log(files.type);
+    if (obj.files.size > 100 * 1024 * 1024) {
+        alert("최대 파일 용량인 100MB를 초과한 파일은 제외되었습니다.");
+        return false;
+
+    }else if (!fileType.includes(files.type)) {
+        alert("첨부가 불가능한 파일은 제외되었습니다.");
+        return false;
+    } else {
+        document.querySelector(".upload-name").value = obj.value;
+        return true;
+    }
+}
+function validation(obj) {
+    const fileType = [
+        "application/pdf",
+        "image/jpeg",
+        "image/png",
+        "image/bmp",
+    ];
+    console.log(obj.type);
     if (obj.size > 100 * 1024 * 1024) {
         alert("최대 파일 용량인 100MB를 초과한 파일은 제외되었습니다.");
         return false;

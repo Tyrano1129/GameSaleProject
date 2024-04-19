@@ -47,8 +47,11 @@
                                                 class="embed-responsive-item"
                                                 allow='autoplay'
                                                 th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getMovieList().get(1)} +'?autoplay=1&mute=1'}"></iframe>
+                                            <th:block th:unless="${game.getMovies() != null}">
+                                                <img th:if="${game.platform eq 'steam'}" th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getScreenshootsList().get(1)}}">
+                                                <img th:unless="${game.platform eq 'steam'}" th:src="${game.getScreenshootsList().get(0)}">
+                                            </th:block>
 
-                                            <img th:unless="${game.getMovies() != null}" th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${game.getScreenshootsList().get(1)}}">
                                         </div>
 
                                     </div>

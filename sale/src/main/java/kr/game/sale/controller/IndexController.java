@@ -39,7 +39,6 @@ public class IndexController {
         List<Game> list2 = null;
         List<Game> list3 = null;
         List<Game> list4 = null;
-        adminService.noticeInsert();
         Pageable pageable = PageRequest.of(0,5);
         Page<Notice> nList = adminService.getNoticeList(pageable,"");
         try {
