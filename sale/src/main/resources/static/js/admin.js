@@ -109,6 +109,10 @@ function valueOneUpdate(value,url){
             break;
         }
     }
+    if(!qna.qnaAnwerContent.trim()){
+        alert("답변 내용을 작성해주세요!");
+        return false;
+    }
     qna.qnaRespondent = "관리자";
     fetch("/admin/" + url, {
         method: "put",
