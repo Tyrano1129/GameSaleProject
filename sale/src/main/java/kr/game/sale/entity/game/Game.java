@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
@@ -81,7 +82,7 @@ public class Game implements Serializable {
     private String platform;
 
     private int rating;
-    private int stock;
+    private int stock = 5;
 
 
     @Transient
@@ -117,7 +118,6 @@ public class Game implements Serializable {
         this.movieList = movieList;
         this.screenshootsList = screenshootsList;
         this.salesPrice = salesPrice;
-        this.stock = stock;
     }
 
     public String getFormattedPrice(){
@@ -196,6 +196,7 @@ public class Game implements Serializable {
         try{
             //game.steamAppid = (long) rawData.getSteamAppid();
             game.platform= "steam";
+            game.stock =5;
             game.name = rawData.getName();
             game.supportedLanguages = rawData.getSupportedLanguages();
             game.detailedDescription = rawData.getDetailedDescription();
@@ -234,8 +235,7 @@ public class Game implements Serializable {
             }
             Random rd = new Random();
             game.discount = rd.nextInt(11)+5;
-            game.rating = convertRating(rawData.getRating());
-            game.stock = 5;
+            game.rating = convertRating(rawData);
 
         }catch (Exception e){
             log.error("Exception => {}", e.getMessage());
@@ -243,7 +243,14 @@ public class Game implements Serializable {
         return game;
     }
 
-    public int convertRating(int rawRate){
+    public int convertRating(SteamGameDTO rawData){
+        int rawRate =rawData.getRating();
+        if(rawData.getRatings().getSteamGermany() != null){
+            rawRate = Integer.parseInt(rawData.getRatings().getSteamGermany().getRequiredAge());
+        }
+        if(rawData.getRatings().getPegi() != null){
+            rawRate = Integer.parseInt(rawData.getRatings().getPegi().getRating());
+        }
         int rate = 19;
         if (rawRate < 17 ){
             rate = 15;
