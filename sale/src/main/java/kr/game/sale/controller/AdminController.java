@@ -41,13 +41,15 @@ public class AdminController {
     @Value("${imp.api.secretkey}")
     private String secretKey;
 
-    private GameForm init() {
+    private void init(Model model) {
+        Users user = userService.getLoggedInUser();
+        model.addAttribute("user", user);
         //gameForm 여러곳에 이용하기위한 객체 생성
-        return new GameForm();
     }
 
     @GetMapping
     public String adminForm(Model model) {
+        init(model);
         List<Game> gameList = gameService.getList();
         List<Users> userList = userService.getUserList();
         List<QnA> qnaList = adminService.getQnAList();
@@ -62,7 +64,6 @@ public class AdminController {
             }
             list.setPaymentList(pays);
         }
-
         model.addAttribute("gameList", gameList);
         model.addAttribute("userList", userList);
         model.addAttribute("qnaList", qnaList);
@@ -73,13 +74,15 @@ public class AdminController {
 
     @GetMapping("/gameForm")
     public String getGameForm(Model model) {
-        model.addAttribute("game", init());
+        init(model);
+        model.addAttribute("formUpdate","gameInsert");
         return "admin/gameForm";
     }
 
     @GetMapping("/gameUpdateForm")
     public String getUpdateForm(@RequestParam(name = "id") Long id, Model model) {
         Game game = gameService.findOneById(id);
+        init(model);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         List<String> list = game.getGenreList();
         String genres = "";
@@ -104,8 +107,11 @@ public class AdminController {
                 .build();
 
         String update = "/admin/gameUpdate";
+        Users user = userService.getLoggedInUser();
+        model.addAttribute("user", user);
         model.addAttribute("game", games);
         model.addAttribute("update", update);
+        model.addAttribute("formUpdate","gameupdate");
 
         return "admin/gameForm";
     }
@@ -144,7 +150,7 @@ public class AdminController {
         RuntimeException e = new RuntimeException();
         if (refund != null) {
             String[] payment = refund.getPaymentIds().split(",");
-            log.info("payment={}",payment.toString());
+//            log.info("payment={}",payment.toString());
             List<Payment> pays = new ArrayList<>();
             for(String pay : payment){
                 Payment p = adminService.getOnePaymet(Long.parseLong(pay));
@@ -160,7 +166,7 @@ public class AdminController {
 
     @PostMapping("/gameInsert")
     public String gmaeInsert(@ModelAttribute GameForm game) throws IOException, ParseException {
-        log.info("game={}", game);
+//        log.info("game={}", game);
         List<String> screenshotsList = new ArrayList<>();
         String[] genres = game.getGenres().split(",");
         List<String> genresList = new ArrayList<>(Arrays.asList(genres));
@@ -183,14 +189,14 @@ public class AdminController {
 
     @PostMapping("/gameUpdate")
     public String gameUpdate(@ModelAttribute GameForm game) throws IOException, ParseException {
-        log.info("game={}", game);
+//        log.info("game={}", game);
         adminService.gameUpdate(game);
         return "redirect:/admin";
     }
 
     @PutMapping("/qnaOneUpdate")
     public @ResponseBody String qnaOneUpdate(@RequestBody QnAAmdinForm admin) {
-        log.info("admin={}", admin);
+//        log.info("admin={}", admin);
         adminService.qnaOneUpdate(admin);
         return "ok";
     }

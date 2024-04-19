@@ -178,7 +178,7 @@ public class AdminService {
     public void paymentUpdate(Long id,Refund refund){
         Payment pay = getOnePayment(id);
         if(pay != null){
-            pay.setPaymentResult("환불처리완료!");
+            pay.setPaymentResult("환불처리완료");
             refund.setRefundWhether(true);
             refundRepository.save(refund);
             paymentRepository.save(pay);

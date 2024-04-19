@@ -15,16 +15,16 @@
 //         console.error("error",error);
 //     });
 // }
-window.onbeforeunload = function(e) {
-
-    return "변경된 내용이 있습니다. 페이지를 떠나시겠습니까?";
-};
 
 let editor;
 let content = document.querySelector("#contents");
 ClassicEditor.create(document.querySelector("#editor"), {
     language: "ko",
     removePlugins: ["Heading"],
+    ckfinder: {
+        uploadUrl: "/notice/image",
+        withCredentials: true,
+    },
 })
     .then((newEditor) => {
         editor = newEditor;

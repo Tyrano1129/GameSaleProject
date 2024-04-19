@@ -17,7 +17,7 @@
             <h3><a href="/admin">더조은 게임즈</a></h3>
         </header>
         <div class="adminmenu">
-            <button id="user">유저관리</button>
+            <button id="user" th:style="${user.userRole.toString() != 'ROLE_ADMIN'}? 'display:none' : null">유저관리</button>
             <button id="game">게임관리</button>
             <button id="qna">문의관리</button>
             <button id="refund">환불관리</button>
@@ -229,7 +229,7 @@
                     <th>좋아요수</th>
                     <th>삭제</th>
                 </tr>
-                <tr th:each="list : ${reviewList}">
+                <tr th:each="list : ${reviewsList}">
                     <td id="number">
                         <p th:text="${list.reviewId}">1</p>
                     </td>

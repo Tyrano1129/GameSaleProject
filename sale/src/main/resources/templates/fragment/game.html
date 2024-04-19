@@ -5,20 +5,14 @@
     <title>Title</title>
 </head>
 <body>
-<div th:fragment="gameForm" class="gameformcontainer">
+<div th:fragment="gameupdate" class="gameformcontainer">
     <h1>게임 정보</h1>
-    <form class="gameform" th:action="${update} != null? '/admin/gameUpdate' : '/admin/gameInsert'" method="post" enctype="multipart/form-data">
+    <form class="gameform" action="/admin/gameUpdate" method="post" enctype="multipart/form-data">
         <div class="gameinfo">
             <input name="id" type="hidden" th:value="${game.id} != null? ${game.id} : null">
             <div>
                 <label>게임이름</label>
-                <input  th:if="${game.name} == null"
-                        name="name"
-                        id="name"
-                        type="text"
-                        placeholder="이름을 입력해주세요."
-                        />
-                <input th:unless="${game.name} == null"
+                <input
                     name="name"
                     type="text"
                     placeholder="이름을 입력해주세요."
@@ -26,13 +20,7 @@
                        readonly />
 
                 <label>지원언어</label>
-                <input th:if="${game.supportedLanguages} == null"
-                        name="supportedLanguages"
-                        id="supportedLanguages"
-                        type="text"
-                        placeholder="지원하는 언어를 입력해주세요."
-                />
-                <input th:unless="${game.supportedLanguages} == null"
+                <input
                     name="supportedLanguages"
                     type="text"
                     placeholder="지원하는 언어를 입력해주세요."
@@ -41,35 +29,20 @@
             </div>
             <div>
                 <label>수량</label>
-                <input th:if="${game.stock} == 0" name="stock" type="number" >
-                <input th:unless="${game.stock} == 0" name="stock" type="number" th:value="${game.stock}">
+                <input  name="stock" type="number" th:value="${game.stock}">
                 <label>플랫폼</label>
-                <input th:if="${game.platform} == null" name="platform" type="text">
-                <input th:unless="${game.platform} == null"name="platform" type="text" th:value="${game.platform}" readonly />
+                <input name="platform" type="text" th:value="${game.platform}" readonly />
             </div>
             <div>
                 <label>가격</label>
                 <input
-                        th:if="${game.price} == 0"
-                        type="number"
-                        name="price"
-                        id="gameprice"
-                        placeholder="게임가격을 입력해주세요."
-                /><input
-                        th:unless="${game.price} == 0"
                         type="number"
                         name="price"
                         placeholder="게임가격을 입력해주세요."
                         th:value="${game.price}"
                         readonly />
                 <label>개발자</label>
-                <input  th:if="${game.developers} == null"
-                        type="text"
-                        name="developers"
-                        id="developers"
-                        placeholder="해당 게임의 개발사 이름적어주세요."
-                /><input
-                        th:unless="${game.developers} == null"
+                <input
                         type="text"
                         name="developers"
                         placeholder="해당 게임의 개발사 이름적어주세요."
@@ -79,22 +52,13 @@
             <div>
                 <label>발매일</label>
                 <div>
-                    <input th:if="${game.releaseDate} == null"
-                            type="date" name="releaseDate" id="releaseDate"
-                    />
-                    <input th:unless="${game.releaseDate} == null"
+                    <input
                             type="date" name="releaseDate"
                            th:value="${game.releaseDate}"
                            readonly />
                 </div>
                 <label>장르</label>
-                <input  th:if="${game.genres} == null"
-                        type="text"
-                        name="genres"
-                        id="genres"
-                        placeholder="장르 입력해주세요."
-                />
-                <input  th:unless="${game.genres} == null"
+                <input
                         type="text"
                         name="genres"
                         placeholder="장르 입력해주세요."
@@ -139,8 +103,6 @@
                     />
                     <label for="files" >파일찾기</label>
                     <input th:if="${game.headerImage} == null"
-                            name="headerFile" type="file" id="files" />
-                    <input th:unless="${game.headerImage} == null"
                             name="headerFile" type="file" disabled='disabled'/>
                 </div>
             </div>
@@ -150,14 +112,7 @@
                     <div class="buttonmulti">
                         <label for="multifile">파일찾기</label>
                     </div>
-                    <input  th:if="${game.screenshots} == null"
-                            name="screenFile"
-                            id="multifile"
-                            type="file"
-                            onchange="addFile(this);"
-                            multiple
-                    />
-                    <input  th:unless="${game.screenshots} ==null"
+                    <input  th:if="${game.screenshots} ==null"
                             name="screenFile"
                             type="file"
                             onchange="addFile(this);"
@@ -176,8 +131,124 @@
             </div>
         </div>
         <div class="buttonInsert">
+            <input type="submit" id="resultbtn" name="btn" value="수정">
+        </div>
+    </form>
+</div>
+<div th:fragment="gameInsert" class="gameformcontainer">
+    <h1>게임 정보</h1>
+    <form class="gameform" action="/admin/gameInsert" method="post" enctype="multipart/form-data">
+        <div class="gameinfo">
+            <div>
+                <label>게임이름</label>
+                <input
+                        name="name"
+                        id="name"
+                        type="text"
+                        placeholder="이름을 입력해주세요."
+                />
+                <label>지원언어</label>
+                <input
+                       name="supportedLanguages"
+                       id="supportedLanguages"
+                       type="text"
+                       placeholder="지원하는 언어를 입력해주세요."
+                />
+            </div>
+            <div>
+                <label>수량</label>
+                <input name="stock" type="number" >
+                <label>플랫폼</label>
+                <input  name="platform" type="text">
+            </div>
+            <div>
+                <label>가격</label>
+                <input
+                        type="number"
+                        name="price"
+                        id="gameprice"
+                        placeholder="게임가격을 입력해주세요."
+                />
+                <label>개발자</label>
+                <input
+                        type="text"
+                        name="developers"
+                        id="developers"
+                        placeholder="해당 게임의 개발사 이름적어주세요."
+                />
+            </div>
+            <div>
+                <label>발매일</label>
+                <div>
+                    <input
+                           type="date" name="releaseDate" id="releaseDate"
+                    />
+                </div>
+                <label>장르</label>
+                <input
+                        type="text"
+                        name="genres"
+                        id="genres"
+                        placeholder="장르 입력해주세요."
+                />
+            </div>
+        </div>
+        <div class="specificationscontainer">
+            <div class="specifications">
+                <div class="min">
+                    <label>최소사양</label>
+                    <textarea
+                            name="minRequirements"
+                            id="minRequirements"
+                            cols="50"
+                            rows="10"
+                            placeholder="내용을 입력해 주세요."
+                    ></textarea>
+                </div>
+                <div class="rcm">
+                    <label>권장사양</label>
+                    <textarea
+                            name="rcmRequirements"
+                            id="rcmRequirements"
+                            cols="50"
+                            rows="10"
+                            placeholder="내용을 입력해 주세요."
+                    ></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="imagecontainer">
+            <div class="hederiamge">
+                <h3>헤더 이미지</h3>
+                <div class="filebox">
+                    <input
+                            class="upload-name"
+                            placeholder="첨부파일"
+                    />
+                    <label for="files" >파일찾기</label>
+                    <input name="headerFile" type="file" id="files" />
+                </div>
+            </div>
+            <div class="screenshotsimge">
+                <h3>소개 이미지</h3>
+                <div class="insert">
+                    <div class="buttonmulti">
+                        <label for="multifile">파일찾기</label>
+                    </div>
+                    <input
+                            name="screenFile"
+                            id="multifile"
+                            type="file"
+                            onchange="addFile(this);"
+                            multiple
+                    />
+                    <div class="file-list">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="buttonInsert">
             <input th:if="${game} == null" type="button" id="resultbtn" name="btn" value="추가" onclick="result(form)">
-            <input th:unless="${game} == null" type="submit" id="resultbtn" name="btn" value="수정">
         </div>
     </form>
 </div>
