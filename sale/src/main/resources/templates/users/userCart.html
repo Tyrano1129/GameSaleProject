@@ -62,7 +62,7 @@
                                 <td th:text="${list.name}">상품명</td>
                                 <td th:text="${list.price}">가격</td>
                                 <td th:text="${list.discount}">할인</td>
-                                <td th:text="${list.getTotal()}">합계</td>
+                                <td name="finalPrice[]" th:text="${list.getTotal()}">합계</td>
                             </tr>
                         </table>
                         <div id="del_btn_div">
@@ -71,11 +71,13 @@
                     </fieldset>
 
                     <div class="checkout-button-top">
+                        <span>합계 : <span id="finalPrice"></span> 원</span>
                         <button class="btn btn-default btn-lg vm-button-correct" id="btn_order" name="checkout"
                                 style="font-size:16px" type="button" value="1">주문하기
                         </button>
                     </div>
                 </form>
+                <div id="bottomBlankAtCart"></div>
             </div>
             <!-- //MAIN CONTENT -->
         </div>
