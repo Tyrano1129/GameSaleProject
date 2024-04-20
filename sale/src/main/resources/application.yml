@@ -12,6 +12,9 @@ server:
       enabled: true
       charset: utf-8
     context-path: /
+  error:
+    whitelabel:
+      enabled: false
 spring:
   cloud:
     gcp:
