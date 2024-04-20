@@ -199,6 +199,7 @@ select {
 #wishlistForm #btn_division {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 #wishlistForm #btn_division button {

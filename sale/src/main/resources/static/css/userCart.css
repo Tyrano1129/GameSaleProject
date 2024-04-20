@@ -48,6 +48,11 @@
     display: flex;
     margin: 10px;
     justify-content: right;
+    align-items: center;
+}
+
+#user_cart_division .checkout-button-top button {
+    margin-left: 25px;
 }
 
 #user_cart_division #btn_order {
