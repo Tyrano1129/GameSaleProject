@@ -238,3 +238,21 @@ select {
     background-color: rgba(255, 255, 255, 0.05);
     text-align: center;
 }
+
+#myPage #refunded {
+    color: springgreen;
+    font-weight: bold;
+}
+
+#myPage #refundProgressing {
+    color: red;
+    font-weight: bold;
+}
+
+#myPage #refundRequestButton {
+    font-weight: bold;
+}
+
+#myPage #orderListBottom {
+    height: 10px;
+}
