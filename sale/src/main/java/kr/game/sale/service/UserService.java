@@ -2,7 +2,6 @@ package kr.game.sale.service;
 
 import jakarta.persistence.EntityManager;
 import kr.game.sale.entity.admin.Payment;
-import kr.game.sale.entity.admin.QnA;
 import kr.game.sale.entity.admin.Refund;
 import kr.game.sale.entity.form.PaymentView;
 import kr.game.sale.entity.form.RoleListForm;
@@ -123,9 +122,12 @@ public class UserService {
         return users;
     }
 
+    // 회원탈퇴
     @Transactional
     public void userResign() {
         Users users = getLoggedInUser();
+        if (users.getUsername().equals("admin"))
+            return;
         userRepository.deleteById(users.getId());
     }
 
@@ -202,7 +204,7 @@ public class UserService {
         return list;
     }
 
-    public Page<Users> userListPageing(Pageable pageable){
+    public Page<Users> userListPageing(Pageable pageable) {
         return userRepository.searchUser(pageable);
     }
 

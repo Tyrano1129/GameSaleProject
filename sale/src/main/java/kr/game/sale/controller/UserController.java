@@ -129,7 +129,7 @@ public class UserController {
     @PostMapping("/doResign")
     public String doResign() {
         userService.userResign();
-        return "redirect:/";
+        return "redirect:/users/logout";
     }
 
     @PostMapping("/addToWishlist")
