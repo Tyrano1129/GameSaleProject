@@ -17,4 +17,4 @@
 - ![테이블 정의서](https://github.com/Tyrano1129/GameSaleProject/blob/4656fb4228caa8a5fc21f783c82a1f5f75a99576/%ED%85%8C%EC%9D%B4%EB%B8%94%EC%A0%95%EC%9D%98%EC%84%9C.jpeg)
 ## DATABASE ERD 다이어 그램
 - ![ERD](https://github.com/Tyrano1129/GameSaleProject/blob/96ab3841d342ae93c45040232a0f2bf8c6774991/ERD%20%EB%8B%A4%EC%9D%B4%EC%96%B4%EA%B7%B8%EB%9E%A8.png)
-## 자세현 내용은 노션링크에서 확인해주세요!
+## 자세한 내용은 노션링크에서 확인해주세요!
