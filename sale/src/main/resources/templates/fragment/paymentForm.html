@@ -51,9 +51,16 @@
                             </tr>
                             <tr th:each="list ,listStat: ${orderList}">
                                 <td>
-                                    <img
+                                    <img    th:if="${list.platform eq 'steam'}"
                                             th:alt="${list.name}"
                                             th:src="'https://cdn.akamai.steamstatic.com/steam/apps' + ${list.getImg()}"
+                                            width="144"
+                                            height="81"
+                                            style="width: 144px"
+                                    />
+                                    <img    th:unless="${list.platform eq 'steam'}"
+                                            th:alt="${list.name}"
+                                            th:src="${list.getImg()}"
                                             width="144"
                                             height="81"
                                             style="width: 144px"
