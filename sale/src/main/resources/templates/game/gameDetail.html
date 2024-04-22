@@ -427,13 +427,13 @@
                                     <div class="">
                                         <div class="col-md-12">
                                             <div class="input-inline" style="display: flex; justify-content: center;">
-                                                <button type="button"  th:onclick="fn_sendFB('facebook' , [[${game.getName()}]]);" class="btn" id="btn_facebook" style="margin-right: 3px; background:#4e69a2;color:#ffffff;font-size:13px">
+                                                <button type="button"  th:onclick="fn_sendFB('facebook' , [[${game.getName()}]],'');" class="btn" id="btn_facebook" style="margin-right: 3px; background:#4e69a2;color:#ffffff;font-size:13px">
                                                     <i class="fa fa-facebook" style="background:#4e69a2;color:#ffffff"></i> 페이스북
                                                 </button>
-                                                <button type="button"  th:onclick="fn_sendFB('twitter', [[${game.getName()}]]);" class="btn" id="btn_twitter2" style="margin-right: 3px; background:#319de1;color:#ffffff;font-size:13px">
+                                                <button type="button"  th:onclick="fn_sendFB('twitter', [[${game.getName()}]],'');" class="btn" id="btn_twitter2" style="margin-right: 3px; background:#319de1;color:#ffffff;font-size:13px">
                                                     <i class="fa fa-twitter" style="background:#319de1;color:#ffffff"></i> 트위터
                                                 </button>
-                                                <button type="button"  th:onclick="fn_sendFB('kakao', [[${game.getName()}]]);" class="btn" id="btn_kakao" style="background:#FDDC3F ;font-size:13px">
+                                                <button type="button"  th:onclick="fn_sendFB('kakao', [[${game.getName()}]], [[${'https://cdn.akamai.steamstatic.com/steam/apps' + game.getHeaderImage()}]]);" class="btn" id="btn_kakao" style="background:#FDDC3F ;font-size:13px">
                                                     <i class="fa-fw fas fa-comment"  aria-hidden="true"></i>
                                                     KakaoTalk
                                                 </button>
