@@ -11,6 +11,7 @@ $(document).ready(function () {
             $('input[name="game_codes[]"]').prop("checked", false).change();
             $('input[name="checked"]').val("false");
         }
+        printFinalPrice();
     });
 
     // 각 체크박스를 클릭할 때마다 상태를 변경하는 함수
@@ -22,11 +23,12 @@ $(document).ready(function () {
 
         // game_codes[] 체크박스의 상태도 함께 변경
         $(this).closest('tr').find('input[name="game_codes[]"]').prop("checked", isChecked).change();
+        printFinalPrice();
     });
 
     // 선택 삭제 버튼 클릭 시
     $("#all_delete_btn").click(function () {
-        const btn=document.getElementById("all_delete_btn");
+        const btn = document.getElementById("all_delete_btn");
         disableTheBtn(btn);
 
         // 선택된 위시리스트번호 배열 초기화
@@ -129,4 +131,35 @@ document.getElementById("move_to_cart_btn").addEventListener("click", () => {
 function disableTheBtn(btn) {
     btn.disabled = true;
     btn.style.opacity = "50%";
+}
+
+// 합계들을 모두 합해 최종결제금액을 출력
+function printFinalPrice() {
+    console.log(`printFinalPrice() 호출됨`);
+    let finalPrice = 0;
+
+    // 각 체크박스 요소들을 가져오기
+    let checkboxes = document.querySelectorAll('input[name="sno[]"]');
+
+    // 각 체크박스 요소의 가격을 합함
+    checkboxes.forEach((obj) => {
+
+        // 체크된 체크박스만 처리
+        if (obj.checked) {
+            // 변경된 체크박스를 포함하는 tr 요소 가져오기
+            let closestTr = obj.closest('tr');
+
+            // 해당 tr 요소에서 가격을 가져오기
+            let priceElement = closestTr.querySelector('span[name="total"]');
+
+            // 체크 여부에 따라 합계에 추가하기
+            let price = parseInt(priceElement.innerText);
+
+            console.log(price);
+            finalPrice += price;
+        }
+    });
+
+    // 최종결제금액 출력
+    document.getElementById('finalPrice').innerText = finalPrice;
 }

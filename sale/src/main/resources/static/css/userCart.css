@@ -22,8 +22,8 @@
 }
 
 #user_cart_division img {
-    width: 144px;
-    height: 81px;
+    height: 75px;
+    cursor: pointer;
 }
 
 #user_cart_division button {
@@ -32,7 +32,6 @@
     padding: 5px 10px;
     font-size: 12px;
     line-height: 1.5;
-    border-color: #cccccc;
     color: #333333;
     background: linear-gradient(#ffffff, #f2f2f2);
     border: 1px solid #cccccc;
@@ -49,6 +48,11 @@
     display: flex;
     margin: 10px;
     justify-content: right;
+    align-items: center;
+}
+
+#user_cart_division .checkout-button-top button {
+    margin-left: 25px;
 }
 
 #user_cart_division #btn_order {
@@ -89,4 +93,8 @@
 
 #user_cart_division a:hover, a:active {
     text-decoration: none;
+}
+
+#user_cart_division #bottomBlankAtCart {
+    height: 250px;
 }

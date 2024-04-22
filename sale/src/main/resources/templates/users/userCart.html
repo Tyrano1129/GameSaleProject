@@ -38,14 +38,14 @@
                     <fieldset class="vm-fieldset-pricelist">
                         <table border="1" cellpadding="0" cellspacing="0" class="cart-summary" width="100%">
                             <tr>
-                                <th class="text-center" style="width:50px"><input id="chk_all" name="chk_all"
-                                                                                  type="checkbox" value="Y"></th>
+                                <th class="text-center" style="width:50px"><label for="chk_all"></label><input id="chk_all" name="chk_all"
+                                                                                                               type="checkbox" value="Y"></th>
                                 <th>주문번호</th>
                                 <th class="vm-cart-item-image">이미지</th>
                                 <th class="vm-cart-item-name">상품명</th>
-                                <th class="vm-cart-item-basicprice">가격(원)</th>
-                                <th class="vm-cart-item-discount"><span class="priceColor2">할인(%)</span></th>
-                                <th class="vm-cart-item-total">합계(원)</th>
+                                <th class="vm-cart-item-basicprice">가격</th>
+                                <th class="vm-cart-item-discount"><span class="priceColor2">할인</span></th>
+                                <th class="vm-cart-item-total">합계</th>
                             </tr>
                             <tr>
                                 <td colspan="7" style="text-align:center;height:100px"
@@ -54,7 +54,11 @@
                                 </td>
                             </tr>
                             <tr th:each="list ,listStat : ${cartViewList}">
-                                <td class="text-center"><input name="goods_code[]" type="checkbox"></td>
+                                <td class="text-center">
+                                    <label>
+                                        <input name="goods_code[]" type="checkbox">
+                                    </label>
+                                </td>
                                 <td name="goods_code[]" th:text="${list.getCartId()}"></td>
                                 <td>
                                     <img th:if="${list.platform eq 'steam'}" th:alt="${list.name}"
@@ -63,10 +67,10 @@
                                          th:src="${list.getImg()}"
                                     >
                                 </td>
-                                <td th:text="${list.name}">상품명</td>
-                                <td th:text="${list.price}">가격</td>
-                                <td th:text="${list.discount}">할인</td>
-                                <td th:text="${list.getTotal()}">합계</td>
+                                <td th:text="${list.name}"></td>
+                                <td th:text="${'￦ ' + list.price }"></td>
+                                <td th:text="${list.discount + ' %'}"></td>
+                                <td>￦ <span name="total" th:text="${list.getTotal()}"></span></td>
                             </tr>
                         </table>
                         <div id="del_btn_div">
@@ -75,11 +79,13 @@
                     </fieldset>
 
                     <div class="checkout-button-top">
+                        <span>합계 : <span id="finalPrice">0</span> 원 </span>
                         <button class="btn btn-default btn-lg vm-button-correct" id="btn_order" name="checkout"
                                 style="font-size:16px" type="button" value="1">주문하기
                         </button>
                     </div>
                 </form>
+                <div id="bottomBlankAtCart"></div>
             </div>
             <!-- //MAIN CONTENT -->
         </div>

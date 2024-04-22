@@ -32,22 +32,22 @@
                     <th>위시리스트 아이디</th>
                     <th>게임코드</th>
                     <th>상품명</th>
-                    <th>정상가(원)</th>
-                    <th>판매가(원)</th>
-                    <th>할인률(%)</th>
+                    <th>정상가</th>
+                    <th>판매가</th>
+                    <th>할인률</th>
                     <th>삭제</th>
                 </tr>
                 <tr th:each="list : ${wishlistViewList}">
                     <td><label>
-                        <input name="sno[]" type="checkbox" value="">
+                        <input name="sno[]" type="checkbox">
                     </label></td>
                     <td name="sno[]" th:text="${list.wishlistId}"></td>
                     <td name="game_codes[]" th:text="${list.steamAppid}"></td>
                     <td><a th:href="@{'/game/detail/' + ${list.steamAppid}}"><span th:text="${list.name}"></span></a>
                     </td>
-                    <td th:text="${list.price}"></td>
-                    <td th:text="${list.total}"></td>
-                    <td th:text="${list.discount}"></td>
+                    <td th:text="${'￦ ' + list.price}"></td>
+                    <td>￦ <span name="total" th:text="${list.getTotal()}"></span></td>
+                    <td th:text="${list.discount + ' %'}"></td>
                     <td>
                         <button th:onclick="|location.href='@{/users/deleteWish(wishlistId=${list.wishlistId})}'|"
                                 type="button"><i
@@ -58,6 +58,7 @@
             </table>
             <div id="btn_division">
                 <button id="all_delete_btn" type="button"><i class="fa fa-close"></i> 선택상품 삭제</button>
+                <span>합계 : <span id="finalPrice">0</span> 원 </span>
                 <button id="move_to_cart_btn" type="button"><i class="fa fa-shopping-cart"></i> 장바구니 이동</button>
             </div>
         </form>

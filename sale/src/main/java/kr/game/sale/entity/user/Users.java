@@ -4,7 +4,6 @@ import com.querydsl.core.annotations.QueryProjection;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 @Entity
 @Getter
 @Setter
