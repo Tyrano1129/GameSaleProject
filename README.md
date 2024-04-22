@@ -14,7 +14,7 @@
 ## 요구사항 정의서
 - ![MovieProject/요구사항 정의서.png]
 ## 테이블 정의서
-- ![테이블 정의서]
+- ![테이블 정의서](https://github.com/Tyrano1129/GameSaleProject/blob/4656fb4228caa8a5fc21f783c82a1f5f75a99576/%ED%85%8C%EC%9D%B4%EB%B8%94%EC%A0%95%EC%9D%98%EC%84%9C.jpeg)
 ## DATABASE ERD 다이어 그램
 - ![ERD]
 ## 프로젝트 스케줄
