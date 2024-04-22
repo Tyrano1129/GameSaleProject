@@ -12,7 +12,7 @@ public class QueryDSLConfig {
     @PersistenceContext
     private EntityManager em;
     @Bean
-    public JPAQueryFactory japqueryFactory(){
+    public JPAQueryFactory jpaqueryFactory(){
         return new JPAQueryFactory(em);
     }
 }
