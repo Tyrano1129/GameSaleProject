@@ -9,8 +9,8 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.StringExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import io.netty.util.internal.StringUtil;
 import kr.game.sale.entity.game.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -164,4 +165,21 @@ public class GameRepositoryCustomImpl  implements GameRepositoryCustom{
         };
     }
 
+    // 김진수 페이징위한 추가
+    @Override
+    public Page<Game> serchAdminGameList(Pageable pageable){
+        List<Game> content = queryFactory
+                .select(game)
+                .from(game)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Game> countQuery = queryFactory
+                .select(game)
+                .from(game);
+
+        countQuery.fetch();
+        return PageableExecutionUtils.getPage(content,pageable,()->countQuery.fetchCount());
+    }
 }

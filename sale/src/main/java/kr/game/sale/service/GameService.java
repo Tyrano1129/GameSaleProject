@@ -5,6 +5,7 @@ import kr.game.sale.entity.game.Game;
 import kr.game.sale.entity.game.GameSearchCondition;
 import kr.game.sale.entity.game.GameSearchDTO;
 import kr.game.sale.entity.game.SortType;
+import kr.game.sale.entity.game.review.Review;
 import kr.game.sale.repository.game.GameRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -70,4 +71,9 @@ public class GameService {
     public void gameOneDelete(Long id){
         gameRepository.deleteById(id);
     }
+
+    public Page<Game> gameListPage(Pageable pageable){
+        return gameRepository.serchAdminGameList(pageable);
+    }
+
 }

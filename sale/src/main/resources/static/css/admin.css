@@ -100,7 +100,6 @@ select {
 
 /* user */
 .usercontainer{
-    display: none;
     width: 100%;
 }
 .usercontainer h1{
@@ -149,7 +148,6 @@ select {
 }
 /* qna */
 .qnacontainer {
-    display: none;
     width: 100%;
 }
 .qnacontainer h1 {
@@ -226,7 +224,6 @@ select {
 }
 /* refund */
 .refundcontainer {
-    display: none;
     width: 100%;
 }
 .refundcontainer h1 {
@@ -265,7 +262,6 @@ select {
 
 /* game */
 .gamecontainer{
-    display: none;
 }
 .gameList {
     border-collapse: collapse;
@@ -431,7 +427,7 @@ input[type="file"] {
     margin-left: 10px;
 }
 .insert {
-    padding: 20px 30px;
+    padding-bottom: 5px;
     display: block;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -489,7 +485,6 @@ input[type="file"] {
 }
 /* review */
 .reviewcontainer{
-    display: none;
     width: 100%;
 }
 .reviewList {
@@ -524,4 +519,27 @@ input[type="file"] {
     text-align: center;
     color: rgb(198, 138, 61);
     margin: 20px 0px;
+}
+/* pageing*/
+.paging-admin{
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.paging-admin ul{
+    display: flex;
+
+}
+.paging-admin ul li{
+    margin-left: 10px;
+}
+.paging-admin ul li a{
+    background-color: #131418;
+    color: #ffffff;
+    display: block;
+    padding: 10px 20px;
+    border-radius: 5px;
 }

@@ -5,8 +5,10 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.LockModeType;
+import kr.game.sale.entity.game.Game;
 import kr.game.sale.entity.game.review.*;
 import kr.game.sale.entity.game.review.report.ReviewReportDTO;
 import kr.game.sale.entity.game.review.vote.ReviewVoteDTO;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -143,6 +146,23 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom{
         return queryFactory.selectFrom(review)
                 .where(review.isReported.isTrue())
                 .fetch();
+    }
+
+    @Override
+    public Page<Review> searchAdminReviews(Pageable pageable) {
+        List<Review> content = queryFactory
+                .select(review)
+                .from(review)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Review> countQuery = queryFactory
+                .select(review)
+                .from(review);
+
+        countQuery.fetch();
+        return PageableExecutionUtils.getPage(content,pageable,()->countQuery.fetchCount());
     }
 
     private BooleanExpression isEqualToFKId(Long userId,Long steamAppId) {

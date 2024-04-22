@@ -76,5 +76,7 @@ public class GameReviewService {
         return repository.findReviewsAndVoteByUserId(reviewPageDTO, pageable);
     }
 
-
+    public Page<Review> reviewsListPage(Pageable pageable){
+        return repository.searchAdminReviews(pageable);
+    }
 }
