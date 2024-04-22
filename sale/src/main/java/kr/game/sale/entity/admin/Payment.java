@@ -8,6 +8,7 @@ import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -36,8 +37,6 @@ public class Payment {
     private String paymentOrdernum; // MerchantUid
     private String gameCode;
     private String paymentResult; // 환불 요청여부
-    @Transient
-    private String paymentDateView;
     public void setPaymentResult(String paymentResult) {
         this.paymentResult = paymentResult;
     }

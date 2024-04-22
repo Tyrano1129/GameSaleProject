@@ -96,6 +96,8 @@ public class Game implements Serializable {
     private int salesPrice;
     @Transient
     private String gameDate;
+    @Transient
+    private String priceView;
 
     @Builder
     public Game(Long steamAppid, String name, String enName, String detailedDescription, String supportedLanguages, String headerImage, String minRequirements, String rcmRequirements, int price, String developers, String publisher, String screenshots, String movies, Date releaseDate, int discount, String genres, String platform, int rating, List<String> genreList, List<String> movieList, List<String> screenshootsList, int salesPrice,int stock) {

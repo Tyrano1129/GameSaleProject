@@ -262,6 +262,7 @@ public class AdminController {
                 if(game.getReleaseDate() == null){
                     continue;
                 }
+                game.setPriceView(game.getFormattedPrice());
                 game.setGameDate(format.format(game.getReleaseDate()));
             }
             gameAdminPageList.setContnet(gamePage.getContent());
@@ -357,6 +358,7 @@ public class AdminController {
             if(game.getReleaseDate() == null){
                 continue;
             }
+            game.setPriceView(game.getFormattedPrice());
             game.setGameDate(format.format(game.getReleaseDate()));
         }
         gameAdminPageList.setContnet(gamePage.getContent());
