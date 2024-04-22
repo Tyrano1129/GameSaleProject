@@ -1,6 +1,7 @@
 .noticeFormcontainer{
     display: flex;
     justify-content: center;
+    border: 1px solid #ffffff3f;;
 }
 .noticeForm h1{
     margin: 5px;

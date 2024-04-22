@@ -64,25 +64,6 @@ public class AdminController {
     @GetMapping
     public String adminForm(Model model) {
         init(model);
-//        List<Game> gameList = gameService.getList();
-//        List<Users> userList = userService.getUserList();
-//        List<QnA> qnaList = adminService.getQnAList();
-//        List<Refund> refundList = adminService.getRefundList();
-//        List<Review> reviewsList = gameReviewService.findAllReportedReviews();
-//        for(Refund list : refundList){
-//            String[] payment = list.getPaymentIds().split(",");
-//            List<Payment> pays = new ArrayList<>();
-//            for(String pay : payment){
-//                Payment p = adminService.getOnePaymet(Long.parseLong(pay));
-//                pays.add(p);
-//            }
-//            list.setPaymentList(pays);
-//        }
-//        model.addAttribute("gameList", gameList);
-//        model.addAttribute("userList", userList);
-//        model.addAttribute("qnaList", qnaList);
-//        model.addAttribute("refundList", refundList);
-//        model.addAttribute("reviewsList", reviewsList);
         return "admin/adminForm";
     }
 
@@ -253,7 +234,9 @@ public class AdminController {
             return objectMapper.writeValueAsString(qnAAdminPageList);
         }else if(type.equals("gameList")){
             ObjectMapper objectMapper = new ObjectMapper();
+            // Jackson 라이브러리 사용하여 localdatetime 을 직렬화 역직렬화함.
             objectMapper.registerModule(new JavaTimeModule());
+            // 날짜를 타임스탬프로 직렬화하지 않도록 설정
             objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Page<Game> gamePage = gameService.gameListPage(pageable);

@@ -1,11 +1,11 @@
 
 .kbody{
     border: 0;
-    width: 1200px;
+    width: 100%;
     margin-top: 30px ;
 }
 .kbody .admin-button{
-     text-align: right;
+    text-align: right;
 }
 .kbody .admin-button .noticeFormbtn{
     border: 0;
@@ -29,17 +29,23 @@
 }
 .kblocktable tbody tr th{
     background-color: #273343;
+    border-top: 1px solid #ffffff3f;
+    border-left: 1px solid #ffffff3f;
+    border-right: 1px solid #ffffff3f;
     text-align: center;
-    color: #ffffff;
+    color: #ffffffa0;
     font-size: 14px;
 }
 .kblocktable tbody tr td{
     background-color: #1b2838;
-    color: #ffffff;
-    padding: 10px 20px 10px 20px;
+    border: 1px solid #ffffff3f;
+    color: #ffffffa0;
+    padding: 5px 10px 5px 10px;
     font-size: 12px;
 }
-
+.kblocktable tbody tr td a{
+    color: #ffffffa0;
+}
 .ksearchcontainer{
     margin: 32px 0 32px 0;
     border: 0;

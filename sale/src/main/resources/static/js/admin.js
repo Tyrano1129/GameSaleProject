@@ -1,40 +1,5 @@
-// admin js
-const bList = [...document.querySelectorAll(".adminmenu button")];
-bList.forEach((b) => {
-    b.addEventListener("click", () => {
-        activereset(b);
-        b.classList = "active";
-        listOn(b);
-    });
-});
 
-function activereset() {
-    bList.forEach((b) => {
-        b.classList = "";
-    });
-}
 let checkd = false;
-function listOn(b) {
-    // if (!document.querySelector(".usercontainer")) {
-    //     location.href = "/admin";
-    // }
-    // document.querySelector(".usercontainer").style.display = "none";
-    // document.querySelector(".qnacontainer").style.display = "none";
-    // document.querySelector(".refundcontainer").style.display = "none";
-    // document.querySelector(".gamecontainer").style.display = "none";
-    // document.querySelector(".reviewcontainer").style.display="none";
-    // if (b.id === "user") {
-    //     document.querySelector(".usercontainer").style.display = "block";
-    // } else if (b.id === "game") {
-    //     document.querySelector(".gamecontainer").style.display = "block";
-    // } else if (b.id === "qna") {
-    //     document.querySelector(".qnacontainer").style.display = "block";
-    // } else if (b.id === "refund") {
-    //     document.querySelector(".refundcontainer").style.display = "block";
-    // } else if (b.id === "review") {
-    //     document.querySelector(".reviewcontainer").style.display="block";
-    // }
-}
 
 // user
 
@@ -175,8 +140,10 @@ function refundCancel() {
     location.href = "#";
 }
 
-
 function valueList(value){
+    if(checkd){
+        return;
+    }
     console.log(value);
     let data = "";
     fetch("/admin/list?type="+value,{
@@ -201,7 +168,6 @@ function valueList(value){
     .catch(error => {
      console.error('Error:', error);
     });
-
 }
 function userListView(data){
     let main = document.querySelector(".adminmain");
@@ -364,23 +330,20 @@ function qnaList(data){
             "<div class=\"qnatext\">" +
             "<label>답변 : </label>";
             if(!q.qnaIsAnswered){
-               qna +=  "<textarea" +
-                `name="qnaAnwerContent"` +
-                `id="qnaAnwerContent"` +
-                `data-id="${q.qnaId}"` +
-                `cols="50"` +
-                `rows="10"` +
-                `></textarea>`;
+               qna +=  "<textarea " +
+                `name="qnaAnwerContent" ` +
+                `id="qnaAnwerContent" ` +
+                `data-id="${q.qnaId}" ` +
+                `cols="50" ` +
+                `rows="10"></textarea>`;
             }else {
-                qna +=
-                    "<textarea" +
-                    "name=\"qnaAnwerContent\"" +
-                    `data-id="${q.qnaId}"` +
-                    `cols="50"` +
-                    `rows="10"` +
-                    `text="${q.qnaAnwerContent}"` +
+                qna +="<textarea " +
+                    `name="qnaAnwerContent" ` +
+                    `data-id="${q.qnaId}" ` +
+                    `cols="50" ` +
+                    `rows="10" ` +
                     `disabled>` +
-                    `</textarea>`
+                    `${q.qnaAnwerContent}</textarea>`;
             }
             qna+= "<div class=\"button-qna\">";
             if(!q.qnaIsAnswered){
@@ -434,7 +397,7 @@ function qnaList(data){
 
     const title = [...document.querySelectorAll(".qnatitle")];
     const number = [...document.querySelectorAll(".qnatextarray")];
-
+    const body = document.querySelector("body");
     console.log(title);
     console.log(number);
     title.forEach((t) => {
@@ -699,7 +662,7 @@ function reviewList(data){
             `<p>${view.users.userNickname}</p>` +
             "</td>" +
             "<td id=\"subject\">" +
-            `<p>${view.reviewId}</p>` +
+            `<p>${view.content}</p>` +
             "</td>" +
             "<td id=\"date\">" +
             `<p>${view.reviewDateView}</p>` +

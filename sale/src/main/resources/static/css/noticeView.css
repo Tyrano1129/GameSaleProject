@@ -5,7 +5,7 @@
     background-color: #212e3d;
     border: 1px solid #1b2838;
     margin-top: 20px;
-    height: 80%;
+    height: 100%;
 }
 .blog-featured{
     border: 1px solid #999999 ;
@@ -36,8 +36,8 @@
     margin-left: 10px;
 }
 .notice-main{
-    height: 800px;
     padding: 30px;
+    min-height: 550px;
     border-top: 1px solid #999999;
 }
 .notice-main p{
@@ -48,7 +48,7 @@
 }
 .notice-main img{
     width: 100%;
-    height: 400px;
+    height: 500px;
 }
 .notice-back{
     text-align: right;
