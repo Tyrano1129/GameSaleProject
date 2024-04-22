@@ -28,7 +28,12 @@ function showMyCart() {
     });
 }
 
-$('.genreSort').on('click',function (){
+$('.genreSort').on('click', function () {
     $(this).toggleClass('dropdown open');
     $('.dropdown-menu').toggleClass('closed');
 });
+
+// 준비중인 서비스페이지 클릭 시 경고
+function noService() {
+    alert(`현재 준비중인 서비스입니다.`);
+}
