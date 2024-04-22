@@ -359,8 +359,8 @@
                                                             </div>
                                                             <div class="vm-display">
                                                                 <span class="vm-desc">퍼블리셔 </span>
-                                                                <span class="vm-value">
-                                                                      <a href="#" th:text="${game.getPublisher()}"></a>
+                                                                <span class="vm-value" th:text="${game.getPublisher()}">
+                                                                      <!--<a href="#" th:text="${game.getPublisher()}"></a>-->
                                                                 </span>
                                                             </div>
                                                             <div class="vm-display">
@@ -418,28 +418,39 @@
 
                             <div class="clear"></div>
 
-                            <!--<div class="product-share-container">
+                            <div class="product-share-container">
                                 <div class="docs-section">
-                                    <div class="page-header">
+                                    <div style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);   margin: -20px -20px 20px -20px;">
                                         <h2 style="font-size:16px;text-indent:20px">공유하기</h2>
+
                                     </div>
-                                    <div class="row">
+                                    <div class="">
                                         <div class="col-md-12">
-                                            <div class="input-inline">
-                                                &lt;!&ndash;<button type="button" class="btn" id="btn_facebook" style="background:#4e69a2;color:#ffffff;font-size:13px"><i class="fa fa-facebook" style="background:#4e69a2;color:#ffffff"></i> 페이스북</button>&ndash;&gt;
-                                                <button type="button" class="btn btn_facebook" id="btn_facebook"><i
-                                                        class="fa fa-facebook"
-                                                        style="background:#4e69a2;color:#ffffff;font-size:32px;"></i></button>
-                                                <button type="button" class="btn btn_x" id="btn_twitter"><img
-                                                        src="/images/sns/logo-x.svg"
-                                                        style="width:32px;height:32px;"></button>
-                                                &lt;!&ndash;<button type="button" class="btn" id="btn_twitter" style="background:#319de1;color:#ffffff;font-size:13px"><i class="fa fa-twitter" style="background:#319de1;color:#ffffff"></i> 트위터</button>&ndash;&gt;
-                                                &lt;!&ndash;<button type="button" class="btn" id="btn_google" style="background:#df513f;color:#ffffff;font-size:13px"><i class="fa fa-google-plus" style="background:#df513f;color:#ffffff"></i> 구글+</button>&ndash;&gt;
+                                            <div class="input-inline" style="display: flex; justify-content: center;">
+                                                <button type="button"  th:onclick="fn_sendFB('facebook' , [[${game.getName()}]]);" class="btn" id="btn_facebook" style="margin-right: 3px; background:#4e69a2;color:#ffffff;font-size:13px">
+                                                    <i class="fa fa-facebook" style="background:#4e69a2;color:#ffffff"></i> 페이스북
+                                                </button>
+                                                <button type="button"  th:onclick="fn_sendFB('twitter', [[${game.getName()}]]);" class="btn" id="btn_twitter2" style="margin-right: 3px; background:#319de1;color:#ffffff;font-size:13px">
+                                                    <i class="fa fa-twitter" style="background:#319de1;color:#ffffff"></i> 트위터
+                                                </button>
+                                                <button type="button"  th:onclick="fn_sendFB('kakao', [[${game.getName()}]]);" class="btn" id="btn_kakao" style="background:#FDDC3F ;font-size:13px">
+                                                    <i class="fa-fw fas fa-comment"  aria-hidden="true"></i>
+                                                    KakaoTalk
+                                                </button>
+                                                <!-- &ndash;&gt;
+                                                 <button type="button" class="btn btn_facebook" id="btn_facebook2"><i
+                                                         class="fa fa-facebook"
+                                                         style="background:#4e69a2;color:#ffffff;font-size:32px;"></i></button>
+                                                 <button type="button" class="btn btn_x" id="btn_twitter"><img
+                                                         src="/images/sns/logo-x.svg"
+                                                         style="width:32px;height:32px;"></button>
+                                                 &lt;!&ndash;-->
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>-->
+                            </div>
                         </div><!-- right -->
                     </div>
                     </div>
@@ -873,3 +884,5 @@ $('.btn_cart').on('click', function () {
         });
     });
 </script>
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script defer src="/js/sns.js" type="text/javascript"></script>

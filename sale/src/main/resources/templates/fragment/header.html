@@ -15,7 +15,7 @@
     <!-- font-awesome   -->
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" type="text/css"/>
     <!-- 로그인 중 -->
-    <script src="/js/header.js"></script>
+    <script defer src="/js/header.js"></script>
     <!--  ckeditor  -->
     <script src="https://cdn.ckeditor.com/ckeditor5/41.3.0/classic/ckeditor.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
@@ -80,10 +80,29 @@
             <div class="megamenu">
                 <ul class="navbar-nav">
                     <li>
-                        <a href="/game/search/fromMain">게임</a>
+                        <a href="/game/search/fromMain">전체 게임</a>
                     </li>
-                    <li>
-                        <a href="#">프로모션</a>
+                    <li class="genreSort" style="position: relative">
+                        <a href="javascript:void(0);">카테고리</a>
+                        <div class="nav-child dropdown-menu mega-dropdown-menu closed">
+                            <div class="mega-dropdown-inner">
+                                <div>
+                                    <div class="col-xs-12 mega-col-nav" data-width="12">
+                                        <div class="mega-inner">
+                                            <ul class="level1">
+                                                <li><a th:href="@{/game/categorySearch/{category}(category='액션')}">액션</a></li>
+                                                <li><a th:href="@{/game/categorySearch/{category}(category='어드벤처')}" >어드벤처</a></li>
+                                                <li><a th:href="@{/game/categorySearch/{category}(category='RPG')}">RPG</a></li>
+                                                <li><a th:href="@{/game/categorySearch/{category}(category='시뮬레이션')}" >시뮬레이션</a></li>
+                                                <li><a th:href="@{/game/categorySearch/{category}(category='전략')}">전략</a></li>
+                                                <li><a th:href="@{/game/categorySearch/{category}(category='캐주얼')}">캐주얼</a></li>
+                                                <li><a th:href="@{/game/categorySearch/{category}(category='인디')}">인디</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </li>
                     <li>
                         <a href="/notice">공지사항</a>

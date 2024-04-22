@@ -27,3 +27,8 @@ function showMyCart() {
         }
     });
 }
+
+$('.genreSort').on('click',function (){
+    $(this).toggleClass('dropdown open');
+    $('.dropdown-menu').toggleClass('closed');
+});
