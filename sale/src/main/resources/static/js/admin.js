@@ -175,27 +175,6 @@ function refundCancel() {
     location.href = "#";
 }
 
-const title = [...document.querySelectorAll(".qnatitle")];
-const number = [...document.querySelectorAll(".qnatextarray")];
-
-console.log(title);
-console.log(number);
-title.forEach((t) => {
-    t.addEventListener("click", () => {
-        let data = t.getAttribute("data-id");
-        qnaTextOn(data);
-    });
-});
-function qnaTextOn(id) {
-    number.forEach((num) => {
-        let number = num.getAttribute("data-id");
-        if (id === number) {
-            num.style.display = "table-row";
-        } else {
-            num.style.display = "none";
-        }
-    });
-}
 
 function valueList(value){
     console.log(value);
@@ -452,6 +431,28 @@ function qnaList(data){
         "</div>";
 
     main.innerHTML = qna + pageing;
+
+    const title = [...document.querySelectorAll(".qnatitle")];
+    const number = [...document.querySelectorAll(".qnatextarray")];
+
+    console.log(title);
+    console.log(number);
+    title.forEach((t) => {
+        t.addEventListener("click", () => {
+            let data = t.getAttribute("data-id");
+            qnaTextOn(data);
+        });
+    });
+    function qnaTextOn(id) {
+        number.forEach((num) => {
+            let number = num.getAttribute("data-id");
+            if (id === number) {
+                num.style.display = "table-row";
+            } else {
+                num.style.display = "none";
+            }
+        });
+    }
 }
 function qnApageList(page,size){
     fetch("/admin/qnaPageList?page="+page+"&size="+size,{
