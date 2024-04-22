@@ -7,6 +7,9 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.ConstructorExpression;
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.PathInits;
 
 
@@ -17,6 +20,10 @@ import com.querydsl.core.types.dsl.PathInits;
 public class QQnA extends EntityPathBase<QnA> {
 
     private static final long serialVersionUID = 673185004L;
+
+    public static ConstructorExpression<QnA> create(Expression<Long> qnaId, Expression<? extends kr.game.sale.entity.user.Users> users, Expression<String> qnaTitle, Expression<String> qnaContent, Expression<java.time.LocalDateTime> localDateTime, Expression<Boolean> qnaIsAnswered, Expression<String> qnaRespondent, Expression<String> qnaAnwerContent) {
+        return Projections.constructor(QnA.class, new Class<?>[]{long.class, kr.game.sale.entity.user.Users.class, String.class, String.class, java.time.LocalDateTime.class, boolean.class, String.class, String.class}, qnaId, users, qnaTitle, qnaContent, localDateTime, qnaIsAnswered, qnaRespondent, qnaAnwerContent);
+    }
 
     private static final PathInits INITS = PathInits.DIRECT2;
 

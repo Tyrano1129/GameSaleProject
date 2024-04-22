@@ -32,5 +32,6 @@ public interface ReviewRepositoryCustom {
     public long reportReview(ReviewReportDTO reviewReportDTO);
 
     public List<Review> findAllReportedReviews();
+    Page<Review> searchAdminReviews(Pageable pageable);
 
 }

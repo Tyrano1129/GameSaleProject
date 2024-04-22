@@ -1,25 +1,28 @@
 package kr.game.sale.entity.admin;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.querydsl.core.annotations.QueryProjection;
 import jakarta.persistence.*;
 import kr.game.sale.entity.user.Users;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
-
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
+@Setter
 public class QnA {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long qnaId;
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne
     @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Users users;
@@ -46,5 +49,21 @@ public class QnA {
         this.qnaIsAnswered = true;
         this.qnaRespondent = qnaRespondent;
         this.qnaAnwerContent = qnaAnwerContent;
+    }
+
+    @QueryProjection
+    public QnA(Long qnaId, Users users, String qnaTitle, String qnaContent, LocalDateTime localDateTime, boolean qnaIsAnswered, String qnaRespondent, String qnaAnwerContent) {
+        this.qnaId = qnaId;
+        this.users = users;
+        this.qnaTitle = qnaTitle;
+        this.qnaContent = qnaContent;
+        this.localDateTime = localDateTime;
+        this.qnaIsAnswered = qnaIsAnswered;
+        this.qnaRespondent = qnaRespondent;
+        this.qnaAnwerContent = qnaAnwerContent;
+    }
+
+    public boolean qnaIsAnswered(){
+        return this.qnaIsAnswered;
     }
 }

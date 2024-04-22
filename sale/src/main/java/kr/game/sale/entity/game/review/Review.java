@@ -40,12 +40,12 @@ public class Review {
     @ColumnDefault("0")
     private int voteCnt;
 
-    @ManyToOne(fetch = FetchType.LAZY )
+    @ManyToOne
     @JoinColumn(name="steam_appid" , referencedColumnName = "steam_appid", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Game game;
 
-    @ManyToOne(fetch = FetchType.LAZY )
+    @ManyToOne
     @JoinColumn(name="user_id" , referencedColumnName ="user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Users users;

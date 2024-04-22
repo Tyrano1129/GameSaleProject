@@ -41,8 +41,8 @@
                     <tr th:each="game : ${list.paymentList}">
                         <td th:text="${game.paymentId}"></td>
                         <td th:text="${game.gameName}"></td>
-                        <td th:text="${game.gamePrice}"></td>
-                        <td th:text="${game.paymentPrice}"></td>
+                        <td th:text="${'￦ ' + game.gamePrice}"></td>
+                        <td th:text="${'￦ ' + game.paymentPrice}"></td>
                         <td th:text="${game.paymenDate}"></td>
                         <td th:text="${game.gameCode}"></td>
                     </tr>
@@ -50,15 +50,18 @@
                         <td colspan="6">
                             <div th:if="${list.paymentResult == '환불요청'}">
                                 <button class="refund_btn" th:attr="paymentOrdernum=${list.ordernum}"
-                                        type="button">환불요청
-                                </button>
+                                        type="button" id="refundRequestButton">환불요청</button>
                             </div>
-                            <div th:if="${list.paymentResult != '환불요청'}">
-                                <span th:text="${list.paymentResult}"></span>
+                            <div th:if="${list.paymentResult == '환불처리완료'}">
+                                <span id="refunded" th:text="${list.paymentResult}"></span>
+                            </div>
+                            <div th:if="${list.paymentResult == '환불처리중'}">
+                                <span id="refundProgressing" th:text="${list.paymentResult}"></span>
                             </div>
                         </td>
                     </tr>
                 </table>
+                <div id="orderListBottom"></div>
             </th:block>
             <div id="refundOverlay"></div>
             <div id="refundModal">

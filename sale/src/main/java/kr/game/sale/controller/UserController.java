@@ -4,8 +4,10 @@ import kr.game.sale.entity.admin.Payment;
 import kr.game.sale.entity.form.PaymentView;
 import kr.game.sale.entity.form.WishRequest;
 import kr.game.sale.entity.user.Users;
-import kr.game.sale.repository.admin.PaymentRepository;
-import kr.game.sale.service.*;
+import kr.game.sale.service.CartService;
+import kr.game.sale.service.QnAService;
+import kr.game.sale.service.UserService;
+import kr.game.sale.service.WishlistService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -14,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -81,15 +82,15 @@ public class UserController {
     public String myPage(Model model) {
         Users user = userService.getLoggedInUser();
         List<Payment> paymentList = userService.findAllByUser(user);
-        if(paymentList.isEmpty())
+        if (paymentList.isEmpty())
             return "users/myPage";
         // order 담기
         List<String> ordernum = userService.orderNumList(paymentList);
-        List<PaymentView> list = userService.paymentViewList(paymentList,ordernum);
-        log.info("ordernum = {}",ordernum);
-        log.info("paymentList = {}",paymentList);
-        log.info("list = {}",list);
-        model.addAttribute("list",list);
+        List<PaymentView> list = userService.paymentViewList(paymentList, ordernum);
+        log.info("ordernum = {}", ordernum);
+        log.info("paymentList = {}", paymentList);
+        log.info("list = {}", list);
+        model.addAttribute("list", list);
         return "users/myPage";
     }
 
@@ -168,4 +169,8 @@ public class UserController {
         return "redirect:/cart/myCart";
     }
 
+    @GetMapping("/userQuestionForm")
+    public String goToQuestionForm() {
+        return "users/userQuestionForm";
+    }
 }

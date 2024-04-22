@@ -304,4 +304,11 @@ public class AdminService {
         log.info("Iamport 액서스 토큰 발급 성공 : {}",accessToken);
         return accessToken;
     }
+
+    public Page<QnA> qnaListPageing(Pageable pageable){
+        return qnARepository.serachQnA(pageable);
+    }
+    public Page<Refund> refundListPageing(Pageable pageable){
+        return refundRepository.serchRefund(pageable);
+    }
 }
