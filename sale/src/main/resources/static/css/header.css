@@ -166,12 +166,12 @@ nav .container{
     margin: 0;
     padding-left: 0;
 }
-.navbar-nav li{
+.navbar-nav>li{
     padding-right: 5px;
     border-right: 1px solid rgba(255, 255, 255, 0.1);
     border-left: 1px solid rgba(0, 0, 0, 0.3);
 }
-.navbar-nav li a{
+.navbar-nav>li>a{
     font-size: 14px;
     font-weight: bold;
     background: linear-gradient(#182331, #0f1720);
@@ -219,4 +219,58 @@ nav .container{
 }
 .btn-youtube-link i{
     margin-right: 5px;
+}
+
+
+.navbar-nav>li.dropdown.open>a:after {
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent #67c1f5 transparent;
+    bottom: 0;
+    content: "";
+    position: absolute;
+    margin-left: -6px;
+    left: 50%;
+}
+.dropdown-menu.mega-dropdown-menu.closed {
+    opacity: 0;
+    display: none;
+}
+.dropdown-menu.mega-dropdown-menu {
+    border-top: 3px solid #67c1f5;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+    width: 100px;
+    position: absolute;
+    left: 0;
+    background-color: #1b2838;
+    z-index: 10;
+    opacity: 0.95;
+}
+
+.dropdown-menu li {
+
+    list-style: none;
+}
+
+.dropdown-menu ul {
+    padding: 10px;
+}
+.dropdown-menu li a:hover{
+    color: rgba(255, 255, 255, 1);
+}
+.dropdown-menu li a,
+.dropdown-menu li a {
+    color: rgba(255, 255, 255, 0.5);
+    padding-left: 0;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    font-size: 13px;
+}
+
+.dropdown-menu .mega-nav.level1>li a,
+.dropdown-menu .mega-nav>li a {
+    white-space: normal;
+    display: block;
+    padding: 5px;
 }

@@ -64,9 +64,6 @@ public class GameController {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("releaseDate").ascending());
         Page<Game> list = gameService.searchGamesByKeyword(dto,pageable);
         List<String> publishers = gameService.findAllPublishers();
-        for(Game g : list){
-            System.out.println(g);
-        }
         dto.setPageCxt(1, list.getTotalPages());
 
        // log.info("gameSearchDTO =>{}"+dto);
@@ -76,6 +73,25 @@ public class GameController {
 
         return "game/gameSearch";
     }
+
+    @GetMapping("/categorySearch/{category}")
+    public String categorySearch(@PathVariable("category") String category, Model model){
+
+        GameSearchDTO dto = new GameSearchDTO();
+        dto.setSearchCategory(category);
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("releaseDate").ascending());
+        Page<Game> list = gameService.searchGamesByKeyword(dto,pageable);
+        List<String> publishers = gameService.findAllPublishers();
+        dto.setPageCxt(1, list.getTotalPages());
+
+        // log.info("gameSearchDTO =>{}"+dto);
+        model.addAttribute("gameSearchDTO", dto);
+        model.addAttribute("list",list);
+        model.addAttribute("publishers",publishers);
+
+        return "game/gameSearch";
+    }
+
 
     @GetMapping("/search/fromMain")
     public String searchMain(Model model){
