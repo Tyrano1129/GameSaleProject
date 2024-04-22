@@ -35,10 +35,10 @@ public class SaleApplication {
     }
 
     // 스프링 빈 컨테이너에 우리가 직접 등록
-    @Bean
-    public JPAQueryFactory jpaQueryFactory(EntityManager em) {
-        return new JPAQueryFactory(em);
-    }
+//    @Bean
+//    public JPAQueryFactory jpaQueryFactory(EntityManager em) {
+//        return new JPAQueryFactory(em);
+//    }
 
     // 회원가입시 비밀번호 암호화 하는 빈
     @Bean

@@ -1,16 +1,15 @@
 package kr.game.sale.entity.user;
 
+import com.querydsl.core.annotations.QueryProjection;
 import jakarta.persistence.*;
-import kr.game.sale.entity.admin.QnA;
-import kr.game.sale.entity.game.review.Review;
-import lombok.Data;
-import net.minidev.json.annotate.JsonIgnore;
+import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,4 +35,18 @@ public class Users {
 //    @OneToMany(fetch = FetchType.LAZY)
 //    @Transient
 //    private List<QnA> qnas;
+
+
+    @QueryProjection
+    public Users(Long id, String username, String password, String userNickname, String userPhone, UserRole userRole, String provider, String providerId) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.userNickname = userNickname;
+        this.userPhone = userPhone;
+        this.userRole = userRole;
+        this.provider = provider;
+        this.providerId = providerId;
+    }
+
 }

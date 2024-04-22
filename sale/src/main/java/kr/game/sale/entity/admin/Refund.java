@@ -3,6 +3,7 @@ package kr.game.sale.entity.admin;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,7 +21,8 @@ public class Refund {
     private LocalDateTime refundAplctdate;
     private boolean refundWhether;
     private String paymentIds;
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany
     @Transient
     private List<Payment> paymentList;
 

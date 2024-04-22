@@ -1,11 +1,20 @@
 package kr.game.sale.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import kr.game.sale.entity.admin.Payment;
 import kr.game.sale.entity.admin.QnA;
 import kr.game.sale.entity.admin.Refund;
-import kr.game.sale.entity.form.GameForm;
-import kr.game.sale.entity.form.QnAAmdinForm;
-import kr.game.sale.entity.form.RoleListForm;
+import kr.game.sale.entity.form.*;
 import kr.game.sale.entity.game.Game;
 import kr.game.sale.entity.game.review.Review;
 import kr.game.sale.entity.user.Users;
@@ -13,6 +22,9 @@ import kr.game.sale.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +33,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -207,4 +221,195 @@ public class AdminController {
         return "ok";
     }
 
+    @GetMapping("/list")
+    public @ResponseBody String getList(@RequestParam("type") String type) throws JsonProcessingException {
+        Pageable pageable = PageRequest.of(0,5);
+        if(type.equals("userList")){
+            Page<Users> usersPage = userService.userListPageing(pageable);
+            AdminPageList<Users> usersAdminPageList = new AdminPageList<>();
+            // 해당 비동기
+            usersAdminPageList.setContnet(usersPage.getContent());
+            usersAdminPageList.setStart(0);
+            usersAdminPageList.setEnd(5);
+            usersAdminPageList.setTotal(usersPage.getTotalPages());
+            usersAdminPageList.setPage(usersPage.getNumber());
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+            log.info("list = {}",gson.toJson(usersAdminPageList));
+            return gson.toJson(usersAdminPageList);
+        }else if(type.equals("qnaList")){
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+            Page<QnA> qnaPage = adminService.qnaListPageing(pageable);
+            AdminPageList<QnA> qnAAdminPageList = new AdminPageList<>();
+
+            qnAAdminPageList.setContnet(qnaPage.getContent());
+            qnAAdminPageList.setStart(0);
+            qnAAdminPageList.setEnd(5);
+            qnAAdminPageList.setTotal(qnaPage.getTotalPages());
+            qnAAdminPageList.setPage(qnaPage.getNumber());
+
+            log.info("test ={}",objectMapper.writeValueAsString(qnAAdminPageList));
+            return objectMapper.writeValueAsString(qnAAdminPageList);
+        }else if(type.equals("gameList")){
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+            Page<Game> gamePage = gameService.gameListPage(pageable);
+            AdminPageList<Game> gameAdminPageList = new AdminPageList<>();
+
+            gameAdminPageList.setContnet(gamePage.getContent());
+            gameAdminPageList.setStart(0);
+            gameAdminPageList.setEnd(5);
+            gameAdminPageList.setTotal(gamePage.getTotalPages());
+            gameAdminPageList.setPage(gamePage.getNumber());
+
+            log.info("test ={}",objectMapper.writeValueAsString(gameAdminPageList));
+            return objectMapper.writeValueAsString(gameAdminPageList);
+        }else if(type.equals("refundList")){
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+            Page<Refund> refundPage = adminService.refundListPageing(pageable);
+            for(Refund list : refundPage.getContent()){
+                String[] payment = list.getPaymentIds().split(",");
+                List<Payment> pays = new ArrayList<>();
+                for(String pay : payment){
+                    Payment p = adminService.getOnePaymet(Long.parseLong(pay));
+                    pays.add(p);
+                }
+                list.setPaymentList(pays);
+            }
+            AdminPageList<Refund> refundAdminPageList = new AdminPageList<>();
+
+            refundAdminPageList.setContnet(refundPage.getContent());
+            refundAdminPageList.setStart(0);
+            refundAdminPageList.setEnd(5);
+            refundAdminPageList.setTotal(refundPage.getTotalPages());
+            refundAdminPageList.setPage(refundPage.getNumber());
+            log.info("test ={}",objectMapper.writeValueAsString(refundAdminPageList));
+            return objectMapper.writeValueAsString(refundAdminPageList);
+        }else if(type.equals("reviewList")){
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+            Page<Review> reviewPage = gameReviewService.reviewsListPage(pageable);
+            AdminPageList<Review> reviewAdminPageList = new AdminPageList<>();
+
+            reviewAdminPageList.setContnet(reviewPage.getContent());
+            reviewAdminPageList.setStart(0);
+            reviewAdminPageList.setEnd(5);
+            reviewAdminPageList.setTotal(reviewPage.getTotalPages());
+            reviewAdminPageList.setPage(reviewPage.getNumber());
+            log.info("test ={}",objectMapper.writeValueAsString(reviewAdminPageList));
+            return objectMapper.writeValueAsString(reviewAdminPageList);
+        }
+        return null;
+    }
+
+    @GetMapping("/userPageList")
+    public @ResponseBody String getPageList(int page, int size){
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Users> usersPage = userService.userListPageing(pageable);
+        AdminPageList<Users> usersAdminPageList = new AdminPageList<>();
+        // 해당 비동기
+        usersAdminPageList.setContnet(usersPage.getContent());
+        usersAdminPageList.setPage(usersPage.getNumber());
+        usersAdminPageList.setStart(0);
+        usersAdminPageList.setEnd(5);
+        usersAdminPageList.setTotal(usersPage.getTotalPages());
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        log.info("list = {}",gson.toJson(usersAdminPageList));
+        return gson.toJson(usersAdminPageList);
+    }
+
+    @GetMapping("/qnaPageList")
+    public @ResponseBody String getqnaPageList(int page, int size) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        Pageable pageable = PageRequest.of(page,size);
+        Page<QnA> qnaPage = adminService.qnaListPageing(pageable);
+        AdminPageList<QnA> qnAAdminPageList = new AdminPageList<>();
+        // 해당 비동기
+
+        qnAAdminPageList.setContnet(qnaPage.getContent());
+        qnAAdminPageList.setStart(0);
+        qnAAdminPageList.setEnd(5);
+        qnAAdminPageList.setTotal(qnaPage.getTotalPages());
+        qnAAdminPageList.setPage(qnaPage.getNumber());
+
+        log.info("test ={}",objectMapper.writeValueAsString(qnAAdminPageList));
+        return objectMapper.writeValueAsString(qnAAdminPageList);
+    }
+
+    @GetMapping("/gamePageList")
+    public @ResponseBody String getGamePageList(int page,int size) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Game> gamePage = gameService.gameListPage(pageable);
+        AdminPageList<Game> gameAdminPageList = new AdminPageList<>();
+        // 해당 비동기
+
+        gameAdminPageList.setContnet(gamePage.getContent());
+        gameAdminPageList.setStart(0);
+        gameAdminPageList.setEnd(5);
+        gameAdminPageList.setTotal(gamePage.getTotalPages());
+        gameAdminPageList.setPage(gamePage.getNumber());
+
+        log.info("test ={}",objectMapper.writeValueAsString(gameAdminPageList));
+        return objectMapper.writeValueAsString(gameAdminPageList);
+    }
+
+    @GetMapping("/refundPageList")
+    public @ResponseBody String getRefundPageList(int page,int size) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Refund> refundPage = adminService.refundListPageing(pageable);
+        for(Refund list : refundPage.getContent()){
+            String[] payment = list.getPaymentIds().split(",");
+            List<Payment> pays = new ArrayList<>();
+            for(String pay : payment){
+                Payment p = adminService.getOnePaymet(Long.parseLong(pay));
+                pays.add(p);
+            }
+            list.setPaymentList(pays);
+        }
+        AdminPageList<Refund> refundAdminPageList = new AdminPageList<>();
+
+        refundAdminPageList.setContnet(refundPage.getContent());
+        refundAdminPageList.setStart(0);
+        refundAdminPageList.setEnd(5);
+        refundAdminPageList.setTotal(refundPage.getTotalPages());
+        refundAdminPageList.setPage(refundPage.getNumber());
+        log.info("test ={}",objectMapper.writeValueAsString(refundAdminPageList));
+        return objectMapper.writeValueAsString(refundAdminPageList);
+    }
+
+    @GetMapping("/getReviewPageList")
+    public @ResponseBody String getReviewPageList(int page,int size) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Review> reviewPage = gameReviewService.reviewsListPage(pageable);
+        AdminPageList<Review> reviewAdminPageList = new AdminPageList<>();
+
+        reviewAdminPageList.setContnet(reviewPage.getContent());
+        reviewAdminPageList.setStart(0);
+        reviewAdminPageList.setEnd(5);
+        reviewAdminPageList.setTotal(reviewPage.getTotalPages());
+        reviewAdminPageList.setPage(reviewPage.getNumber());
+        log.info("test ={}",objectMapper.writeValueAsString(reviewAdminPageList));
+        return objectMapper.writeValueAsString(reviewAdminPageList);
+    }
 }
