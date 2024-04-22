@@ -36,6 +36,8 @@ public class Payment {
     private String paymentOrdernum; // MerchantUid
     private String gameCode;
     private String paymentResult; // 환불 요청여부
+    @Transient
+    private String paymentDateView;
     public void setPaymentResult(String paymentResult) {
         this.paymentResult = paymentResult;
     }

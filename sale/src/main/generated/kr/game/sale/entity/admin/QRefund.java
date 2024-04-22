@@ -27,6 +27,8 @@ public class QRefund extends EntityPathBase<Refund> {
 
     public final StringPath refundReason = createString("refundReason");
 
+    public final StringPath refundViewDate = createString("refundViewDate");
+
     public final BooleanPath refundWhether = createBoolean("refundWhether");
 
     public QRefund(String variable) {

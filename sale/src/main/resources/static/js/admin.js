@@ -283,20 +283,10 @@ function userListView(data){
     pageing +=
         "<div class='paging-admin'>" +
         "    <ul>";
-    if(data.end >= data.total){
-        data.end = data.total;
-    }
 
-    if(data.page >= data.end){
-        data.start = data.page;
-        data.end = data.start + 5;
-    }else if(data.page < data.start){
-        data.start = data.start - 5;
-        data.end = data.end + 5;
-    }
     if(data.start >= 5){
       pageing+=  "      <li>" +
-        `       <a href='javascript:userPageList(${data.start-1},${5})'>${j}</a>` +
+        `       <a href='javascript:userPageList(${data.start-1},${5})'><</a>` +
         "      </li>" ;
     }else if(data.start < 5){
       pageing+=  "      <li>" +
@@ -313,7 +303,7 @@ function userListView(data){
 
     if(data.end < data.total){
         pageing+=  "      <li>" +
-            `       <a href='javascript:userPageList(${data.end-1},${5})'>${j}</a>` +
+            `       <a href='javascript:userPageList(${data.end},${5})'>></a>` +
             "      </li>" ;
     }else if(data.end >= data.total){
         pageing+=  "      <li>" +
@@ -429,20 +419,9 @@ function qnaList(data){
         "</div>" ;
     let pageing = "<div class='paging-admin'>" +
         "    <ul>";
-    if(data.end >= data.total){
-        data.end = data.total;
-    }
-
-    if(data.page >= data.end){
-        data.start = data.page;
-        data.end = data.start + 5;
-    }else if(data.page < data.start){
-        data.start = data.start - 5;
-        data.end = data.end + 5;
-    }
     if(data.start >= 5){
         pageing+=  "      <li>" +
-            `       <a href='javascript:qnApageList(${data.start-1},${5})'>${j}</a>` +
+            `       <a href='javascript:qnApageList(${data.start-1},${5})'><</a>` +
             "      </li>" ;
     }else if(data.start < 5){
         pageing+=  "      <li>" +
@@ -459,7 +438,7 @@ function qnaList(data){
 
     if(data.end < data.total){
         pageing+=  "      <li>" +
-            `       <a href='javascript:qnApageList(${data.end-1},${5})'>${j}</a>` +
+            `       <a href='javascript:qnApageList(${data.end},${5})'>></a>` +
             "      </li>" ;
     }else if(data.end >= data.total){
         pageing+=  "      <li>" +
@@ -522,7 +501,7 @@ function gameList(data){
             `<p>${g.price}</p>` +
             "</td>" +
             "<td>" +
-            `<p>${g.releaseDate}</p>` +
+            `<p>${g.gameDate}</p>` +
             "</td>" +
             "<td>" +
             `<p>${g.genres}</p>` +
@@ -538,20 +517,9 @@ function gameList(data){
     game += "</table>";
     let pageing = "<div class='paging-admin'>" +
         "    <ul>";
-    if(data.end >= data.total){
-        data.end = data.total;
-    }
-
-    if(data.page >= data.end){
-        data.start = data.page;
-        data.end = data.start + 5;
-    }else if(data.page < data.start){
-        data.start = data.start - 5;
-        data.end = data.end + 5;
-    }
     if(data.start >= 5){
         pageing+=  "      <li>" +
-            `       <a href='javascript:gamePageList(${data.start-1},${5})'>${j}</a>` +
+            `       <a href='javascript:gamePageList(${data.start-1},${5})'><</a>` +
             "      </li>" ;
     }else if(data.start < 5){
         pageing+=  "      <li>" +
@@ -568,7 +536,7 @@ function gameList(data){
 
     if(data.end < data.total){
         pageing+=  "      <li>" +
-            `       <a href='javascript:gamePageList(${data.end-1},${5})'>${j}</a>` +
+            `       <a href='javascript:gamePageList(${data.end},${5})'>></a>` +
             "      </li>" ;
     }else if(data.end >= data.total){
         pageing+=  "      <li>" +
@@ -631,7 +599,7 @@ function refundList(data){
         `<p>${r.refundReason}</p>` +
         "</td>" +
         "<td>" +
-        `<p>${r.refundAplctdate}</p>` +
+        `<p>${r.refundViewDate}</p>` +
         "</td>" +
         "<td>" +
         `<p>${r.refundWhether}</p>` +
@@ -652,20 +620,9 @@ function refundList(data){
 
     let pageing = "<div class='paging-admin'>" +
         "    <ul>";
-    if(data.end >= data.total){
-        data.end = data.total;
-    }
-
-    if(data.page >= data.end){
-        data.start = data.page;
-        data.end = data.start + 5;
-    }else if(data.page < data.start){
-        data.start = data.start - 5;
-        data.end = data.end + 5;
-    }
     if(data.start >= 5){
         pageing+=  "      <li>" +
-            `       <a href='javascript:refundPageList(${data.start-1},${5})'>${j}</a>` +
+            `       <a href='javascript:refundPageList(${data.start-1},${5})'><</a>` +
             "      </li>" ;
     }else if(data.start < 5){
         pageing+=  "      <li>" +
@@ -682,7 +639,7 @@ function refundList(data){
 
     if(data.end < data.total){
         pageing+=  "      <li>" +
-            `       <a href='javascript:refundPageList(${data.end-1},${5})'>${j}</a>` +
+            `       <a href='javascript:refundPageList(${data.end},${5})'>></a>` +
             "      </li>" ;
     }else if(data.end >= data.total){
         pageing+=  "      <li>" +
@@ -744,7 +701,7 @@ function reviewList(data){
             `<p>${view.reviewId}</p>` +
             "</td>" +
             "<td id=\"date\">" +
-            `<p>${view.regDate}</p>` +
+            `<p>${view.reviewDateView}</p>` +
             "</td>" +
             "<td id=\"count\">" +
             `<p>${view.voteCnt}</p>` +
@@ -758,20 +715,10 @@ function reviewList(data){
         "</table>";
     let pageing = "<div class='paging-admin'>" +
         "    <ul>";
-    if(data.end >= data.total){
-        data.end = data.total;
-    }
 
-    if(data.page >= data.end){
-        data.start = data.page;
-        data.end = data.start + 5;
-    }else if(data.page < data.start){
-        data.start = data.start - 5;
-        data.end = data.end + 5;
-    }
     if(data.start >= 5){
         pageing+=  "      <li>" +
-            `       <a href='javascript:reviewPageList(${data.start-1},${5})'>${j}</a>` +
+            `       <a href='javascript:reviewPageList(${data.start-1},${5})'><</a>` +
             "      </li>" ;
     }else if(data.start < 5){
         pageing+=  "      <li>" +
@@ -788,7 +735,7 @@ function reviewList(data){
 
     if(data.end < data.total){
         pageing+=  "      <li>" +
-            `       <a href='javascript:reviewPageList(${data.end-1},${5})'>${j}</a>` +
+            `       <a href='javascript:reviewPageList(${data.end},${5})'>></a>` +
             "      </li>" ;
     }else if(data.end >= data.total){
         pageing+=  "      <li>" +

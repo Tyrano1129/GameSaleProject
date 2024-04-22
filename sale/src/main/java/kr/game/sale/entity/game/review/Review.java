@@ -50,8 +50,12 @@ public class Review {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Users users;
 
+    @Transient
+    private String reviewDateView;
 
-
+    public void setReviewDateView(String localDateTime){
+        this.reviewDateView = localDateTime;
+    }
     @Builder
     public Review( boolean isPositive, String content, LocalDateTime localDateTime, Users user,Game game) {
         this.isPositive = isPositive;

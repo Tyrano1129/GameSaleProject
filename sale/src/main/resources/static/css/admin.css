@@ -262,6 +262,7 @@ select {
 
 /* game */
 .gamecontainer{
+    width: 100%;
 }
 .gameList {
     border-collapse: collapse;
@@ -279,6 +280,10 @@ select {
 .gameList tr td a {
     text-decoration: none;
     color: #839da5;
+    font-size: 12px;
+}
+.gameList tr td p{
+    font-size: 12px;
 }
 .gameList tr td .btn {
     border: 0;

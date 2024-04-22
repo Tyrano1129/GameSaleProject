@@ -64,25 +64,25 @@ public class AdminController {
     @GetMapping
     public String adminForm(Model model) {
         init(model);
-        List<Game> gameList = gameService.getList();
-        List<Users> userList = userService.getUserList();
-        List<QnA> qnaList = adminService.getQnAList();
-        List<Refund> refundList = adminService.getRefundList();
-        List<Review> reviewsList = gameReviewService.findAllReportedReviews();
-        for(Refund list : refundList){
-            String[] payment = list.getPaymentIds().split(",");
-            List<Payment> pays = new ArrayList<>();
-            for(String pay : payment){
-                Payment p = adminService.getOnePaymet(Long.parseLong(pay));
-                pays.add(p);
-            }
-            list.setPaymentList(pays);
-        }
-        model.addAttribute("gameList", gameList);
-        model.addAttribute("userList", userList);
-        model.addAttribute("qnaList", qnaList);
-        model.addAttribute("refundList", refundList);
-        model.addAttribute("reviewsList", reviewsList);
+//        List<Game> gameList = gameService.getList();
+//        List<Users> userList = userService.getUserList();
+//        List<QnA> qnaList = adminService.getQnAList();
+//        List<Refund> refundList = adminService.getRefundList();
+//        List<Review> reviewsList = gameReviewService.findAllReportedReviews();
+//        for(Refund list : refundList){
+//            String[] payment = list.getPaymentIds().split(",");
+//            List<Payment> pays = new ArrayList<>();
+//            for(String pay : payment){
+//                Payment p = adminService.getOnePaymet(Long.parseLong(pay));
+//                pays.add(p);
+//            }
+//            list.setPaymentList(pays);
+//        }
+//        model.addAttribute("gameList", gameList);
+//        model.addAttribute("userList", userList);
+//        model.addAttribute("qnaList", qnaList);
+//        model.addAttribute("refundList", refundList);
+//        model.addAttribute("reviewsList", reviewsList);
         return "admin/adminForm";
     }
 
@@ -224,18 +224,16 @@ public class AdminController {
     @GetMapping("/list")
     public @ResponseBody String getList(@RequestParam("type") String type) throws JsonProcessingException {
         Pageable pageable = PageRequest.of(0,5);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         if(type.equals("userList")){
             Page<Users> usersPage = userService.userListPageing(pageable);
             AdminPageList<Users> usersAdminPageList = new AdminPageList<>();
             // 해당 비동기
             usersAdminPageList.setContnet(usersPage.getContent());
-            usersAdminPageList.setStart(0);
-            usersAdminPageList.setEnd(5);
-            usersAdminPageList.setTotal(usersPage.getTotalPages());
-            usersAdminPageList.setPage(usersPage.getNumber());
+            usersAdminPageList.setPageCxt(usersPage.getNumber(),usersPage.getTotalPages());
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-            log.info("list = {}",gson.toJson(usersAdminPageList));
+//            log.info("list = {}",gson.toJson(usersAdminPageList));
             return gson.toJson(usersAdminPageList);
         }else if(type.equals("qnaList")){
             ObjectMapper objectMapper = new ObjectMapper();
@@ -244,30 +242,32 @@ public class AdminController {
 
             Page<QnA> qnaPage = adminService.qnaListPageing(pageable);
             AdminPageList<QnA> qnAAdminPageList = new AdminPageList<>();
-
+            for(QnA qna : qnaPage.getContent()){
+                qna.setDateView(formatter.format(qna.getLocalDateTime()));
+            }
             qnAAdminPageList.setContnet(qnaPage.getContent());
-            qnAAdminPageList.setStart(0);
-            qnAAdminPageList.setEnd(5);
-            qnAAdminPageList.setTotal(qnaPage.getTotalPages());
+            qnAAdminPageList.setPageCxt(qnaPage.getNumber(),qnaPage.getTotalPages());
             qnAAdminPageList.setPage(qnaPage.getNumber());
 
-            log.info("test ={}",objectMapper.writeValueAsString(qnAAdminPageList));
+//            log.info("test ={}",objectMapper.writeValueAsString(qnAAdminPageList));
             return objectMapper.writeValueAsString(qnAAdminPageList);
         }else if(type.equals("gameList")){
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.registerModule(new JavaTimeModule());
             objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Page<Game> gamePage = gameService.gameListPage(pageable);
             AdminPageList<Game> gameAdminPageList = new AdminPageList<>();
-
+            for(Game game : gamePage.getContent()){
+                if(game.getReleaseDate() == null){
+                    continue;
+                }
+                game.setGameDate(format.format(game.getReleaseDate()));
+            }
             gameAdminPageList.setContnet(gamePage.getContent());
-            gameAdminPageList.setStart(0);
-            gameAdminPageList.setEnd(5);
-            gameAdminPageList.setTotal(gamePage.getTotalPages());
-            gameAdminPageList.setPage(gamePage.getNumber());
+            gameAdminPageList.setPageCxt(gamePage.getNumber(),gamePage.getTotalPages());
 
-            log.info("test ={}",objectMapper.writeValueAsString(gameAdminPageList));
+//            log.info("test ={}",objectMapper.writeValueAsString(gameAdminPageList));
             return objectMapper.writeValueAsString(gameAdminPageList);
         }else if(type.equals("refundList")){
             ObjectMapper objectMapper = new ObjectMapper();
@@ -282,16 +282,14 @@ public class AdminController {
                     Payment p = adminService.getOnePaymet(Long.parseLong(pay));
                     pays.add(p);
                 }
+                list.setRefundViewDate(formatter.format(list.getRefundAplctdate()));
                 list.setPaymentList(pays);
             }
             AdminPageList<Refund> refundAdminPageList = new AdminPageList<>();
 
             refundAdminPageList.setContnet(refundPage.getContent());
-            refundAdminPageList.setStart(0);
-            refundAdminPageList.setEnd(5);
-            refundAdminPageList.setTotal(refundPage.getTotalPages());
-            refundAdminPageList.setPage(refundPage.getNumber());
-            log.info("test ={}",objectMapper.writeValueAsString(refundAdminPageList));
+            refundAdminPageList.setPageCxt(refundPage.getNumber(),refundPage.getTotalPages());
+//            log.info("test ={}",objectMapper.writeValueAsString(refundAdminPageList));
             return objectMapper.writeValueAsString(refundAdminPageList);
         }else if(type.equals("reviewList")){
             ObjectMapper objectMapper = new ObjectMapper();
@@ -300,12 +298,12 @@ public class AdminController {
             Page<Review> reviewPage = gameReviewService.reviewsListPage(pageable);
             AdminPageList<Review> reviewAdminPageList = new AdminPageList<>();
 
+            for(Review review : reviewPage.getContent()){
+                review.setReviewDateView(formatter.format(review.getRegDate()));
+            }
             reviewAdminPageList.setContnet(reviewPage.getContent());
-            reviewAdminPageList.setStart(0);
-            reviewAdminPageList.setEnd(5);
-            reviewAdminPageList.setTotal(reviewPage.getTotalPages());
-            reviewAdminPageList.setPage(reviewPage.getNumber());
-            log.info("test ={}",objectMapper.writeValueAsString(reviewAdminPageList));
+            reviewAdminPageList.setPageCxt(reviewPage.getNumber(),reviewPage.getTotalPages());
+//            log.info("test ={}",objectMapper.writeValueAsString(reviewAdminPageList));
             return objectMapper.writeValueAsString(reviewAdminPageList);
         }
         return null;
@@ -318,13 +316,10 @@ public class AdminController {
         AdminPageList<Users> usersAdminPageList = new AdminPageList<>();
         // 해당 비동기
         usersAdminPageList.setContnet(usersPage.getContent());
-        usersAdminPageList.setPage(usersPage.getNumber());
-        usersAdminPageList.setStart(0);
-        usersAdminPageList.setEnd(5);
-        usersAdminPageList.setTotal(usersPage.getTotalPages());
+        usersAdminPageList.setPageCxt(usersPage.getNumber(),usersPage.getTotalPages());
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-        log.info("list = {}",gson.toJson(usersAdminPageList));
+//        log.info("list = {}",gson.toJson(usersAdminPageList));
         return gson.toJson(usersAdminPageList);
     }
 
@@ -336,15 +331,15 @@ public class AdminController {
         Pageable pageable = PageRequest.of(page,size);
         Page<QnA> qnaPage = adminService.qnaListPageing(pageable);
         AdminPageList<QnA> qnAAdminPageList = new AdminPageList<>();
-        // 해당 비동기
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        for(QnA qna : qnaPage.getContent()){
+            qna.setDateView(formatter.format(qna.getLocalDateTime()));
+        }
         qnAAdminPageList.setContnet(qnaPage.getContent());
-        qnAAdminPageList.setStart(0);
-        qnAAdminPageList.setEnd(5);
-        qnAAdminPageList.setTotal(qnaPage.getTotalPages());
-        qnAAdminPageList.setPage(qnaPage.getNumber());
+        qnAAdminPageList.setPageCxt(qnaPage.getNumber(),qnaPage.getTotalPages());
 
-        log.info("test ={}",objectMapper.writeValueAsString(qnAAdminPageList));
+//        log.info("test ={}",objectMapper.writeValueAsString(qnAAdminPageList));
         return objectMapper.writeValueAsString(qnAAdminPageList);
     }
 
@@ -357,14 +352,17 @@ public class AdminController {
         Page<Game> gamePage = gameService.gameListPage(pageable);
         AdminPageList<Game> gameAdminPageList = new AdminPageList<>();
         // 해당 비동기
-
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        for(Game game : gamePage.getContent()){
+            if(game.getReleaseDate() == null){
+                continue;
+            }
+            game.setGameDate(format.format(game.getReleaseDate()));
+        }
         gameAdminPageList.setContnet(gamePage.getContent());
-        gameAdminPageList.setStart(0);
-        gameAdminPageList.setEnd(5);
-        gameAdminPageList.setTotal(gamePage.getTotalPages());
-        gameAdminPageList.setPage(gamePage.getNumber());
+        gameAdminPageList.setPageCxt(gamePage.getNumber(),gamePage.getTotalPages());
 
-        log.info("test ={}",objectMapper.writeValueAsString(gameAdminPageList));
+//        log.info("test ={}",objectMapper.writeValueAsString(gameAdminPageList));
         return objectMapper.writeValueAsString(gameAdminPageList);
     }
 
@@ -375,6 +373,7 @@ public class AdminController {
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         Pageable pageable = PageRequest.of(page,size);
         Page<Refund> refundPage = adminService.refundListPageing(pageable);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         for(Refund list : refundPage.getContent()){
             String[] payment = list.getPaymentIds().split(",");
             List<Payment> pays = new ArrayList<>();
@@ -382,16 +381,14 @@ public class AdminController {
                 Payment p = adminService.getOnePaymet(Long.parseLong(pay));
                 pays.add(p);
             }
+            list.setRefundViewDate(formatter.format(list.getRefundAplctdate()));
             list.setPaymentList(pays);
         }
         AdminPageList<Refund> refundAdminPageList = new AdminPageList<>();
 
         refundAdminPageList.setContnet(refundPage.getContent());
-        refundAdminPageList.setStart(0);
-        refundAdminPageList.setEnd(5);
-        refundAdminPageList.setTotal(refundPage.getTotalPages());
-        refundAdminPageList.setPage(refundPage.getNumber());
-        log.info("test ={}",objectMapper.writeValueAsString(refundAdminPageList));
+        refundAdminPageList.setPageCxt(refundPage.getNumber(),refundPage.getTotalPages());
+//        log.info("test ={}",objectMapper.writeValueAsString(refundAdminPageList));
         return objectMapper.writeValueAsString(refundAdminPageList);
     }
 
@@ -404,12 +401,14 @@ public class AdminController {
         Page<Review> reviewPage = gameReviewService.reviewsListPage(pageable);
         AdminPageList<Review> reviewAdminPageList = new AdminPageList<>();
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        for(Review review : reviewPage.getContent()){
+            review.setReviewDateView(formatter.format(review.getRegDate()));
+        }
+
         reviewAdminPageList.setContnet(reviewPage.getContent());
-        reviewAdminPageList.setStart(0);
-        reviewAdminPageList.setEnd(5);
-        reviewAdminPageList.setTotal(reviewPage.getTotalPages());
-        reviewAdminPageList.setPage(reviewPage.getNumber());
-        log.info("test ={}",objectMapper.writeValueAsString(reviewAdminPageList));
+        reviewAdminPageList.setPageCxt(reviewPage.getNumber(),reviewPage.getTotalPages());
+//        log.info("test ={}",objectMapper.writeValueAsString(reviewAdminPageList));
         return objectMapper.writeValueAsString(reviewAdminPageList);
     }
 }

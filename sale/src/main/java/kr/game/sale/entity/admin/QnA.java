@@ -34,6 +34,8 @@ public class QnA {
     private String qnaRespondent;
     @Lob
     private String qnaAnwerContent;
+    @Transient
+    private String dateView;
 
     // 문의자
     public QnA(Users users, String qnaTitle, String qnaContent) {

@@ -10,6 +10,7 @@ import java.util.List;
 
 @Getter
 @Entity
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class Refund {
@@ -25,6 +26,7 @@ public class Refund {
     @OneToMany
     @Transient
     private List<Payment> paymentList;
+    private String refundViewDate;
 
 
     public void setPaymentList(List<Payment> paymentList) {
