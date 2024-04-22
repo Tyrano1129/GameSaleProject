@@ -58,8 +58,12 @@
             </div>
             <div class="head-users">
                 <div class="head-joinlogin">
-                    <a href="/users/logout" th:if="${#authorization.expression('isAuthenticated()')}"><i class="fa fa-unlock"></i> 로그아웃</a>
-                    <a href="/users/myPage" th:if="${#authorization.expression('isAuthenticated()')}"><i class="fa fa-user"></i> 마이페이지</a>
+                    <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+                        <a href="/users/logout"><i class="fa fa-unlock"></i> 로그아웃</a>
+                        <a href="/admin" th:if="${#authentication.name == 'admin'}"><i class="fa fa-cog"></i> 관리자</a>
+                        <a href="/users/myPage" th:if="${#authentication.name != 'admin'}"><i class="fa fa-user"></i>
+                            마이페이지</a>
+                    </th:block>
                     <a class="head-login" href="/users/loginForm"
                        th:unless="${#authorization.expression('isAuthenticated()')}">로그인</a>
                     <a class="head-join" href="/users/joinForm"
@@ -90,13 +94,25 @@
                                     <div class="col-xs-12 mega-col-nav" data-width="12">
                                         <div class="mega-inner">
                                             <ul class="level1">
-                                                <li><a th:href="@{/game/categorySearch/{category}(category='액션')}">액션</a></li>
-                                                <li><a th:href="@{/game/categorySearch/{category}(category='어드벤처')}" >어드벤처</a></li>
-                                                <li><a th:href="@{/game/categorySearch/{category}(category='RPG')}">RPG</a></li>
-                                                <li><a th:href="@{/game/categorySearch/{category}(category='시뮬레이션')}" >시뮬레이션</a></li>
-                                                <li><a th:href="@{/game/categorySearch/{category}(category='전략')}">전략</a></li>
-                                                <li><a th:href="@{/game/categorySearch/{category}(category='캐주얼')}">캐주얼</a></li>
-                                                <li><a th:href="@{/game/categorySearch/{category}(category='인디')}">인디</a></li>
+                                                <li>
+                                                    <a th:href="@{/game/categorySearch/{category}(category='액션')}">액션</a>
+                                                </li>
+                                                <li><a th:href="@{/game/categorySearch/{category}(category='어드벤처')}">어드벤처</a>
+                                                </li>
+                                                <li>
+                                                    <a th:href="@{/game/categorySearch/{category}(category='RPG')}">RPG</a>
+                                                </li>
+                                                <li><a th:href="@{/game/categorySearch/{category}(category='시뮬레이션')}">시뮬레이션</a>
+                                                </li>
+                                                <li>
+                                                    <a th:href="@{/game/categorySearch/{category}(category='전략')}">전략</a>
+                                                </li>
+                                                <li>
+                                                    <a th:href="@{/game/categorySearch/{category}(category='캐주얼')}">캐주얼</a>
+                                                </li>
+                                                <li>
+                                                    <a th:href="@{/game/categorySearch/{category}(category='인디')}">인디</a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -111,16 +127,16 @@
                         <a href="/users/userQuestionForm">고객센터</a>
                     </li>
                     <li>
-                        <a href="#" title="개발중입니다.">타임딜</a>
+                        <a href="#" onclick="noService()" title="개발중입니다.">타임딜</a>
                     </li>
                     <li>
-                        <a href="#" title="개발중입니다.">이벤트</a>
+                        <a href="#" onclick="noService()" title="개발중입니다.">이벤트</a>
                     </li>
                     <li>
-                        <a href="#" title="개발중입니다.">이용안내</a>
+                        <a href="#" onclick="noService()" title="개발중입니다.">이용안내</a>
                     </li>
                     <li>
-                        <a href="#" title="개발중입니다.">더좋은 게임즈 소개</a>
+                        <a href="#" onclick="noService()" title="개발중입니다.">더좋은 게임즈 소개</a>
                     </li>
                 </ul>
             </div>
