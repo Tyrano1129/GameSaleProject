@@ -37,3 +37,14 @@ $('.genreSort').on('click', function () {
 function noService() {
     alert(`현재 준비중인 서비스입니다.`);
 }
+
+// 문의작성 페이지로 가기
+function goToCS() {
+    isLoggedIn(logTrueFalse => {
+        if (logTrueFalse) {
+            window.location.href = "/users/userQuestionForm"
+        } else {
+            alert("로그인을 하셔야 이용이 가능합니다.");
+        }
+    });
+}
