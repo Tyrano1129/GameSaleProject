@@ -17,4 +17,5 @@ public interface GameRepositoryCustom {
     List<Game> findMainList(SortType type, GameSearchCondition condition);
     public List<String> findAllPublishers();
     public Page<Game> searchGamesByKeyword(GameSearchDTO gameSearchDTO, Pageable pageable);
+    Page<Game> serchAdminGameList(Pageable pageable);
 }

@@ -56,8 +56,12 @@
                             <tr th:each="list ,listStat : ${cartViewList}">
                                 <td class="text-center"><input name="goods_code[]" type="checkbox"></td>
                                 <td name="goods_code[]" th:text="${list.getCartId()}"></td>
-                                <td><img th:alt="${list.name}"
+                                <td>
+                                    <img th:if="${list.platform eq 'steam'}" th:alt="${list.name}"
                                          th:src="@{'https://cdn.akamai.steamstatic.com/steam/apps' + ${list.getImg()}}">
+                                    <img th:unless="${list.platform eq 'steam'}" th:alt="${list.name}"
+                                         th:src="${list.getImg()}"
+                                    >
                                 </td>
                                 <td th:text="${list.name}">상품명</td>
                                 <td th:text="${list.price}">가격</td>

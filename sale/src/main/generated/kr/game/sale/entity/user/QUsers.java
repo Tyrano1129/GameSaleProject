@@ -7,6 +7,9 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.ConstructorExpression;
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.Expression;
 
 
 /**
@@ -16,6 +19,10 @@ import com.querydsl.core.types.Path;
 public class QUsers extends EntityPathBase<Users> {
 
     private static final long serialVersionUID = -743674754L;
+
+    public static ConstructorExpression<Users> create(Expression<Long> id, Expression<String> username, Expression<String> password, Expression<String> userNickname, Expression<String> userPhone, Expression<UserRole> userRole, Expression<String> provider, Expression<String> providerId) {
+        return Projections.constructor(Users.class, new Class<?>[]{long.class, String.class, String.class, String.class, String.class, UserRole.class, String.class, String.class}, id, username, password, userNickname, userPhone, userRole, provider, providerId);
+    }
 
     public static final QUsers users = new QUsers("users");
 

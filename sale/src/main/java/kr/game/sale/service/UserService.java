@@ -2,6 +2,7 @@ package kr.game.sale.service;
 
 import jakarta.persistence.EntityManager;
 import kr.game.sale.entity.admin.Payment;
+import kr.game.sale.entity.admin.QnA;
 import kr.game.sale.entity.admin.Refund;
 import kr.game.sale.entity.form.PaymentView;
 import kr.game.sale.entity.form.RoleListForm;
@@ -12,6 +13,8 @@ import kr.game.sale.repository.admin.RefundRepository;
 import kr.game.sale.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
@@ -198,4 +201,9 @@ public class UserService {
         }
         return list;
     }
+
+    public Page<Users> userListPageing(Pageable pageable){
+        return userRepository.searchUser(pageable);
+    }
+
 }
