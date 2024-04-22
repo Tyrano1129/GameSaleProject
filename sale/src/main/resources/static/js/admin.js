@@ -499,7 +499,7 @@ function gameList(data){
             `<p>${g.developers}</p>` +
             "</td>" +
             "<td>" +
-            `<p>${g.price}</p>` +
+            `<p>${g.priceView}</p>` +
             "</td>" +
             "<td>" +
             `<p>${g.gameDate}</p>` +
