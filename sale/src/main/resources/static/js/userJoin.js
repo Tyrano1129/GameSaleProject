@@ -45,7 +45,7 @@ function validCheck(form) {
         form.userPhone.focus();
         return false;
     }
-    if (codeInput.value !== emailCode) {
+    if (codeInput.value !== emailCode || emailCode === -1) {
         alert(`이메일로 보내드린 인증코드를 확인하세요.`)
         return false;
     }
@@ -139,6 +139,7 @@ emailInput.addEventListener("keyup", () => {
     check = -1;
     emailInput.style.border = "3px red solid";
     emailDuplicatedBtn.style.visibility = "visible";
+    emailCode = -1;
 });
 
 // 이메일로 인증코드를 발송하는 함수
