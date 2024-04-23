@@ -354,8 +354,16 @@
                                                             </div>
                                                             <div class="vm-display">
                                                                 <span class="vm-desc">장르 </span>
-                                                                <span class="vm-value"
-                                                                      th:text="${game.getGenreList().get(0)}"></span>
+                                                                <span class="vm-value">
+                                                                <th:block th:if="${game.getGenreList()!= null}" th:each="genre, genreStat: ${game.getGenreList()}">
+                                                                    <th:block th:unless="${genreStat.size == genreStat.count}">
+                                                                        [[${genre}]]/
+                                                                    </th:block>
+                                                                    <th:block th:if="${genreStat.size == genreStat.count}">
+                                                                        [[${genre}]]
+                                                                    </th:block>
+                                                                </th:block>
+                                                                </span>
                                                             </div>
                                                             <div class="vm-display">
                                                                 <span class="vm-desc">퍼블리셔 </span>

@@ -94,7 +94,7 @@ function valueOneUpdate(value,url){
 // modal
 let sub = document.querySelector(".subject");
 
-function refundCheck(subject, result, data) {
+function valuesCheck(subject, result, data) {
     let id = "";
     if (data) {
         id = data.getAttribute("data-value");
@@ -106,7 +106,7 @@ function refundCheck(subject, result, data) {
     sub.setAttribute("data-value", id);
 }
 
-function refundAccept() {
+function valuesAccept() {
     if(checkd){
         return;
     }
@@ -134,7 +134,7 @@ function refundAccept() {
     checkd = false;
 }
 
-function refundCancel() {
+function valuesCancel() {
     document.querySelector(".modal").classList.remove("active");
     document.querySelector(".overlay").classList.remove("active");
     location.href = "#";
@@ -175,7 +175,7 @@ function userListView(data){
         "<h1>유저 관리 리스트</h1>" +
         "<form action=\"/admin\" method=\"post\">" +
         "<div class=\"userButton\">" +
-        "<input type=\"button\" onclick=\"refundCheck('유저를 수정 하시겠습니까?','userupdate')\" value=\"수정하기\" />" +
+        "<input type=\"button\" onclick=\"valuesCheck('유저를 수정 하시겠습니까?','userupdate')\" value=\"수정하기\" />" +
         "</div>" +
         "<table class=\"userList\">" +
         "<tr>" +
@@ -218,7 +218,7 @@ function userListView(data){
             `<p>${value.userPhone}</p>` +
             "</td>" +
             "<td>" +
-            `<input type="button" data-value="${value.id}" onclick="refundCheck('유저를 삭제 하시겠습니까?','userdelete',this)" value="삭제">` +
+            `<input type="button" data-value="${value.id}" onclick="valuesCheck('유저를 삭제 하시겠습니까?','userdelete',this)" value="삭제">` +
             "</td>" +
             "</tr>";
     });
@@ -347,7 +347,7 @@ function qnaList(data){
             }
             qna+= "<div class=\"button-qna\">";
             if(!q.qnaIsAnswered){
-               qna+= `<button class="btn-qna-text" data-value="${q.qnaId}" onclick="refundCheck('답변을하겠습니까?','qnaupdate',this)">올리기</button>`;
+               qna+= `<button class="btn-qna-text" data-value="${q.qnaId}" onclick="valuesCheck('답변을하겠습니까?','qnaupdate',this)">올리기</button>`;
             }else{
                qna += `<button class="btn-qna-text" data-value="${q.qnaId}" onclick="return false">올리기</button>`;
             }
@@ -474,7 +474,7 @@ function gameList(data){
             `<p>${g.stock}</p>` +
             "</td>" +
             "<td>" +
-            `<button class="btn delete" data-value="${g.steamAppid}" onclick="refundCheck('게임을 삭제 하시겠습니까?','gamedelete',this)">삭제</button>` +
+            `<button class="btn delete" data-value="${g.steamAppid}" onclick="valuesCheck('게임을 삭제 하시겠습니까?','gamedelete',this)">삭제</button>` +
             "</td>" +
             "</tr>";
         });
@@ -572,7 +572,7 @@ function refundList(data){
         if(r.refundWhether){
            refund += `<button onclick="return false">환불</button>`;
         }else{
-           refund +=  `<button data-value="${r.refundId}" onclick="refundCheck('환불 처리 하시겠습니까?','paymentDelete',this)">환불</button>`;
+           refund +=  `<button data-value="${r.refundId}" onclick="valuesCheck('환불 처리 하시겠습니까?','paymentDelete',this)">환불</button>`;
         }
         refund +=
         "</td>" +
@@ -671,7 +671,7 @@ function reviewList(data){
             `<p>${view.voteCnt}</p>` +
             "</td>" +
             "<td id=\"삭제\">" +
-            `<a class="btn delete" data-value="${view.reviewId}" onclick="refundCheck('리뷰을 삭제 하시겠습니까?','reviewdelete',this)">삭제</a>` +
+            `<a class="btn delete" data-value="${view.reviewId}" onclick="valuesCheck('리뷰을 삭제 하시겠습니까?','reviewdelete',this)">삭제</a>` +
             "</td>" +
             "</tr>";
         })

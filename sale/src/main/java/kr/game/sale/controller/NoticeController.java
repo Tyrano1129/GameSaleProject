@@ -50,6 +50,9 @@ public class NoticeController {
     public String noticecustomer(Pageable pageable, Model model,HttpSession session){
         NoticePageing noticePageing = (NoticePageing) session.getAttribute("noticePage");
         log.info("page = {}",pageable);
+        if(pageable.getPageNumber() >= (int)session.getAttribute("total")){
+            return "redirect:/notice";
+        }
         pageingCutomer(pageable,model,noticePageing,session);
         return "notice/noticeList";
     }
@@ -106,6 +109,7 @@ public class NoticeController {
         log.info("total={}",total);
         // view 에 뿌려준다.
         session.setAttribute("noticePage",noticePageing);
+        session.setAttribute("total",total);
         model.addAttribute("start",noticePageing.getStartNum());
         model.addAttribute("end",noticePageing.getEndNum());
         model.addAttribute("total",total);
