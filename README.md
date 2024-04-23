@@ -1,8 +1,8 @@
 # Project 소개
 - 해당 사이트는 에서는 원하는게임을 간편하게 조회하고 할인된 게임 금액 구매하며 해당게임의 플랫폼(스팀,에픽게임즈 등) 코드를 발급받아 해당 플랫폼에 코드를 입력하여 게임을 즐길수있도록 목표로한 사이트입니다.
 ## 노션 및 피피티 링크
-- https://www.notion.so/95206779374149a2a3bd348ab3b3bfaa
-- https://www.canva.com/design/DAGDGdfVqkI/VzZGjd1R_hhV3fb-Evg6lw/view?utm_content=DAGDGdfVqkI&utm_campaign=share_your_design&utm_medium=link&utm_source=shareyourdesignpanel
+- 노션 : https://www.notion.so/95206779374149a2a3bd348ab3b3bfaa
+- ppt : https://www.canva.com/design/DAGDGdfVqkI/VzZGjd1R_hhV3fb-Evg6lw/view?utm_content=DAGDGdfVqkI&utm_campaign=share_your_design&utm_medium=link&utm_source=shareyourdesignpanel
 ## 팀원 구성
 - 이상준: 게임점보 API처리, 게임 조회 기능, 게임 리뷰 기능
 - 김진수: 관리자 기능, 결제 및 환불
