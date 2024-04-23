@@ -553,9 +553,10 @@ function refundList(data){
         "</td>" +
         "<td>" +
         "<p>";
-        r.paymentList.forEach((pay) =>{
-            refund += pay.gameName;
-        })
+        refund += r.paymentList[0].gameName;
+        if(r.paymentList.length != 1){
+            refund += "외 " +(r.paymentList.length-1);
+        }
         refund +=
         "</p>" +
         "</td>" +
