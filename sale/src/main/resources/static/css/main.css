@@ -30,6 +30,7 @@
 }
 .fa-chevron-right,
 .fa-chevron-left{
+    cursor: pointer;
     color: #ffffff;
     position: absolute;
     z-index: 5;
