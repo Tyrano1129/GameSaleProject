@@ -27,14 +27,16 @@ public class AdminPageList<T> {
             }
         } else {
             this.end = ((int)(Math.ceil(this.page / 5.0))) * 5;
-            if (this.end > this.total) {
-                this.end = this.total;
-            }
             this.start = this.end - 5;
         }
         if(this.page >= this.end){
             this.start = this.end-5 + 5;
             this.end = ((int)(Math.ceil(this.page / 5.0))) * 5 + 5;
         }
+        if (this.end > this.total) {
+            this.end = this.total;
+        }
+
+        log.info("start = {}",this.start);
     }
 }
