@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -18,11 +19,14 @@ import java.util.List;
 public class QnAService {
     private final QnARepository qnaRepository;
     private final UserService userService;
+    private final GoogleGCPService googleGCPService;
 
     @Transactional
-    public void addQnA(QnAForm qnaForm) {
+    public void addQnA(QnAForm qnaForm) throws IOException {
         Users users = userService.getLoggedInUser();
+        String fileName = googleGCPService.updateImageInfo(qnaForm.getFileName(),"user");
         QnA qna = new QnA(users, qnaForm.getQnaTitle(), qnaForm.getQnaContent());
+        qna.setFileName(fileName);
         qnaRepository.save(qna);
     }
 

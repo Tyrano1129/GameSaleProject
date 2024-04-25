@@ -25,7 +25,10 @@
 
         <!-- 문의하기 -->
         <div class="docs-section">
+            <div class="docs-header">
             <h1><strong> 문의하기</strong></h1>
+            </div>
+            <div class="qnaformcontainer">
             <form action="/qna/addQuestion" enctype="multipart/form-data" id="questionForm" method="post"
                   name="questionForm"
                   onclick="">
@@ -53,7 +56,7 @@
                     <p></p>
                     <div>
                         <label for="qnaContent">내용</label>
-                        <div>
+                        <div class="qnatext">
                   <textarea cols="100" id="qnaContent" maxlength="999" name="qnaContent" required rows="10"
                             style="resize:none"></textarea>
                         </div>
@@ -61,18 +64,19 @@
                     <div>
                         <p></p>
                         <label for="fileName">첨부파일</label>
-                        <div>
+                        <div class="qnafile">
                             <input id="fileName" name="fileName" type="file">
                             <p>첨부파일은 최대 2MB입니다. (사용가능 파일 형식 - jpg / gif / png ) </p>
                             <P></P>
                         </div>
                     </div>
-                    <div>
+                    <div class="btn-qna">
                         <button>확 인</button>
                         <button type="reset">취 소</button>
                     </div>
                 </div>
             </form>
+            </div>
         </div>
         <div id="temporary_blank_space"></div>
     </div>

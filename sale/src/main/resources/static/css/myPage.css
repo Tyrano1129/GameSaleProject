@@ -51,7 +51,6 @@
 }
 
 #myPage form {
-    border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 10px;
     color: #999999;
     width: 100%;
@@ -219,7 +218,7 @@ select {
 }
 
 #myPage #questionForm {
-    width: 750px
+    width: 750px;
 }
 
 #myPage #question_table {
@@ -255,4 +254,33 @@ select {
 
 #myPage #orderListBottom {
     height: 10px;
+}
+.qnaformcontainer{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.docs-section .docs-header{
+    display: flex;
+    justify-content: center;
+}
+.btn-qna{
+    display: flex;
+    justify-content: center;
+}
+.btn-qna button{
+    margin-right: 5px;
+}
+.qnafile{
+    width: 100%;
+}
+.qnafile #fileName{
+    width: 100%;
+}
+.qnatext{
+    width: 100%;
+}
+.qnatext #qnaContent{
+    width: 100%;
 }
