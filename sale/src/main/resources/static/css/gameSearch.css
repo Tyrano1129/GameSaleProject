@@ -152,7 +152,7 @@ browse-view h1 {
     top: -21px;
     left: 0;
 }
-.container {
+#searchBox .container {
     width: 100%;
     margin-right: auto;
     margin-left: auto;
