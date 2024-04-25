@@ -162,7 +162,7 @@ nav .container{
 .megamenu .navbar-nav{
     list-style: none;
     display: flex;
-    justify-content: space-evenly;
+    /*justify-content: space-evenly;*/
     margin: 0;
     padding-left: 0;
 }
@@ -179,7 +179,7 @@ nav .container{
     text-transform: uppercase;
     letter-spacing: 0.5px;
     display: block;
-    width: 90px;
+    width: 95px;
     height: 70px;
     text-align: center;
     align-content: center;
