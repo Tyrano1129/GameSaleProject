@@ -114,6 +114,7 @@ public class AdminController {
 
     @DeleteMapping("/gameOneDelete")
     public @ResponseBody String gameOneDelete(Long id) {
+        log.info("id ={}",id);
         gameService.gameOneDelete(id);
         return "ok";
     }

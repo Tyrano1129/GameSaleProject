@@ -68,14 +68,14 @@ public class PaymentController {
         }
     }
 
-    @PostMapping("/errorPayment")
-    public @ResponseBody String paymentError(@ModelAttribute List<PaymentForm> list) throws IOException {
-        log.info("list = {}", list);
-        RuntimeException e = new RuntimeException();
-        String orderNumber = list.get(1).getMerchantUid();
-        log.info("주문 상품 환불 진행 : 주문 번호 {}", orderNumber);
-        String token = adminService.getToken(apiKey, secretKey);
-        adminService.refundRequest(token, orderNumber, e.getMessage(), 0);
+        @PostMapping("/errorPayment")
+        public @ResponseBody String paymentError(@ModelAttribute List<PaymentForm> list) throws IOException {
+            log.info("list = {}", list);
+            RuntimeException e = new RuntimeException();
+            String orderNumber = list.get(1).getMerchantUid();
+            log.info("주문 상품 환불 진행 : 주문 번호 {}", orderNumber);
+            String token = adminService.getToken(apiKey, secretKey);
+            adminService.refundRequest(token, orderNumber, e.getMessage(), 0);
         return "결제 실패하였습니다. 확인후에 이용해주세요.";
     }
 

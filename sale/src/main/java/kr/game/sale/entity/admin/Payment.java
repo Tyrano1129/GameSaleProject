@@ -29,6 +29,7 @@ public class Payment {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="gaem_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Game game;
     private LocalDateTime paymenDate;
     private String gameName;

@@ -28,7 +28,8 @@ function userListRoleUpdate(roleList) {
         .then(response => response.text())
         .then(data => {
             if (data === 'ok') {
-                location.href = "/admin";
+                console.log("data");
+                valueList("userList");
             }
         })
         .catch(error => {
@@ -36,7 +37,7 @@ function userListRoleUpdate(roleList) {
         });
 }
 
-function valuesDelete(value, url) {
+function valuesDelete(value, url,list) {
     let id = parseInt(value);
     console.log(id);
     fetch("/admin/" + url, {
@@ -49,7 +50,8 @@ function valuesDelete(value, url) {
         .then(response => response.text())
         .then(data => {
             if (data === 'ok') {
-                location.href = "/admin";
+                console.log(data);
+                valueList(list);
             }
         })
         .catch(error => {
@@ -117,20 +119,20 @@ function valuesAccept() {
         const roleList = [...document.querySelectorAll("#roleselect")];
         userListRoleUpdate(roleList);
     } else if (id === "userdelete") {
-        valuesDelete(sub.getAttribute("data-value"), "userOneDelete");
+        valuesDelete(sub.getAttribute("data-value"), "userOneDelete","userList");
     } else if (id === "gamedelete") {
-        valuesDelete(sub.getAttribute("data-value"), "gameOneDelete");
+        valuesDelete(sub.getAttribute("data-value"), "gameOneDelete","gameList");
     } else if (id === "paymentDelete") {
         console.log(sub.getAttribute("data-value"));
-        valuesDelete(sub.getAttribute("data-value"),"paymentOneDelete");
+        valuesDelete(sub.getAttribute("data-value"),"paymentOneDelete","refundList");
     } else if(id ==="reviewdelete"){
-        valuesDelete(sub.getAttribute("data-value"),"reviewOneDelete")
+        valuesDelete(sub.getAttribute("data-value"),"reviewOneDelete","reviewList");
     } else if(id ==="qnaupdate"){
-        valueOneUpdate(sub.getAttribute("data-value"),"qnaOneUpdate");
+        valueOneUpdate(sub.getAttribute("data-value"),"qnaOneUpdate","qnaList");
     }
+
     document.querySelector(".modal").classList.remove("active");
     document.querySelector(".overlay").classList.remove("active");
-    location.href = "#";
     checkd = false;
 }
 
