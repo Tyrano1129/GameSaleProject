@@ -19,4 +19,4 @@
 ## DATABASE ERD 다이어 그램
 - ![ERD](https://github.com/Tyrano1129/GameSaleProject/blob/96ab3841d342ae93c45040232a0f2bf8c6774991/ERD%20%EB%8B%A4%EC%9D%B4%EC%96%B4%EA%B7%B8%EB%9E%A8.png)
 ## 패치노트
--
+- 2024-04-25 : header 메뉴 버튼 css 수정 , 관리자 수정 및 삭제 버튼 비동기화(김진수)
