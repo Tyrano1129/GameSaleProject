@@ -122,6 +122,7 @@ public class AdminService {
                 .rcmRequirements(form.getRcmRequirements())
                 .headerImage(headerimage)
                 .screenshots(mapper.writeValueAsString(screenshotsList))
+                .platform(form.getPlatform())
                 .build();
         gameRepository.save(game);
     }

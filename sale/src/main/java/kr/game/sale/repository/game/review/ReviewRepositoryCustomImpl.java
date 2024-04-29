@@ -155,6 +155,7 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom{
                 .from(review)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(review.regDate.desc())
                 .fetch();
 
         JPAQuery<Review> countQuery = queryFactory

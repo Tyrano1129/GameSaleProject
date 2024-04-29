@@ -113,8 +113,18 @@ public class AdminController {
 
 
     @DeleteMapping("/gameOneDelete")
-    public @ResponseBody String gameOneDelete(Long id) {
+    public @ResponseBody String gameOneDelete(Long id){
         log.info("id ={}",id);
+//        Game game = gameService.findOneById(id);
+//        if(!game.getPlatform().equals("steam") || game.getPlatform() == null){
+//            ObjectMapper mapper = new ObjectMapper();
+//            googleGCPService.deleteImageInfo(game.getHeaderImage());
+//            List<String> imageList = Arrays.asList(mapper.readValue(game.getScreenshots(), String[].class));
+//            log.info("imageList = {}",imageList);
+//            for(String image : imageList){
+//                googleGCPService.deleteImageInfo(image);
+//            }
+//        }
         gameService.gameOneDelete(id);
         return "ok";
     }

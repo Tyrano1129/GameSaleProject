@@ -35,8 +35,6 @@ public class GoogleGCPService {
                         .build(),
                 dto.getInputStream()
         );
-//        BlobId blodId = BlobId.of(buketName,uuid);
-//        boolean deleted = storage.delete(blodId);
         blobInfo.getName();
         log.info("Name={}", blobInfo.getName());
         log.info("blobInfo = {}", blobInfo.getMediaLink());
@@ -44,4 +42,10 @@ public class GoogleGCPService {
         }
         return "false";
     }
+    // GCP 이미지 지우기
+//    public void deleteImageInfo(String image){
+//        BlobId blodId = BlobId.of(bucketName,image);
+//        log.info(blodId.getName());
+//        storage.delete(blodId);
+//    }
 }
