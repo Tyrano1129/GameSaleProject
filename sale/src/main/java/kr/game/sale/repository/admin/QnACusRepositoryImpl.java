@@ -1,5 +1,6 @@
 package kr.game.sale.repository.admin;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.game.sale.entity.admin.QQnA;
@@ -17,6 +18,7 @@ import static kr.game.sale.entity.admin.QQnA.qnA;
 @Slf4j
 public class QnACusRepositoryImpl implements QnACusRepository{
     private final JPAQueryFactory queryFactory;
+    private BooleanExpression titlelike(String title){return title == null? null : qnA.qnaTitle.like("%"+title+"%");}
     @Override
     public Page<QnA> serachQnA(Pageable pageable) {
 
@@ -25,6 +27,7 @@ public class QnACusRepositoryImpl implements QnACusRepository{
                 .from(qnA)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(qnA.localDateTime.desc())
                 .fetch();
 
         JPAQuery<QnA> countQuery = queryFactory

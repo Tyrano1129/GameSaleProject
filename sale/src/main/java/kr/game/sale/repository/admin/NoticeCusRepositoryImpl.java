@@ -28,6 +28,7 @@ public class NoticeCusRepositoryImpl implements NoticeCusRepository{
                 .where(titlelike(title))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(notice.noticeDate.desc())
                 .fetch();
 
         JPAQuery<Notice> countQuery = queryFactory

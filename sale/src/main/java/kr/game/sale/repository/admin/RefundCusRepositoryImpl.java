@@ -28,6 +28,7 @@ public class RefundCusRepositoryImpl implements RefundCusRepository{
                 .from(refund)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(refund.refundAplctdate.desc())
                 .fetch();
 
         JPAQuery<Refund> countQuery = queryFactory
