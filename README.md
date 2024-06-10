@@ -9,7 +9,7 @@
 - 김진수: 관리자 기능, 결제 및 환불
 - 서원우: 회원관련 기능, 스프링 시큐리티
 ## 프로젝트 기술스택
-- spring-boot / thymeleaf / QueryDSL / aws / gcp / docker / git 
+- spring-boot / thymeleaf / QueryDSL / aws / gcp / docker / github / java / js / jquery / mysql
 - iamport API  결제 및 환불시스템
 - steam API
 - 로그인 API (구글, 네이버, 카카오)
