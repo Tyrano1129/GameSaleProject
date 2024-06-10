@@ -3,6 +3,7 @@
 ## 노션 및 피피티 링크
 - 노션 : [https://www.notion.so/95206779374149a2a3bd348ab3b3bfaa](https://gorgeous-blinker-6f2.notion.site/e5b9b3b048104d71880d2cf50aff2949)
 - ppt : https://www.canva.com/design/DAGDGdfVqkI/VzZGjd1R_hhV3fb-Evg6lw/view?utm_content=DAGDGdfVqkI&utm_campaign=share_your_design&utm_medium=link&utm_source=shareyourdesignpanel
+- 플로우 차트 : [https://app.diagrams.net/#G1c-qp52xecZnHNjjI-yh13aED-pSlYLLF#{"pageId"%3A"C5RBs43oDa-KdzZeNtuy"}](https://app.diagrams.net/#G1c-qp52xecZnHNjjI-yh13aED-pSlYLLF#%7B%22pageId%22%3A%22C5RBs43oDa-KdzZeNtuy%22%7D)
 ## 팀원 구성
 - 이상준: 게임점보 API처리, 게임 조회 기능, 게임 리뷰 기능
 - 김진수: 관리자 기능, 결제 및 환불
