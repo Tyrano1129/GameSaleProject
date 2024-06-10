@@ -6,7 +6,7 @@
 - 발표 영상 : https://youtu.be/QXYB2vH2ezU
 ## 팀원 구성
 - 이상준: 게임점보 API처리, 게임 조회 기능, 게임 리뷰 기능
-- 김진수: 관리자 기능, 결제 및 환불
+- 김진수: 관리자 기능, 결제 및 환불, 공지사항, aws 배포, gcp 파일 저장, CKEditor API
 - 서원우: 회원관련 기능, 스프링 시큐리티
 ## 프로젝트 기술스택
 - spring-boot / thymeleaf / QueryDSL / aws / gcp / docker / github / java / js / jquery / mysql
