@@ -32,6 +32,7 @@ public class UserCusRepositoryImpl implements UserCusRepository {
 
         JPAQuery<Users> countQuery = queryFactory
                 .select(users)
+                .where(users.userRole.ne(UserRole.ROLE_ADMIN))
                 .from(users);
 
         countQuery.fetch();
