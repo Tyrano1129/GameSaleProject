@@ -21,6 +21,7 @@ import kr.game.sale.entity.user.Users;
 import kr.game.sale.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -49,6 +50,7 @@ public class AdminController {
     private final AdminService adminService;
     private final GoogleGCPService googleGCPService;
     private final GameReviewService gameReviewService;
+    private final ObjectMapper objectMapper;
 
     @Value("${imp.api.key}")
     private String apiKey;
@@ -213,6 +215,9 @@ public class AdminController {
         return "ok";
     }
 
+
+//    직렬화 오류 제대로 처리못함... 수정이 필요함
+//    수정은 DTO 를 사용하는게 Bast
     @GetMapping("/list")
     public @ResponseBody String getList(@RequestParam("type") String type) throws JsonProcessingException {
         Pageable pageable = PageRequest.of(0,5);
@@ -228,9 +233,9 @@ public class AdminController {
 //            log.info("list = {}",gson.toJson(usersAdminPageList));
             return gson.toJson(usersAdminPageList);
         }else if(type.equals("qnaList")){
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.registerModule(new JavaTimeModule());
-            objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            objectMapper.registerModule(new JavaTimeModule());
+//            objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
             Page<QnA> qnaPage = adminService.qnaListPageing(pageable);
             AdminPageList<QnA> qnAAdminPageList = new AdminPageList<>();
@@ -244,11 +249,10 @@ public class AdminController {
 //            log.info("test ={}",objectMapper.writeValueAsString(qnAAdminPageList));
             return objectMapper.writeValueAsString(qnAAdminPageList);
         }else if(type.equals("gameList")){
-            ObjectMapper objectMapper = new ObjectMapper();
-            // Jackson 라이브러리 사용하여 localdatetime 을 직렬화 역직렬화함.
-            objectMapper.registerModule(new JavaTimeModule());
-            // 날짜를 타임스탬프로 직렬화하지 않도록 설정
-            objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            // Jackson 라이브러리 사용하여 localdatetime 을 직렬화 역직렬화함.
+//            objectMapper.registerModule(new JavaTimeModule());
+//            objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Page<Game> gamePage = gameService.gameListPage(pageable);
             AdminPageList<Game> gameAdminPageList = new AdminPageList<>();
@@ -265,9 +269,9 @@ public class AdminController {
 //            log.info("test ={}",objectMapper.writeValueAsString(gameAdminPageList));
             return objectMapper.writeValueAsString(gameAdminPageList);
         }else if(type.equals("refundList")){
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.registerModule(new JavaTimeModule());
-            objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            objectMapper.registerModule(new JavaTimeModule());
+//            objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
             Page<Refund> refundPage = adminService.refundListPageing(pageable);
             for(Refund list : refundPage.getContent()){
@@ -287,9 +291,9 @@ public class AdminController {
 //            log.info("test ={}",objectMapper.writeValueAsString(refundAdminPageList));
             return objectMapper.writeValueAsString(refundAdminPageList);
         }else if(type.equals("reviewList")){
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.registerModule(new JavaTimeModule());
-            objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            objectMapper.registerModule(new JavaTimeModule());
+//            objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
             Page<Review> reviewPage = gameReviewService.reviewsListPage(pageable);
             AdminPageList<Review> reviewAdminPageList = new AdminPageList<>();
 
@@ -303,6 +307,7 @@ public class AdminController {
         }
         return null;
     }
+// 각각 page 리스트를 줬지만 아예 한곳으로 묶어 해도 되는방식으로 바꾸는게 좋을듯? 아마 String 값을 넣고 if 문줘서 하는방식이 좋은방식일듯함.
 
     @GetMapping("/userPageList")
     public @ResponseBody String getPageList(int page, int size){
@@ -320,9 +325,9 @@ public class AdminController {
 
     @GetMapping("/qnaPageList")
     public @ResponseBody String getqnaPageList(int page, int size) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.registerModule(new JavaTimeModule());
+//        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         Pageable pageable = PageRequest.of(page,size);
         Page<QnA> qnaPage = adminService.qnaListPageing(pageable);
         AdminPageList<QnA> qnAAdminPageList = new AdminPageList<>();
@@ -340,9 +345,9 @@ public class AdminController {
 
     @GetMapping("/gamePageList")
     public @ResponseBody String getGamePageList(int page,int size) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.registerModule(new JavaTimeModule());
+//        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         Pageable pageable = PageRequest.of(page,size);
         Page<Game> gamePage = gameService.gameListPage(pageable);
         AdminPageList<Game> gameAdminPageList = new AdminPageList<>();
@@ -364,9 +369,9 @@ public class AdminController {
 
     @GetMapping("/refundPageList")
     public @ResponseBody String getRefundPageList(int page,int size) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.registerModule(new JavaTimeModule());
+//        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         Pageable pageable = PageRequest.of(page,size);
         Page<Refund> refundPage = adminService.refundListPageing(pageable);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -390,9 +395,9 @@ public class AdminController {
 
     @GetMapping("/getReviewPageList")
     public @ResponseBody String getReviewPageList(int page,int size) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.registerModule(new JavaTimeModule());
+//        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         Pageable pageable = PageRequest.of(page,size);
         Page<Review> reviewPage = gameReviewService.reviewsListPage(pageable);
         AdminPageList<Review> reviewAdminPageList = new AdminPageList<>();

@@ -29,8 +29,10 @@ function userListRoleUpdate(roleList) {
         .then(data => {
             if (data === 'ok') {
                 console.log("data");
-                valueList("userList");
+                // valueList("userList");
+                location.href = "/admin";
             }
+
         })
         .catch(error => {
             console.error('Error:', error);
